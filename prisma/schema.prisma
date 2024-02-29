@@ -10,11 +10,58 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
+model List {
+    id            Int         @id @default(autoincrement())
+    name          String
+    description   String
+    letterboxdUrl String
+    imgUrl        String
+    createdBy     String
+    tags          String
+    createdAt     DateTime    @default(now())
+    movies        MovieList[]
 }
+
+model Movie {
+    id               Int         @id @default(autoincrement())
+    title            String
+    originalTitle    String
+    originalLanguage String
+    releaseDate      DateTime
+    letterboxdUrl    String
+    imdbId           String
+    posterUrl        String
+    MovieList        MovieList[]
+}
+
+model MovieList {
+    id      Int   @id @default(autoincrement())
+    movie   Movie @relation(fields: [movieId], references: [id])
+    movieId Int
+    list    List  @relation(fields: [listId], references: [id])
+    listId  Int
+
+    @@unique([movieId, listId])
+}
+
+// Modelos para MAM
+// model BigList {
+//     id       Int       @id @default(autoincrement())
+//     name     String
+//     user     String
+//     ranking  Int
+//     points   Int
+//     movies   BigListMovie[]
+// }
+
+// model BigListMovie {
+//     id           Int    @id @default(autoincrement())
+//     movie        Movie  @relation(fields: [movieId], references: [id])
+//     movieId      Int
+//     bigList      BigList @relation(fields: [bigListId], references: [id])
+//     bigListId    Int
+//     ranking      Int
+//     points       Int
+
+//     @@unique([movieId, bigListId])
+// }
