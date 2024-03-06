@@ -19,14 +19,14 @@ export const PageLayout = (props: PropsWithChildren) => {
       >
         <Header />
 
-        <body
+        <main
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
             fontSans.variable,
           )}
         >
           {props.children}
-        </body>
+        </main>
       </ThemeProvider>
     </>
   );

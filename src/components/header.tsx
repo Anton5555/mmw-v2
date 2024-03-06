@@ -39,21 +39,17 @@ export const Header = () => {
   return (
     <header className="flex justify-between bg-slate-900 p-5">
       <div className="nav flex w-full items-center justify-between">
+        {user.isSignedIn && (
+          <div
+            onClick={() => setNav(!nav)}
+            className="z-10 cursor-pointer pr-4 text-gray-500 md:hidden"
+          >
+            {nav ? <FaTimes size={30} /> : <FaBars size={30} />}
+          </div>
+        )}
         <Link href={"/"}>
           <Image src={logo} alt={"Míralos Morir V2 logo"} width={150} />
         </Link>
-        {/* 
-      <div className="hidden space-x-4 md:flex">
-        {pages.map((page, idx) => (
-          <Link
-            className="text-slate-200 hover:text-slate-100"
-            href={page.href}
-            key={idx}
-          >
-            {page.title}
-          </Link>
-        ))}
-      </div> */}
         {user.isSignedIn && (
           <>
             <ul className="hidden px-2 md:flex">
@@ -67,12 +63,6 @@ export const Header = () => {
                 </li>
               ))}
             </ul>
-            <div
-              onClick={() => setNav(!nav)}
-              className="z-10 cursor-pointer pr-4 text-gray-500 md:hidden"
-            >
-              {nav ? <FaTimes size={30} /> : <FaBars size={30} />}
-            </div>
 
             {nav && (
               <ul className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center bg-slate-900 text-lg text-slate-200 duration-200 hover:scale-125">
@@ -90,21 +80,21 @@ export const Header = () => {
             )}
           </>
         )}
+        <SignedIn>
+          {/* Mount the UserButton component */}
+          <UserButton
+            appearance={{
+              elements: {
+                avatarBox: "h-12 w-12",
+              },
+            }}
+          />
+        </SignedIn>
+        <SignedOut>
+          {/* Signed out users get sign in button */}
+          <SignInButton>Login</SignInButton>
+        </SignedOut>
       </div>
-      <SignedIn>
-        {/* Mount the UserButton component */}
-        <UserButton
-          appearance={{
-            elements: {
-              avatarBox: "h-12 w-12",
-            },
-          }}
-        />
-      </SignedIn>
-      <SignedOut>
-        {/* Signed out users get sign in button */}
-        <SignInButton />
-      </SignedOut>
     </header>
   );
 };
