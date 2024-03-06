@@ -29,7 +29,7 @@ model Movie {
     originalLanguage String
     releaseDate      DateTime
     letterboxdUrl    String
-    imdbId           String
+    imdbId           String      @unique
     posterUrl        String
     MovieList        MovieList[]
 }
