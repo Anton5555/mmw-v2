@@ -10,7 +10,7 @@ type SendEmailProps = {
 
 export const sendVerificationEmail = async ({ to, url }: SendEmailProps) => {
   await resend.emails.send({
-    from: 'El Vip de MM <onboarding@resend.dev>',
+    from: 'El Vip de MM <onboarding@elvipdemm.com>',
     to: to,
     subject: 'Verifica tu cuenta de El Vip de MM',
     html: `
@@ -25,7 +25,7 @@ export const sendVerificationEmail = async ({ to, url }: SendEmailProps) => {
 
 export const sendForgotPasswordEmail = async ({ to, url }: SendEmailProps) => {
   await resend.emails.send({
-    from: 'El Vip de MM <onboarding@resend.dev>',
+    from: 'El Vip de MM <onboarding@elvipdemm.com>',
     to: to,
     subject: 'Recupera tu cuenta de El Vip de MM',
     html: `
