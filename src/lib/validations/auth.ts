@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { env } from '@/env';
 
 export const signInSchema = z.object({
   email: z
@@ -29,6 +30,10 @@ export const signUpSchema = z
     passwordConfirmation: z
       .string()
       .min(1, 'La confirmación de contraseña es requerida'),
+    vipCode: z
+      .string()
+      .min(1, 'El código VIP es requerido')
+      .refine((val) => val === env.VIP_CODE, 'El código VIP es incorrecto'),
     image: z.any().optional(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
