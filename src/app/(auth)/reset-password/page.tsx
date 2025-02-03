@@ -20,9 +20,9 @@ import { Loader2, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { resetPassword } from '@/lib/auth-client';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 
-export default function ResetPassword() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -158,5 +158,13 @@ export default function ResetPassword() {
         </Form>
       </CardContent>
     </Card>
+  );
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
