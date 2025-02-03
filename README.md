@@ -34,4 +34,42 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# mmw-v2" 
+
+## Database Setup and Migrations
+
+To work with the database, follow these steps in order:
+
+1. Generate Prisma Client (required after schema changes):
+
+```bash
+pnpm db:generate
+```
+
+2. Create and apply a new migration:
+
+```bash
+pnpm db:migrate your_migration_name
+```
+
+3. (Optional) To view and edit your data through Prisma Studio:
+
+```bash
+pnpm db:studio
+```
+
+Note: For development-only changes where you don't need to track migrations, you can use:
+
+```bash
+pnpm db:push
+```
+
+### Environment Variables
+
+Make sure you have the following environment variables set in your `.env` file:
+
+```
+DATABASE_URL="your_database_url"
+DIRECT_URL="your_direct_url"
+```
+
+"# mmw-v2"
