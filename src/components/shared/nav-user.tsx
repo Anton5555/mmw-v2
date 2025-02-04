@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
-import ProfileForm from './profile-form';
+import ProfileForm from '../profile-form';
 
 export function NavUser({ user }: { user: SafeUser }) {
   const { state } = useSidebar();

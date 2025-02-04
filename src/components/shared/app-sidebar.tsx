@@ -12,8 +12,6 @@ import {
   Film,
 } from 'lucide-react';
 
-import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +24,8 @@ import {
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import type { SafeUser } from '@/lib/auth';
+import { NavUser } from './nav-user';
+import { NavMain } from './nav-main';
 
 // This is sample data.
 const data = {

@@ -1,5 +1,5 @@
-import { AppSidebar } from '@/components/app-sidebar';
-import { BreadcrumbsNav } from '@/components/breadcrumbs-nav';
+import { AppSidebar } from '@/components/shared/app-sidebar';
+import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
