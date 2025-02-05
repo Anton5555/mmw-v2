@@ -1,10 +1,10 @@
 'use client';
 
-import { loadMoreMoviesAction } from '@/lib/actions/load-more-movies';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { FocusCards } from './ui/focus-cards';
+import { loadMoreMoviesAction } from '@/lib/actions/lists/load-more-movies';
 
 const ITEMS_PER_PAGE = 20;
 
