@@ -47,8 +47,8 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
 
   const onSubmit = async (data: SignUpFormValues) => {
     try {
-      // First validate the VIP code
       const isValidVipCode = await validateVipCode(data.vipCode);
+
       if (!isValidVipCode) {
         form.setError('vipCode', {
           message: 'El código VIP es incorrecto',
