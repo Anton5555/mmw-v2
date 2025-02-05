@@ -40,7 +40,11 @@ export function NavUser({ user }: { user: SafeUser }) {
 
   return (
     <>
-      <ProfileForm open={isProfileOpen} onOpenChange={setIsProfileOpen} />
+      <ProfileForm
+        open={isProfileOpen}
+        onOpenChange={setIsProfileOpen}
+        user={user}
+      />
 
       <SidebarMenu>
         <SidebarMenuItem>
