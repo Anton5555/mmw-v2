@@ -18,6 +18,11 @@ export const env = createEnv({
     APP_URL: z.string().url(),
     JWT_SECRET: z.string(),
     VIP_CODE: z.string(),
+    STORAGE_ENDPOINT: z.string().url(),
+    REGION: z.string(),
+    STORAGE_ACCESS_KEY: z.string(),
+    STORAGE_SECRET_KEY: z.string(),
+    STORAGE_PUBLIC_URL: z.string().url(),
   },
 
   client: {
@@ -33,5 +38,10 @@ export const env = createEnv({
     JWT_SECRET: process.env.JWT_SECRET,
     VIP_CODE: process.env.VIP_CODE,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    STORAGE_ENDPOINT: process.env.STORAGE_ENDPOINT,
+    REGION: process.env.REGION,
+    STORAGE_ACCESS_KEY: process.env.STORAGE_ACCESS_KEY,
+    STORAGE_SECRET_KEY: process.env.STORAGE_SECRET_KEY,
+    STORAGE_PUBLIC_URL: process.env.STORAGE_PUBLIC_URL,
   },
 });
