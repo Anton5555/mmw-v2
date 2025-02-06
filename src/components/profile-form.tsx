@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -77,15 +78,11 @@ export default function ProfileForm({
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      const result = await updateUserAction(data);
+      await updateUserAction(data);
 
-      if (result?.data && !('error' in result.data)) {
-        toast.success('Perfil actualizado correctamente');
+      toast.success('Perfil actualizado correctamente');
 
-        onOpenChange(false);
-      } else {
-        toast.error('Error al actualizar el perfil');
-      }
+      onOpenChange(false);
     } catch (error) {
       console.error('Profile update error:', error);
       toast.error('Error al actualizar el perfil');
@@ -97,6 +94,10 @@ export default function ProfileForm({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Editar perfil</DialogTitle>
+          <DialogDescription>
+            Podés cambiar tu nombre y foto de perfil. Acordate de guardar cuando
+            termines.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -138,7 +139,7 @@ export default function ProfileForm({
                   <FormLabel>Foto de perfil</FormLabel>
                   <div className="flex items-center gap-4">
                     {imagePreview && (
-                      <div className="relative w-16 h-16 rounded-full overflow-hidden">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden">
                         <Image
                           src={imagePreview}
                           alt="Profile preview"

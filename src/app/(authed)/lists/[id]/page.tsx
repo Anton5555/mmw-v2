@@ -1,24 +1,29 @@
-import { getListById } from '@/lib/api/lists';
+import { getListById, getListMovies } from '@/lib/api/lists';
 import { MovieGrid } from '@/components/movie-grid';
 import { ListBreadcrumbUpdater } from '@/components/list-breadcrumb-updater';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 const ITEMS_PER_PAGE = 20;
 
-export default async function ListPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default async function ListPage({ params }: PageProps) {
+  const listId = parseInt((await params).id);
 
-  const listId = parseInt(id);
-  const list = await getListById(listId, { take: ITEMS_PER_PAGE });
+  const list = await getListById({ id: listId });
 
   if (!list) {
-    return <div>List not found</div>;
+    notFound();
   }
+
+  const { movies, totalMovies, hasMore } = await getListMovies({
+    listId,
+    take: ITEMS_PER_PAGE,
+    skip: 0,
+  });
 
   return (
     <>
@@ -78,10 +83,10 @@ export default async function ListPage({
 
         <div className="container mx-auto px-4">
           <MovieGrid
-            initialMovies={list.movies}
+            initialMovies={movies}
             listId={listId}
-            hasMore={list.hasMore}
-            totalMovies={list.totalMovies}
+            hasMore={hasMore}
+            totalMovies={totalMovies}
           />
         </div>
       </div>

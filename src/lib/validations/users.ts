@@ -1,8 +1,11 @@
 import * as z from 'zod';
+import { UserSchema } from './generated';
 
-export const profileFormSchema = z.object({
+export const profileFormSchema = UserSchema.pick({
+  name: true,
+  email: true,
+}).extend({
   name: z.string().min(1, 'El nombre es requerido'),
-  email: z.string().email().readonly(),
   image: z.union([z.string().nullable(), z.instanceof(File), z.null()]),
 });
 
