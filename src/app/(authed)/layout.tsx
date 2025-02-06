@@ -26,7 +26,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         }}
       />
 
-      <SidebarInset>
+      <SidebarInset className="mb-8">
         <BreadcrumbProvider>
           <BreadcrumbsNav />
           {children}

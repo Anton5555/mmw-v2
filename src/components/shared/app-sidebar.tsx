@@ -1,16 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  Calendar,
-  Frame,
-  Info,
-  Map,
-  NotebookTabs,
-  PieChart,
-  Clipboard,
-  Film,
-} from 'lucide-react';
+import { Info, NotebookTabs } from 'lucide-react';
 
 import {
   Sidebar,
@@ -28,57 +19,33 @@ import { NavUser } from './nav-user';
 import { NavMain } from './nav-main';
 
 // This is sample data.
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+const navItems = [
+  {
+    title: 'Listas',
+    url: '/lists',
+    icon: NotebookTabs,
   },
-  navMain: [
-    {
-      title: 'Listas',
-      url: '/lists',
-      icon: NotebookTabs,
-    },
-    {
-      title: 'Calendario',
-      url: '/calendar',
-      icon: Calendar,
-    },
-    {
-      title: 'MAM',
-      url: '/mam',
-      icon: Film,
-    },
-    {
-      title: 'Padlet',
-      url: '/padlet',
-      icon: Clipboard,
-    },
-    {
-      title: 'Sobre la app',
-      url: '/about',
-      icon: Info,
-    },
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
-};
+  // {
+  //   title: 'Calendario',
+  //   url: '/calendar',
+  //   icon: Calendar,
+  // },
+  // {
+  //   title: 'MAM',
+  //   url: '/mam',
+  //   icon: Film,
+  // },
+  // {
+  //   title: 'Padlet',
+  //   url: '/padlet',
+  //   icon: Clipboard,
+  // },
+  {
+    title: 'Sobre la app',
+    url: '/about',
+    icon: Info,
+  },
+];
 
 export function AppSidebar({
   user,
@@ -99,7 +66,7 @@ export function AppSidebar({
       </SidebarHeader>
 
       <SidebarContent className="p-2">
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems} />
       </SidebarContent>
 
       <SidebarFooter>

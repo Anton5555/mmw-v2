@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { UserSchema } from './generated';
 
 export const signInSchema = z.object({
   email: z
@@ -18,8 +19,7 @@ export const signUpSchema = z
   .object({
     firstName: z.string().min(1, 'El nombre es requerido'),
     lastName: z.string().min(1, 'El apellido es requerido'),
-    email: z
-      .string()
+    email: UserSchema.shape.email
       .min(1, 'El email es requerido')
       .email('Ingresa un email válido'),
     password: z
@@ -30,7 +30,6 @@ export const signUpSchema = z
       .string()
       .min(1, 'La confirmación de contraseña es requerida'),
     vipCode: z.string().min(1, 'El código VIP es requerido'),
-    image: z.any().optional(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: 'Las contraseñas no coinciden',
@@ -40,8 +39,7 @@ export const signUpSchema = z
 export type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export const forgotPasswordSchema = z.object({
-  email: z
-    .string()
+  email: UserSchema.shape.email
     .min(1, 'El email es requerido')
     .email('Ingresa un email válido'),
 });

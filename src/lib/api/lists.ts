@@ -10,87 +10,45 @@ export async function getLists(): Promise<List[]> {
   });
 }
 
-export async function getListById(
-  id: number,
-  { take = 20, skip = 0 }: { take?: number; skip?: number } = {}
-) {
-  const list = await prisma.list.findUnique({
+export const listIdSchema = z.object({
+  id: z.number().int().positive(),
+});
+
+export const listMoviesSchema = z.object({
+  listId: z.number().int().positive(),
+  take: z.number().int().positive().default(20),
+  skip: z.number().int().nonnegative().default(0),
+});
+
+export type ListIdInput = z.infer<typeof listIdSchema>;
+export type ListMoviesInput = z.infer<typeof listMoviesSchema>;
+
+export async function getListById({ id }: ListIdInput) {
+  return await prisma.list.findUnique({
     where: { id },
-    include: {
-      movies: {
-        include: {
-          movie: true,
-        },
-        take,
-        skip,
-      },
-      _count: {
-        select: {
-          movies: true,
-        },
-      },
-    },
   });
-
-  if (!list) return null;
-
-  const movies = list.movies.map((movieList) => movieList.movie);
-  const totalMovies = list._count.movies;
-
-  return {
-    ...list,
-    movies,
-    totalMovies,
-    hasMore: skip + take < totalMovies,
-  };
 }
 
-export const loadMoreMoviesSchema = z
-  .object({
-    listId: z.number().int().positive(),
-    skip: z.number().int().nonnegative(),
-    take: z.number().int().positive().default(20),
-  })
-  .transform((data) => ({
-    listId: data.listId,
-    skip: data.skip,
-    take: Math.min(data.take, 100),
-  }));
-
-export type LoadMoreMoviesInput = z.infer<typeof loadMoreMoviesSchema>;
-
-export async function loadMoreMovies({
+export async function getListMovies({
   listId,
-  skip,
-  take,
-}: LoadMoreMoviesInput) {
-  const list = await prisma.list.findUnique({
-    where: { id: listId },
-    include: {
-      movies: {
-        include: {
-          movie: true,
-        },
-        take,
-        skip,
-      },
-      _count: {
-        select: {
-          movies: true,
-        },
-      },
-    },
-  });
-
-  if (!list) return { success: false as const };
-
-  const movies = list.movies.map((movieList) => movieList.movie);
-  const totalMovies = list._count.movies;
+  take = 20,
+  skip = 0,
+}: ListMoviesInput) {
+  const [movies, count] = await Promise.all([
+    prisma.movieList.findMany({
+      where: { listId },
+      include: { movie: true },
+      take,
+      skip,
+    }),
+    prisma.movieList.count({
+      where: { listId },
+    }),
+  ]);
 
   return {
-    success: true as const,
-    movies,
-    totalMovies,
-    hasMore: skip + take < totalMovies,
+    movies: movies.map((movieList) => movieList.movie),
+    totalMovies: count,
+    hasMore: skip + take < count,
   };
 }
