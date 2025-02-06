@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar, Info, NotebookTabs, Clipboard, Film } from 'lucide-react';
+import { Info, NotebookTabs } from 'lucide-react';
 
 import {
   Sidebar,
