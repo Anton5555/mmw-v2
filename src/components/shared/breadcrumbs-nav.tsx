@@ -14,7 +14,6 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useBreadcrumb } from '@/lib/contexts/breadcrumb-context';
 
-// Path translations based on app-sidebar.tsx
 const PATH_TRANSLATIONS: Record<string, string> = {
   lists: 'Listas',
   calendar: 'Calendario',

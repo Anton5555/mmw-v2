@@ -22,37 +22,50 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useState } from 'react';
 import { ProfileFormValues, profileFormSchema } from '@/lib/validations/users';
-import { updateUserAction } from '@/lib/actions/update-user';
 import { toast } from 'sonner';
-import { useSession } from '@/lib/auth-client';
+import { updateUserAction } from '@/lib/actions/users/update-user';
+import type { SafeUser } from '@/lib/auth';
 
 interface ProfileFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  user: SafeUser;
 }
 
-export default function ProfileForm({ open, onOpenChange }: ProfileFormProps) {
-  const { data: session } = useSession();
-
+export default function ProfileForm({
+  open,
+  onOpenChange,
+  user,
+}: ProfileFormProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(
-    session?.user?.image || null
+    user?.image || null
   );
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      name: session?.user?.name ?? '',
-      email: session?.user?.email ?? '',
-      image: session?.user?.image ?? null,
+      name: user?.name ?? '',
+      email: user?.email ?? '',
+      image: user?.image ?? null,
     },
   });
 
   const handleImageChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: { onChange: (value: File | null) => void }
+    field: { onChange: (value: File | string | null) => void }
   ) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('La imagen no puede ser mayor a 5MB');
+        return;
+      }
+
+      if (!file.type.startsWith('image/')) {
+        toast.error('El archivo debe ser una imagen');
+        return;
+      }
+
       field.onChange(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -68,6 +81,7 @@ export default function ProfileForm({ open, onOpenChange }: ProfileFormProps) {
 
       if (result?.data && !('error' in result.data)) {
         toast.success('Perfil actualizado correctamente');
+
         onOpenChange(false);
       } else {
         toast.error('Error al actualizar el perfil');
@@ -77,8 +91,6 @@ export default function ProfileForm({ open, onOpenChange }: ProfileFormProps) {
       toast.error('Error al actualizar el perfil');
     }
   };
-
-  if (!session) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

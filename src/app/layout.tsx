@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'MMW',
-  description: 'Míralos MorWeb',
+  title: 'El VIP de MM',
+  description: 'El VIP de MM',
 };
 
 export default async function RootLayout({

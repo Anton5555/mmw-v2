@@ -1,7 +1,7 @@
 'use server';
 
 import { loadMoreMovies, loadMoreMoviesSchema } from '@/lib/api/lists';
-import { actionClient } from '../safe-action';
+import { actionClient } from '@/lib/safe-action';
 
 export const loadMoreMoviesAction = actionClient
   .schema(loadMoreMoviesSchema)

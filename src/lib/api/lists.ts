@@ -54,7 +54,7 @@ export const loadMoreMoviesSchema = z
   .transform((data) => ({
     listId: data.listId,
     skip: data.skip,
-    take: Math.min(data.take, 100), // Enforce max of 100 items per request
+    take: Math.min(data.take, 100),
   }));
 
 export type LoadMoreMoviesInput = z.infer<typeof loadMoreMoviesSchema>;
