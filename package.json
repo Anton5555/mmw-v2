@@ -39,6 +39,7 @@
     "next": "15.1.6",
     "next-safe-action": "^7.10.2",
     "next-themes": "^0.4.4",
+    "nuqs": "^2.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
@@ -61,7 +62,9 @@
     "postcss": "^8",
     "prisma": "^6.2.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "zod-prisma": "^0.5.4",
+    "zod-prisma-types": "^3.2.3"
   },
   "packageManager": "pnpm@9.15.4+sha256.9bee59c7313a216722c079c1e22160dea7f88df4e0c3450b1d7b01b882336c6a"
 }

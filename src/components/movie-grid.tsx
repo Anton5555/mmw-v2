@@ -5,16 +5,9 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { FocusCards } from './ui/focus-cards';
 import { loadMoreMoviesAction } from '@/lib/actions/lists/load-more-movies';
+import { Movie } from '@prisma/client';
 
 const ITEMS_PER_PAGE = 20;
-
-type Movie = {
-  id: number;
-  title: string;
-  originalTitle: string;
-  originalLanguage: string;
-  posterUrl: string;
-};
 
 interface MovieGridProps {
   initialMovies: Movie[];
@@ -31,6 +24,7 @@ export function MovieGrid({
   const [movies, setMovies] = useState(initialMovies);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [isLoading, setIsLoading] = useState(false);
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -38,6 +32,7 @@ export function MovieGrid({
       if (isLoading || !hasMore) return;
 
       setIsLoading(true);
+
       try {
         const result = await loadMoreMoviesAction({
           listId,
@@ -45,12 +40,10 @@ export function MovieGrid({
           take: ITEMS_PER_PAGE,
         });
 
-        if (result?.data && 'success' in result.data && result.data.success) {
-          const newMovies = result.data.movies;
-          if (Array.isArray(newMovies)) {
-            setMovies((prev) => [...prev, ...newMovies]);
-            setHasMore(!!result.data.hasMore);
-          }
+        const newMovies = result.movies;
+        if (Array.isArray(newMovies)) {
+          setMovies((prev) => [...prev, ...newMovies]);
+          setHasMore(!!result.hasMore);
         }
       } catch (error) {
         console.error('Failed to load more movies:', error);
@@ -68,6 +61,7 @@ export function MovieGrid({
     <>
       <FocusCards
         cards={movies.map((movie) => ({
+          id: movie.id,
           title:
             movie.originalLanguage === 'es' ? movie.originalTitle : movie.title,
           src: `https://image.tmdb.org/t/p/w500${movie.posterUrl}`,

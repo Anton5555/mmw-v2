@@ -65,6 +65,7 @@ export const Card = React.memo(
 Card.displayName = 'Card';
 
 type Card = {
+  id: number;
   title: string;
   src: string;
 };
@@ -87,7 +88,7 @@ export function FocusCards({
     >
       {cards.map((card, index) => (
         <Card
-          key={card.title}
+          key={card.id}
           card={card}
           index={index}
           hovered={hovered}
