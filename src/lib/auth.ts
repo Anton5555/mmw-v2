@@ -2,7 +2,7 @@ import { betterAuth, Session } from 'better-auth';
 import { prisma } from '@/lib/db';
 import { env } from '@/env';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { User } from '@prisma/client';
+import type { User, UserRole } from '@prisma/client';
 import { sendForgotPasswordEmail, sendVerificationEmail } from './utils/emails';
 
 export type AuthUser = {
@@ -20,6 +20,7 @@ export type SafeUser = {
   image: string | null;
   emailVerified: boolean;
   createdAt: Date;
+  role: UserRole;
 };
 
 export const auth = betterAuth({
@@ -58,6 +59,7 @@ export const auth = betterAuth({
             image: user.image || null,
             emailVerified: user.emailVerified ? true : false,
             createdAt: user.createdAt,
+            role: user.role,
           } satisfies SafeUser,
         };
       } catch (error) {
