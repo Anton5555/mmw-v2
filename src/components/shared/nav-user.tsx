@@ -6,11 +6,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import type { SafeUser } from '@/lib/auth';
 import { signOut } from '@/lib/auth-client';
-import { ChevronsUpDown, LogOut, User } from 'lucide-react';
+import { ChevronsUpDown, LogOut, User as UserIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { User } from 'better-auth';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +24,7 @@ import {
 import { useState } from 'react';
 import ProfileForm from '../profile-form';
 
-export function NavUser({ user }: { user: SafeUser }) {
+export function NavUser({ user }: { user: User }) {
   const { state } = useSidebar();
   const router = useRouter();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -108,10 +109,11 @@ export function NavUser({ user }: { user: SafeUser }) {
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem onClick={() => setIsProfileOpen(true)}>
-                  <User className="mr-2 h-4 w-4" />
+                  <UserIcon className="mr-2 h-4 w-4" />
                   Editar perfil
                 </DropdownMenuItem>
               </DropdownMenuGroup>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
