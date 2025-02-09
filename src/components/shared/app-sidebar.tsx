@@ -14,9 +14,9 @@ import {
 
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import type { SafeUser } from '@/lib/auth';
 import { NavUser } from './nav-user';
 import { NavMain } from './nav-main';
+import { User } from 'better-auth';
 
 // This is sample data.
 const navItems = [
@@ -50,7 +50,7 @@ const navItems = [
 export function AppSidebar({
   user,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { user: SafeUser }) {
+}: React.ComponentProps<typeof Sidebar> & { user: User }) {
   const { open } = useSidebar();
 
   return (

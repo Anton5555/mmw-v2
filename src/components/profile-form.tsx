@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User, Loader2 } from 'lucide-react';
+import { User as UserIcon, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -25,12 +25,12 @@ import { useState } from 'react';
 import { ProfileFormValues, profileFormSchema } from '@/lib/validations/users';
 import { toast } from 'sonner';
 import { updateUserAction } from '@/lib/actions/users/update-user';
-import type { SafeUser } from '@/lib/auth';
+import { User } from 'better-auth';
 
 interface ProfileFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  user: SafeUser;
+  user: User;
 }
 
 export default function ProfileForm({
@@ -108,11 +108,13 @@ export default function ProfileForm({
                 <FormItem>
                   <FormLabel>Nombre completo</FormLabel>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+
                     <FormControl>
                       <Input className="pl-10" {...field} />
                     </FormControl>
                   </div>
+
                   <FormMessage />
                 </FormItem>
               )}
