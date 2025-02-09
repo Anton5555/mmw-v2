@@ -2,26 +2,8 @@ import { betterAuth, Session } from 'better-auth';
 import { prisma } from '@/lib/db';
 import { env } from '@/env';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import type { User, UserRole } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { sendForgotPasswordEmail, sendVerificationEmail } from './utils/emails';
-
-export type AuthUser = {
-  id: string;
-  email: string;
-  name: string;
-  image?: string | null;
-  emailVerified?: Date | null;
-};
-
-export type SafeUser = {
-  id: string;
-  email: string;
-  name: string;
-  image: string | null;
-  emailVerified: boolean;
-  createdAt: Date;
-  role: UserRole;
-};
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -51,16 +33,8 @@ export const auth = betterAuth({
     session: async ({ session, user }: { session: Session; user: User }) => {
       try {
         return {
-          ...session,
-          user: {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            image: user.image || null,
-            emailVerified: user.emailVerified ? true : false,
-            createdAt: user.createdAt,
-            role: user.role,
-          } satisfies SafeUser,
+          session,
+          user,
         };
       } catch (error) {
         console.error('Session callback error:', error);
