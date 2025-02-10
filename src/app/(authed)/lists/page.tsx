@@ -2,12 +2,32 @@ import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { getLists } from '@/lib/api/lists';
 import Image from 'next/image';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 const ListsPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const isAdmin = session?.user.role === 'admin';
+
   const lists = await getLists();
 
   return (
     <div className="container mx-auto px-4 pb-8 pt-4">
+      {isAdmin && (
+        <div className="mb-6">
+          <Button asChild>
+            <Link href="/lists/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Crear lista
+            </Link>
+          </Button>
+        </div>
+      )}
       {lists.length === 0 ? (
         <div>
           <p>No lists found. Create a list to get started.</p>
