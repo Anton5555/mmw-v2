@@ -1,9 +1,27 @@
-import { betterAuth, Session } from 'better-auth';
+import { betterAuth } from 'better-auth';
 import { prisma } from '@/lib/db';
 import { env } from '@/env';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import type { User } from '@prisma/client';
 import { sendForgotPasswordEmail, sendVerificationEmail } from './utils/emails';
+import { admin } from 'better-auth/plugins';
+
+export type AuthUser = {
+  id: string;
+  email: string;
+
+  name: string;
+  image?: string | null;
+  emailVerified?: Date | null;
+};
+
+export type SafeUser = {
+  id: string;
+  email: string;
+  name: string;
+  image: string | null;
+  emailVerified: boolean;
+  createdAt: Date;
+};
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -29,17 +47,5 @@ export const auth = betterAuth({
     expiresIn: '30d',
   },
   baseURL: env.NEXT_PUBLIC_APP_URL,
-  callbacks: {
-    session: async ({ session, user }: { session: Session; user: User }) => {
-      try {
-        return {
-          session,
-          user,
-        };
-      } catch (error) {
-        console.error('Session callback error:', error);
-        throw error;
-      }
-    },
-  },
+  plugins: [admin()],
 });
