@@ -18,9 +18,9 @@ export const MovieScalarFieldEnumSchema = z.enum(['id','title','originalTitle','
 
 export const MovieListScalarFieldEnumSchema = z.enum(['id','movieId','listId']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','name','email','emailVerified','image','createdAt','updatedAt','role']);
+export const UserScalarFieldEnumSchema = z.enum(['id','name','email','emailVerified','image','createdAt','updatedAt','role','banned','banReason','banExpires']);
 
-export const SessionScalarFieldEnumSchema = z.enum(['id','expiresAt','token','createdAt','updatedAt','ipAddress','userAgent','userId']);
+export const SessionScalarFieldEnumSchema = z.enum(['id','expiresAt','token','createdAt','updatedAt','ipAddress','userAgent','userId','impersonatedBy']);
 
 export const AccountScalarFieldEnumSchema = z.enum(['id','accountId','providerId','userId','accessToken','refreshToken','idToken','accessTokenExpiresAt','refreshTokenExpiresAt','scope','password','createdAt','updatedAt']);
 
@@ -31,11 +31,6 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
-
-export const UserRoleSchema = z.enum(['ADMIN','USER']);
-
-export type UserRoleType = `${z.infer<typeof UserRoleSchema>}`
-
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -91,7 +86,6 @@ export type MovieList = z.infer<typeof MovieListSchema>
 /////////////////////////////////////////
 
 export const UserSchema = z.object({
-  role: UserRoleSchema,
   id: z.string(),
   name: z.string(),
   email: z.string(),
@@ -99,6 +93,10 @@ export const UserSchema = z.object({
   image: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  role: z.string().nullable(),
+  banned: z.boolean().nullable(),
+  banReason: z.string().nullable(),
+  banExpires: z.coerce.date().nullable(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -116,6 +114,7 @@ export const SessionSchema = z.object({
   ipAddress: z.string().nullable(),
   userAgent: z.string().nullable(),
   userId: z.string(),
+  impersonatedBy: z.string().nullable(),
 })
 
 export type Session = z.infer<typeof SessionSchema>

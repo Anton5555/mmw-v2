@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -52,11 +53,6 @@ model MovieList {
   @@unique([movieId, listId])
 }
 
-enum UserRole {
-  ADMIN
-  USER
-}
-
 model User {
   id            String    @id
   name          String
@@ -67,7 +63,11 @@ model User {
   updatedAt     DateTime
   accounts      Account[]
   sessions      Session[]
-  role          UserRole  @default(USER)
+
+  role       String?
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
 
   @@map("user")
 }
@@ -82,6 +82,8 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
 
   @@map("session")
 }
