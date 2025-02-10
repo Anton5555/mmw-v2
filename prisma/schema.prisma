@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -51,6 +50,11 @@ model MovieList {
   movie   Movie @relation(fields: [movieId], references: [id])
 
   @@unique([movieId, listId])
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model User {
