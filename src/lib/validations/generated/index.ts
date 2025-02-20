@@ -5,42 +5,129 @@ import type { Prisma } from '@prisma/client';
 // HELPER FUNCTIONS
 /////////////////////////////////////////
 
-
 /////////////////////////////////////////
 // ENUMS
 /////////////////////////////////////////
 
-export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
+export const TransactionIsolationLevelSchema = z.enum([
+  'ReadUncommitted',
+  'ReadCommitted',
+  'RepeatableRead',
+  'Serializable',
+]);
 
-export const ListScalarFieldEnumSchema = z.enum(['id','name','description','letterboxdUrl','imgUrl','createdBy','tags','createdAt']);
+export const ListScalarFieldEnumSchema = z.enum([
+  'id',
+  'name',
+  'description',
+  'letterboxdUrl',
+  'imgUrl',
+  'createdBy',
+  'tags',
+  'createdAt',
+]);
 
-export const MovieScalarFieldEnumSchema = z.enum(['id','title','originalTitle','originalLanguage','releaseDate','letterboxdUrl','imdbId','posterUrl']);
+export const MovieScalarFieldEnumSchema = z.enum([
+  'id',
+  'title',
+  'originalTitle',
+  'originalLanguage',
+  'releaseDate',
+  'letterboxdUrl',
+  'imdbId',
+  'posterUrl',
+]);
 
-export const MovieListScalarFieldEnumSchema = z.enum(['id','movieId','listId']);
+export const MovieListScalarFieldEnumSchema = z.enum([
+  'id',
+  'movieId',
+  'listId',
+]);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','name','email','emailVerified','image','createdAt','updatedAt','role','banned','banReason','banExpires']);
+export const UserScalarFieldEnumSchema = z.enum([
+  'id',
+  'name',
+  'email',
+  'emailVerified',
+  'image',
+  'createdAt',
+  'updatedAt',
+  'role',
+  'banned',
+  'banReason',
+  'banExpires',
+]);
 
-export const SessionScalarFieldEnumSchema = z.enum(['id','expiresAt','token','createdAt','updatedAt','ipAddress','userAgent','userId','impersonatedBy']);
+export const SessionScalarFieldEnumSchema = z.enum([
+  'id',
+  'expiresAt',
+  'token',
+  'createdAt',
+  'updatedAt',
+  'ipAddress',
+  'userAgent',
+  'userId',
+  'impersonatedBy',
+]);
 
-export const AccountScalarFieldEnumSchema = z.enum(['id','accountId','providerId','userId','accessToken','refreshToken','idToken','accessTokenExpiresAt','refreshTokenExpiresAt','scope','password','createdAt','updatedAt']);
+export const AccountScalarFieldEnumSchema = z.enum([
+  'id',
+  'accountId',
+  'providerId',
+  'userId',
+  'accessToken',
+  'refreshToken',
+  'idToken',
+  'accessTokenExpiresAt',
+  'refreshTokenExpiresAt',
+  'scope',
+  'password',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const VerificationScalarFieldEnumSchema = z.enum(['id','identifier','value','expiresAt','createdAt','updatedAt']);
+export const VerificationScalarFieldEnumSchema = z.enum([
+  'id',
+  'identifier',
+  'value',
+  'expiresAt',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const EventScalarFieldEnumSchema = z.enum(['id','title','description','month','day','time','year','type','createdAt','updatedAt','createdBy']);
+export const EventScalarFieldEnumSchema = z.enum([
+  'id',
+  'title',
+  'description',
+  'month',
+  'day',
+  'time',
+  'year',
+  'type',
+  'createdAt',
+  'updatedAt',
+  'createdBy',
+]);
 
-export const SortOrderSchema = z.enum(['asc','desc']);
+export const SortOrderSchema = z.enum(['asc', 'desc']);
 
-export const QueryModeSchema = z.enum(['default','insensitive']);
+export const QueryModeSchema = z.enum(['default', 'insensitive']);
 
-export const NullsOrderSchema = z.enum(['first','last']);
+export const NullsOrderSchema = z.enum(['first', 'last']);
 
-export const UserRoleSchema = z.enum(['ADMIN','USER']);
+export const UserRoleSchema = z.enum(['ADMIN', 'USER']);
 
-export type UserRoleType = `${z.infer<typeof UserRoleSchema>}`
+export type UserRoleType = `${z.infer<typeof UserRoleSchema>}`;
 
-export const EventTypeSchema = z.enum(['BIRTHDAY','ANNIVERSARY','DISCORD','IN_PERSON','OTHER']);
+export const EventTypeSchema = z.enum([
+  'BIRTHDAY',
+  'ANNIVERSARY',
+  'DISCORD',
+  'IN_PERSON',
+  'OTHER',
+]);
 
-export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`
+export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`;
 
 /////////////////////////////////////////
 // MODELS
@@ -59,9 +146,9 @@ export const ListSchema = z.object({
   createdBy: z.string(),
   tags: z.string(),
   createdAt: z.coerce.date(),
-})
+});
 
-export type List = z.infer<typeof ListSchema>
+export type List = z.infer<typeof ListSchema>;
 
 /////////////////////////////////////////
 // MOVIE SCHEMA
@@ -76,9 +163,9 @@ export const MovieSchema = z.object({
   letterboxdUrl: z.string(),
   imdbId: z.string(),
   posterUrl: z.string(),
-})
+});
 
-export type Movie = z.infer<typeof MovieSchema>
+export type Movie = z.infer<typeof MovieSchema>;
 
 /////////////////////////////////////////
 // MOVIE LIST SCHEMA
@@ -88,9 +175,9 @@ export const MovieListSchema = z.object({
   id: z.number().int(),
   movieId: z.number().int(),
   listId: z.number().int(),
-})
+});
 
-export type MovieList = z.infer<typeof MovieListSchema>
+export type MovieList = z.infer<typeof MovieListSchema>;
 
 /////////////////////////////////////////
 // USER SCHEMA
@@ -108,9 +195,9 @@ export const UserSchema = z.object({
   banned: z.boolean().nullable(),
   banReason: z.string().nullable(),
   banExpires: z.coerce.date().nullable(),
-})
+});
 
-export type User = z.infer<typeof UserSchema>
+export type User = z.infer<typeof UserSchema>;
 
 /////////////////////////////////////////
 // SESSION SCHEMA
@@ -126,9 +213,9 @@ export const SessionSchema = z.object({
   userAgent: z.string().nullable(),
   userId: z.string(),
   impersonatedBy: z.string().nullable(),
-})
+});
 
-export type Session = z.infer<typeof SessionSchema>
+export type Session = z.infer<typeof SessionSchema>;
 
 /////////////////////////////////////////
 // ACCOUNT SCHEMA
@@ -148,9 +235,9 @@ export const AccountSchema = z.object({
   password: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
-})
+});
 
-export type Account = z.infer<typeof AccountSchema>
+export type Account = z.infer<typeof AccountSchema>;
 
 /////////////////////////////////////////
 // VERIFICATION SCHEMA
@@ -163,9 +250,9 @@ export const VerificationSchema = z.object({
   expiresAt: z.coerce.date(),
   createdAt: z.coerce.date().nullable(),
   updatedAt: z.coerce.date().nullable(),
-})
+});
 
-export type Verification = z.infer<typeof VerificationSchema>
+export type Verification = z.infer<typeof VerificationSchema>;
 
 /////////////////////////////////////////
 // EVENT SCHEMA
@@ -183,6 +270,6 @@ export const EventSchema = z.object({
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   createdBy: z.string(),
-})
+});
 
-export type Event = z.infer<typeof EventSchema>
+export type Event = z.infer<typeof EventSchema>;
