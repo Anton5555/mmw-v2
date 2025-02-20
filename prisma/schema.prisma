@@ -72,6 +72,7 @@ model User {
   banned     Boolean?
   banReason  String?
   banExpires DateTime?
+  Event      Event[]
 
   @@map("user")
 }
@@ -120,4 +121,29 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  DISCORD
+  IN_PERSON
+  OTHER
+}
+
+model Event {
+  id            String    @id
+  title         String
+  description   String?
+  month         Int
+  day           Int
+  time          DateTime?
+  year          Int?
+  type          EventType
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdBy     String
+  createdByUser User      @relation(fields: [createdBy], references: [id])
+
+  @@map("event")
 }
