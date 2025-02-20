@@ -10,18 +10,20 @@ import {
 
 export function NavMain({
   items,
+  onNavigate,
 }: {
   items: {
     title: string;
     url: string;
     icon?: LucideIcon;
   }[];
+  onNavigate?: () => void;
 }) {
   return (
     <SidebarMenu>
       {items.map((item) => (
         <SidebarMenuItem key={item.title}>
-          <Link href={item.url}>
+          <Link href={item.url} onClick={onNavigate}>
             <SidebarMenuButton tooltip={item.title}>
               {item.icon && <item.icon />}
               <span>{item.title}</span>

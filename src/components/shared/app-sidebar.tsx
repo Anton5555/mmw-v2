@@ -51,7 +51,7 @@ export function AppSidebar({
   user,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { user: User }) {
-  const { open } = useSidebar();
+  const { open, setOpenMobile } = useSidebar();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -66,7 +66,7 @@ export function AppSidebar({
       </SidebarHeader>
 
       <SidebarContent className="p-2">
-        <NavMain items={navItems} />
+        <NavMain items={navItems} onNavigate={() => setOpenMobile(false)} />
       </SidebarContent>
 
       <SidebarFooter>
