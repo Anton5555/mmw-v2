@@ -7,7 +7,7 @@ import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 
-const ListsPage = async () => {
+export default async function ListsPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -69,6 +69,4 @@ const ListsPage = async () => {
       )}
     </div>
   );
-};
-
-export default ListsPage;
+}
