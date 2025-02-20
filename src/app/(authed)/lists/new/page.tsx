@@ -1,7 +1,7 @@
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { CreateListForm } from './create-list-form';
+import { CreateListForm } from './_components/create-list-form';
 
 export default async function NewListPage() {
   const session = await auth.api.getSession({

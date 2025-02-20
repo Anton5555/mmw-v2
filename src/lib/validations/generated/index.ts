@@ -95,6 +95,20 @@ export const VerificationScalarFieldEnumSchema = z.enum([
   'updatedAt',
 ]);
 
+export const EventScalarFieldEnumSchema = z.enum([
+  'id',
+  'title',
+  'description',
+  'month',
+  'day',
+  'time',
+  'year',
+  'type',
+  'createdAt',
+  'updatedAt',
+  'createdBy',
+]);
+
 export const SortOrderSchema = z.enum(['asc', 'desc']);
 
 export const QueryModeSchema = z.enum(['default', 'insensitive']);
@@ -104,6 +118,16 @@ export const NullsOrderSchema = z.enum(['first', 'last']);
 export const UserRoleSchema = z.enum(['ADMIN', 'USER']);
 
 export type UserRoleType = `${z.infer<typeof UserRoleSchema>}`;
+
+export const EventTypeSchema = z.enum([
+  'BIRTHDAY',
+  'ANNIVERSARY',
+  'DISCORD',
+  'IN_PERSON',
+  'OTHER',
+]);
+
+export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`;
 
 /////////////////////////////////////////
 // MODELS
@@ -229,3 +253,23 @@ export const VerificationSchema = z.object({
 });
 
 export type Verification = z.infer<typeof VerificationSchema>;
+
+/////////////////////////////////////////
+// EVENT SCHEMA
+/////////////////////////////////////////
+
+export const EventSchema = z.object({
+  type: EventTypeSchema,
+  id: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  month: z.number().int(),
+  day: z.number().int(),
+  time: z.coerce.date().nullable(),
+  year: z.number().int().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  createdBy: z.string(),
+});
+
+export type Event = z.infer<typeof EventSchema>;
