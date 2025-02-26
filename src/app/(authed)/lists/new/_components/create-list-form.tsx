@@ -123,6 +123,7 @@ export function CreateListForm() {
                     alt={movie.title}
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
                 <p className="text-sm font-medium">{movie.title}</p>
