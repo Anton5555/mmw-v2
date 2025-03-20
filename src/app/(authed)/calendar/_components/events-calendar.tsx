@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import {
   getMonth,
   getYear,
@@ -10,7 +10,7 @@ import {
   addMonths,
   subMonths,
 } from 'date-fns';
-import { ChevronLeftIcon, ChevronRightIcon, Plus } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, Plus, Loader2 } from 'lucide-react';
 import { DayPicker, DayProps, Matcher, TZDate } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
@@ -26,6 +26,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useEventsParams } from '@/lib/hooks/useEventsParams';
+import { getEventsAction } from '@/lib/actions/events/get-events';
 
 export type CalendarProps = Omit<
   React.ComponentProps<typeof DayPicker>,
@@ -36,7 +37,6 @@ export type EventsCalendarProps = {
   min?: Date;
   max?: Date;
   timezone?: string;
-  events: Event[];
 };
 
 const DayContent = ({
@@ -136,7 +136,6 @@ export function EventsCalendar({
   min,
   max,
   timezone,
-  events,
   ...props
 }: EventsCalendarProps & CalendarProps) {
   const {
@@ -144,6 +143,11 @@ export function EventsCalendar({
     year: yearParam,
     setEventsParams,
   } = useEventsParams();
+
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const initDate = useMemo(() => {
     const now = new Date();
@@ -157,7 +161,43 @@ export function EventsCalendar({
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
 
-  // Update URL when month changes
+  const fetchEvents = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    setIsLoading(true);
+
+    timerRef.current = setTimeout(async () => {
+      try {
+        const monthNumber = getMonth(month) + 1;
+        const yearNumber = getYear(month);
+
+        console.log('Fetching events for', monthNumber, yearNumber);
+
+        const data = await getEventsAction({
+          month: monthNumber,
+          year: yearNumber,
+        });
+
+        console.log('Events fetched', data);
+        setEvents(data);
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
+  }, [month]);
+
+  useEffect(() => {
+    fetchEvents();
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [fetchEvents]);
+
   useEffect(() => {
     const monthNumber = getMonth(month) + 1;
     const yearNumber = getYear(month);
@@ -188,7 +228,7 @@ export function EventsCalendar({
 
   const handleMonthChange = (value: string) => {
     const newMonth = parseInt(value, 10);
-    let newDate = setMonthFns(month, newMonth - 1); // Adjust for 0-based months
+    let newDate = setMonthFns(month, newMonth);
 
     if (minDate && newDate < minDate) {
       newDate = setYear(newDate, getYear(minDate));
@@ -217,133 +257,148 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="container mx-auto max-w-7xl p-4">
-      <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-2 lg:mb-8">
-          <MonthYearPicker
-            month={month}
-            handleMonthChange={handleMonthChange}
-            handleYearChange={handleYearChange}
-            minDate={minDate}
-            maxDate={maxDate}
-          />
-
-          <div className="flex space-x-2">
-            <Button variant="ghost" size="icon" onClick={onPrevMonth}>
-              <ChevronLeftIcon />
-            </Button>
-
-            <Button variant="ghost" size="icon" onClick={onNextMonth}>
-              <ChevronRightIcon />
-            </Button>
+    <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-sm relative">
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">Cargando eventos...</p>
           </div>
         </div>
+      )}
 
-        <div className="relative overflow-hidden">
-          <DayPicker
-            timeZone={timezone}
-            mode="single"
-            selected={selectedDate}
-            locale={es}
-            month={month}
-            endMonth={endMonth}
-            disabled={
-              [
-                max ? { after: max } : null,
-                min ? { before: min } : null,
-              ].filter(Boolean) as Matcher[]
-            }
-            onMonthChange={setMonth}
-            components={{
-              Day: ({ day, ...dayProps }) => {
-                const dayEvents = events.filter((event) => {
-                  const monthMatches = event.month === day.date!.getMonth() + 1;
-                  const dayMatches = event.day === day.date!.getDate();
-                  const yearMatches =
-                    !event.year || event.year === day.date!.getFullYear();
-                  return monthMatches && dayMatches && yearMatches;
-                });
+      <div className="flex items-center justify-between mb-2 lg:mb-8">
+        <MonthYearPicker
+          month={month}
+          handleMonthChange={handleMonthChange}
+          handleYearChange={handleYearChange}
+          minDate={minDate}
+          maxDate={maxDate}
+        />
 
-                const handleCreateEvent = () => {
-                  setSelectedDate(day.date);
-                  setIsCreateEventOpen(true);
-                };
+        <div className="flex space-x-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onPrevMonth}
+            disabled={isLoading}
+          >
+            <ChevronLeftIcon />
+          </Button>
 
-                const [open, setOpen] = useState(false);
-
-                return (
-                  <td className="relative h-10 lg:h-24">
-                    <Popover open={open} onOpenChange={setOpen}>
-                      <PopoverTrigger asChild>
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          className="w-full h-full cursor-pointer hover:bg-accent/90 hover:text-accent-foreground rounded-md"
-                          onClick={(e: React.MouseEvent) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setOpen(true);
-                          }}
-                        >
-                          <DayContent
-                            dayProps={{
-                              ...dayProps,
-                              className: cn(
-                                dayProps.className,
-                                'pointer-events-none'
-                              ),
-                            }}
-                            events={dayEvents}
-                          />
-                        </div>
-                      </PopoverTrigger>
-
-                      <PopoverContent className="w-80">
-                        <EventPopoverContent
-                          events={dayEvents}
-                          onCreateEvent={() => {
-                            setOpen(false);
-                            handleCreateEvent();
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </td>
-                );
-              },
-            }}
-            classNames={{
-              root: 'w-full',
-              dropdowns: 'flex w-full gap-2',
-              months: 'flex w-full h-fit',
-              month: 'flex flex-col w-full',
-              month_caption: 'hidden',
-              button_previous: 'hidden',
-              button_next: 'hidden',
-              month_grid: 'w-full border-collapse',
-              weekdays: 'flex justify-between mt-8',
-              weekday:
-                'text-muted-foreground rounded-md w-10 lg:w-24 font-normal capitalize',
-              week: 'flex w-full justify-between mt-6',
-              day: 'h-10 w-10 lg:h-24 lg:w-24 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-visible [&:has([aria-selected])]:bg-accent focus-within:relative focus-within:z-20',
-              day_button: cn(
-                buttonVariants({ variant: 'ghost' }),
-                'h-10 w-10 lg:size-24 p-0 font-normal aria-selected:opacity-100'
-              ),
-              selected:
-                'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-              today:
-                'bg-accent/30 text-accent-foreground hover:bg-accent/90 rounded-md',
-              outside:
-                'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
-              disabled: 'text-muted-foreground opacity-50',
-              hidden: 'invisible',
-            }}
-            showOutsideDays={true}
-            {...props}
-          />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onNextMonth}
+            disabled={isLoading}
+          >
+            <ChevronRightIcon />
+          </Button>
         </div>
       </div>
+
+      <DayPicker
+        timeZone={timezone}
+        mode="single"
+        selected={selectedDate}
+        locale={es}
+        month={month}
+        endMonth={endMonth}
+        disabled={
+          [max ? { after: max } : null, min ? { before: min } : null].filter(
+            Boolean
+          ) as Matcher[]
+        }
+        onMonthChange={setMonth}
+        components={{
+          Day: ({ day, ...dayProps }) => {
+            const dayEvents = events.filter((event) => {
+              const monthMatches = event.month === day.date!.getMonth() + 1;
+              const dayMatches = event.day === day.date!.getDate();
+              const yearMatches =
+                !event.year || event.year === day.date!.getFullYear();
+              return monthMatches && dayMatches && yearMatches;
+            });
+
+            const handleCreateEvent = () => {
+              setSelectedDate(day.date);
+              setIsCreateEventOpen(true);
+            };
+
+            const [open, setOpen] = useState(false);
+
+            return (
+              <td className="relative h-10 lg:h-24">
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      className="w-full h-full cursor-pointer hover:bg-accent/90 hover:text-accent-foreground rounded-md"
+                      onClick={(e: React.MouseEvent) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setOpen(true);
+                      }}
+                    >
+                      <DayContent
+                        dayProps={{
+                          ...dayProps,
+                          className: cn(
+                            dayProps.className,
+                            'pointer-events-none'
+                          ),
+                        }}
+                        events={dayEvents}
+                      />
+                    </div>
+                  </PopoverTrigger>
+
+                  <PopoverContent className="w-80">
+                    <EventPopoverContent
+                      events={dayEvents}
+                      onCreateEvent={() => {
+                        setOpen(false);
+                        handleCreateEvent();
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </td>
+            );
+          },
+        }}
+        classNames={{
+          root: 'w-full',
+          dropdowns: 'flex w-full gap-2',
+          months: 'flex w-full h-fit',
+          month: 'flex flex-col w-full',
+          month_caption: 'hidden',
+          button_previous: 'hidden',
+          button_next: 'hidden',
+          month_grid: 'w-full border-collapse',
+          weekdays: 'flex justify-between mt-8',
+          weekday:
+            'text-muted-foreground rounded-md w-10 lg:w-24 font-normal capitalize',
+          week: 'flex w-full justify-between mt-6',
+          day: 'h-10 w-10 lg:h-24 lg:w-24 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-visible [&:has([aria-selected])]:bg-accent focus-within:relative focus-within:z-20',
+          day_button: cn(
+            buttonVariants({ variant: 'ghost' }),
+            'h-10 w-10 lg:size-24 p-0 font-normal aria-selected:opacity-100'
+          ),
+          selected:
+            'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
+          today:
+            'bg-accent/30 text-accent-foreground hover:bg-accent/90 rounded-md',
+          outside:
+            'day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
+          disabled: 'text-muted-foreground opacity-50',
+          hidden: 'invisible',
+        }}
+        showOutsideDays={true}
+        {...props}
+      />
 
       <CreateEventSheet
         selectedDate={selectedDate}
