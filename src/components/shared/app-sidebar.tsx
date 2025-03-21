@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/sidebar';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { NavUser } from './nav-user';
 import { NavMain } from './nav-main';
@@ -56,13 +57,15 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <Image
-          src="/logo.png"
-          alt={'Míralos Morir V2 logo'}
-          className={cn(open ? 'block' : 'hidden')}
-          width={890}
-          height={167}
-        />
+        <Link href="/home">
+          <Image
+            src="/logo.png"
+            alt={'Míralos Morir V2 logo'}
+            className={cn(open ? 'block' : 'hidden', 'cursor-pointer')}
+            width={890}
+            height={167}
+          />
+        </Link>
       </SidebarHeader>
 
       <SidebarContent className="p-2">

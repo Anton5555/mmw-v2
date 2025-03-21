@@ -1,7 +1,16 @@
 import type { Config } from 'tailwindcss';
 import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
-const addVariablesForColors = ({ addBase, theme }: any) => {
+type AddVariableForColorsParams = {
+  addBase: (config: Record<string, Record<string, string>>) => void;
+  theme: (path: string) => Record<string, string>;
+};
+
+const addVariablesForColors = ({
+  addBase,
+  theme,
+}: AddVariableForColorsParams) => {
   const allColors = flattenColorPalette(theme('colors'));
   const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
@@ -35,6 +44,8 @@ export default {
     extend: {
       animation: {
         aurora: 'aurora 60s linear infinite',
+        collapse: 'collapse 0.2s ease-out',
+        expand: 'expand 0.2s ease-out',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -102,8 +113,16 @@ export default {
             backgroundPosition: '350% 50%, 350% 50%',
           },
         },
+        collapse: {
+          from: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: '0px' },
+        },
+        expand: {
+          from: { height: '0px' },
+          to: { height: 'var(--radix-collapsible-content-height)' },
+        },
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), addVariablesForColors],
+  plugins: [tailwindcssAnimate, addVariablesForColors],
 } satisfies Config;
