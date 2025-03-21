@@ -1,51 +1,53 @@
-import { getMonthEvents } from '@/lib/api/events';
-import { loadEventsSearchParams } from '@/lib/searchParams';
-import { SearchParams } from 'nuqs/server';
 import { EVENT_COLORS } from '@/lib/utils/constants';
 import { cn } from '@/lib/utils';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-
 import { EventsCalendar } from './_components/events-calendar';
+import { NextEvents } from './_components/next-events';
+import { getNextEvents } from '@/lib/api/events';
+import { ChevronDown } from 'lucide-react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
-type PageProps = {
-  searchParams: Promise<SearchParams>;
-};
-
-export default async function CalendarPage({ searchParams }: PageProps) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  const isAdmin = session?.user.role === 'admin';
-
-  if (!isAdmin) {
-    return (
-      <div className="container mx-auto lg:px-4 pb-8 pt-4 flex flex-col items-center justify-center min-h-[50vh]">
-        <h2 className="text-2xl font-semibold text-center mb-4">
-          Muy pronto...
-        </h2>
-        <p className="text-muted-foreground text-center">
-          Esta sección estará disponible próximamente.
-        </p>
-      </div>
-    );
-  }
-
-  const { month, year } = await loadEventsSearchParams(searchParams);
-
-  const events = await getMonthEvents({
-    month,
-    year,
-  });
+export default async function CalendarPage() {
+  const nextEvents = await getNextEvents();
 
   return (
     <div className="container mx-auto lg:px-4 pb-8 pt-4">
-      <div className="mx-auto">
-        <EventsCalendar events={events} />
+      <div className="lg:grid lg:grid-cols-4 lg:gap-6">
+        <div className="lg:col-span-1 mb-6 lg:mb-0">
+          <div className="hidden lg:block bg-card rounded-lg border shadow-sm p-6 h-full">
+            <NextEvents events={nextEvents} />
+          </div>
+
+          <div className="lg:hidden">
+            <Collapsible
+              className="bg-card rounded-none border-b border-t"
+              defaultOpen={true}
+            >
+              <div className="flex items-center justify-between p-4 border-b">
+                <h2 className="text-lg font-semibold">Próximos Eventos</h2>
+                <CollapsibleTrigger className="rounded-none h-8 w-8 inline-flex items-center justify-center transition-colors hover:bg-accent hover:text-accent-foreground">
+                  <ChevronDown className="h-4 w-4 transition-transform duration-200 data-[state=open]:rotate-180" />
+                  <span className="sr-only">Toggle events</span>
+                </CollapsibleTrigger>
+              </div>
+              <CollapsibleContent>
+                <div className="p-4">
+                  <NextEvents events={nextEvents} showTitle={false} />
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
+        </div>
+
+        <div className="lg:col-span-3">
+          <EventsCalendar />
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-4 items-center justify-center bg-card p-4 rounded-lg shadow-sm">
+      <div className="flex flex-wrap gap-4 items-center justify-center bg-card p-4 rounded-lg shadow-sm mt-6">
         {Object.entries(EVENT_COLORS).map(([type, color]) => (
           <div key={type} className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-full', `bg-${color}`)} />

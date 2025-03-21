@@ -14,15 +14,6 @@ export type AuthUser = {
   emailVerified?: Date | null;
 };
 
-export type SafeUser = {
-  id: string;
-  email: string;
-  name: string;
-  image: string | null;
-  emailVerified: boolean;
-  createdAt: Date;
-};
-
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
