@@ -17,7 +17,7 @@ export async function getNextEvents() {
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
 
-  return await prisma.event.findMany({
+  const events = await prisma.event.findMany({
     where: {
       OR: [
         // Events later this year
@@ -49,11 +49,26 @@ export async function getNextEvents() {
       ],
     },
     orderBy: [
-      { year: 'asc' },
       { month: 'asc' },
       { day: 'asc' },
+      { year: 'asc' },
       { time: 'asc' },
     ],
     take: 5,
   });
+
+  // Sort events chronologically by their actual dates
+  const sortedEvents = events.sort((a, b) => {
+    // For recurring events (year is null), use current year for comparison
+    const yearA = a.year || currentYear;
+    const yearB = b.year || currentYear;
+
+    // Create dates for comparison
+    const dateA = new Date(yearA, a.month - 1, a.day);
+    const dateB = new Date(yearB, b.month - 1, b.day);
+
+    return dateA.getTime() - dateB.getTime();
+  });
+
+  return sortedEvents;
 }
