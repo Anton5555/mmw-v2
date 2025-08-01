@@ -23,6 +23,9 @@ export const env = createEnv({
     STORAGE_ACCESS_KEY: z.string(),
     STORAGE_SECRET_KEY: z.string(),
     STORAGE_PUBLIC_URL: z.string().url(),
+    TELEGRAM_BOT_TOKEN: z.string(),
+    TELEGRAM_CHAT_ID: z.string(),
+    CRON_SECRET: z.string(),
   },
 
   client: {
@@ -43,5 +46,8 @@ export const env = createEnv({
     STORAGE_ACCESS_KEY: process.env.STORAGE_ACCESS_KEY,
     STORAGE_SECRET_KEY: process.env.STORAGE_SECRET_KEY,
     STORAGE_PUBLIC_URL: process.env.STORAGE_PUBLIC_URL,
+    TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
+    TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
+    CRON_SECRET: process.env.CRON_SECRET,
   },
 });
