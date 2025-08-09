@@ -10,6 +10,13 @@ export async function GET(request: NextRequest) {
 
   try {
     const events = await getTomorrowEvents();
+    if (events.length === 0) {
+      return NextResponse.json({
+        success: true,
+        eventsCount: 0,
+        skipped: true,
+      });
+    }
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
