@@ -11,6 +11,14 @@ import { Prisma } from '@prisma/client';
  */
 export async function getMamParticipants() {
   return await prisma.mamParticipant.findMany({
+    include: {
+      user: {
+        select: {
+          image: true,
+          name: true,
+        },
+      },
+    },
     orderBy: {
       displayName: 'asc',
     },
@@ -24,6 +32,12 @@ export async function getMamParticipantBySlug(slug: string) {
   return await prisma.mamParticipant.findUnique({
     where: { slug },
     include: {
+      user: {
+        select: {
+          image: true,
+          name: true,
+        },
+      },
       picks: {
         include: {
           movie: true,
@@ -93,10 +107,13 @@ export async function getMamMovies(query: MamMovieQuery) {
       mamPicks: {
         include: {
           participant: {
-            select: {
-              id: true,
-              displayName: true,
-              slug: true,
+            include: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
             },
           },
         },
@@ -152,11 +169,13 @@ export async function getMamMovieById(movieId: number) {
       mamPicks: {
         include: {
           participant: {
-            select: {
-              id: true,
-              displayName: true,
-              slug: true,
-              userId: true,
+            include: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
             },
           },
         },
@@ -266,10 +285,13 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
           review: true,
           createdAt: true,
           participant: {
-            select: {
-              id: true,
-              displayName: true,
-              slug: true,
+            include: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
             },
           },
         },
@@ -368,9 +390,12 @@ export async function getMamStats() {
         mamPicks: {
           include: {
             participant: {
-              select: {
-                displayName: true,
-                slug: true,
+              include: {
+                user: {
+                  select: {
+                    image: true,
+                  },
+                },
               },
             },
           },

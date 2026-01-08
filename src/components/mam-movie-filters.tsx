@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FilterCombobox } from '@/components/ui/filter-combobox';
 import { Search, Users, X } from 'lucide-react';
-import { ParticipantAvatar } from './participant-avatar';
+import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
 
 interface Participant {
@@ -14,6 +14,10 @@ interface Participant {
   displayName: string;
   slug: string;
   userId?: string | null;
+  user?: {
+    image: string | null;
+    name: string | null;
+  } | null;
 }
 
 interface MamMovieFiltersProps {
@@ -113,7 +117,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
         <FilterCombobox
           options={participants.map((p) => ({
             value: p.slug,
-            label: p.displayName,
+            label: getParticipantDisplayName(p),
           }))}
           selected={selectedParticipantSlugs}
           onChange={handleParticipantsChange}
@@ -133,7 +137,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
                 className="flex items-center gap-1"
               >
                 <ParticipantAvatar participant={participant} size="sm" />
-                <span className="text-xs">{participant.displayName}</span>
+                <span className="text-xs">{getParticipantDisplayName(participant)}</span>
                 <Button
                   variant="ghost"
                   size="sm"

@@ -12,7 +12,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { ParticipantAvatar } from './participant-avatar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { getParticipantDisplayName } from './participant-avatar';
 import { Users, Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
@@ -127,43 +133,52 @@ export function MamMovieCard({
             </h3>
           </Link>
 
-          <div className="text-xs text-muted-foreground mb-2">
-            {new Date(movie.releaseDate).getFullYear()}
-          </div>
+          <div className="flex items-center flex-row justify-between">
+            <span className="text-xs text-muted-foreground">
+              {new Date(movie.releaseDate).getFullYear()}
+            </span>
 
-          {/* Participants - Compact version (only show if not showing user review) */}
-          {!showReview && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <div className="flex -space-x-0.5">
-                  {movie.picks.slice(0, 3).map((pick) => (
-                    <Link
-                      key={pick.id}
-                      href={`/mam/participants/${pick.participant.slug}`}
-                      title={`${pick.participant.displayName} - ${pick.score}/5`}
+            {/* Participants - Compact version (only show if not showing user review) */}
+            {!showReview && (
+              <div className="flex items-center justify-end">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-0.5 cursor-pointer">
+                        <Users className="h-3 w-3" />
+                        <span className="text-xs text-muted-foreground">
+                          {movie.totalPicks}
+                        </span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      className="max-w-xs p-3 bg-popover text-popover-foreground border"
                     >
-                      <ParticipantAvatar
-                        participant={pick.participant}
-                        size="sm"
-                        className="h-5 w-5 text-xs border border-background"
-                      />
-                    </Link>
-                  ))}
-                </div>
-                {movie.picks.length > 3 && (
-                  <span className="text-xs text-muted-foreground ml-1">
-                    +{movie.picks.length - 3}
-                  </span>
-                )}
+                      <div className="space-y-1.5">
+                        <div className="text-xs font-semibold mb-2">
+                          Participantes ({movie.picks.length})
+                        </div>
+                        {movie.picks.map((pick) => (
+                          <div
+                            key={pick.id}
+                            className="flex items-center justify-between text-xs"
+                          >
+                            <span className="font-medium">
+                              {getParticipantDisplayName(pick.participant)}
+                            </span>
+                            <span className="text-muted-foreground ml-2">
+                              {pick.score}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-              <div className="flex items-center gap-0.5">
-                <Users className="h-3 w-3" />
-                <span className="text-xs text-muted-foreground">
-                  {movie.totalPicks}
-                </span>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* User Pick Score (when showing review mode) */}
           {showReview && userPick && (
