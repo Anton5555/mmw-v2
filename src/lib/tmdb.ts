@@ -55,3 +55,50 @@ export async function getMovieById(imdbId: string) {
     return null;
   }
 }
+
+export interface TMDBMovieDetailsResponse {
+  id: number;
+  genres: Array<{ id: number; name: string }>;
+  credits?: {
+    crew: Array<{ job: string; name: string }>;
+  };
+}
+
+export interface MovieDetails {
+  director?: string;
+  genre?: string;
+}
+
+/**
+ * Get movie details (director and genre) from TMDB by TMDB movie ID
+ */
+export async function getMovieDetails(tmdbId: number): Promise<MovieDetails | null> {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${env.TMDB_API_KEY}&append_to_response=credits`
+    );
+
+    if (!response.ok) {
+      console.error(`TMDB API error for movie ${tmdbId}: ${response.status}`);
+      return null;
+    }
+
+    const data = (await response.json()) as TMDBMovieDetailsResponse;
+
+    // Get director from credits.crew
+    const director =
+      data.credits?.crew.find((person) => person.job === 'Director')?.name ||
+      undefined;
+
+    // Get first genre name
+    const genre = data.genres?.[0]?.name || undefined;
+
+    return {
+      director,
+      genre,
+    };
+  } catch (error) {
+    console.error(`Error fetching movie details for TMDB ID ${tmdbId}:`, error);
+    return null;
+  }
+}
