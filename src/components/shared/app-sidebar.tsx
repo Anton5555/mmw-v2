@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar, Info, NotebookTabs } from 'lucide-react';
+import { Calendar, Film, Info, NotebookTabs } from 'lucide-react';
 
 import {
   Sidebar,
@@ -31,11 +31,11 @@ const navItems = [
     url: '/calendar',
     icon: Calendar,
   },
-  // {
-  //   title: 'MAM',
-  //   url: '/mam',
-  //   icon: Film,
-  // },
+  {
+    title: 'MAM',
+    url: '/mam',
+    icon: Film,
+  },
   // {
   //   title: 'Padlet',
   //   url: '/padlet',

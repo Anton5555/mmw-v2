@@ -40,6 +40,16 @@ model Movie {
   imdbId           String      @unique
   posterUrl        String
   MovieList        MovieList[]
+  mamPicks         MamPick[]
+
+  // MAM cached metrics (updated when picks change)
+  mamTotalPicks   Int   @default(0)
+  mamTotalPoints  Int   @default(0)
+  mamAverageScore Float @default(0)
+  mamRank         Int?
+
+  @@index([mamTotalPoints(sort: Desc), mamTotalPicks(sort: Desc)])
+  @@index([mamRank])
 }
 
 model MovieList {
@@ -68,11 +78,12 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  role       String?
-  banned     Boolean?
-  banReason  String?
-  banExpires DateTime?
-  Event      Event[]
+  role           String?
+  banned         Boolean?
+  banReason      String?
+  banExpires     DateTime?
+  Event          Event[]
+  MamParticipant MamParticipant?
 
   @@map("user")
 }
@@ -146,4 +157,32 @@ model Event {
   createdByUser User      @relation(fields: [createdBy], references: [id])
 
   @@map("event")
+}
+
+model MamParticipant {
+  id          Int       @id @default(autoincrement())
+  displayName String
+  slug        String    @unique
+  userId      String?   @unique
+  user        User?     @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  picks       MamPick[]
+
+  @@index([displayName])
+}
+
+model MamPick {
+  id            Int      @id @default(autoincrement())
+  participantId Int
+  movieId       Int
+  score         Int // 5 for top pick, otherwise 1
+  review        String?
+  createdAt     DateTime @default(now())
+
+  participant MamParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  movie       Movie          @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, movieId])
+  @@index([movieId])
+  @@index([participantId])
 }

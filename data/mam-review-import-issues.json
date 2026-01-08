@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "totalProcessed": 758,
+    "successfullyImported": 53,
+    "issues": {
+      "missingParticipants": 0,
+      "missingMovies": 0,
+      "missingPicks": 0
+    }
+  },
+  "issues": {
+    "missingParticipants": [],
+    "missingMovies": [],
+    "missingPicks": []
+  }
+}
