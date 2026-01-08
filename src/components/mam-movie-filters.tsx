@@ -5,7 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FilterCombobox } from '@/components/ui/filter-combobox';
-import { Search, Users, X } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Search, Users, X, SlidersHorizontal } from 'lucide-react';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
 
@@ -24,70 +31,27 @@ interface MamMovieFiltersProps {
   participants: Participant[];
 }
 
-export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
-  const { params, setParams } = useMamMoviesParams();
-
-  // Local state for search inputs (debounced)
-  const [titleInput, setTitleInput] = useState(params.title || '');
-  const [imdbInput, setImdbInput] = useState(params.imdb || '');
-
-  // Sync local state with URL params when they change (e.g., browser back/forward)
-  useEffect(() => {
-    setTitleInput(params.title || '');
-  }, [params.title]);
-
-  useEffect(() => {
-    setImdbInput(params.imdb || '');
-  }, [params.imdb]);
-
-  // Get current participants
-  const selectedParticipantSlugs = params.participants
-    ? params.participants.split(',').filter(Boolean)
-    : [];
-
-  const selectedParticipants = participants.filter((p) =>
-    selectedParticipantSlugs.includes(p.slug)
-  );
-
-  // Debounced search effect for title
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setParams({
-        title: titleInput || null,
-        page: 1, // Reset to first page when filtering
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [titleInput, setParams]);
-
-  // Debounced search effect for imdb
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setParams({
-        imdb: imdbInput || null,
-        page: 1, // Reset to first page when filtering
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [imdbInput, setParams]);
-
-  const handleParticipantsChange = (values: string[]) => {
-    setParams({
-      participants: values.length > 0 ? values.join(',') : null,
-      page: 1, // Reset to first page when filtering
-    });
-  };
-
-  const clearParticipantFilter = (slug: string) => {
-    const currentSlugs = selectedParticipantSlugs.filter((s) => s !== slug);
-    setParams({
-      participants: currentSlugs.length > 0 ? currentSlugs.join(',') : null,
-      page: 1, // Reset to first page when filtering
-    });
-  };
-
+function FiltersContent({
+  participants,
+  titleInput,
+  setTitleInput,
+  imdbInput,
+  setImdbInput,
+  selectedParticipantSlugs,
+  handleParticipantsChange,
+  selectedParticipants,
+  clearParticipantFilter,
+}: {
+  participants: Participant[];
+  titleInput: string;
+  setTitleInput: (value: string) => void;
+  imdbInput: string;
+  setImdbInput: (value: string) => void;
+  selectedParticipantSlugs: string[];
+  handleParticipantsChange: (values: string[]) => void;
+  selectedParticipants: Participant[];
+  clearParticipantFilter: (slug: string) => void;
+}) {
   return (
     <div className="space-y-4">
       {/* Search Inputs */}
@@ -152,5 +116,121 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
         )}
       </div>
     </div>
+  );
+}
+
+export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
+  const { params, setParams } = useMamMoviesParams();
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  // Local state for search inputs (debounced)
+  const [titleInput, setTitleInput] = useState(params.title || '');
+  const [imdbInput, setImdbInput] = useState(params.imdb || '');
+
+  // Sync local state with URL params when they change (e.g., browser back/forward)
+  useEffect(() => {
+    setTitleInput(params.title || '');
+  }, [params.title]);
+
+  useEffect(() => {
+    setImdbInput(params.imdb || '');
+  }, [params.imdb]);
+
+  // Get current participants
+  const selectedParticipantSlugs = params.participants
+    ? params.participants.split(',').filter(Boolean)
+    : [];
+
+  const selectedParticipants = participants.filter((p) =>
+    selectedParticipantSlugs.includes(p.slug)
+  );
+
+  // Debounced search effect for title
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setParams({
+        title: titleInput || null,
+        page: 1, // Reset to first page when filtering
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [titleInput, setParams]);
+
+  // Debounced search effect for imdb
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setParams({
+        imdb: imdbInput || null,
+        page: 1, // Reset to first page when filtering
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [imdbInput, setParams]);
+
+  const handleParticipantsChange = (values: string[]) => {
+    setParams({
+      participants: values.length > 0 ? values.join(',') : null,
+      page: 1, // Reset to first page when filtering
+    });
+  };
+
+  const clearParticipantFilter = (slug: string) => {
+    const currentSlugs = selectedParticipantSlugs.filter((s) => s !== slug);
+    setParams({
+      participants: currentSlugs.length > 0 ? currentSlugs.join(',') : null,
+      page: 1, // Reset to first page when filtering
+    });
+  };
+
+  // Count active filters for badge
+  const activeFiltersCount =
+    (titleInput ? 1 : 0) +
+    (imdbInput ? 1 : 0) +
+    selectedParticipantSlugs.length;
+
+  const filtersContent = (
+    <FiltersContent
+      participants={participants}
+      titleInput={titleInput}
+      setTitleInput={setTitleInput}
+      imdbInput={imdbInput}
+      setImdbInput={setImdbInput}
+      selectedParticipantSlugs={selectedParticipantSlugs}
+      handleParticipantsChange={handleParticipantsChange}
+      selectedParticipants={selectedParticipants}
+      clearParticipantFilter={clearParticipantFilter}
+    />
+  );
+
+  return (
+    <>
+      {/* Mobile: Sheet with trigger button */}
+      <div className="md:hidden">
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="w-full justify-start">
+              <SlidersHorizontal className="mr-2 h-4 w-4" />
+              Filtros
+              {activeFiltersCount > 0 && (
+                <Badge variant="secondary" className="ml-2 px-1.5 py-0.5 text-xs">
+                  {activeFiltersCount}
+                </Badge>
+              )}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>Filtros</SheetTitle>
+            </SheetHeader>
+            <div className="mt-6">{filtersContent}</div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Desktop: Show filters inline */}
+      <div className="hidden md:block">{filtersContent}</div>
+    </>
   );
 }
