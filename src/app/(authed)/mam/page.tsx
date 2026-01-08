@@ -1,9 +1,12 @@
-import { getMamMovies, getMamParticipants } from '@/lib/api/mam';
+import { getMamMovies, getMamParticipants, getUserMamParticipant } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamMovieCard } from '@/components/mam-movie-card';
 import { Film } from 'lucide-react';
 import Link from 'next/link';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { Button } from '@/components/ui/button';
 
 interface MamPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -14,8 +17,13 @@ export default async function MamPage({ searchParams }: MamPageProps) {
   const { title, imdb, participants, page, limit } =
     await loadMamMoviesSearchParams(searchParams);
 
+  // Get current user session
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   // Fetch data server-side
-  const [moviesData, participantsList] = await Promise.all([
+  const [moviesData, participantsList, userParticipant] = await Promise.all([
     getMamMovies({
       title,
       imdb,
@@ -24,21 +32,35 @@ export default async function MamPage({ searchParams }: MamPageProps) {
       limit,
     }),
     getMamParticipants(),
+    session?.user?.id ? getUserMamParticipant(session.user.id) : null,
   ]);
 
   const { movies, pagination } = moviesData;
+  const hasUserPicks =
+    userParticipant && userParticipant._count.picks > 0;
 
   return (
     <div className="container mx-auto px-4 pb-8 pt-4">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Míralas Antes de Morir</h1>
-        <p className="text-muted-foreground">
-          A continuación, encontrarás las películas que que hay que ver antes de
-          morir.
-          <br />
-          Son {pagination.totalCount} películas seleccionadas por la comunidad.
-        </p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold mb-2">Míralas Antes de Morir</h1>
+            <p className="text-muted-foreground">
+              A continuación, encontrarás las películas que que hay que ver antes de
+              morir.
+              <br />
+              Son {pagination.totalCount} películas seleccionadas por la comunidad.
+            </p>
+          </div>
+          {hasUserPicks && (
+            <div className="flex-shrink-0">
+              <Button asChild variant="outline">
+                <Link href="/mam/my-list">Mi Lista</Link>
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Filters */}
