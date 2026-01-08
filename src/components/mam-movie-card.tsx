@@ -1,17 +1,41 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { ParticipantAvatar } from './participant-avatar';
-import { Users, Film } from 'lucide-react';
+import { Users, Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
 interface MamMovieCardProps {
   movie: MamMovieWithPicks;
   rank?: number;
+  userPick?: {
+    review: string | null;
+    score: number;
+  };
+  showReview?: boolean;
 }
 
-export function MamMovieCard({ movie, rank }: MamMovieCardProps) {
+export function MamMovieCard({
+  movie,
+  rank,
+  userPick,
+  showReview = false,
+}: MamMovieCardProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const displayTitle =
+    movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
   const getRankStyle = (rank: number) => {
     switch (rank) {
       case 1:
@@ -63,6 +87,16 @@ export function MamMovieCard({ movie, rank }: MamMovieCardProps) {
             </div>
           )}
 
+          {/* 5-Point Top Pick Badge */}
+          {showReview && userPick?.score === 5 && (
+            <div className="absolute top-2 right-2 z-10">
+              <Badge className="bg-yellow-500 text-white border-0 px-2 py-1 text-xs font-semibold flex items-center gap-1">
+                <Star className="h-3 w-3 fill-white" />
+                <span>Top Pick</span>
+              </Badge>
+            </div>
+          )}
+
           {/* Movie Poster */}
           <div className="aspect-[2/3] relative overflow-hidden rounded-t-lg">
             <Link href={`/mam/movie/${movie.id}`}>
@@ -97,39 +131,93 @@ export function MamMovieCard({ movie, rank }: MamMovieCardProps) {
             {new Date(movie.releaseDate).getFullYear()}
           </div>
 
-          {/* Participants - Compact version */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <div className="flex -space-x-0.5">
-                {movie.picks.slice(0, 3).map((pick) => (
-                  <Link
-                    key={pick.id}
-                    href={`/mam/participants/${pick.participant.slug}`}
-                    title={`${pick.participant.displayName} - ${pick.score}/5`}
-                  >
-                    <ParticipantAvatar
-                      participant={pick.participant}
-                      size="sm"
-                      className="h-5 w-5 text-xs border border-background"
-                    />
-                  </Link>
-                ))}
+          {/* Participants - Compact version (only show if not showing user review) */}
+          {!showReview && (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <div className="flex -space-x-0.5">
+                  {movie.picks.slice(0, 3).map((pick) => (
+                    <Link
+                      key={pick.id}
+                      href={`/mam/participants/${pick.participant.slug}`}
+                      title={`${pick.participant.displayName} - ${pick.score}/5`}
+                    >
+                      <ParticipantAvatar
+                        participant={pick.participant}
+                        size="sm"
+                        className="h-5 w-5 text-xs border border-background"
+                      />
+                    </Link>
+                  ))}
+                </div>
+                {movie.picks.length > 3 && (
+                  <span className="text-xs text-muted-foreground ml-1">
+                    +{movie.picks.length - 3}
+                  </span>
+                )}
               </div>
-              {movie.picks.length > 3 && (
-                <span className="text-xs text-muted-foreground ml-1">
-                  +{movie.picks.length - 3}
+              <div className="flex items-center gap-0.5">
+                <Users className="h-3 w-3" />
+                <span className="text-xs text-muted-foreground">
+                  {movie.totalPicks}
                 </span>
-              )}
+              </div>
             </div>
-            <div className="flex items-center gap-0.5">
-              <Users className="h-3 w-3" />
-              <span className="text-xs text-muted-foreground">
-                {movie.totalPicks}
-              </span>
+          )}
+
+          {/* User Pick Score (when showing review mode) */}
+          {showReview && userPick && (
+            <div className="flex items-center justify-between mb-2">
+              <Badge
+                variant="secondary"
+                className={`text-xs font-semibold ${
+                  userPick.score === 5
+                    ? 'bg-yellow-600 text-white'
+                    : 'bg-muted text-muted-foreground'
+                }`}
+              >
+                {userPick.score} {userPick.score === 1 ? 'pt' : 'pts'}
+              </Badge>
             </div>
-          </div>
+          )}
+
+          {/* Review Dialog Trigger */}
+          {showReview && userPick?.review && (
+            <div className="mt-2">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsDialogOpen(true);
+                }}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-left"
+              >
+                <span>Mostrar reseña</span>
+              </button>
+            </div>
+          )}
         </div>
       </CardContent>
+
+      {/* Review Dialog */}
+      {showReview && userPick?.review && (
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{displayTitle}</DialogTitle>
+              <DialogDescription>
+                Tu puntuación: {userPick.score}{' '}
+                {userPick.score === 1 ? 'punto' : 'puntos'}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+              <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                {userPick.review}
+              </p>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Card>
   );
 }
