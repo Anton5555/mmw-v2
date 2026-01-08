@@ -33,7 +33,7 @@ export function MamMovieCard({
   showReview = false,
 }: MamMovieCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  
+
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
   const getRankStyle = (rank: number) => {
@@ -90,9 +90,7 @@ export function MamMovieCard({
           {/* 5-Point Top Pick Badge */}
           {showReview && userPick?.score === 5 && (
             <div className="absolute top-2 right-2 z-10">
-              <Badge
-                className="bg-yellow-500 text-white border-0 px-2 py-1 text-xs font-semibold flex items-center gap-1"
-              >
+              <Badge className="bg-yellow-500 text-white border-0 px-2 py-1 text-xs font-semibold flex items-center gap-1">
                 <Star className="h-3 w-3 fill-white" />
                 <span>Top Pick</span>
               </Badge>
@@ -208,7 +206,8 @@ export function MamMovieCard({
             <DialogHeader>
               <DialogTitle>{displayTitle}</DialogTitle>
               <DialogDescription>
-                Tu puntuación: {userPick.score} {userPick.score === 1 ? 'punto' : 'puntos'}
+                Tu puntuación: {userPick.score}{' '}
+                {userPick.score === 1 ? 'punto' : 'puntos'}
               </DialogDescription>
             </DialogHeader>
             <div className="mt-4">

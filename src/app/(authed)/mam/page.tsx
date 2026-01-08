@@ -1,4 +1,8 @@
-import { getMamMovies, getMamParticipants, getUserMamParticipant } from '@/lib/api/mam';
+import {
+  getMamMovies,
+  getMamParticipants,
+  getUserMamParticipant,
+} from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamMovieCard } from '@/components/mam-movie-card';
@@ -36,8 +40,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
   ]);
 
   const { movies, pagination } = moviesData;
-  const hasUserPicks =
-    userParticipant && userParticipant._count.picks > 0;
+  const hasUserPicks = userParticipant && userParticipant._count.picks > 0;
 
   return (
     <div className="container mx-auto px-4 pb-8 pt-4">
@@ -47,10 +50,11 @@ export default async function MamPage({ searchParams }: MamPageProps) {
           <div className="flex-1">
             <h1 className="text-3xl font-bold mb-2">Míralas Antes de Morir</h1>
             <p className="text-muted-foreground">
-              A continuación, encontrarás las películas que que hay que ver antes de
-              morir.
+              A continuación, encontrarás las películas que que hay que ver
+              antes de morir.
               <br />
-              Son {pagination.totalCount} películas seleccionadas por la comunidad.
+              Son {pagination.totalCount} películas seleccionadas por la
+              comunidad.
             </p>
           </div>
           {hasUserPicks && (
