@@ -57,6 +57,11 @@ export const mamMovieWithPicksSchema = z.object({
         id: z.number(),
         displayName: z.string(),
         slug: z.string(),
+        userId: z.string().nullable().optional(),
+        user: z.object({
+          image: z.string().nullable(),
+          name: z.string().nullable(),
+        }).nullable().optional(),
       }),
     })
   ),

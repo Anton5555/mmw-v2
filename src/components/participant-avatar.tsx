@@ -6,6 +6,18 @@ interface Participant {
   displayName: string;
   slug: string;
   userId?: string | null;
+  user?: {
+    image: string | null;
+    name: string | null;
+  } | null;
+}
+
+/**
+ * Get the display name for a participant.
+ * Returns user.name if available, otherwise falls back to displayName.
+ */
+export function getParticipantDisplayName(participant: Participant): string {
+  return participant.user?.name || participant.displayName;
 }
 
 interface ParticipantAvatarProps {
@@ -54,16 +66,17 @@ export function ParticipantAvatar({
     return colors[Math.abs(hash) % colors.length];
   };
 
+  // Get display name: user.name if available, otherwise fallback to displayName
+  const displayName = getParticipantDisplayName(participant);
+  const avatarUrl = participant.user?.image || undefined;
+
   return (
     <Avatar className={cn(sizeClasses[size], className)}>
-      <AvatarImage src="" alt={participant.displayName} />
+      <AvatarImage src={avatarUrl} alt={displayName} />
       <AvatarFallback
-        className={cn(
-          getColorFromName(participant.displayName),
-          'text-white font-medium'
-        )}
+        className={cn(getColorFromName(displayName), 'text-white font-medium')}
       >
-        {getInitials(participant.displayName)}
+        {getInitials(displayName)}
       </AvatarFallback>
     </Avatar>
   );

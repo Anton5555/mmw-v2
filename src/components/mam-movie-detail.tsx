@@ -7,7 +7,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { ParticipantAvatar } from './participant-avatar';
+import {
+  ParticipantAvatar,
+  getParticipantDisplayName,
+} from './participant-avatar';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 import {
   Crown,
@@ -29,10 +32,15 @@ interface MamMovieDetailProps {
   genre?: string;
 }
 
-export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailProps) {
+export function MamMovieDetail({
+  movie,
+  rank,
+  director,
+  genre,
+}: MamMovieDetailProps) {
   // Use rank from prop or fallback to movie.rank
   const displayRank = rank ?? movie.rank;
-  
+
   const [expandedReviews, setExpandedReviews] = useState<Set<number>>(
     new Set()
   );
@@ -77,7 +85,9 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
   const topChoicePicks = movie.picks.filter((pick) => pick.score === 5);
   const regularPicks = movie.picks.filter((pick) => pick.score === 1);
   const regularPicksWithReviews = regularPicks.filter((pick) => pick.review);
-  const regularPicksWithoutReviews = regularPicks.filter((pick) => !pick.review);
+  const regularPicksWithoutReviews = regularPicks.filter(
+    (pick) => !pick.review
+  );
 
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
@@ -115,7 +125,9 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
           {displayRank && (
             <div className="absolute -top-3 -right-3">
               <Badge
-                className={`px-4 py-2 font-bold text-xl flex items-center gap-2 ${getRankBadgeStyle(displayRank)}`}
+                className={`px-4 py-2 font-bold text-xl flex items-center gap-2 ${getRankBadgeStyle(
+                  displayRank
+                )}`}
               >
                 {getRankIcon(displayRank)}#{displayRank}
               </Badge>
@@ -202,14 +214,15 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
           )}
 
           {/* Original Title if different */}
-          {movie.originalLanguage !== 'es' && movie.originalTitle !== movie.title && (
-            <div>
-              <p className="text-muted-foreground text-sm mb-1">
-                Título original
-              </p>
-              <p className="text-lg">{movie.originalTitle}</p>
-            </div>
-          )}
+          {movie.originalLanguage !== 'es' &&
+            movie.originalTitle !== movie.title && (
+              <div>
+                <p className="text-muted-foreground text-sm mb-1">
+                  Título original
+                </p>
+                <p className="text-lg">{movie.originalTitle}</p>
+              </div>
+            )}
         </motion.div>
       </div>
 
@@ -239,26 +252,26 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
                 <CardContent className="p-4">
                   <div className="flex items-start gap-4">
                     <Link href={`/mam?participants=${pick.participant.slug}`}>
-                      <ParticipantAvatar participant={pick.participant} size="md" />
+                      <ParticipantAvatar
+                        participant={pick.participant}
+                        size="md"
+                      />
                     </Link>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-4 mb-2">
-                        <div>
+                        <div className="flex items-center gap-2">
                           <Link
                             href={`/mam?participants=${pick.participant.slug}`}
                             className="hover:underline"
                           >
                             <h3 className="font-semibold">
-                              {pick.participant.displayName}
+                              {getParticipantDisplayName(pick.participant)}
                             </h3>
                           </Link>
-                          <p className="text-muted-foreground text-sm flex items-center gap-2">
-                            Dio a esta película 5 puntos
-                            <Badge className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30">
-                              Top Choice
-                            </Badge>
-                          </p>
+                          <Badge className="bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30">
+                            Top Choice
+                          </Badge>
                         </div>
 
                         <Badge className="bg-yellow-600 text-white text-lg font-bold px-3 py-1">
@@ -332,7 +345,10 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
                 <CardContent className="p-4">
                   <div className="flex items-start gap-4">
                     <Link href={`/mam?participants=${pick.participant.slug}`}>
-                      <ParticipantAvatar participant={pick.participant} size="md" />
+                      <ParticipantAvatar
+                        participant={pick.participant}
+                        size="md"
+                      />
                     </Link>
 
                     <div className="flex-1 min-w-0">
@@ -343,15 +359,15 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
                             className="hover:underline"
                           >
                             <h3 className="font-semibold">
-                              {pick.participant.displayName}
+                              {getParticipantDisplayName(pick.participant)}
                             </h3>
                           </Link>
-                          <p className="text-muted-foreground text-sm">
-                            Dio a esta película 1 punto
-                          </p>
                         </div>
 
-                        <Badge variant="secondary" className="text-lg font-bold px-3 py-1">
+                        <Badge
+                          variant="secondary"
+                          className="text-lg font-bold px-3 py-1"
+                        >
                           1 pt
                         </Badge>
                       </div>
@@ -407,7 +423,8 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
               transition={{
                 duration: 0.3,
                 delay:
-                  0.05 * (topChoicePicks.length + regularPicksWithReviews.length),
+                  0.05 *
+                  (topChoicePicks.length + regularPicksWithReviews.length),
               }}
             >
               <Card className="hover:bg-accent/50 transition-colors">
@@ -431,7 +448,10 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
                           </p>
                         </div>
 
-                        <Badge variant="secondary" className="text-lg font-bold px-3 py-1">
+                        <Badge
+                          variant="secondary"
+                          className="text-lg font-bold px-3 py-1"
+                        >
                           {regularPicksWithoutReviews.length} pt
                           {regularPicksWithoutReviews.length !== 1 ? 's' : ''}
                         </Badge>
@@ -476,7 +496,9 @@ export function MamMovieDetail({ movie, rank, director, genre }: MamMovieDetailP
                                       size="sm"
                                     />
                                     <span className="text-sm">
-                                      {pick.participant.displayName}
+                                      {getParticipantDisplayName(
+                                        pick.participant
+                                      )}
                                     </span>
                                   </Link>
                                 ))}

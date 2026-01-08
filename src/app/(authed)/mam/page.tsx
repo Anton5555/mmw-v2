@@ -6,6 +6,7 @@ import {
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamMovieCard } from '@/components/mam-movie-card';
+import { MamPagination } from '@/components/mam-pagination';
 import { Film } from 'lucide-react';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
@@ -49,7 +50,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h1 className="text-3xl font-bold mb-2">Míralas Antes de Morir</h1>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground md:flex hidden">
               A continuación, encontrarás las películas que que hay que ver
               antes de morir.
               <br />
@@ -68,7 +69,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
       </div>
 
       {/* Filters */}
-      <div className="mb-8 p-4 bg-card rounded-lg border">
+      <div className="mb-8 md:p-4 md:bg-card md:rounded-lg md:border">
         <MamMovieFilters participants={participantsList} />
       </div>
 
@@ -100,45 +101,12 @@ export default async function MamPage({ searchParams }: MamPageProps) {
       )}
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {pagination.hasPrevPage && (
-            <Link
-              href={`/mam?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries({ title, imdb, participants }).filter(
-                    ([, value]) => value !== ''
-                  )
-                ),
-                page: (page - 1).toString(),
-              }).toString()}`}
-              className="px-3 py-2 text-sm border rounded-md hover:bg-accent transition-colors"
-            >
-              Anterior
-            </Link>
-          )}
-
-          <span className="px-3 py-2 text-sm">
-            Página {pagination.page} de {pagination.totalPages}
-          </span>
-
-          {pagination.hasNextPage && (
-            <Link
-              href={`/mam?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries({ title, imdb, participants }).filter(
-                    ([, value]) => value !== ''
-                  )
-                ),
-                page: (page + 1).toString(),
-              }).toString()}`}
-              className="px-3 py-2 text-sm border rounded-md hover:bg-accent transition-colors"
-            >
-              Siguiente
-            </Link>
-          )}
-        </div>
-      )}
+      <MamPagination
+        currentPage={pagination.page}
+        totalPages={pagination.totalPages}
+        hasPrevPage={pagination.hasPrevPage}
+        hasNextPage={pagination.hasNextPage}
+      />
     </div>
   );
 }
