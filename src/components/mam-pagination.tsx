@@ -1,6 +1,11 @@
 'use client';
 
-import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react';
+import {
+  ChevronsLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsRight,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
 import { useTransition } from 'react';
