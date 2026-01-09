@@ -17,7 +17,7 @@ const publicRoutes = [
 // Add routes that are always public (like images, etc)
 const staticRoutes = ['/logo.png'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow static routes
