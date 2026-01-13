@@ -12,3 +12,7 @@
 ## Library related improvements
 
 - [ ] Update ZOD deprecated methods on V4
+
+## UI improvements
+
+- [ ] Use shadcn new time picker components
