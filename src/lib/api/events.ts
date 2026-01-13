@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { GetMonthEventsSchema } from '../validations/events';
 
 export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
+  "use cache";
   return await prisma.event.findMany({
     where: {
       month,
@@ -13,6 +14,7 @@ export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
 }
 
 export async function getNextEvents() {
+  "use cache";
   // Access connection() first to allow new Date() in Cache Components
   await connection();
   const today = new Date();
