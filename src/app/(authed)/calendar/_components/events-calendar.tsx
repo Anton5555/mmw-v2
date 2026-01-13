@@ -68,7 +68,7 @@ const DayContent = ({
             />
           ))}
           {events.length > 3 && (
-            <span className="text-[10px] leading-none flex items-center lg:text-xs text-muted-foreground font-medium translate-y-[1px]">
+            <span className="text-[10px] leading-none flex items-center lg:text-xs text-muted-foreground font-medium translate-y-px">
               +{events.length - 3}
             </span>
           )}
@@ -246,10 +246,10 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-sm relative">
+    <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-xs relative">
       {/* Loading overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-xs z-10 flex items-center justify-center rounded-lg">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="text-muted-foreground">Cargando eventos...</p>

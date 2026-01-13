@@ -59,7 +59,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
             </p>
           </div>
           {hasUserPicks && (
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <Button asChild variant="outline">
                 <Link href="/mam/my-list">Mi Lista</Link>
               </Button>

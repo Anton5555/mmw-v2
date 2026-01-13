@@ -154,7 +154,7 @@ export function FilterCombobox({
                   aria-selected={isSelected}
                   onClick={() => handleSelect(option.value)}
                   className={cn(
-                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground',
                     { 'bg-accent/50': isSelected }
                   )}
                 >

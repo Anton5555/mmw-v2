@@ -22,11 +22,11 @@ export const Card = ({
     onMouseLeave={() => setHovered(null)}
     className={cn(
       'rounded-lg relative overflow-hidden transition-all duration-300 ease-out',
-      hovered !== null && hovered !== index && 'blur-sm scale-[0.98]',
+      hovered !== null && hovered !== index && 'blur-xs scale-[0.98]',
       className
     )}
   >
-    <div className="relative aspect-[2/3]">
+    <div className="relative aspect-2/3">
       <Image
         src={card.src}
         alt={card.title}
@@ -52,7 +52,7 @@ export const Card = ({
         hovered === index ? 'opacity-100' : 'opacity-0'
       )}
     >
-      <div className="w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 py-8">
+      <div className="w-full bg-linear-to-t from-black/80 via-black/40 to-transparent px-4 py-8">
         <div className="text-xl md:text-2xl font-medium text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
           {card.title}
         </div>
