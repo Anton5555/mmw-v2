@@ -186,7 +186,7 @@ export function CreateEventSheet({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.values(EventTypeSchema.Values).map((type) => (
+                      {EventTypeSchema.options.map((type) => (
                         <SelectItem key={type} value={type}>
                           {type === 'BIRTHDAY'
                             ? 'Cumpleaños'

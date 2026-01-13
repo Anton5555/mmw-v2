@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import {
   Form,
   FormControl,
@@ -26,11 +27,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { type SignInFormValues, signInSchema } from '@/lib/validations/auth';
+import { signInSchema } from '@/lib/validations/auth';
 
 export default function SignIn() {
   const router = useRouter();
-  const form = useForm<SignInFormValues>({
+  const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
@@ -39,7 +40,7 @@ export default function SignIn() {
     },
   });
 
-  const onSubmit = async (data: SignInFormValues) => {
+  const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     try {
       await signIn.email({
         email: data.email,
