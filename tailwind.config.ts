@@ -21,6 +21,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       animation: {
         aurora: 'aurora 60s linear infinite',
         collapse: 'collapse 0.2s ease-out',
