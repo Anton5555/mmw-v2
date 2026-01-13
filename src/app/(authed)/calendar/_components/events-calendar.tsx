@@ -393,6 +393,7 @@ export function EventsCalendar({
         selectedDate={selectedDate}
         open={isCreateEventOpen}
         onOpenChange={setIsCreateEventOpen}
+        onEventCreated={fetchEvents}
       />
     </div>
   );
