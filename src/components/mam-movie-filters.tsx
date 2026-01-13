@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -127,14 +127,24 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
   const [titleInput, setTitleInput] = useState(params.title || '');
   const [imdbInput, setImdbInput] = useState(params.imdb || '');
 
-  // Sync local state with URL params when they change (e.g., browser back/forward)
-  useEffect(() => {
-    setTitleInput(params.title || '');
-  }, [params.title]);
+  // Track previous params to detect external changes (e.g., browser back/forward)
+  const prevParamsRef = useRef({ title: params.title, imdb: params.imdb });
+  const isInternalUpdateRef = useRef(false);
 
+  // Sync local state with URL params when they change externally
   useEffect(() => {
-    setImdbInput(params.imdb || '');
-  }, [params.imdb]);
+    // Only update if params changed externally (not from our own setParams calls)
+    if (!isInternalUpdateRef.current) {
+      if (prevParamsRef.current.title !== params.title) {
+        setTitleInput(params.title || '');
+      }
+      if (prevParamsRef.current.imdb !== params.imdb) {
+        setImdbInput(params.imdb || '');
+      }
+    }
+    isInternalUpdateRef.current = false;
+    prevParamsRef.current = { title: params.title, imdb: params.imdb };
+  }, [params.title, params.imdb]);
 
   // Get current participants
   const selectedParticipantSlugs = params.participants
@@ -148,6 +158,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
   // Debounced search effect for title
   useEffect(() => {
     const timer = setTimeout(() => {
+      isInternalUpdateRef.current = true;
       setParams({
         title: titleInput || null,
         page: 1, // Reset to first page when filtering
@@ -160,6 +171,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
   // Debounced search effect for imdb
   useEffect(() => {
     const timer = setTimeout(() => {
+      isInternalUpdateRef.current = true;
       setParams({
         imdb: imdbInput || null,
         page: 1, // Reset to first page when filtering
