@@ -1,9 +1,8 @@
-import { connection } from 'next/server';
 import { prisma } from '@/lib/db';
 import { GetMonthEventsSchema } from '../validations/events';
 
 export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
-  "use cache";
+  'use cache';
   return await prisma.event.findMany({
     where: {
       month,
@@ -14,9 +13,7 @@ export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
 }
 
 export async function getNextEvents() {
-  "use cache";
-  // Access connection() first to allow new Date() in Cache Components
-  await connection();
+  'use cache';
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
