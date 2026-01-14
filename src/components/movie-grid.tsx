@@ -65,6 +65,7 @@ export function MovieGrid({
           title:
             movie.originalLanguage === 'es' ? movie.originalTitle : movie.title,
           src: `https://image.tmdb.org/t/p/w500${movie.posterUrl}`,
+          href: `/lists/movie/${movie.id}?listId=${listId}`,
         }))}
       />
 

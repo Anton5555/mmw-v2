@@ -3,6 +3,7 @@ import type { List } from '@prisma/client';
 import { z } from 'zod';
 import { getMovieById } from '@/lib/tmdb';
 import { CreateListFormValues } from '@/lib/validations/lists';
+import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
 export async function getLists(): Promise<List[]> {
   return await prisma.list.findMany({
@@ -138,4 +139,60 @@ export async function createList({ data }: { data: CreateListFormValues }) {
 
     return list;
   });
+}
+
+/**
+ * Get lists that contain a specific movie
+ */
+export async function getListsContainingMovie(movieId: number) {
+  const movieLists = await prisma.movieList.findMany({
+    where: { movieId },
+    include: {
+      list: true,
+    },
+  });
+
+  return movieLists.map((ml) => ml.list);
+}
+
+/**
+ * Get a movie by ID with optional MAM picks
+ * Returns movie data in format compatible with MamMovieDetail component
+ */
+export async function getListMovieById(
+  movieId: number
+): Promise<MamMovieWithPicks | null> {
+  const movie = await prisma.movie.findUnique({
+    where: { id: movieId },
+    include: {
+      mamPicks: {
+        include: {
+          participant: {
+            include: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: [{ score: 'desc' }, { createdAt: 'asc' }],
+      },
+    },
+  });
+
+  if (!movie) {
+    return null;
+  }
+
+  return {
+    ...movie,
+    picks: movie.mamPicks,
+    averageScore: movie.mamAverageScore,
+    totalPicks: movie.mamTotalPicks,
+    totalPoints: movie.mamTotalPoints,
+    rank: movie.mamRank ?? undefined,
+  } as MamMovieWithPicks;
 }

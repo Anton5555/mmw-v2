@@ -23,11 +23,12 @@ const PATH_TRANSLATIONS: Record<string, string> = {
 };
 
 export function BreadcrumbsNav() {
-  const { currentPageLabel } = useBreadcrumb();
+  const { currentPageLabel, intermediateBreadcrumbs } = useBreadcrumb();
   const pathname = usePathname();
   const paths = pathname.split('/').filter(Boolean);
 
   // Filter out "movie" segment when it's followed by an ID (numeric path segment)
+  // Also filter out numeric segments (IDs) themselves
   // Build filtered paths with their original indices for href calculation
   const breadcrumbItems = paths
     .map((path, index) => ({ path, originalIndex: index }))
@@ -40,8 +41,15 @@ export function BreadcrumbsNav() {
           return false; // Skip "movie"
         }
       }
+      // Skip numeric segments (IDs) - they'll be replaced by currentPageLabel or intermediate breadcrumbs
+      if (/^\d+$/.test(path)) {
+        return false;
+      }
       return true;
     });
+
+  // Find where to insert intermediate breadcrumbs (after the last path-based breadcrumb, before the current page)
+  const lastPathIndex = breadcrumbItems.length - 1;
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -54,29 +62,41 @@ export function BreadcrumbsNav() {
           <BreadcrumbList>
             {breadcrumbItems.map(({ path, originalIndex }, index) => {
               const href = `/${paths.slice(0, originalIndex + 1).join('/')}`;
-              const isLast = index === breadcrumbItems.length - 1;
+              const isLastPathItem = index === lastPathIndex;
               const displayText =
-                isLast && currentPageLabel
-                  ? currentPageLabel
-                  : PATH_TRANSLATIONS[path] || path.replace(/-/g, ' ');
+                PATH_TRANSLATIONS[path] || path.replace(/-/g, ' ');
 
               return (
                 <React.Fragment key={`${path}-${originalIndex}`}>
                   <BreadcrumbItem>
-                    {isLast ? (
-                      <BreadcrumbPage className="capitalize">
-                        {displayText}
-                      </BreadcrumbPage>
-                    ) : (
-                      <BreadcrumbLink href={href} className="capitalize">
-                        {displayText}
-                      </BreadcrumbLink>
-                    )}
+                    <BreadcrumbLink href={href} className="capitalize">
+                      {displayText}
+                    </BreadcrumbLink>
                   </BreadcrumbItem>
-                  {!isLast && <BreadcrumbSeparator />}
+                  <BreadcrumbSeparator />
+                  {/* Insert intermediate breadcrumbs after this path item if it's the last one */}
+                  {isLastPathItem &&
+                    intermediateBreadcrumbs.map((intermediate, idx) => (
+                      <React.Fragment key={`intermediate-${idx}`}>
+                        <BreadcrumbItem>
+                          <BreadcrumbLink href={intermediate.href} className="capitalize">
+                            {intermediate.label}
+                          </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                      </React.Fragment>
+                    ))}
                 </React.Fragment>
               );
             })}
+            {/* Current page label */}
+            {currentPageLabel && (
+              <BreadcrumbItem>
+                <BreadcrumbPage className="capitalize">
+                  {currentPageLabel}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
