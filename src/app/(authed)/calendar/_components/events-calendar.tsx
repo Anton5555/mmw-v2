@@ -10,7 +10,13 @@ import {
   addMonths,
   subMonths,
 } from 'date-fns';
-import { ChevronLeftIcon, ChevronRightIcon, Plus, Pencil, Trash2 } from 'lucide-react';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Plus,
+  Pencil,
+  Trash2,
+} from 'lucide-react';
 import { DayPicker, DayProps, Matcher, TZDate } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
@@ -102,7 +108,8 @@ const EventPopoverContent = ({
         <div className="space-y-2">
           {events.length > 0
             ? events.map((event) => {
-                const isOwner = currentUserId && event.createdBy === currentUserId;
+                const isOwner =
+                  currentUserId && event.createdBy === currentUserId;
                 return (
                   <div key={event.id} className="flex items-start gap-2">
                     {(() => {
