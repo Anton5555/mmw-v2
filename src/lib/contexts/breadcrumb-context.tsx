@@ -2,9 +2,16 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
+export type IntermediateBreadcrumb = {
+  label: string;
+  href: string;
+};
+
 type BreadcrumbContextType = {
   currentPageLabel: string | undefined;
   setCurrentPageLabel: (label: string | undefined) => void;
+  intermediateBreadcrumbs: IntermediateBreadcrumb[];
+  setIntermediateBreadcrumbs: (breadcrumbs: IntermediateBreadcrumb[]) => void;
 };
 
 const BreadcrumbContext = createContext<BreadcrumbContextType | undefined>(
@@ -19,10 +26,18 @@ export function BreadcrumbProvider({
   const [currentPageLabel, setCurrentPageLabel] = useState<string | undefined>(
     undefined
   );
+  const [intermediateBreadcrumbs, setIntermediateBreadcrumbs] = useState<
+    IntermediateBreadcrumb[]
+  >([]);
 
   return (
     <BreadcrumbContext.Provider
-      value={{ currentPageLabel, setCurrentPageLabel }}
+      value={{
+        currentPageLabel,
+        setCurrentPageLabel,
+        intermediateBreadcrumbs,
+        setIntermediateBreadcrumbs,
+      }}
     >
       {children}
     </BreadcrumbContext.Provider>

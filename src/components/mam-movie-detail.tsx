@@ -23,13 +23,16 @@ import {
   Film,
   Users,
   ExternalLink,
+  List,
 } from 'lucide-react';
+import type { List as ListType } from '@/lib/validations/generated';
 
 interface MamMovieDetailProps {
   movie: MamMovieWithPicks;
   rank?: number;
   director?: string;
   genre?: string;
+  otherLists?: ListType[];
 }
 
 export function MamMovieDetail({
@@ -37,6 +40,7 @@ export function MamMovieDetail({
   rank,
   director,
   genre,
+  otherLists = [],
 }: MamMovieDetailProps) {
   // Use rank from prop or fallback to movie.rank
   const displayRank = rank ?? movie.rank;
@@ -210,6 +214,27 @@ export function MamMovieDetail({
             <div>
               <p className="text-muted-foreground text-sm mb-1">Director</p>
               <p className="text-lg">{director}</p>
+            </div>
+          )}
+
+          {/* Other Lists */}
+          {otherLists.length > 0 && (
+            <div>
+              <p className="text-muted-foreground text-sm mb-2 flex items-center gap-2">
+                <List className="h-4 w-4" />
+                También en listas
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {otherLists.map((list) => (
+                  <Link
+                    key={list.id}
+                    href={`/lists/${list.id}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted hover:bg-accent transition-colors text-sm font-medium"
+                  >
+                    {list.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
 
