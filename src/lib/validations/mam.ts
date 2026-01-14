@@ -22,13 +22,13 @@ export type MamMovieQuery = z.infer<typeof mamMovieQuerySchema>;
 
 // MAM participant validation schema
 export const mamParticipantSchema = z.object({
-  displayName: z.string().min(1, 'Display name is required'),
+  displayName: z.string().min(1, { error: 'Display name is required' }),
   slug: z
     .string()
-    .min(1, 'Slug is required')
+    .min(1, { error: 'Slug is required' })
     .regex(
       /^[a-z0-9-]+$/,
-      'Slug must contain only lowercase letters, numbers, and hyphens'
+      { error: 'Slug must contain only lowercase letters, numbers, and hyphens' }
     ),
   userId: z.string().optional(),
 });

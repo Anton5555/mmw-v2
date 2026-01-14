@@ -9,22 +9,22 @@ export const createListFormSchema = ListSchema.pick({
   tags: true,
   createdBy: true,
 }).extend({
-  name: z.string().min(1, 'El nombre es requerido'),
-  description: z.string().min(1, 'La descripción es requerida'),
-  letterboxdUrl: z.string().url('Ingresa una URL válida de Letterboxd'),
-  imgUrl: z.string().url('Ingresa una URL válida para la imagen'),
-  tags: z.string().min(1, 'Los tags son requeridos'),
-  createdBy: z.string().min(1, 'Quién solicitó la lista es requerido'),
+  name: z.string().min(1, { error: 'El nombre es requerido' }),
+  description: z.string().min(1, { error: 'La descripción es requerida' }),
+  letterboxdUrl: z.url({ error: 'Ingresa una URL válida de Letterboxd' }),
+  imgUrl: z.url({ error: 'Ingresa una URL válida para la imagen' }),
+  tags: z.string().min(1, { error: 'Los tags son requeridos' }),
+  createdBy: z.string().min(1, { error: 'Quién solicitó la lista es requerido' }),
   movies: z
     .string()
-    .min(1, 'Los IDs de IMDB son requeridos')
+    .min(1, { error: 'Los IDs de IMDB son requeridos' })
     .refine(
       (value) => {
         const ids = value.split(',').map((id) => id.trim());
         return ids.every((id) => /^tt\d{7,8}$/.test(id));
       },
       {
-        message:
+        error:
           'Los IDs de IMDB deben tener el formato correcto (ej: tt1234567)',
       }
     ),
