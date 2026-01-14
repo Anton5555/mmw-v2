@@ -53,14 +53,10 @@ export function FilterCombobox({
 
   // Handle selection changes
   const handleSelect = (value: string) => {
-    const newSelected = [...selected];
-    const selectedIndex = newSelected.indexOf(value);
-
-    if (selectedIndex >= 0) {
-      newSelected.splice(selectedIndex, 1);
-    } else {
-      newSelected.push(value);
-    }
+    const isSelected = selected.includes(value);
+    const newSelected = isSelected
+      ? selected.filter((v) => v !== value)
+      : [...selected, value];
 
     onChange(newSelected);
   };
@@ -71,15 +67,14 @@ export function FilterCombobox({
     onChange([]);
   };
 
-  // Reset search when popover closes
-  React.useEffect(() => {
-    if (!open) {
-      setSearch('');
-    }
-  }, [open]);
-
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(val) => {
+        setOpen(val);
+        if (!val) setSearch('');
+      }}
+    >
       <PopoverTrigger asChild>
         <button
           type="button"

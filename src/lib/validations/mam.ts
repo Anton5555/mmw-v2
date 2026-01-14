@@ -4,7 +4,16 @@ import { z } from 'zod';
 export const mamMovieQuerySchema = z.object({
   title: z.string().optional(),
   imdb: z.string().optional(),
-  participants: z.string().optional(), // comma-separated participant slugs
+  // Accept both array and string for backward compatibility
+  participants: z.preprocess(
+    (val) => {
+      if (Array.isArray(val)) {
+        return val.join(',');
+      }
+      return val;
+    },
+    z.string().optional()
+  ),
   page: z.number().int().positive().default(1),
   limit: z.number().int().positive().max(100).default(20),
 });
@@ -13,13 +22,13 @@ export type MamMovieQuery = z.infer<typeof mamMovieQuerySchema>;
 
 // MAM participant validation schema
 export const mamParticipantSchema = z.object({
-  displayName: z.string().min(1, 'Display name is required'),
+  displayName: z.string().min(1, { error: 'Display name is required' }),
   slug: z
     .string()
-    .min(1, 'Slug is required')
+    .min(1, { error: 'Slug is required' })
     .regex(
       /^[a-z0-9-]+$/,
-      'Slug must contain only lowercase letters, numbers, and hyphens'
+      { error: 'Slug must contain only lowercase letters, numbers, and hyphens' }
     ),
   userId: z.string().optional(),
 });

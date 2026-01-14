@@ -10,7 +10,7 @@ export type GetMonthEventsSchema = z.infer<typeof getMonthEventsSchema>;
 
 export const createEventSchema = z
   .object({
-    title: z.string().min(1, 'El título es requerido'),
+    title: z.string().min(1, { error: 'El título es requerido' }),
     description: z.string().optional(),
     month: z.number().int().min(1).max(12),
     day: z.number().int().min(1).max(31),

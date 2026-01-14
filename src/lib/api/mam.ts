@@ -64,8 +64,10 @@ export async function getMamMovies(query: MamMovieQuery) {
 
   const skip = (page - 1) * limit;
 
-  // Parse participants filter (comma-separated slugs)
-  const participantSlugs = participants
+  // Parse participants filter - handle both array and string for backward compatibility
+  const participantSlugs = Array.isArray(participants)
+    ? participants.filter(Boolean)
+    : participants
     ? participants
         .split(',')
         .map((slug) => slug.trim())

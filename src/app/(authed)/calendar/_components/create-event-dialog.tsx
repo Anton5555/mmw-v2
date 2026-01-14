@@ -27,7 +27,6 @@ import {
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { createEventAction } from '@/lib/actions/events/create-event';
-import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { EventTypeSchema } from '@/lib/validations/generated';
 import { DateTimePicker } from '@/components/datetime-picker';
@@ -38,16 +37,13 @@ type CreateEventSheetProps = {
   selectedDate?: Date;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
-  onEventCreated?: () => void;
 };
 
 export function CreateEventSheet({
   selectedDate,
   onOpenChange,
   open,
-  onEventCreated,
 }: CreateEventSheetProps) {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<CreateEventFormValues>({
@@ -66,6 +62,12 @@ export function CreateEventSheet({
   const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(eventType);
 
   useEffect(() => {
+    if (!open) {
+      setIsSubmitting(false);
+      form.reset();
+      return;
+    }
+
     if (selectedDate) {
       form.setValue('month', selectedDate.getMonth() + 1);
       form.setValue('day', selectedDate.getDate());
@@ -78,23 +80,14 @@ export function CreateEventSheet({
         form.setValue('time', undefined);
       }
     }
-  }, [selectedDate, form, isDateOnlyEvent]);
-
-  useEffect(() => {
-    if (form.formState.errors) {
-      console.log(form.formState.errors);
-    }
-  }, [form.formState.errors.time]);
+  }, [selectedDate, form, isDateOnlyEvent, open]);
 
   const onSubmit = async (data: CreateEventFormValues) => {
     setIsSubmitting(true);
     try {
       await createEventAction(data);
       toast.success('Evento creado correctamente');
-      router.refresh();
-      onEventCreated?.();
       onOpenChange?.(false);
-      form.reset();
     } catch (error) {
       console.error('Event creation error:', error);
       toast.error(
@@ -121,15 +114,6 @@ export function CreateEventSheet({
   };
 
   const handleSheetClose = () => {
-    form.reset({
-      title: '',
-      description: '',
-      type: 'OTHER',
-      month: new Date().getMonth() + 1,
-      day: new Date().getDate(),
-      time: undefined,
-      year: undefined,
-    });
     onOpenChange?.(false);
   };
 

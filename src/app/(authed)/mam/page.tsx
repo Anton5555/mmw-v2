@@ -1,13 +1,13 @@
+import { Suspense } from 'react';
 import {
-  getMamMovies,
   getMamParticipants,
   getUserMamParticipant,
 } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
-import { MamMovieCard } from '@/components/mam-movie-card';
-import { MamPagination } from '@/components/mam-pagination';
-import { Film } from 'lucide-react';
+import { MamMovieGrid } from '@/components/mam-movie-grid';
+import { MamMovieGridWrapper } from '@/components/mam-movie-grid-wrapper';
+import { MamSkeletonGrid } from '@/components/mam-skeleton-grid';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
@@ -19,29 +19,29 @@ interface MamPageProps {
 
 export default async function MamPage({ searchParams }: MamPageProps) {
   // Load and validate search parameters using nuqs
-  const { title, imdb, participants, page, limit } =
-    await loadMamMoviesSearchParams(searchParams);
+  const params = await loadMamMoviesSearchParams(searchParams);
 
   // Get current user session
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  // Fetch data server-side
-  const [moviesData, participantsList, userParticipant] = await Promise.all([
-    getMamMovies({
-      title,
-      imdb,
-      participants,
-      page,
-      limit,
-    }),
+  // Fetch static data (participants list and user info) - these don't depend on search params
+  const [participantsList, userParticipant] = await Promise.all([
     getMamParticipants(),
     session?.user?.id ? getUserMamParticipant(session.user.id) : null,
   ]);
 
-  const { movies, pagination } = moviesData;
   const hasUserPicks = userParticipant && userParticipant._count.picks > 0;
+
+  // Create a stable key for Suspense based on search params
+  const suspenseKey = JSON.stringify({
+    title: params.title,
+    imdb: params.imdb,
+    participants: params.participants,
+    page: params.page,
+    limit: params.limit,
+  });
 
   return (
     <div className="container mx-auto px-4 pb-8 pt-4">
@@ -53,9 +53,6 @@ export default async function MamPage({ searchParams }: MamPageProps) {
             <p className="text-muted-foreground md:flex hidden">
               A continuación, encontrarás las películas que que hay que ver
               antes de morir.
-              <br />
-              Son {pagination.totalCount} películas seleccionadas por la
-              comunidad.
             </p>
           </div>
           {hasUserPicks && (
@@ -73,40 +70,12 @@ export default async function MamPage({ searchParams }: MamPageProps) {
         <MamMovieFilters participants={participantsList} />
       </div>
 
-      {/* Results Count */}
-      <div className="mb-6">
-        <p className="text-muted-foreground text-sm">
-          Mostrando {movies.length} de {pagination.totalCount} películas
-        </p>
-      </div>
-
-      {/* Movie Grid */}
-      {movies.length === 0 ? (
-        <div className="text-center py-12">
-          <Film className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <h3 className="text-lg font-semibold mb-2">
-            No se encontraron películas
-          </h3>
-          <p className="text-muted-foreground">
-            Intenta ajustar tus criterios de búsqueda o revisa más tarde para
-            nuevas selecciones.
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {movies.map((movie) => (
-            <MamMovieCard key={movie.id} movie={movie} rank={movie.rank} />
-          ))}
-        </div>
-      )}
-
-      {/* Pagination */}
-      <MamPagination
-        currentPage={pagination.page}
-        totalPages={pagination.totalPages}
-        hasPrevPage={pagination.hasPrevPage}
-        hasNextPage={pagination.hasNextPage}
-      />
+      {/* Movie Grid with client-side loading state and Suspense */}
+      <MamMovieGridWrapper initialParams={params}>
+        <Suspense key={suspenseKey} fallback={<MamSkeletonGrid />}>
+          <MamMovieGrid searchParams={params} />
+        </Suspense>
+      </MamMovieGridWrapper>
     </div>
   );
 }

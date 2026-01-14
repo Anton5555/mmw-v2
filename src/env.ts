@@ -4,32 +4,31 @@ import { z } from 'zod';
 export const env = createEnv({
   server: {
     DATABASE_URL: z
-      .string()
       .url()
       .refine(
         (str) => !str.includes('YOUR_MYSQL_URL_HERE'),
-        'You forgot to change the default URL'
+        { error: 'You forgot to change the default URL' }
       ),
     NODE_ENV: z
       .enum(['development', 'test', 'production'])
       .default('development'),
     TMDB_API_KEY: z.string(),
     RESEND_API_KEY: z.string(),
-    APP_URL: z.string().url(),
+    APP_URL: z.url(),
     JWT_SECRET: z.string(),
     VIP_CODE: z.string(),
-    STORAGE_ENDPOINT: z.string().url(),
+    STORAGE_ENDPOINT: z.url(),
     REGION: z.string(),
     STORAGE_ACCESS_KEY: z.string(),
     STORAGE_SECRET_KEY: z.string(),
-    STORAGE_PUBLIC_URL: z.string().url(),
+    STORAGE_PUBLIC_URL: z.url(),
     TELEGRAM_BOT_TOKEN: z.string(),
     TELEGRAM_CHAT_ID: z.string(),
     CRON_SECRET: z.string(),
   },
 
   client: {
-    NEXT_PUBLIC_APP_URL: z.string().url(),
+    NEXT_PUBLIC_APP_URL: z.url(),
   },
 
   runtimeEnv: {
