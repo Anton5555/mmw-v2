@@ -1,4 +1,4 @@
-import { parseAsInteger, parseAsString, createLoader } from 'nuqs/server';
+import { parseAsInteger, parseAsString, parseAsArrayOf, createLoader } from 'nuqs/server';
 
 export const eventsSearchParams = {
   month: parseAsInteger.withDefault(new Date().getMonth() + 1),
@@ -11,7 +11,7 @@ export const loadEventsSearchParams = createLoader(eventsSearchParams);
 export const mamMoviesSearchParams = {
   title: parseAsString.withDefault(''),
   imdb: parseAsString.withDefault(''),
-  participants: parseAsString.withDefault(''), // comma-separated participant slugs
+  participants: parseAsArrayOf(parseAsString).withDefault([]), // array of participant slugs
   page: parseAsInteger.withDefault(1),
   limit: parseAsInteger.withDefault(30),
 };

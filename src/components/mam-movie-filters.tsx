@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +13,10 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Search, Users, X, SlidersHorizontal } from 'lucide-react';
-import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
+import {
+  ParticipantAvatar,
+  getParticipantDisplayName,
+} from './participant-avatar';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
 
 interface Participant {
@@ -33,25 +36,32 @@ interface MamMovieFiltersProps {
 
 function FiltersContent({
   participants,
-  titleInput,
-  setTitleInput,
-  imdbInput,
-  setImdbInput,
-  selectedParticipantSlugs,
-  handleParticipantsChange,
-  selectedParticipants,
-  clearParticipantFilter,
+  params,
+  setParams,
 }: {
   participants: Participant[];
-  titleInput: string;
-  setTitleInput: (value: string) => void;
-  imdbInput: string;
-  setImdbInput: (value: string) => void;
-  selectedParticipantSlugs: string[];
-  handleParticipantsChange: (values: string[]) => void;
-  selectedParticipants: Participant[];
-  clearParticipantFilter: (slug: string) => void;
+  params: {
+    title: string;
+    imdb: string;
+    participants: string[];
+    page: number;
+    limit: number;
+  };
+  setParams: (
+    updates: Partial<{
+      title: string | null;
+      imdb: string | null;
+      participants: string[] | null;
+      page: number;
+      limit: number;
+    }>
+  ) => void;
 }) {
+  // Get selected participants for display
+  const selectedParticipants = participants.filter((p) =>
+    params.participants.includes(p.slug)
+  );
+
   return (
     <div className="space-y-4">
       {/* Search Inputs */}
@@ -60,8 +70,10 @@ function FiltersContent({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Buscar por título..."
-            value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
+            value={params.title}
+            onChange={(e) => {
+              setParams({ title: e.target.value, page: 1 });
+            }}
             className="pl-10"
           />
         </div>
@@ -69,8 +81,10 @@ function FiltersContent({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Buscar por IMDB ID..."
-            value={imdbInput}
-            onChange={(e) => setImdbInput(e.target.value)}
+            value={params.imdb}
+            onChange={(e) => {
+              setParams({ imdb: e.target.value, page: 1 });
+            }}
             className="pl-10"
           />
         </div>
@@ -83,8 +97,10 @@ function FiltersContent({
             value: p.slug,
             label: getParticipantDisplayName(p),
           }))}
-          selected={selectedParticipantSlugs}
-          onChange={handleParticipantsChange}
+          selected={params.participants}
+          onChange={(values) => {
+            setParams({ participants: values, page: 1 });
+          }}
           placeholder="Buscar participantes..."
           emptyMessage="No se encontraron participantes."
           groupLabel="Filtrar por participantes"
@@ -101,12 +117,21 @@ function FiltersContent({
                 className="flex items-center gap-1"
               >
                 <ParticipantAvatar participant={participant} size="sm" />
-                <span className="text-xs">{getParticipantDisplayName(participant)}</span>
+                <span className="text-xs">
+                  {getParticipantDisplayName(participant)}
+                </span>
                 <Button
                   variant="ghost"
                   size="sm"
                   className="h-auto p-0 ml-1"
-                  onClick={() => clearParticipantFilter(participant.slug)}
+                  onClick={() => {
+                    setParams({
+                      participants: params.participants.filter(
+                        (s) => s !== participant.slug
+                      ),
+                      page: 1,
+                    });
+                  }}
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -123,96 +148,15 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
   const { params, setParams } = useMamMoviesParams();
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  // Local state for search inputs (debounced)
-  const [titleInput, setTitleInput] = useState(params.title || '');
-  const [imdbInput, setImdbInput] = useState(params.imdb || '');
-
-  // Track previous params to detect external changes (e.g., browser back/forward)
-  const prevParamsRef = useRef({ title: params.title, imdb: params.imdb });
-  const isInternalUpdateRef = useRef(false);
-
-  // Sync local state with URL params when they change externally
-  useEffect(() => {
-    // Only update if params changed externally (not from our own setParams calls)
-    if (!isInternalUpdateRef.current) {
-      if (prevParamsRef.current.title !== params.title) {
-        setTitleInput(params.title || '');
-      }
-      if (prevParamsRef.current.imdb !== params.imdb) {
-        setImdbInput(params.imdb || '');
-      }
-    }
-    isInternalUpdateRef.current = false;
-    prevParamsRef.current = { title: params.title, imdb: params.imdb };
-  }, [params.title, params.imdb]);
-
-  // Get current participants
-  const selectedParticipantSlugs = params.participants
-    ? params.participants.split(',').filter(Boolean)
-    : [];
-
-  const selectedParticipants = participants.filter((p) =>
-    selectedParticipantSlugs.includes(p.slug)
-  );
-
-  // Debounced search effect for title
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      isInternalUpdateRef.current = true;
-      setParams({
-        title: titleInput || null,
-        page: 1, // Reset to first page when filtering
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [titleInput, setParams]);
-
-  // Debounced search effect for imdb
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      isInternalUpdateRef.current = true;
-      setParams({
-        imdb: imdbInput || null,
-        page: 1, // Reset to first page when filtering
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [imdbInput, setParams]);
-
-  const handleParticipantsChange = (values: string[]) => {
-    setParams({
-      participants: values.length > 0 ? values.join(',') : null,
-      page: 1, // Reset to first page when filtering
-    });
-  };
-
-  const clearParticipantFilter = (slug: string) => {
-    const currentSlugs = selectedParticipantSlugs.filter((s) => s !== slug);
-    setParams({
-      participants: currentSlugs.length > 0 ? currentSlugs.join(',') : null,
-      page: 1, // Reset to first page when filtering
-    });
-  };
-
   // Count active filters for badge
   const activeFiltersCount =
-    (titleInput ? 1 : 0) +
-    (imdbInput ? 1 : 0) +
-    selectedParticipantSlugs.length;
+    (params.title ? 1 : 0) + (params.imdb ? 1 : 0) + params.participants.length;
 
   const filtersContent = (
     <FiltersContent
       participants={participants}
-      titleInput={titleInput}
-      setTitleInput={setTitleInput}
-      imdbInput={imdbInput}
-      setImdbInput={setImdbInput}
-      selectedParticipantSlugs={selectedParticipantSlugs}
-      handleParticipantsChange={handleParticipantsChange}
-      selectedParticipants={selectedParticipants}
-      clearParticipantFilter={clearParticipantFilter}
+      params={params}
+      setParams={setParams}
     />
   );
 
@@ -226,7 +170,10 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
               <SlidersHorizontal className="mr-2 h-4 w-4" />
               Filtros
               {activeFiltersCount > 0 && (
-                <Badge variant="secondary" className="ml-2 px-1.5 py-0.5 text-xs">
+                <Badge
+                  variant="secondary"
+                  className="ml-2 px-1.5 py-0.5 text-xs"
+                >
                   {activeFiltersCount}
                 </Badge>
               )}
