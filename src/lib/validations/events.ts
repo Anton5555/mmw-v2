@@ -32,3 +32,13 @@ export const createEventSchema = z
   );
 
 export type CreateEventFormValues = z.infer<typeof createEventSchema>;
+
+export const updateEventSchema = createEventSchema;
+
+export type UpdateEventFormValues = z.infer<typeof updateEventSchema>;
+
+export const deleteEventSchema = z.object({
+  id: z.string(),
+});
+
+export type DeleteEventFormValues = z.infer<typeof deleteEventSchema>;
