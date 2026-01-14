@@ -104,7 +104,7 @@ export function MamMovieCard({
           )}
 
           {/* Movie Poster */}
-          <div className="aspect-[2/3] relative overflow-hidden rounded-t-lg">
+          <div className="aspect-2/3 relative overflow-hidden rounded-t-lg">
             <Link href={`/mam/movie/${movie.id}`}>
               {movie.posterUrl ? (
                 <Image

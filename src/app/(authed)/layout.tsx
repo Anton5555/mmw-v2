@@ -1,21 +1,25 @@
+import { Suspense } from 'react';
+import { connection } from 'next/server';
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+// Separate component to fetch user data (wrapped in Suspense)
+async function AuthenticatedLayoutContent({ children }: { children: React.ReactNode }) {
+  await connection();
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user) {
-    return redirect('/sign-in');
+    // This shouldn't happen due to proxy, but handle it gracefully
+    return <div>Unauthorized</div>;
   }
 
-  const user = session?.user;
+  const user = session.user;
 
   return (
     <SidebarProvider>
@@ -33,6 +37,18 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         </BreadcrumbProvider>
       </SidebarInset>
     </SidebarProvider>
+  );
+}
+
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div>Loading...</div>
+      </div>
+    }>
+      <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
+    </Suspense>
   );
 };
 

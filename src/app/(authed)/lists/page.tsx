@@ -53,7 +53,7 @@ export default async function ListsPage() {
                       {list.name}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="mt-2 flex-grow p-0">
+                  <CardContent className="mt-2 grow p-0">
                     <p className="text-sm text-white/90">{list.description}</p>
                   </CardContent>
                   <div className="mt-auto pt-2">

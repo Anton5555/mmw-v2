@@ -17,7 +17,7 @@ export default async function CalendarPage() {
     <div className="container mx-auto lg:px-4 pb-8 pt-4">
       <div className="lg:grid lg:grid-cols-4 lg:gap-6">
         <div className="lg:col-span-1 mb-6 lg:mb-0">
-          <div className="hidden lg:block bg-card rounded-lg border shadow-sm p-6 h-full">
+          <div className="hidden lg:block bg-card rounded-lg border shadow-xs p-6 h-full">
             <NextEvents events={nextEvents} />
           </div>
 
@@ -47,7 +47,7 @@ export default async function CalendarPage() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-4 items-center justify-center bg-card p-4 rounded-lg shadow-sm mt-6">
+      <div className="flex flex-wrap gap-4 items-center justify-center bg-card p-4 rounded-lg shadow-xs mt-6">
         {Object.entries(EVENT_COLORS).map(([type, color]) => (
           <div key={type} className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-full', `bg-${color}`)} />

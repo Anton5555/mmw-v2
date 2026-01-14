@@ -176,23 +176,20 @@ function Calendar({
   yearRange = 5,
   ...props
 }: CalendarProps & { yearRange?: number }) {
-  const MONTHS = React.useMemo(() => {
-    let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = es;
+  let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = es;
 
-    const { options, localize, formatLong } = props.locale || {};
+  const { options, localize, formatLong } = props.locale || {};
 
-    if (options && localize && formatLong) {
-      locale = {
-        options,
-        localize,
-        formatLong,
-      };
-    }
+  if (options && localize && formatLong) {
+    locale = {
+      options,
+      localize,
+      formatLong,
+    };
+  }
 
-    return genMonths(locale);
-  }, []);
-
-  const YEARS = React.useMemo(() => genYears(yearRange), []);
+  const MONTHS = genMonths(locale);
+  const YEARS = genYears(yearRange);
 
   const disableLeftNavigation = () => {
     const today = new Date();
@@ -376,9 +373,7 @@ const TimePickerInput = React.forwardRef<
       }
     }, [flag]);
 
-    const calculatedValue = React.useMemo(() => {
-      return getDateByType(date, picker);
-    }, [date, picker]);
+    const calculatedValue = getDateByType(date, picker);
 
     const calculateNewValue = (key: string) =>
       !flag ? `0${key}` : calculatedValue.slice(1, 2) + key;

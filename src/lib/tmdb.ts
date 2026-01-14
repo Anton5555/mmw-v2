@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import { env } from '@/env';
 
 export interface TMDBMovieResponse {
@@ -19,6 +20,8 @@ const movieValidator = (movie: TMDBMovieResponse) => {
 };
 
 export async function getMovieById(imdbId: string) {
+  "use cache";
+  cacheLife('hours'); // Movie data from TMDB doesn't change frequently
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/find/${imdbId}?api_key=${env.TMDB_API_KEY}&external_source=imdb_id`
@@ -73,6 +76,8 @@ export interface MovieDetails {
  * Get movie details (director and genre) from TMDB by TMDB movie ID
  */
 export async function getMovieDetails(tmdbId: number): Promise<MovieDetails | null> {
+  "use cache";
+  cacheLife('hours'); // Movie details from TMDB don't change frequently
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${env.TMDB_API_KEY}&append_to_response=credits`

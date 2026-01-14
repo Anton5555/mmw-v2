@@ -62,11 +62,11 @@ export function MamMovieDetail({
   const getRankBadgeStyle = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-white shadow-lg';
+        return 'bg-linear-to-br from-yellow-400 to-yellow-600 text-white shadow-lg';
       case 2:
-        return 'bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg';
+        return 'bg-linear-to-br from-gray-300 to-gray-500 text-white shadow-lg';
       case 3:
-        return 'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-lg';
+        return 'bg-linear-to-br from-amber-400 to-amber-600 text-white shadow-lg';
       default:
         return 'bg-muted text-muted-foreground';
     }
@@ -104,7 +104,7 @@ export function MamMovieDetail({
           transition={{ duration: 0.5 }}
           className="relative"
         >
-          <div className="aspect-[2/3] relative overflow-hidden rounded-lg shadow-xl ring-2 ring-border">
+          <div className="aspect-2/3 relative overflow-hidden rounded-lg shadow-xl ring-2 ring-border">
             {movie.posterUrl ? (
               <Image
                 src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}

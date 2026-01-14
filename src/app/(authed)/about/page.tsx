@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description: 'Sobre nosotros',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Sobre nosotros</h1>

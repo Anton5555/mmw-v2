@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useCallback, useMemo, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   getMonth,
   getYear,
@@ -68,7 +68,7 @@ const DayContent = ({
             />
           ))}
           {events.length > 3 && (
-            <span className="text-[10px] leading-none flex items-center lg:text-xs text-muted-foreground font-medium translate-y-[1px]">
+            <span className="text-[10px] leading-none flex items-center lg:text-xs text-muted-foreground font-medium translate-y-px">
               +{events.length - 3}
             </span>
           )}
@@ -149,19 +149,17 @@ export function EventsCalendar({
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const initDate = useMemo(() => {
-    const now = new Date();
-    const initialMonth = monthParam ? monthParam - 1 : now.getMonth();
-    const initialYear = yearParam ? yearParam : now.getFullYear();
-    const initialDate = new Date(initialYear, initialMonth);
-    return new TZDate(initialDate, timezone);
-  }, [monthParam, yearParam, timezone]);
+  const now = new Date();
+  const initialMonth = monthParam ? monthParam - 1 : now.getMonth();
+  const initialYear = yearParam ? yearParam : now.getFullYear();
+  const initialDate = new Date(initialYear, initialMonth);
+  const initDateValue = new TZDate(initialDate, timezone);
 
-  const [month, setMonth] = useState<Date>(initDate);
+  const [month, setMonth] = useState<Date>(initDateValue);
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
 
-  const fetchEvents = useCallback(() => {
+  const fetchEvents = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
 
     setIsLoading(true);
@@ -186,7 +184,7 @@ export function EventsCalendar({
         setIsLoading(false);
       }
     }, 300);
-  }, [month]);
+  };
 
   useEffect(() => {
     fetchEvents();
@@ -196,7 +194,7 @@ export function EventsCalendar({
         clearTimeout(timerRef.current);
       }
     };
-  }, [fetchEvents]);
+  }, [month]);
 
   useEffect(() => {
     const monthNumber = getMonth(month) + 1;
@@ -205,26 +203,17 @@ export function EventsCalendar({
     setEventsParams({ month: monthNumber, year: yearNumber });
   }, [month, setEventsParams]);
 
-  const endMonth = useMemo(() => {
-    return setYear(month, getYear(month) + 1);
-  }, [month]);
+  const endMonth = setYear(month, getYear(month) + 1);
+  const minDate = min ? new TZDate(min, timezone) : undefined;
+  const maxDate = max ? new TZDate(max, timezone) : undefined;
 
-  const minDate = useMemo(
-    () => (min ? new TZDate(min, timezone) : undefined),
-    [min, timezone]
-  );
-  const maxDate = useMemo(
-    () => (max ? new TZDate(max, timezone) : undefined),
-    [max, timezone]
-  );
-
-  const onNextMonth = useCallback(() => {
+  const onNextMonth = () => {
     setMonth(addMonths(month, 1));
-  }, [month]);
+  };
 
-  const onPrevMonth = useCallback(() => {
+  const onPrevMonth = () => {
     setMonth(subMonths(month, 1));
-  }, [month]);
+  };
 
   const handleMonthChange = (value: string) => {
     const newMonth = parseInt(value, 10);
@@ -257,10 +246,10 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-sm relative">
+    <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-xs relative">
       {/* Loading overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-xs z-10 flex items-center justify-center rounded-lg">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="text-muted-foreground">Cargando eventos...</p>
@@ -404,6 +393,7 @@ export function EventsCalendar({
         selectedDate={selectedDate}
         open={isCreateEventOpen}
         onOpenChange={setIsCreateEventOpen}
+        onEventCreated={fetchEvents}
       />
     </div>
   );

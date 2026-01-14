@@ -17,7 +17,6 @@ import {
   endOfYear,
   setYear,
 } from 'date-fns';
-import { useMemo } from 'react';
 
 type MonthYearPickerProps = {
   month: Date;
@@ -34,44 +33,38 @@ export function MonthYearPicker({
   minDate,
   maxDate,
 }: MonthYearPickerProps) {
-  const months = useMemo(() => {
-    const months = [];
-    for (let i = 0; i < 12; i++) {
-      let disabled = false;
-      const startM = startOfMonth(setMonthFns(month, i));
-      const endM = endOfMonth(setMonthFns(month, i));
+  const months = [];
+  for (let i = 0; i < 12; i++) {
+    let disabled = false;
+    const startM = startOfMonth(setMonthFns(month, i));
+    const endM = endOfMonth(setMonthFns(month, i));
 
-      if (minDate && endM < minDate) disabled = true;
-      if (maxDate && startM > maxDate) disabled = true;
+    if (minDate && endM < minDate) disabled = true;
+    if (maxDate && startM > maxDate) disabled = true;
 
-      months.push({
-        value: i,
-        label: format(new Date(0, i), 'MMMM', { locale: es }),
-        disabled,
-      });
-    }
-    return months;
-  }, [month, minDate, maxDate]);
+    months.push({
+      value: i,
+      label: format(new Date(0, i), 'MMMM', { locale: es }),
+      disabled,
+    });
+  }
 
-  const years = useMemo(() => {
-    const years = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = currentYear; i <= currentYear + 5; i++) {
-      let disabled = false;
-      const startY = startOfYear(setYear(month, i));
-      const endY = endOfYear(setYear(month, i));
+  const years = [];
+  const currentYear = new Date().getFullYear();
+  for (let i = currentYear; i <= currentYear + 5; i++) {
+    let disabled = false;
+    const startY = startOfYear(setYear(month, i));
+    const endY = endOfYear(setYear(month, i));
 
-      if (minDate && endY < minDate) disabled = true;
-      if (maxDate && startY > maxDate) disabled = true;
+    if (minDate && endY < minDate) disabled = true;
+    if (maxDate && startY > maxDate) disabled = true;
 
-      years.push({
-        value: i,
-        label: i.toString(),
-        disabled,
-      });
-    }
-    return years;
-  }, [month, minDate, maxDate]);
+    years.push({
+      value: i,
+      label: i.toString(),
+      disabled,
+    });
+  }
 
   return (
     <div className="text-md font-bold ms-2 flex items-center gap-2">

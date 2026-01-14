@@ -28,11 +28,14 @@
  *
  * Then run again without `--dry-run` to apply changes.
  */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 import { parse as parseCsv } from 'csv-parse/sync';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as process from 'process';
+import 'dotenv/config';
 import { promisify } from 'util';
 
 const writeFileAsync = promisify(fs.writeFile);
@@ -503,7 +506,13 @@ async function main() {
   console.log('');
 
   // Everything up to here completes the first todo (parsing + rank map).
-  const prisma = new PrismaClient();
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error('DATABASE_URL environment variable is not set');
+  }
+  const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
+  const prisma = new PrismaClient({ adapter });
 
   try {
     // The rest is handled in next todo (DB join + updates)

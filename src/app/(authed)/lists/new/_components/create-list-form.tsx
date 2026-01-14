@@ -117,7 +117,7 @@ export function CreateListForm() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {moviePreviews.map((movie) => (
               <div key={movie.imdbId} className="space-y-2">
-                <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
+                <div className="relative aspect-2/3 overflow-hidden rounded-lg">
                   <Image
                     src={movie.posterUrl}
                     alt={movie.title}

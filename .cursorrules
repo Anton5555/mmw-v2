@@ -9,7 +9,8 @@ Implement server-side rendering or static generation where appropriate for SEO b
 React Best Practices:
 
 Use functional components and hooks instead of class components for better code organization
-Implement proper use of React.memo and useMemo for performance optimization
+With React Compiler enabled (Next.js 16+), avoid manual memoization (React.memo, useMemo, useCallback) - the compiler handles optimizations automatically
+Only use manual memoization if profiling indicates a specific performance bottleneck
 Follow the React hooks rules strictly to avoid common pitfalls
 Utilize context API or state management libraries for global state management
 Implement proper prop type validation for better code maintainability and error catching
