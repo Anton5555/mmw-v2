@@ -53,26 +53,45 @@ export function EditEventSheet({
     const month = event.month - 1;
     const day = event.day;
     const date = new Date(year, month, day);
-    
+
     if (event.time) {
       date.setHours(event.time.getHours());
       date.setMinutes(event.time.getMinutes());
     }
-    
+
     return date;
+  };
+
+  // Helper to get default values based on event type
+  const getDefaultValues = (): UpdateEventFormValues => {
+    const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(event.type);
+
+    if (isDateOnlyEvent) {
+      return {
+        title: event.title,
+        description: event.description || '',
+        type: event.type as 'BIRTHDAY' | 'ANNIVERSARY',
+        month: event.month,
+        day: event.day,
+        year: undefined,
+        time: undefined,
+      };
+    } else {
+      return {
+        title: event.title,
+        description: event.description || '',
+        type: event.type as 'DISCORD' | 'IN_PERSON' | 'OTHER',
+        month: event.month,
+        day: event.day,
+        year: event.year ?? undefined,
+        time: event.time ?? undefined,
+      };
+    }
   };
 
   const form = useForm<UpdateEventFormValues>({
     resolver: zodResolver(updateEventSchema),
-    defaultValues: {
-      title: event.title,
-      description: event.description || '',
-      type: event.type,
-      month: event.month,
-      day: event.day,
-      year: event.year,
-      time: event.time || undefined,
-    },
+    defaultValues: getDefaultValues(),
   });
 
   const eventType = form.watch('type');
@@ -85,15 +104,29 @@ export function EditEventSheet({
     }
 
     // Reset form with event data when opening
-    form.reset({
-      title: event.title,
-      description: event.description || '',
-      type: event.type,
-      month: event.month,
-      day: event.day,
-      year: event.year,
-      time: event.time || undefined,
-    });
+    const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(event.type);
+
+    if (isDateOnlyEvent) {
+      form.reset({
+        title: event.title,
+        description: event.description || '',
+        type: event.type as 'BIRTHDAY' | 'ANNIVERSARY',
+        month: event.month,
+        day: event.day,
+        year: undefined,
+        time: undefined,
+      });
+    } else {
+      form.reset({
+        title: event.title,
+        description: event.description || '',
+        type: event.type as 'DISCORD' | 'IN_PERSON' | 'OTHER',
+        month: event.month,
+        day: event.day,
+        year: event.year ?? undefined,
+        time: event.time ?? undefined,
+      });
+    }
   }, [open, event, form]);
 
   const onSubmit = async (data: UpdateEventFormValues) => {
