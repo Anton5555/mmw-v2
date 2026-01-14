@@ -180,22 +180,6 @@ export function MamMovieCard({
             )}
           </div>
 
-          {/* User Pick Score (when showing review mode) */}
-          {showReview && userPick && (
-            <div className="flex items-center justify-between mb-2">
-              <Badge
-                variant="secondary"
-                className={`text-xs font-semibold ${
-                  userPick.score === 5
-                    ? 'bg-yellow-600 text-white'
-                    : 'bg-muted text-muted-foreground'
-                }`}
-              >
-                {userPick.score} {userPick.score === 1 ? 'pt' : 'pts'}
-              </Badge>
-            </div>
-          )}
-
           {/* Review Dialog Trigger */}
           {showReview && userPick?.review && (
             <div className="mt-2">
