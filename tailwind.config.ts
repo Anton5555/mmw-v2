@@ -28,6 +28,12 @@ export default {
         aurora: 'aurora 60s linear infinite',
         collapse: 'collapse 0.2s ease-out',
         expand: 'expand 0.2s ease-out',
+        shimmer: 'shimmer 2s infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'breadcrumb-fade': 'breadcrumb-fade 0.4s ease-out',
+      },
+      backgroundImage: {
+        'glass-gradient': 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0))',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -88,4 +94,17 @@ export default {
       },
     },
   },
+  plugins: [
+    // Adds the perspective utilities
+    function ({ addUtilities }: { addUtilities: (utilities: Record<string, Record<string, string>>) => void }) {
+      addUtilities({
+        '.perspective-1000': {
+          perspective: '1000px',
+        },
+        '.preserve-3d': {
+          transformStyle: 'preserve-3d',
+        },
+      });
+    },
+  ],
 } satisfies Config;

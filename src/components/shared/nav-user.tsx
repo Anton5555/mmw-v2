@@ -53,71 +53,62 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="h-14 rounded-xl border border-white/5 bg-zinc-900/50 hover:bg-zinc-900 transition-all shadow-xl"
               >
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="h-9 w-9 rounded-lg border border-white/10 ring-2 ring-black">
                   <AvatarImage src={user.image ?? undefined} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {user.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')
-                      .toUpperCase()}
+                  <AvatarFallback className="bg-zinc-800 text-xs">
+                    {user.name.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
 
                 {state === 'expanded' && (
-                  <>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {user.name}
-                      </span>
-                      <span className="truncate text-xs">{user.email}</span>
-                    </div>
-                    <ChevronsUpDown className="ml-auto h-4 w-4" />
-                  </>
+                  <div className="ml-2 flex flex-1 flex-col items-start leading-tight">
+                    <span className="truncate text-sm font-bold text-zinc-100">
+                      {user.name}
+                    </span>
+                    <span className="truncate text-[10px] text-zinc-500 uppercase tracking-tighter">
+                      Socio Premium
+                    </span>
+                  </div>
                 )}
+                <ChevronsUpDown className="ml-auto h-4 w-4 text-zinc-600" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-              side={state === 'collapsed' ? 'right' : 'bottom'}
+              className="w-64 rounded-xl bg-zinc-950 border-white/10 shadow-2xl p-2"
+              side={state === 'collapsed' ? 'right' : 'top'}
               align="end"
-              sideOffset={4}
+              sideOffset={12}
             >
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage
-                      src={user.image ?? undefined}
-                      alt={user.name}
-                    />
-                    <AvatarFallback className="rounded-lg">
-                      {user.name
-                        .split(' ')
-                        .map((n) => n[0])
-                        .join('')
-                        .toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
-                  </div>
+              {/* Dropdown content styled like a cinema menu */}
+              <DropdownMenuLabel className="font-normal px-2 py-3">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-bold leading-none text-white">
+                    {user.name}
+                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user.email}
+                  </p>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-white/5" />
               <DropdownMenuGroup>
-                <DropdownMenuItem onClick={() => setIsProfileOpen(true)}>
+                <DropdownMenuItem
+                  className="rounded-lg focus:bg-white/10"
+                  onClick={() => setIsProfileOpen(true)}
+                >
                   <UserIcon className="mr-2 h-4 w-4" />
-                  Editar perfil
+                  Cuenta y Perfil
                 </DropdownMenuItem>
               </DropdownMenuGroup>
-
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
+              <DropdownMenuSeparator className="bg-white/5" />
+              <DropdownMenuItem
+                className="rounded-lg text-red-400 focus:bg-red-500/10 focus:text-red-400"
+                onClick={handleLogout}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
-                Cerrar sesión
+                Salir del Cine
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

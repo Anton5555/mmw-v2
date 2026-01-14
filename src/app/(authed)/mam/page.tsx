@@ -47,7 +47,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
         <div className="relative mb-12 pt-8 text-center md:text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
                 Míralas Antes de Morir
               </h1>
               <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
@@ -58,10 +58,15 @@ export default async function MamPage({ searchParams }: MamPageProps) {
             {hasUserPicks && (
               <Button
                 asChild
-                size="lg"
-                className="rounded-full px-8 shadow-xl hover:scale-105 transition-transform"
+                className="relative overflow-hidden group rounded-full bg-white text-black hover:bg-white px-8 h-12"
               >
-                <Link href="/mam/my-list">Mi Lista Personal</Link>
+                <Link href="/mam/my-list">
+                  <span className="relative z-10 font-bold tracking-tight group-hover:text-white transition-colors duration-300">
+                    Mi Lista Personal
+                  </span>
+                  {/* Animated background on hover */}
+                  <div className="absolute inset-0 bg-linear-to-r from-yellow-400 to-orange-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                </Link>
               </Button>
             )}
           </div>

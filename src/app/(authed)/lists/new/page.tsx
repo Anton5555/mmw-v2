@@ -15,13 +15,6 @@ export default async function NewListPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Crear nueva lista</h1>
-          <p className="mt-2 text-muted-foreground">
-            Ingresa los detalles de la lista y los IDs de IMDB de las películas.
-          </p>
-        </div>
-
         <CreateListForm />
       </div>
     </div>
