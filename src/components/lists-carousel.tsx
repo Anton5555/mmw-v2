@@ -4,7 +4,12 @@ import { List } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from './ui/carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from './ui/carousel';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -22,19 +27,19 @@ export const ListsCarousel = ({
 
   useEffect(() => {
     if (!api) return;
-    
+
     const updateCurrent = () => {
       setCurrent(api.selectedScrollSnap());
     };
-    
+
     // Set initial state
     updateCurrent();
-    
+
     // Subscribe to changes
-    api.on("select", updateCurrent);
-    
+    api.on('select', updateCurrent);
+
     return () => {
-      api.off("select", updateCurrent);
+      api.off('select', updateCurrent);
     };
   }, [api]);
 
@@ -73,7 +78,7 @@ export const ListsCarousel = ({
                   fill
                   priority={index === 0}
                 />
-                
+
                 {/* Sophisticated Cinematic Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/80 via-transparent to-transparent hidden md:block" />
@@ -89,7 +94,10 @@ export const ListsCarousel = ({
                     </h2>
                     <div className="flex flex-wrap items-center gap-4">
                       <Link href={`/lists/${list.id}`}>
-                        <Button size="lg" className="h-14 bg-white px-8 text-black hover:bg-yellow-500 hover:text-black font-bold uppercase italic shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                        <Button
+                          size="lg"
+                          className="h-14 bg-white px-8 text-black hover:bg-yellow-500 hover:text-black font-bold uppercase italic shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                        >
                           <Play className="mr-2 h-5 w-5 fill-current" />
                           Ver Lista
                         </Button>
@@ -110,8 +118,10 @@ export const ListsCarousel = ({
             key={i}
             onClick={() => api?.scrollTo(i)}
             className={cn(
-              "h-1 rounded-full transition-all duration-300",
-              current === i ? "w-8 bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]" : "w-2 bg-white/20 hover:bg-white/40"
+              'h-1 rounded-full transition-all duration-300',
+              current === i
+                ? 'w-8 bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]'
+                : 'w-2 bg-white/20 hover:bg-white/40'
             )}
           />
         ))}

@@ -29,11 +29,17 @@ export default async function Home({
               <Sparkles className="h-4 w-4 text-yellow-500" />
               Próximos Eventos
             </h2>
-            <p className="text-2xl font-black italic uppercase tracking-tighter">Agenda de la Comunidad</p>
+            <p className="text-2xl font-black italic uppercase tracking-tighter">
+              Agenda de la Comunidad
+            </p>
           </div>
 
           <Link href="/calendar">
-            <Button variant="ghost" size="sm" className="group text-zinc-400 hover:text-white">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="group text-zinc-400 hover:text-white"
+            >
               <Calendar className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
               Ver Calendario Completo
             </Button>
@@ -45,7 +51,9 @@ export default async function Home({
             <NextEvents events={nextEvents} showTitle={false} />
           ) : (
             <div className="py-12 text-center">
-              <p className="text-lg font-medium text-zinc-400">No hay eventos próximos en el radar.</p>
+              <p className="text-lg font-medium text-zinc-400">
+                No hay eventos próximos en el radar.
+              </p>
               <p className="mt-2 text-sm text-zinc-600 italic">
                 Crea un nuevo evento desde el calendario para empezar.
               </p>
