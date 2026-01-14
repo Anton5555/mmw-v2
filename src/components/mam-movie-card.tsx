@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
@@ -12,14 +12,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { getParticipantDisplayName } from './participant-avatar';
-import { Users, Film, Star } from 'lucide-react';
+import { ParticipantAvatar } from './participant-avatar';
+import { Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
 interface MamMovieCardProps {
@@ -42,161 +36,132 @@ export function MamMovieCard({
 
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
-  const getRankStyle = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return 'bg-yellow-500 text-white';
-      case 2:
-        return 'bg-gray-400 text-white';
-      case 3:
-        return 'bg-amber-500 text-white';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
-  };
+  const isTop3 = rank && rank <= 3;
 
-  const getCardStyle = (rank?: number) => {
-    if (rank && rank <= 3) {
-      return 'ring-2 ring-primary/20';
-    }
-    return '';
-  };
+  const rankConfig = rank
+    ? {
+        1: {
+          color: 'from-yellow-400 to-amber-600',
+          shadow: 'shadow-yellow-500/20',
+          label: 'Imprescindible',
+        },
+        2: {
+          color: 'from-slate-300 to-slate-500',
+          shadow: 'shadow-slate-400/20',
+          label: 'Obra Maestra',
+        },
+        3: {
+          color: 'from-orange-400 to-orange-700',
+          shadow: 'shadow-orange-500/20',
+          label: 'Destacada',
+        },
+      }[rank] || {
+        color: 'from-zinc-700 to-zinc-900',
+        shadow: 'shadow-black/20',
+        label: null,
+      }
+    : {
+        color: 'from-zinc-700 to-zinc-900',
+        shadow: 'shadow-black/20',
+        label: null,
+      };
 
   return (
-    <Card
-      className={`group hover:shadow-lg transition-all duration-300 ${getCardStyle(
-        rank
-      )}`}
-    >
-      <CardContent className="p-0">
-        <div className="relative">
-          {/* Rank Badge */}
-          {rank && (
-            <div className="absolute top-2 left-2 z-10">
-              <Badge
-                className={`px-2 py-1 font-bold text-xs ${getRankStyle(rank)}`}
-              >
-                #{rank}
-              </Badge>
-            </div>
-          )}
-
-          {/* Points Badge */}
-          {movie.totalPoints !== undefined && movie.totalPoints > 0 && (
-            <div className="absolute top-2 right-2 z-10">
-              <Badge
-                variant="secondary"
-                className="bg-black/80 text-white border-0 px-2 py-1 text-xs font-semibold"
-              >
-                {movie.totalPoints}
-              </Badge>
-            </div>
-          )}
-
-          {/* 5-Point Top Pick Badge */}
-          {showReview && userPick?.score === 5 && (
-            <div className="absolute top-2 right-2 z-10">
-              <Badge className="bg-yellow-500 text-white border-0 px-2 py-1 text-xs font-semibold flex items-center gap-1">
-                <Star className="h-3 w-3 fill-white" />
-                <span>Top Pick</span>
-              </Badge>
-            </div>
-          )}
-
-          {/* Movie Poster */}
-          <div className="aspect-2/3 relative overflow-hidden rounded-t-lg">
-            <Link href={`/mam/movie/${movie.id}`}>
-              {movie.posterUrl ? (
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
-                  alt={movie.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                />
-              ) : (
-                <div className="w-full h-full bg-muted flex items-center justify-center">
-                  <Film className="h-12 w-12 text-muted-foreground" />
-                </div>
-              )}
-            </Link>
-          </div>
-        </div>
-
-        {/* Movie Info */}
-        <div className="p-2">
-          <Link href={`/mam/movie/${movie.id}`}>
-            <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 hover:text-primary transition-colors">
-              {movie.originalLanguage === 'es'
-                ? movie.originalTitle
-                : movie.title}
-            </h3>
-          </Link>
-
-          <div className="flex items-center flex-row justify-between">
-            <span className="text-xs text-muted-foreground">
-              {new Date(movie.releaseDate).getFullYear()}
-            </span>
-
-            {/* Participants - Compact version (only show if not showing user review) */}
-            {!showReview && (
-              <div className="flex items-center justify-end">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div className="flex items-center gap-0.5 cursor-pointer">
-                        <Users className="h-3 w-3" />
-                        <span className="text-xs text-muted-foreground">
-                          {movie.totalPicks}
-                        </span>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="top"
-                      className="max-w-xs p-3 bg-popover text-popover-foreground border"
-                    >
-                      <div className="space-y-1.5">
-                        <div className="text-xs font-semibold mb-2">
-                          Participantes ({movie.picks.length})
-                        </div>
-                        {movie.picks.map((pick) => (
-                          <div
-                            key={pick.id}
-                            className="flex items-center justify-between text-xs"
-                          >
-                            <span className="font-medium">
-                              {getParticipantDisplayName(pick.participant)}
-                            </span>
-                            <span className="text-muted-foreground ml-2">
-                              {pick.score}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+    <div className="relative group">
+      <div
+        className={cn(
+          'relative overflow-hidden border-0 bg-transparent transition-all duration-500 ease-out',
+          'group-hover:z-30 group-hover:-translate-y-2 group-hover:scale-[1.05]'
+        )}
+      >
+        {/* The Poster Layer */}
+        <Link href={`/mam/movie/${movie.id}`} className="block">
+          <div className="aspect-[2/3] relative rounded-xl overflow-hidden shadow-2xl">
+            {movie.posterUrl ? (
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
+                alt={displayTitle}
+                fill
+                className="object-cover transition-all duration-700 group-hover:brightness-50 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              />
+            ) : (
+              <div className="w-full h-full bg-muted flex items-center justify-center">
+                <Film className="h-12 w-12 text-muted-foreground" />
               </div>
             )}
-          </div>
 
-          {/* Review Dialog Trigger */}
-          {showReview && userPick?.review && (
-            <div className="mt-2">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIsDialogOpen(true);
-                }}
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors w-full text-left"
+            {/* Rank Badge - Minimalist style */}
+            {rank && (
+              <div
+                className={cn(
+                  'absolute top-0 left-0 w-12 h-12 flex items-center justify-center font-black text-lg',
+                  'bg-gradient-to-br text-white rounded-br-xl shadow-lg z-10 pointer-events-none',
+                  rankConfig.color
+                )}
               >
-                <span>Mostrar reseña</span>
-              </button>
+                {rank}
+              </div>
+            )}
+
+            {/* Hover Overlay: Reveal metadata */}
+            <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="bg-white/10 backdrop-blur-md border-white/20 text-white"
+                  >
+                    <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+                    {movie.totalPoints ?? 0} pts
+                  </Badge>
+                </div>
+                <p className="text-[10px] text-zinc-300 line-clamp-3 leading-tight italic">
+                  &quot;{movie.picks[0]?.review || 'Sin reseña destacada'}&quot;
+                </p>
+              </div>
             </div>
-          )}
+          </div>
+        </Link>
+
+        {/* Title Layer - Outside the poster for readability */}
+        <div className="mt-3 px-1">
+          <Link href={`/mam/movie/${movie.id}`}>
+            <h3 className="font-bold text-sm tracking-tight truncate group-hover:text-primary transition-colors">
+              {displayTitle}
+            </h3>
+          </Link>
+          <div className="flex justify-between items-center mt-1">
+            <span className="text-[11px] font-medium text-muted-foreground">
+              {new Date(movie.releaseDate).getFullYear()}
+            </span>
+            <div className="flex -space-x-2">
+              {movie.picks.slice(0, 3).map((pick, i) => (
+                <div
+                  key={pick.id}
+                  className="w-5 h-5 rounded-full border-2 border-background overflow-hidden"
+                >
+                  <ParticipantAvatar
+                    participant={pick.participant}
+                    size="sm"
+                    className="w-full h-full"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </CardContent>
+      </div>
+
+      {/* Background Glow Effect */}
+      <div
+        className={cn(
+          'absolute inset-0 -z-10 bg-gradient-to-br opacity-0',
+          'group-hover:opacity-15 blur-2xl transition-opacity duration-500 rounded-full',
+          rankConfig.color,
+          rankConfig.shadow
+        )}
+      />
 
       {/* Review Dialog */}
       {showReview && userPick?.review && (
@@ -217,6 +182,6 @@ export function MamMovieCard({
           </DialogContent>
         </Dialog>
       )}
-    </Card>
+    </div>
   );
 }

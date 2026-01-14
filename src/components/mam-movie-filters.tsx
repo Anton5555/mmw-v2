@@ -188,8 +188,50 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
         </Sheet>
       </div>
 
-      {/* Desktop: Show filters inline */}
-      <div className="hidden md:block">{filtersContent}</div>
+      {/* Desktop: Floating Glassmorphism Filter Bar */}
+      <div className="sticky top-4 z-50 mb-12 hidden md:block">
+        <div className="p-2 bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-4 px-6">
+          <Search className="w-5 h-5 text-muted-foreground shrink-0" />
+          <div className="flex-1 flex items-center gap-4">
+            <Input
+              placeholder="Buscar por título..."
+              value={params.title}
+              onChange={(e) => {
+                setParams({ title: e.target.value, page: 1 });
+              }}
+              className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-500 h-8"
+            />
+            {activeFiltersCount > 0 && (
+              <>
+                <div className="h-6 w-[1px] bg-white/10" />
+                <Badge
+                  variant="secondary"
+                  className="px-2 py-0.5 text-xs shrink-0"
+                >
+                  {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''}
+                </Badge>
+              </>
+            )}
+          </div>
+          <div className="h-6 w-[1px] bg-white/10" />
+          <div className="shrink-0">
+            <FilterCombobox
+              options={participants.map((p) => ({
+                value: p.slug,
+                label: getParticipantDisplayName(p),
+              }))}
+              selected={params.participants}
+              onChange={(values) => {
+                setParams({ participants: values, page: 1 });
+              }}
+              placeholder="Participantes..."
+              emptyMessage="No se encontraron participantes."
+              groupLabel="Filtrar por participantes"
+              icon={<Users className="h-4 w-4" />}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

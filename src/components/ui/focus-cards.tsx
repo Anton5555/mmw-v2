@@ -23,43 +23,49 @@ export const Card = ({
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        'rounded-lg relative overflow-hidden transition-all duration-300 ease-out',
-        hovered !== null && hovered !== index && 'blur-xs scale-[0.98]',
+        'group relative aspect-[2/3] overflow-hidden rounded-xl transition-all duration-500 ease-out',
+        // Softening the blur effect to be more subtle
+        hovered !== null &&
+          hovered !== index &&
+          'scale-[0.97] opacity-40 blur-[2px]',
         card.href && 'cursor-pointer',
         className
       )}
     >
-      <div className="relative aspect-2/3">
+      <div className="h-full w-full relative">
         <Image
           src={card.src}
           alt={card.title}
-          className="object-cover"
           fill
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           unoptimized
         />
-      </div>
 
-      {/* Background overlay */}
-      <div
-        className={cn(
-          'absolute inset-0 bg-black/50 transition-opacity duration-300',
-          hovered === index ? 'opacity-20' : 'opacity-0'
-        )}
-      />
+        {/* Hover Overlay: Darkens and adds info */}
+        <div
+          className={cn(
+            'absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-300',
+            hovered === index ? 'opacity-100' : 'opacity-0'
+          )}
+        />
 
-      {/* Title container */}
-      <div
-        className={cn(
-          'absolute inset-0 flex items-end transition-opacity duration-300',
-          hovered === index ? 'opacity-100' : 'opacity-0'
-        )}
-      >
-        <div className="w-full bg-linear-to-t from-black/80 via-black/40 to-transparent px-4 py-8">
-          <div className="text-xl md:text-2xl font-medium text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
+        {/* Title Tooltip-style (Bottom aligned) */}
+        <div
+          className={cn(
+            'absolute inset-x-0 bottom-0 p-4 transition-all duration-300',
+            hovered === index
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-4 opacity-0'
+          )}
+        >
+          <p className="text-sm font-black uppercase tracking-wider text-white line-clamp-2">
             {card.title}
-          </div>
+          </p>
         </div>
+
+        {/* Subtle Inner Glow Border */}
+        <div className="pointer-events-none absolute inset-0 rounded-xl border border-white/10 group-hover:border-white/30" />
       </div>
     </div>
   );
