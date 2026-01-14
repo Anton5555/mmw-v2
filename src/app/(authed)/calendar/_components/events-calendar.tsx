@@ -10,13 +10,21 @@ import {
   addMonths,
   subMonths,
 } from 'date-fns';
-import { ChevronLeftIcon, ChevronRightIcon, Plus } from 'lucide-react';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Plus,
+  Pencil,
+  Trash2,
+} from 'lucide-react';
 import { DayPicker, DayProps, Matcher, TZDate } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { es } from 'react-day-picker/locale';
 import { CreateEventSheet } from './create-event-dialog';
+import { EditEventSheet } from './edit-event-dialog';
+import { DeleteEventDialog } from './delete-event-dialog';
 import { MonthYearPicker } from '@/components/month-year-picker';
 import type { Event } from '@prisma/client';
 import { EVENT_COLORS, EVENT_ICONS } from '@/lib/utils/constants';
@@ -27,6 +35,7 @@ import {
 } from '@/components/ui/popover';
 import { useQueryStates } from 'nuqs';
 import { eventsSearchParams } from '@/lib/searchParams';
+import { useSession } from '@/lib/auth-client';
 
 export type CalendarProps = Omit<
   React.ComponentProps<typeof DayPicker>,
@@ -85,53 +94,113 @@ const EventPopoverContent = ({
 }: {
   events: Event[];
   onCreateEvent: () => void;
-}) => (
-  <div className="space-y-4">
-    <div className="space-y-2">
-      {events.length > 0
-        ? events.map((event) => (
-            <div key={event.id} className="flex items-start gap-2">
-              {(() => {
-                const Icon = EVENT_ICONS[event.type];
-                return (
-                  <Icon
-                    className={cn(
-                      'w-4 h-4 mt-1',
-                      `text-${EVENT_COLORS[event.type]}`
-                    )}
-                  />
-                );
-              })()}
+}) => {
+  const { data: session } = useSession();
+  const currentUserId = session?.user?.id;
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [deletingEvent, setDeletingEvent] = useState<Event | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-medium">{event.title}</h4>
-                  {event.time && (
-                    <span className="text-sm text-muted-foreground">
-                      {event.time.toLocaleTimeString('es', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false,
-                      })}
-                    </span>
-                  )}
-                </div>
-                {event.description && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {event.description}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))
-        : 'No hay eventos en este día'}
-    </div>
-    <Button variant="outline" className="w-full" onClick={onCreateEvent}>
-      <Plus className="w-4 h-4 mr-2" />
-      Agregar evento
-    </Button>
-  </div>
-);
+  return (
+    <>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          {events.length > 0
+            ? events.map((event) => {
+                const isOwner =
+                  currentUserId && event.createdBy === currentUserId;
+                return (
+                  <div key={event.id} className="flex items-start gap-2">
+                    {(() => {
+                      const Icon = EVENT_ICONS[event.type];
+                      return (
+                        <Icon
+                          className={cn(
+                            'w-4 h-4 mt-1',
+                            `text-${EVENT_COLORS[event.type]}`
+                          )}
+                        />
+                      );
+                    })()}
+
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium">{event.title}</h4>
+                        {event.time && (
+                          <span className="text-sm text-muted-foreground">
+                            {event.time.toLocaleTimeString('es', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: false,
+                            })}
+                          </span>
+                        )}
+                      </div>
+                      {event.description && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {event.description}
+                        </p>
+                      )}
+                      {isOwner && (
+                        <div className="flex gap-2 mt-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 px-2"
+                            onClick={() => {
+                              setEditingEvent(event);
+                              setIsEditOpen(true);
+                            }}
+                          >
+                            <Pencil className="w-3 h-3 mr-1" />
+                            Editar
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 px-2 text-destructive hover:text-destructive"
+                            onClick={() => {
+                              setDeletingEvent(event);
+                              setIsDeleteOpen(true);
+                            }}
+                          >
+                            <Trash2 className="w-3 h-3 mr-1" />
+                            Eliminar
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            : 'No hay eventos en este día'}
+        </div>
+        <Button variant="outline" className="w-full" onClick={onCreateEvent}>
+          <Plus className="w-4 h-4 mr-2" />
+          Agregar evento
+        </Button>
+      </div>
+
+      {editingEvent && (
+        <EditEventSheet
+          event={editingEvent}
+          open={isEditOpen}
+          onOpenChange={setIsEditOpen}
+        />
+      )}
+
+      <DeleteEventDialog
+        event={deletingEvent}
+        open={isDeleteOpen}
+        onOpenChange={setIsDeleteOpen}
+        onDeleted={() => {
+          setDeletingEvent(null);
+        }}
+      />
+    </>
+  );
+};
 
 export function EventsCalendar({
   events,
