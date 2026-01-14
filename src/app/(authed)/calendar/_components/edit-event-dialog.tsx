@@ -166,117 +166,150 @@ export function EditEventSheet({
 
   return (
     <Sheet open={open} onOpenChange={handleSheetClose}>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Editar evento</SheetTitle>
-        </SheetHeader>
+      <SheetContent className="sm:max-w-[540px] border-l border-white/10 bg-zinc-950/95 backdrop-blur-2xl p-0">
+        <div className="flex h-full flex-col">
+          {/* Premium Header */}
+          <SheetHeader className="p-8 border-b border-white/5 space-y-1">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-yellow-500">
+              Gestión de Agenda
+            </p>
+            <SheetTitle className="text-3xl font-black italic tracking-tighter text-white uppercase">
+              Editar Evento
+            </SheetTitle>
+          </SheetHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Título</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripción</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tipo de evento</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex-1 flex flex-col p-8 space-y-8 overflow-y-auto custom-scrollbar"
+            >
+              {/* Title Section */}
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      Título del Evento
+                    </FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un tipo" />
-                      </SelectTrigger>
+                      <Input
+                        placeholder="NOMBRA EL EVENTO..."
+                        className="h-12 border-none bg-white/5 text-lg font-bold tracking-tight focus-visible:ring-1 focus-visible:ring-yellow-500 placeholder:text-zinc-700"
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {EventTypeSchema.options.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type === 'BIRTHDAY'
-                            ? 'Cumpleaños'
-                            : type === 'ANNIVERSARY'
-                            ? 'Aniversario'
-                            : type === 'DISCORD'
-                            ? 'Evento de Discord'
-                            : type === 'IN_PERSON'
-                            ? 'Evento presencial'
-                            : 'Otro'}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="day"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Fecha y hora</FormLabel>
-                  <FormControl>
-                    <DateTimePicker
-                      yearRange={5}
-                      onChange={handleDateTimeChange}
-                      displayTime={!isDateOnlyEvent}
-                      value={getEventDate()}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-end gap-4 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleSheetClose}
-              >
-                Cancelar
-              </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Guardando...
-                  </>
-                ) : (
-                  'Guardar cambios'
+                    <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                  </FormItem>
                 )}
-              </Button>
-            </div>
-          </form>
-        </Form>
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+                {/* Type Selection */}
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1">
+                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                        Categoría
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="bg-white/5 border-none h-11 focus:ring-1 focus:ring-yellow-500 capitalize">
+                            <SelectValue placeholder="Selecciona" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-zinc-900 border-white/10 text-white">
+                          {EventTypeSchema.options.map((type) => (
+                            <SelectItem
+                              key={type}
+                              value={type}
+                              className="focus:bg-yellow-500 focus:text-black capitalize"
+                            >
+                              {type.replace('_', ' ')}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Date/Time Picker */}
+                <FormField
+                  control={form.control}
+                  name="day"
+                  render={() => (
+                    <FormItem className="space-y-1">
+                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                        Cronograma
+                      </FormLabel>
+                      <FormControl>
+                        <DateTimePicker
+                          yearRange={5}
+                          onChange={handleDateTimeChange}
+                          displayTime={!isDateOnlyEvent}
+                          value={getEventDate()}
+                          className="bg-white/5 border-none h-11 focus:ring-1 focus:ring-yellow-500"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Description */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      Detalles Adicionales
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Añade notas o requerimientos..."
+                        className="min-h-[120px] bg-white/5 border-none resize-none focus-visible:ring-1 focus-visible:ring-yellow-500 placeholder:text-zinc-700"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Action Buttons - Fixed at bottom */}
+              <div className="pt-8 mt-auto flex gap-3">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={handleSheetClose}
+                  className="flex-1 h-12 text-[10px] font-black uppercase tracking-[.2em] hover:bg-white/5"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-[2] h-12 bg-white hover:bg-yellow-500 text-black font-black uppercase tracking-[.2em] transition-all"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    'Guardar Cambios'
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </SheetContent>
     </Sheet>
   );

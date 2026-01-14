@@ -52,9 +52,15 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
       </div>
 
       {/* Movie Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-        {movies.map((movie) => (
-          <MamMovieCard key={movie.id} movie={movie} rank={movie.rank} />
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+        {movies.map((movie, index) => (
+          <div
+            key={movie.id}
+            className="animate-fade-in-up"
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <MamMovieCard movie={movie} rank={movie.rank} />
+          </div>
         ))}
       </div>
 

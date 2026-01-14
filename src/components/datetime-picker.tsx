@@ -599,19 +599,21 @@ const DateTimePicker = React.forwardRef<
           <Button
             variant="outline"
             className={cn(
-              'w-full justify-start text-left font-normal',
+              'w-full justify-start text-left font-normal min-w-0',
               !displayDate && 'text-muted-foreground',
               className
             )}
             ref={buttonRef}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
             {displayDate ? (
-              format(displayDate, initHourFormat, {
-                locale: loc,
-              })
+              <span className="truncate">
+                {format(displayDate, initHourFormat, {
+                  locale: loc,
+                })}
+              </span>
             ) : (
-              <span>{placeholder}</span>
+              <span className="truncate">{placeholder}</span>
             )}
           </Button>
         </PopoverTrigger>

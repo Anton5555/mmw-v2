@@ -55,24 +55,51 @@ export function AppSidebar({
   const { open, setOpenMobile } = useSidebar();
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <Link href="/home">
-          <Image
-            src="/logo.png"
-            alt={'Míralos Morir V2 logo'}
-            className={cn(open ? 'block' : 'hidden', 'cursor-pointer')}
-            width={890}
-            height={167}
-          />
+    <Sidebar
+      collapsible="icon"
+      variant="sidebar"
+      className="border-r border-white/5"
+      {...props}
+    >
+      <SidebarHeader className="h-16 flex items-center justify-center border-b border-white/5 bg-zinc-950/50">
+        <Link
+          href="/home"
+          className="transition-transform duration-300 hover:scale-105"
+        >
+          {open ? (
+            <Image
+              src="/logo.png"
+              alt={'Míralas Morir V2 logo'}
+              className="brightness-110"
+              width={140}
+              height={40}
+              priority
+            />
+          ) : (
+            <Film className="h-6 w-6 text-zinc-400" />
+          )}
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="p-2">
+      <SidebarContent
+        className={cn('bg-zinc-950 py-6', open ? 'px-3' : 'px-2')}
+      >
+        {open && (
+          <div className="mb-4 px-2">
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+              Navegación
+            </p>
+          </div>
+        )}
         <NavMain items={navItems} onNavigate={() => setOpenMobile(false)} />
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter
+        className={cn(
+          'border-t border-white/5 bg-zinc-950/80',
+          open ? 'p-4' : 'p-2'
+        )}
+      >
         <NavUser user={user} />
       </SidebarFooter>
 

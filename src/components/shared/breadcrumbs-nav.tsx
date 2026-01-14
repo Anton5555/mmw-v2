@@ -13,11 +13,12 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useBreadcrumb } from '@/lib/contexts/breadcrumb-context';
+import { ChevronRight, Home } from 'lucide-react';
 
 const PATH_TRANSLATIONS: Record<string, string> = {
   lists: 'Listas',
   calendar: 'Calendario',
-  mam: 'MAM',
+  mam: 'Miralas Antes de Morir',
   padlet: 'Padlet',
   about: 'Sobre la app',
 };
@@ -52,14 +53,28 @@ export function BreadcrumbsNav() {
   const lastPathIndex = breadcrumbItems.length - 1;
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-      <div className="flex items-center gap-2 px-4">
-        <SidebarTrigger className="-ml-1" />
-
-        <Separator orientation="vertical" className="mr-2 h-4" />
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 bg-background/60 backdrop-blur-xl transition-all duration-300 border-b border-white/5">
+      <div className="flex flex-1 items-center gap-2 px-4">
+        <div className="flex items-center gap-1">
+          <SidebarTrigger className="h-8 w-8 hover:bg-white/10 transition-colors" />
+          <Separator orientation="vertical" className="mx-2 h-4 bg-white/10" />
+        </div>
 
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="gap-1 sm:gap-1 animate-breadcrumb-fade">
+            {/* Optional: Home Icon for better orientation */}
+            <BreadcrumbItem className="hidden md:block">
+              <BreadcrumbLink
+                href="/"
+                className="hover:text-primary transition-colors"
+              >
+                <Home className="h-3.5 w-3.5" />
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="hidden md:block">
+              <ChevronRight className="h-3 w-3 opacity-40" />
+            </BreadcrumbSeparator>
+
             {breadcrumbItems.map(({ path, originalIndex }, index) => {
               const href = `/${paths.slice(0, originalIndex + 1).join('/')}`;
               const isLastPathItem = index === lastPathIndex;
@@ -69,30 +84,41 @@ export function BreadcrumbsNav() {
               return (
                 <React.Fragment key={`${path}-${originalIndex}`}>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href={href} className="capitalize">
+                    <BreadcrumbLink
+                      href={href}
+                      className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80 hover:text-primary transition-colors"
+                    >
                       {displayText}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  <BreadcrumbSeparator>
+                    <ChevronRight className="h-3 w-3 opacity-40" />
+                  </BreadcrumbSeparator>
                   {/* Insert intermediate breadcrumbs after this path item if it's the last one */}
                   {isLastPathItem &&
                     intermediateBreadcrumbs.map((intermediate, idx) => (
                       <React.Fragment key={`intermediate-${idx}`}>
                         <BreadcrumbItem>
-                          <BreadcrumbLink href={intermediate.href} className="capitalize">
+                          <BreadcrumbLink
+                            href={intermediate.href}
+                            className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80 hover:text-primary transition-colors"
+                          >
                             {intermediate.label}
                           </BreadcrumbLink>
                         </BreadcrumbItem>
-                        <BreadcrumbSeparator />
+                        <BreadcrumbSeparator>
+                          <ChevronRight className="h-3 w-3 opacity-40" />
+                        </BreadcrumbSeparator>
                       </React.Fragment>
                     ))}
                 </React.Fragment>
               );
             })}
+
             {/* Current page label */}
             {currentPageLabel && (
               <BreadcrumbItem>
-                <BreadcrumbPage className="capitalize">
+                <BreadcrumbPage className="text-xs font-black uppercase tracking-widest text-foreground bg-white/5 px-2 py-1 rounded-md border border-white/10">
                   {currentPageLabel}
                 </BreadcrumbPage>
               </BreadcrumbItem>
