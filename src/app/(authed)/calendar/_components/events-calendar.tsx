@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import {
   getMonth,
   getYear,
@@ -10,7 +10,7 @@ import {
   addMonths,
   subMonths,
 } from 'date-fns';
-import { ChevronLeftIcon, ChevronRightIcon, Plus, Loader2 } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, Plus } from 'lucide-react';
 import { DayPicker, DayProps, Matcher, TZDate } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
@@ -25,8 +25,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useEventsParams } from '@/lib/hooks/useEventsParams';
-import { getEventsAction } from '@/lib/actions/events/get-events';
+import { useQueryStates } from 'nuqs';
+import { eventsSearchParams } from '@/lib/searchParams';
 
 export type CalendarProps = Omit<
   React.ComponentProps<typeof DayPicker>,
@@ -34,6 +34,7 @@ export type CalendarProps = Omit<
 >;
 
 export type EventsCalendarProps = {
+  events: Event[];
   min?: Date;
   max?: Date;
   timezone?: string;
@@ -133,91 +134,42 @@ const EventPopoverContent = ({
 );
 
 export function EventsCalendar({
+  events,
   min,
   max,
   timezone,
   ...props
 }: EventsCalendarProps & CalendarProps) {
-  const {
-    month: monthParam,
-    year: yearParam,
-    setEventsParams,
-  } = useEventsParams();
+  const [params, setParams] = useQueryStates(eventsSearchParams, {
+    shallow: false,
+  });
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const currentMonthDate = React.useMemo(
+    () => new Date(params.year, params.month - 1),
+    [params.month, params.year]
+  );
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const now = new Date();
-  const initialMonth = monthParam ? monthParam - 1 : now.getMonth();
-  const initialYear = yearParam ? yearParam : now.getFullYear();
-  const initialDate = new Date(initialYear, initialMonth);
-  const initDateValue = new TZDate(initialDate, timezone);
-
-  const [month, setMonth] = useState<Date>(initDateValue);
+  const monthDate = new TZDate(currentMonthDate, timezone);
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
 
-  const fetchEvents = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-
-    setIsLoading(true);
-
-    timerRef.current = setTimeout(async () => {
-      try {
-        const monthNumber = getMonth(month) + 1;
-        const yearNumber = getYear(month);
-
-        console.log('Fetching events for', monthNumber, yearNumber);
-
-        const data = await getEventsAction({
-          month: monthNumber,
-          year: yearNumber,
-        });
-
-        console.log('Events fetched', data);
-        setEvents(data);
-      } catch (error) {
-        console.error('Failed to fetch events:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 300);
-  };
-
-  useEffect(() => {
-    fetchEvents();
-
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, [month]);
-
-  useEffect(() => {
-    const monthNumber = getMonth(month) + 1;
-    const yearNumber = getYear(month);
-
-    setEventsParams({ month: monthNumber, year: yearNumber });
-  }, [month, setEventsParams]);
-
-  const endMonth = setYear(month, getYear(month) + 1);
+  const endMonth = setYear(monthDate, getYear(monthDate) + 1);
   const minDate = min ? new TZDate(min, timezone) : undefined;
   const maxDate = max ? new TZDate(max, timezone) : undefined;
 
   const onNextMonth = () => {
-    setMonth(addMonths(month, 1));
+    const next = addMonths(currentMonthDate, 1);
+    setParams({ month: getMonth(next) + 1, year: getYear(next) });
   };
 
   const onPrevMonth = () => {
-    setMonth(subMonths(month, 1));
+    const prev = subMonths(currentMonthDate, 1);
+    setParams({ month: getMonth(prev) + 1, year: getYear(prev) });
   };
 
   const handleMonthChange = (value: string) => {
     const newMonth = parseInt(value, 10);
-    let newDate = setMonthFns(month, newMonth);
+    let newDate = setMonthFns(currentMonthDate, newMonth);
 
     if (minDate && newDate < minDate) {
       newDate = setYear(newDate, getYear(minDate));
@@ -227,12 +179,12 @@ export function EventsCalendar({
       newDate = setYear(newDate, getYear(maxDate));
     }
 
-    setMonth(newDate);
+    setParams({ month: getMonth(newDate) + 1, year: getYear(newDate) });
   };
 
   const handleYearChange = (value: string) => {
     const newYear = parseInt(value, 10);
-    let newDate = setYear(month, newYear);
+    let newDate = setYear(currentMonthDate, newYear);
 
     if (minDate && newDate < minDate) {
       newDate = setMonthFns(newDate, getMonth(minDate));
@@ -242,24 +194,14 @@ export function EventsCalendar({
       newDate = setMonthFns(newDate, getMonth(maxDate));
     }
 
-    setMonth(newDate);
+    setParams({ month: getMonth(newDate) + 1, year: getYear(newDate) });
   };
 
   return (
     <div className="lg:rounded-lg lg:border bg-card lg:p-6 shadow-xs relative">
-      {/* Loading overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-xs z-10 flex items-center justify-center rounded-lg">
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">Cargando eventos...</p>
-          </div>
-        </div>
-      )}
-
       <div className="flex items-center justify-between mb-2 lg:mb-8">
         <MonthYearPicker
-          month={month}
+          month={monthDate}
           handleMonthChange={handleMonthChange}
           handleYearChange={handleYearChange}
           minDate={minDate}
@@ -267,21 +209,11 @@ export function EventsCalendar({
         />
 
         <div className="flex space-x-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onPrevMonth}
-            disabled={isLoading}
-          >
+          <Button variant="ghost" size="icon" onClick={onPrevMonth}>
             <ChevronLeftIcon />
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onNextMonth}
-            disabled={isLoading}
-          >
+          <Button variant="ghost" size="icon" onClick={onNextMonth}>
             <ChevronRightIcon />
           </Button>
         </div>
@@ -292,14 +224,16 @@ export function EventsCalendar({
         mode="single"
         selected={selectedDate}
         locale={es}
-        month={month}
+        month={monthDate}
         endMonth={endMonth}
         disabled={
           [max ? { after: max } : null, min ? { before: min } : null].filter(
             Boolean
           ) as Matcher[]
         }
-        onMonthChange={setMonth}
+        onMonthChange={(date) =>
+          setParams({ month: getMonth(date) + 1, year: getYear(date) })
+        }
         components={{
           Day: ({ day, ...dayProps }) => {
             const dayEvents = events.filter((event) => {
@@ -393,7 +327,6 @@ export function EventsCalendar({
         selectedDate={selectedDate}
         open={isCreateEventOpen}
         onOpenChange={setIsCreateEventOpen}
-        onEventCreated={fetchEvents}
       />
     </div>
   );

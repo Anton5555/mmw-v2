@@ -1,8 +1,11 @@
+import { Suspense } from 'react';
 import { EVENT_COLORS } from '@/lib/utils/constants';
 import { cn } from '@/lib/utils';
-import { EventsCalendar } from './_components/events-calendar';
+import { EventsGrid } from './_components/events-grid';
+import { EventsCalendarSkeleton } from './_components/events-calendar-skeleton';
 import { NextEvents } from './_components/next-events';
 import { getNextEvents } from '@/lib/api/events';
+import { loadEventsSearchParams } from '@/lib/searchParams';
 import { ChevronDown } from 'lucide-react';
 import {
   Collapsible,
@@ -10,8 +13,15 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-export default async function CalendarPage() {
+interface CalendarPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function CalendarPage({ searchParams }: CalendarPageProps) {
+  const params = await loadEventsSearchParams(searchParams);
   const nextEvents = await getNextEvents();
+
+  const suspenseKey = `${params.month}-${params.year}`;
 
   return (
     <div className="container mx-auto lg:px-4 pb-8 pt-4">
@@ -43,7 +53,9 @@ export default async function CalendarPage() {
         </div>
 
         <div className="lg:col-span-3">
-          <EventsCalendar />
+          <Suspense key={suspenseKey} fallback={<EventsCalendarSkeleton />}>
+            <EventsGrid month={params.month} year={params.year} />
+          </Suspense>
         </div>
       </div>
 
