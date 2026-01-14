@@ -1,47 +1,29 @@
 import type { Config } from 'tailwindcss';
-import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
-import tailwindcssAnimate from 'tailwindcss-animate';
 
-type AddVariableForColorsParams = {
-  addBase: (config: Record<string, Record<string, string>>) => void;
-  theme: (path: string) => Record<string, string>;
-};
-
-const addVariablesForColors = ({
-  addBase,
-  theme,
-}: AddVariableForColorsParams) => {
-  const allColors = flattenColorPalette(theme('colors'));
-  const newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
-
-  addBase({
-    ':root': newVars,
-  });
-};
-
+/**
+ * Tailwind v4 config - hybrid approach.
+ *
+ * In Tailwind 4, most theme customization can be done in CSS using @theme.
+ * However, we keep this JS config for:
+ * - content paths (where to scan for classes)
+ * - darkMode strategy
+ * - nested color structures (shadcn/ui pattern with card.foreground, etc.)
+ *
+ * Animations and keyframes are defined in CSS (globals.css).
+ * Border radius is defined in @theme in CSS.
+ */
 export default {
-  darkMode: ['class'],
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  safelist: [
-    'bg-blue-500',
-    'bg-green-500',
-    'bg-amber-500',
-    'bg-red-500',
-    'bg-fuchsia-500',
-    'text-blue-500',
-    'text-green-500',
-    'text-amber-500',
-    'text-red-500',
-    'text-fuchsia-500',
-  ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       animation: {
         aurora: 'aurora 60s linear infinite',
         collapse: 'collapse 0.2s ease-out',
@@ -104,25 +86,6 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      keyframes: {
-        aurora: {
-          from: {
-            backgroundPosition: '50% 50%, 50% 50%',
-          },
-          to: {
-            backgroundPosition: '350% 50%, 350% 50%',
-          },
-        },
-        collapse: {
-          from: { height: 'var(--radix-collapsible-content-height)' },
-          to: { height: '0px' },
-        },
-        expand: {
-          from: { height: '0px' },
-          to: { height: 'var(--radix-collapsible-content-height)' },
-        },
-      },
     },
   },
-  plugins: [tailwindcssAnimate, addVariablesForColors],
 } satisfies Config;

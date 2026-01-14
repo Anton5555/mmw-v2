@@ -2,6 +2,7 @@ import { prisma } from '@/lib/db';
 import { GetMonthEventsSchema } from '../validations/events';
 
 export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
+  'use cache';
   return await prisma.event.findMany({
     where: {
       month,
@@ -12,6 +13,7 @@ export async function getMonthEvents({ month, year }: GetMonthEventsSchema) {
 }
 
 export async function getNextEvents() {
+  'use cache';
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;

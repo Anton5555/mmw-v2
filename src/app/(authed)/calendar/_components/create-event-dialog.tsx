@@ -38,12 +38,14 @@ type CreateEventSheetProps = {
   selectedDate?: Date;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
+  onEventCreated?: () => void;
 };
 
 export function CreateEventSheet({
   selectedDate,
   onOpenChange,
   open,
+  onEventCreated,
 }: CreateEventSheetProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -90,6 +92,7 @@ export function CreateEventSheet({
       await createEventAction(data);
       toast.success('Evento creado correctamente');
       router.refresh();
+      onEventCreated?.();
       onOpenChange?.(false);
       form.reset();
     } catch (error) {
@@ -183,7 +186,7 @@ export function CreateEventSheet({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.values(EventTypeSchema.Values).map((type) => (
+                      {EventTypeSchema.options.map((type) => (
                         <SelectItem key={type} value={type}>
                           {type === 'BIRTHDAY'
                             ? 'Cumpleaños'

@@ -23,13 +23,16 @@ import {
   Film,
   Users,
   ExternalLink,
+  List,
 } from 'lucide-react';
+import type { List as ListType } from '@/lib/validations/generated';
 
 interface MamMovieDetailProps {
   movie: MamMovieWithPicks;
   rank?: number;
   director?: string;
   genre?: string;
+  otherLists?: ListType[];
 }
 
 export function MamMovieDetail({
@@ -37,6 +40,7 @@ export function MamMovieDetail({
   rank,
   director,
   genre,
+  otherLists = [],
 }: MamMovieDetailProps) {
   // Use rank from prop or fallback to movie.rank
   const displayRank = rank ?? movie.rank;
@@ -62,11 +66,11 @@ export function MamMovieDetail({
   const getRankBadgeStyle = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-white shadow-lg';
+        return 'bg-linear-to-br from-yellow-400 to-yellow-600 text-white shadow-lg';
       case 2:
-        return 'bg-gradient-to-br from-gray-300 to-gray-500 text-white shadow-lg';
+        return 'bg-linear-to-br from-gray-300 to-gray-500 text-white shadow-lg';
       case 3:
-        return 'bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-lg';
+        return 'bg-linear-to-br from-amber-400 to-amber-600 text-white shadow-lg';
       default:
         return 'bg-muted text-muted-foreground';
     }
@@ -104,7 +108,7 @@ export function MamMovieDetail({
           transition={{ duration: 0.5 }}
           className="relative"
         >
-          <div className="aspect-[2/3] relative overflow-hidden rounded-lg shadow-xl ring-2 ring-border">
+          <div className="aspect-2/3 relative overflow-hidden rounded-lg shadow-xl ring-2 ring-border">
             {movie.posterUrl ? (
               <Image
                 src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
@@ -210,6 +214,27 @@ export function MamMovieDetail({
             <div>
               <p className="text-muted-foreground text-sm mb-1">Director</p>
               <p className="text-lg">{director}</p>
+            </div>
+          )}
+
+          {/* Other Lists */}
+          {otherLists.length > 0 && (
+            <div>
+              <p className="text-muted-foreground text-sm mb-2 flex items-center gap-2">
+                <List className="h-4 w-4" />
+                También en listas
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {otherLists.map((list) => (
+                  <Link
+                    key={list.id}
+                    href={`/lists/${list.id}`}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-muted hover:bg-accent transition-colors text-sm font-medium"
+                  >
+                    {list.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
 

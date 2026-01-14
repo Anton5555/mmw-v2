@@ -45,39 +45,31 @@ export function FilterCombobox({
   const selectedCount = selected.length;
 
   // Filter options based on search
-  const filteredOptions = React.useMemo(() => {
-    if (!search) return options;
-    const searchLower = search.toLowerCase();
-    return options.filter((option) =>
-      option.label.toLowerCase().includes(searchLower)
-    );
-  }, [options, search]);
+  const filteredOptions = !search
+    ? options
+    : options.filter((option) =>
+        option.label.toLowerCase().includes(search.toLowerCase())
+      );
 
   // Handle selection changes
-  const handleSelect = React.useCallback(
-    (value: string) => {
-      const newSelected = [...selected];
-      const selectedIndex = newSelected.indexOf(value);
+  const handleSelect = (value: string) => {
+    const newSelected = [...selected];
+    const selectedIndex = newSelected.indexOf(value);
 
-      if (selectedIndex >= 0) {
-        newSelected.splice(selectedIndex, 1);
-      } else {
-        newSelected.push(value);
-      }
+    if (selectedIndex >= 0) {
+      newSelected.splice(selectedIndex, 1);
+    } else {
+      newSelected.push(value);
+    }
 
-      onChange(newSelected);
-    },
-    [onChange, selected]
-  );
+    onChange(newSelected);
+  };
 
   // Clear all selections
-  const handleClear = React.useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      onChange([]);
-    },
-    [onChange]
-  );
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange([]);
+  };
 
   // Reset search when popover closes
   React.useEffect(() => {
@@ -162,7 +154,7 @@ export function FilterCombobox({
                   aria-selected={isSelected}
                   onClick={() => handleSelect(option.value)}
                   className={cn(
-                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground',
                     { 'bg-accent/50': isSelected }
                   )}
                 >

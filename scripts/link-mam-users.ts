@@ -10,10 +10,20 @@
  *   npx tsx scripts/link-mam-users.ts --mapping=./data/user-mapping-pending.json --dry-run
  */
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../generated/prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 import * as fs from 'fs';
+import 'dotenv/config';
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 interface UserMapping {
   [participantName: string]: string;

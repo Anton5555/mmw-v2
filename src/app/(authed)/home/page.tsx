@@ -32,7 +32,7 @@ export default async function Home({
             </Button>
           </Link>
         </div>
-        <div className="bg-card rounded-lg border shadow-sm p-6">
+        <div className="bg-card rounded-lg border shadow-xs p-6">
           {nextEvents.length > 0 ? (
             <NextEvents events={nextEvents} showTitle={false} />
           ) : (

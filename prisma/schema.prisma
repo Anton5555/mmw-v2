@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 generator zod {
   provider               = "zod-prisma-types"
   output                 = "../src/lib/validations/generated"
+  prismaClientPath       = "../../../../generated/prisma/client"
   addInputTypeValidation = "false"
   addSelectType          = "false"
   createInputTypes       = "false"
@@ -13,9 +15,7 @@ generator zod {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
 }
 
 model List {

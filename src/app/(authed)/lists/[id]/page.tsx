@@ -44,7 +44,7 @@ export default async function ListPage({ params }: PageProps) {
 
           {/* Content overlay */}
           <div className="absolute inset-0 flex flex-col justify-end">
-            <div className="bg-gradient-to-t from-black/80 via-black/40 to-transparent px-8 py-8">
+            <div className="bg-linear-to-t from-black/80 via-black/40 to-transparent px-8 py-8">
               <div className="container mx-auto">
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-col">
