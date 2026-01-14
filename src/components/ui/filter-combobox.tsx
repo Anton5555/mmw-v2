@@ -57,7 +57,7 @@ export function FilterCombobox({
     const newSelected = isSelected
       ? selected.filter((v) => v !== value)
       : [...selected, value];
-    
+
     onChange(newSelected);
   };
 
@@ -68,7 +68,13 @@ export function FilterCombobox({
   };
 
   return (
-    <Popover open={open} onOpenChange={(val) => { setOpen(val); if (!val) setSearch(''); }}>
+    <Popover
+      open={open}
+      onOpenChange={(val) => {
+        setOpen(val);
+        if (!val) setSearch('');
+      }}
+    >
       <PopoverTrigger asChild>
         <button
           type="button"
