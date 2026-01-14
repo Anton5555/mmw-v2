@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo, ReactNode } from 'react';
 import { MamSkeletonGrid } from './mam-skeleton-grid';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
+import { startTransition } from 'react';
 
 interface MamMovieGridWrapperProps {
   initialParams: {
@@ -15,7 +16,10 @@ interface MamMovieGridWrapperProps {
   children?: ReactNode;
 }
 
-export function MamMovieGridWrapper({ initialParams, children }: MamMovieGridWrapperProps) {
+export function MamMovieGridWrapper({
+  initialParams,
+  children,
+}: MamMovieGridWrapperProps) {
   const { params: clientParams } = useMamMoviesParams();
   const [renderedParams, setRenderedParams] = useState(initialParams);
 
@@ -25,11 +29,14 @@ export function MamMovieGridWrapper({ initialParams, children }: MamMovieGridWra
     const paramsChanged =
       initialParams.title !== renderedParams.title ||
       initialParams.imdb !== renderedParams.imdb ||
-      JSON.stringify(initialParams.participants) !== JSON.stringify(renderedParams.participants) ||
+      JSON.stringify(initialParams.participants) !==
+        JSON.stringify(renderedParams.participants) ||
       initialParams.page !== renderedParams.page;
 
     if (paramsChanged) {
-      setRenderedParams(initialParams);
+      startTransition(() => {
+        setRenderedParams(initialParams);
+      });
     }
   }, [initialParams, renderedParams]);
 
@@ -38,7 +45,8 @@ export function MamMovieGridWrapper({ initialParams, children }: MamMovieGridWra
     return (
       clientParams.title !== renderedParams.title ||
       clientParams.imdb !== renderedParams.imdb ||
-      JSON.stringify(clientParams.participants) !== JSON.stringify(renderedParams.participants) ||
+      JSON.stringify(clientParams.participants) !==
+        JSON.stringify(renderedParams.participants) ||
       clientParams.page !== renderedParams.page
     );
   }, [clientParams, renderedParams]);
