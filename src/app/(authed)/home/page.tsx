@@ -4,7 +4,7 @@ import { ListsCarousel } from '@/components/lists-carousel';
 import { NextEvents } from '@/app/(authed)/calendar/_components/next-events';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
+import { Calendar, Sparkles } from 'lucide-react';
 
 export default async function Home({
   searchParams,
@@ -16,30 +16,38 @@ export default async function Home({
   const nextEvents = await getNextEvents();
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="p-4 md:p-8">
+    <div className="flex flex-col gap-12 pb-20 overflow-x-hidden">
+      {/* Hero Section: Immersion over Padding */}
+      <section className="relative w-full overflow-hidden">
         <ListsCarousel lists={lists} verified={verified} />
-      </div>
+      </section>
 
-      <div className="container mx-auto px-4 pb-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Próximos Eventos</h2>
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="mb-6 flex items-end justify-between border-b border-white/5 pb-4">
+          <div className="space-y-1">
+            <h2 className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.3em] text-zinc-500">
+              <Sparkles className="h-4 w-4 text-yellow-500" />
+              Próximos Eventos
+            </h2>
+            <p className="text-2xl font-black italic uppercase tracking-tighter">Agenda de la Comunidad</p>
+          </div>
 
           <Link href="/calendar">
-            <Button variant="outline" size="sm">
-              <Calendar className="mr-2 h-4 w-4" />
-              Ver Calendario
+            <Button variant="ghost" size="sm" className="group text-zinc-400 hover:text-white">
+              <Calendar className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
+              Ver Calendario Completo
             </Button>
           </Link>
         </div>
-        <div className="bg-card rounded-lg border shadow-xs p-6">
+
+        <div className="overflow-hidden rounded-3xl border border-white/5 bg-zinc-900/30 shadow-2xl backdrop-blur-sm p-8">
           {nextEvents.length > 0 ? (
             <NextEvents events={nextEvents} showTitle={false} />
           ) : (
-            <div className="text-center text-muted-foreground py-8">
-              <p>No hay eventos próximos</p>
-              <p className="mt-2">
-                Puedes crear eventos desde la página del calendario
+            <div className="py-12 text-center">
+              <p className="text-lg font-medium text-zinc-400">No hay eventos próximos en el radar.</p>
+              <p className="mt-2 text-sm text-zinc-600 italic">
+                Crea un nuevo evento desde el calendario para empezar.
               </p>
             </div>
           )}
