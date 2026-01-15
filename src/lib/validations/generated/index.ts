@@ -30,7 +30,9 @@ export const EventScalarFieldEnumSchema = z.enum(['id','title','description','mo
 
 export const MamParticipantScalarFieldEnumSchema = z.enum(['id','displayName','slug','userId','createdAt']);
 
-export const MamPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','score','review','createdAt']);
+export const MamPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','score','review','isSpecialMention','createdAt']);
+
+export const DailyRecommendationScalarFieldEnumSchema = z.enum(['id','date','type','movieId','listId','participantId','curatorName','curatorImage','createdAt','updatedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -219,7 +221,27 @@ export const MamPickSchema = z.object({
   movieId: z.number().int(),
   score: z.number().int(),
   review: z.string().nullable(),
+  isSpecialMention: z.boolean(),
   createdAt: z.coerce.date(),
 })
 
 export type MamPick = z.infer<typeof MamPickSchema>
+
+/////////////////////////////////////////
+// DAILY RECOMMENDATION SCHEMA
+/////////////////////////////////////////
+
+export const DailyRecommendationSchema = z.object({
+  id: z.uuid(),
+  date: z.coerce.date(),
+  type: z.string(),
+  movieId: z.number().int().nullable(),
+  listId: z.number().int().nullable(),
+  participantId: z.number().int().nullable(),
+  curatorName: z.string().nullable(),
+  curatorImage: z.string().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+})
+
+export type DailyRecommendation = z.infer<typeof DailyRecommendationSchema>

@@ -10,7 +10,7 @@ import { Prisma } from '@prisma/client';
  * Get all MAM participants
  */
 export async function getMamParticipants() {
-  "use cache";
+  'use cache';
   return await prisma.mamParticipant.findMany({
     include: {
       user: {
@@ -56,7 +56,7 @@ export async function getMamParticipantBySlug(slug: string) {
  * Uses cached mamAverageScore and mamTotalPicks for efficient sorting
  */
 export async function getMamMovies(query: MamMovieQuery) {
-  "use cache";
+  'use cache';
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
@@ -105,10 +105,14 @@ export async function getMamMovies(query: MamMovieQuery) {
   });
 
   // Get paginated movies using cached scores for sorting
+  // Exclude special mentions from the main list
   const movies = await prisma.movie.findMany({
     where: whereClause,
     include: {
       mamPicks: {
+        where: {
+          isSpecialMention: false, // Exclude special mentions from main list
+        },
         include: {
           participant: {
             include: {
@@ -252,10 +256,12 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
   }
 
   // Build the where clause for movies that have picks from this participant
+  // Exclude special mentions from user's personal list
   const whereClause: Prisma.MovieWhereInput = {
     mamPicks: {
       some: {
         participantId: participant.id,
+        isSpecialMention: false, // Exclude special mentions from personal list
       },
     },
     ...(title && {
@@ -281,12 +287,14 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
       mamPicks: {
         where: {
           participantId: participant.id,
+          isSpecialMention: false, // Exclude special mentions from personal list
         },
         select: {
           id: true,
           participantId: true,
           score: true,
           review: true,
+          isSpecialMention: true,
           createdAt: true,
           participant: {
             include: {
@@ -363,11 +371,123 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
 }
 
 /**
+ * Get movies with special mentions
+ * Returns paginated movies that have at least one special mention
+ */
+export async function getSpecialMentions(query: MamMovieQuery) {
+  'use cache';
+  // Validate the query parameters
+  const validatedQuery = mamMovieQuerySchema.parse(query);
+
+  const { title, imdb, participants, page, limit } = validatedQuery;
+
+  const skip = (page - 1) * limit;
+
+  // Parse participants filter - handle both array and string for backward compatibility
+  const participantSlugs = Array.isArray(participants)
+    ? participants.filter(Boolean)
+    : participants
+    ? participants
+        .split(',')
+        .map((slug) => slug.trim())
+        .filter(Boolean)
+    : [];
+
+  // Build the where clause - only movies with special mentions
+  const whereClause: Prisma.MovieWhereInput = {
+    mamPicks: {
+      some: {
+        isSpecialMention: true,
+        ...(participantSlugs.length > 0 && {
+          participant: {
+            slug: {
+              in: participantSlugs,
+            },
+          },
+        }),
+      },
+    },
+    ...(title && {
+      OR: [
+        { title: { contains: title, mode: 'insensitive' } },
+        { originalTitle: { contains: title, mode: 'insensitive' } },
+      ],
+    }),
+    ...(imdb && {
+      imdbId: { contains: imdb, mode: 'insensitive' },
+    }),
+  };
+
+  // Get total count for pagination
+  const totalCount = await prisma.movie.count({
+    where: whereClause,
+  });
+
+  // Get paginated movies with all picks (both regular and special mentions)
+  const movies = await prisma.movie.findMany({
+    where: whereClause,
+    include: {
+      mamPicks: {
+        include: {
+          participant: {
+            include: {
+              user: {
+                select: {
+                  image: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: [
+          { isSpecialMention: 'desc' }, // Special mentions first
+          { score: 'desc' },
+          { createdAt: 'asc' },
+        ],
+      },
+    },
+    orderBy: [
+      { releaseDate: 'desc' }, // Order by release date for special mentions
+      { title: 'asc' },
+    ],
+    skip,
+    take: limit,
+  });
+
+  // Map to expected format
+  const paginatedMovies = movies.map((movie) => ({
+    ...movie,
+    picks: movie.mamPicks,
+    averageScore: movie.mamAverageScore,
+    totalPicks: movie.mamTotalPicks,
+    totalPoints: movie.mamTotalPoints,
+    rank: movie.mamRank ?? undefined,
+  })) as MamMovieWithPicks[];
+
+  const totalPages = Math.ceil(totalCount / limit);
+  const hasNextPage = page < totalPages;
+  const hasPrevPage = page > 1;
+
+  return {
+    movies: paginatedMovies,
+    pagination: {
+      page,
+      limit,
+      totalCount,
+      totalPages,
+      hasNextPage,
+      hasPrevPage,
+    },
+  };
+}
+
+/**
  * Get MAM statistics
  * Uses cached mamAverageScore and mamTotalPicks for top movies
  */
 export async function getMamStats() {
-  "use cache";
+  'use cache';
   const [
     totalMovies,
     totalParticipants,

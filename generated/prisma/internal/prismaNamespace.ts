@@ -393,7 +393,8 @@ export const ModelName = {
   Verification: 'Verification',
   Event: 'Event',
   MamParticipant: 'MamParticipant',
-  MamPick: 'MamPick'
+  MamPick: 'MamPick',
+  DailyRecommendation: 'DailyRecommendation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DailyRecommendation: {
+      payload: Prisma.$DailyRecommendationPayload<ExtArgs>
+      fields: Prisma.DailyRecommendationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyRecommendationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyRecommendationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyRecommendationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyRecommendationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        findMany: {
+          args: Prisma.DailyRecommendationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>[]
+        }
+        create: {
+          args: Prisma.DailyRecommendationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        createMany: {
+          args: Prisma.DailyRecommendationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyRecommendationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyRecommendationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        update: {
+          args: Prisma.DailyRecommendationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyRecommendationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyRecommendationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyRecommendationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyRecommendationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyRecommendationPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyRecommendationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyRecommendation>
+        }
+        groupBy: {
+          args: Prisma.DailyRecommendationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyRecommendationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyRecommendationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyRecommendationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1330,10 +1405,27 @@ export const MamPickScalarFieldEnum = {
   movieId: 'movieId',
   score: 'score',
   review: 'review',
+  isSpecialMention: 'isSpecialMention',
   createdAt: 'createdAt'
 } as const
 
 export type MamPickScalarFieldEnum = (typeof MamPickScalarFieldEnum)[keyof typeof MamPickScalarFieldEnum]
+
+
+export const DailyRecommendationScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  type: 'type',
+  movieId: 'movieId',
+  listId: 'listId',
+  participantId: 'participantId',
+  curatorName: 'curatorName',
+  curatorImage: 'curatorImage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyRecommendationScalarFieldEnum = (typeof DailyRecommendationScalarFieldEnum)[keyof typeof DailyRecommendationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1547,6 +1639,7 @@ export type GlobalOmitConfig = {
   event?: Prisma.EventOmit
   mamParticipant?: Prisma.MamParticipantOmit
   mamPick?: Prisma.MamPickOmit
+  dailyRecommendation?: Prisma.DailyRecommendationOmit
 }
 
 /* Types for Logging */

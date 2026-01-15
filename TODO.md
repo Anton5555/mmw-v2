@@ -1,9 +1,8 @@
 # TODO
 
-## MAM Section
-
-- [ ] Add MAM ciones especiales like a separate section inside MAM section
+- Recomend a random movie from the MAMs, or a list from a particular participant, one per day is possible?
 
 ## UI improvements
 
-- [ ] Use shadcn new time picker components
+- Use shadcn new time picker components
+- Improve the Form fields look with the new design

@@ -46,6 +46,7 @@ export type MamPickMinAggregateOutputType = {
   movieId: number | null
   score: number | null
   review: string | null
+  isSpecialMention: boolean | null
   createdAt: Date | null
 }
 
@@ -55,6 +56,7 @@ export type MamPickMaxAggregateOutputType = {
   movieId: number | null
   score: number | null
   review: string | null
+  isSpecialMention: boolean | null
   createdAt: Date | null
 }
 
@@ -64,6 +66,7 @@ export type MamPickCountAggregateOutputType = {
   movieId: number
   score: number
   review: number
+  isSpecialMention: number
   createdAt: number
   _all: number
 }
@@ -89,6 +92,7 @@ export type MamPickMinAggregateInputType = {
   movieId?: true
   score?: true
   review?: true
+  isSpecialMention?: true
   createdAt?: true
 }
 
@@ -98,6 +102,7 @@ export type MamPickMaxAggregateInputType = {
   movieId?: true
   score?: true
   review?: true
+  isSpecialMention?: true
   createdAt?: true
 }
 
@@ -107,6 +112,7 @@ export type MamPickCountAggregateInputType = {
   movieId?: true
   score?: true
   review?: true
+  isSpecialMention?: true
   createdAt?: true
   _all?: true
 }
@@ -203,6 +209,7 @@ export type MamPickGroupByOutputType = {
   movieId: number
   score: number
   review: string | null
+  isSpecialMention: boolean
   createdAt: Date
   _count: MamPickCountAggregateOutputType | null
   _avg: MamPickAvgAggregateOutputType | null
@@ -235,6 +242,7 @@ export type MamPickWhereInput = {
   movieId?: Prisma.IntFilter<"MamPick"> | number
   score?: Prisma.IntFilter<"MamPick"> | number
   review?: Prisma.StringNullableFilter<"MamPick"> | string | null
+  isSpecialMention?: Prisma.BoolFilter<"MamPick"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MamPick"> | Date | string
   participant?: Prisma.XOR<Prisma.MamParticipantScalarRelationFilter, Prisma.MamParticipantWhereInput>
   movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>
@@ -246,6 +254,7 @@ export type MamPickOrderByWithRelationInput = {
   movieId?: Prisma.SortOrder
   score?: Prisma.SortOrder
   review?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSpecialMention?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   participant?: Prisma.MamParticipantOrderByWithRelationInput
   movie?: Prisma.MovieOrderByWithRelationInput
@@ -261,6 +270,7 @@ export type MamPickWhereUniqueInput = Prisma.AtLeast<{
   movieId?: Prisma.IntFilter<"MamPick"> | number
   score?: Prisma.IntFilter<"MamPick"> | number
   review?: Prisma.StringNullableFilter<"MamPick"> | string | null
+  isSpecialMention?: Prisma.BoolFilter<"MamPick"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MamPick"> | Date | string
   participant?: Prisma.XOR<Prisma.MamParticipantScalarRelationFilter, Prisma.MamParticipantWhereInput>
   movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>
@@ -272,6 +282,7 @@ export type MamPickOrderByWithAggregationInput = {
   movieId?: Prisma.SortOrder
   score?: Prisma.SortOrder
   review?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSpecialMention?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MamPickCountOrderByAggregateInput
   _avg?: Prisma.MamPickAvgOrderByAggregateInput
@@ -289,12 +300,14 @@ export type MamPickScalarWhereWithAggregatesInput = {
   movieId?: Prisma.IntWithAggregatesFilter<"MamPick"> | number
   score?: Prisma.IntWithAggregatesFilter<"MamPick"> | number
   review?: Prisma.StringNullableWithAggregatesFilter<"MamPick"> | string | null
+  isSpecialMention?: Prisma.BoolWithAggregatesFilter<"MamPick"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MamPick"> | Date | string
 }
 
 export type MamPickCreateInput = {
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
   participant: Prisma.MamParticipantCreateNestedOneWithoutPicksInput
   movie: Prisma.MovieCreateNestedOneWithoutMamPicksInput
@@ -306,12 +319,14 @@ export type MamPickUncheckedCreateInput = {
   movieId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
 export type MamPickUpdateInput = {
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participant?: Prisma.MamParticipantUpdateOneRequiredWithoutPicksNestedInput
   movie?: Prisma.MovieUpdateOneRequiredWithoutMamPicksNestedInput
@@ -323,6 +338,7 @@ export type MamPickUncheckedUpdateInput = {
   movieId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -332,12 +348,14 @@ export type MamPickCreateManyInput = {
   movieId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
 export type MamPickUpdateManyMutationInput = {
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -347,6 +365,7 @@ export type MamPickUncheckedUpdateManyInput = {
   movieId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -371,6 +390,7 @@ export type MamPickCountOrderByAggregateInput = {
   movieId?: Prisma.SortOrder
   score?: Prisma.SortOrder
   review?: Prisma.SortOrder
+  isSpecialMention?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -387,6 +407,7 @@ export type MamPickMaxOrderByAggregateInput = {
   movieId?: Prisma.SortOrder
   score?: Prisma.SortOrder
   review?: Prisma.SortOrder
+  isSpecialMention?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -396,6 +417,7 @@ export type MamPickMinOrderByAggregateInput = {
   movieId?: Prisma.SortOrder
   score?: Prisma.SortOrder
   review?: Prisma.SortOrder
+  isSpecialMention?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -493,6 +515,7 @@ export type MamPickUncheckedUpdateManyWithoutParticipantNestedInput = {
 export type MamPickCreateWithoutMovieInput = {
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
   participant: Prisma.MamParticipantCreateNestedOneWithoutPicksInput
 }
@@ -502,6 +525,7 @@ export type MamPickUncheckedCreateWithoutMovieInput = {
   participantId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
@@ -540,12 +564,14 @@ export type MamPickScalarWhereInput = {
   movieId?: Prisma.IntFilter<"MamPick"> | number
   score?: Prisma.IntFilter<"MamPick"> | number
   review?: Prisma.StringNullableFilter<"MamPick"> | string | null
+  isSpecialMention?: Prisma.BoolFilter<"MamPick"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MamPick"> | Date | string
 }
 
 export type MamPickCreateWithoutParticipantInput = {
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
   movie: Prisma.MovieCreateNestedOneWithoutMamPicksInput
 }
@@ -555,6 +581,7 @@ export type MamPickUncheckedCreateWithoutParticipantInput = {
   movieId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
@@ -589,12 +616,14 @@ export type MamPickCreateManyMovieInput = {
   participantId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
 export type MamPickUpdateWithoutMovieInput = {
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   participant?: Prisma.MamParticipantUpdateOneRequiredWithoutPicksNestedInput
 }
@@ -604,6 +633,7 @@ export type MamPickUncheckedUpdateWithoutMovieInput = {
   participantId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -612,6 +642,7 @@ export type MamPickUncheckedUpdateManyWithoutMovieInput = {
   participantId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -620,12 +651,14 @@ export type MamPickCreateManyParticipantInput = {
   movieId: number
   score: number
   review?: string | null
+  isSpecialMention?: boolean
   createdAt?: Date | string
 }
 
 export type MamPickUpdateWithoutParticipantInput = {
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movie?: Prisma.MovieUpdateOneRequiredWithoutMamPicksNestedInput
 }
@@ -635,6 +668,7 @@ export type MamPickUncheckedUpdateWithoutParticipantInput = {
   movieId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -643,6 +677,7 @@ export type MamPickUncheckedUpdateManyWithoutParticipantInput = {
   movieId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSpecialMention?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -654,6 +689,7 @@ export type MamPickSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   movieId?: boolean
   score?: boolean
   review?: boolean
+  isSpecialMention?: boolean
   createdAt?: boolean
   participant?: boolean | Prisma.MamParticipantDefaultArgs<ExtArgs>
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
@@ -665,6 +701,7 @@ export type MamPickSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   movieId?: boolean
   score?: boolean
   review?: boolean
+  isSpecialMention?: boolean
   createdAt?: boolean
   participant?: boolean | Prisma.MamParticipantDefaultArgs<ExtArgs>
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
@@ -676,6 +713,7 @@ export type MamPickSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   movieId?: boolean
   score?: boolean
   review?: boolean
+  isSpecialMention?: boolean
   createdAt?: boolean
   participant?: boolean | Prisma.MamParticipantDefaultArgs<ExtArgs>
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
@@ -687,10 +725,11 @@ export type MamPickSelectScalar = {
   movieId?: boolean
   score?: boolean
   review?: boolean
+  isSpecialMention?: boolean
   createdAt?: boolean
 }
 
-export type MamPickOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "participantId" | "movieId" | "score" | "review" | "createdAt", ExtArgs["result"]["mamPick"]>
+export type MamPickOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "participantId" | "movieId" | "score" | "review" | "isSpecialMention" | "createdAt", ExtArgs["result"]["mamPick"]>
 export type MamPickInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   participant?: boolean | Prisma.MamParticipantDefaultArgs<ExtArgs>
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
@@ -716,6 +755,7 @@ export type $MamPickPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     movieId: number
     score: number
     review: string | null
+    isSpecialMention: boolean
     createdAt: Date
   }, ExtArgs["result"]["mamPick"]>
   composites: {}
@@ -1147,6 +1187,7 @@ export interface MamPickFieldRefs {
   readonly movieId: Prisma.FieldRef<"MamPick", 'Int'>
   readonly score: Prisma.FieldRef<"MamPick", 'Int'>
   readonly review: Prisma.FieldRef<"MamPick", 'String'>
+  readonly isSpecialMention: Prisma.FieldRef<"MamPick", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"MamPick", 'DateTime'>
 }
     

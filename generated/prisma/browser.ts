@@ -67,3 +67,8 @@ export type MamParticipant = Prisma.MamParticipantModel
  * 
  */
 export type MamPick = Prisma.MamPickModel
+/**
+ * Model DailyRecommendation
+ * 
+ */
+export type DailyRecommendation = Prisma.DailyRecommendationModel

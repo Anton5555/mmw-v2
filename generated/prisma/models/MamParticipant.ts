@@ -218,6 +218,7 @@ export type MamParticipantWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"MamParticipant"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   picks?: Prisma.MamPickListRelationFilter
+  dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
 }
 
 export type MamParticipantOrderByWithRelationInput = {
@@ -228,6 +229,7 @@ export type MamParticipantOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   picks?: Prisma.MamPickOrderByRelationAggregateInput
+  dailyRecommendations?: Prisma.DailyRecommendationOrderByRelationAggregateInput
 }
 
 export type MamParticipantWhereUniqueInput = Prisma.AtLeast<{
@@ -241,6 +243,7 @@ export type MamParticipantWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"MamParticipant"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   picks?: Prisma.MamPickListRelationFilter
+  dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
 }, "id" | "slug" | "userId">
 
 export type MamParticipantOrderByWithAggregationInput = {
@@ -273,6 +276,7 @@ export type MamParticipantCreateInput = {
   createdAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutMamParticipantInput
   picks?: Prisma.MamPickCreateNestedManyWithoutParticipantInput
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantUncheckedCreateInput = {
@@ -282,6 +286,7 @@ export type MamParticipantUncheckedCreateInput = {
   userId?: string | null
   createdAt?: Date | string
   picks?: Prisma.MamPickUncheckedCreateNestedManyWithoutParticipantInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantUpdateInput = {
@@ -290,6 +295,7 @@ export type MamParticipantUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutMamParticipantNestedInput
   picks?: Prisma.MamPickUpdateManyWithoutParticipantNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutParticipantNestedInput
 }
 
 export type MamParticipantUncheckedUpdateInput = {
@@ -299,6 +305,7 @@ export type MamParticipantUncheckedUpdateInput = {
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   picks?: Prisma.MamPickUncheckedUpdateManyWithoutParticipantNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutParticipantNestedInput
 }
 
 export type MamParticipantCreateManyInput = {
@@ -411,11 +418,28 @@ export type MamParticipantUpdateOneRequiredWithoutPicksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MamParticipantUpdateToOneWithWhereWithoutPicksInput, Prisma.MamParticipantUpdateWithoutPicksInput>, Prisma.MamParticipantUncheckedUpdateWithoutPicksInput>
 }
 
+export type MamParticipantCreateNestedOneWithoutDailyRecommendationsInput = {
+  create?: Prisma.XOR<Prisma.MamParticipantCreateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedCreateWithoutDailyRecommendationsInput>
+  connectOrCreate?: Prisma.MamParticipantCreateOrConnectWithoutDailyRecommendationsInput
+  connect?: Prisma.MamParticipantWhereUniqueInput
+}
+
+export type MamParticipantUpdateOneWithoutDailyRecommendationsNestedInput = {
+  create?: Prisma.XOR<Prisma.MamParticipantCreateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedCreateWithoutDailyRecommendationsInput>
+  connectOrCreate?: Prisma.MamParticipantCreateOrConnectWithoutDailyRecommendationsInput
+  upsert?: Prisma.MamParticipantUpsertWithoutDailyRecommendationsInput
+  disconnect?: Prisma.MamParticipantWhereInput | boolean
+  delete?: Prisma.MamParticipantWhereInput | boolean
+  connect?: Prisma.MamParticipantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MamParticipantUpdateToOneWithWhereWithoutDailyRecommendationsInput, Prisma.MamParticipantUpdateWithoutDailyRecommendationsInput>, Prisma.MamParticipantUncheckedUpdateWithoutDailyRecommendationsInput>
+}
+
 export type MamParticipantCreateWithoutUserInput = {
   displayName: string
   slug: string
   createdAt?: Date | string
   picks?: Prisma.MamPickCreateNestedManyWithoutParticipantInput
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantUncheckedCreateWithoutUserInput = {
@@ -424,6 +448,7 @@ export type MamParticipantUncheckedCreateWithoutUserInput = {
   slug: string
   createdAt?: Date | string
   picks?: Prisma.MamPickUncheckedCreateNestedManyWithoutParticipantInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantCreateOrConnectWithoutUserInput = {
@@ -447,6 +472,7 @@ export type MamParticipantUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   picks?: Prisma.MamPickUpdateManyWithoutParticipantNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutParticipantNestedInput
 }
 
 export type MamParticipantUncheckedUpdateWithoutUserInput = {
@@ -455,6 +481,7 @@ export type MamParticipantUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   picks?: Prisma.MamPickUncheckedUpdateManyWithoutParticipantNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutParticipantNestedInput
 }
 
 export type MamParticipantCreateWithoutPicksInput = {
@@ -462,6 +489,7 @@ export type MamParticipantCreateWithoutPicksInput = {
   slug: string
   createdAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutMamParticipantInput
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantUncheckedCreateWithoutPicksInput = {
@@ -470,6 +498,7 @@ export type MamParticipantUncheckedCreateWithoutPicksInput = {
   slug: string
   userId?: string | null
   createdAt?: Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutParticipantInput
 }
 
 export type MamParticipantCreateOrConnectWithoutPicksInput = {
@@ -493,6 +522,7 @@ export type MamParticipantUpdateWithoutPicksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutMamParticipantNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutParticipantNestedInput
 }
 
 export type MamParticipantUncheckedUpdateWithoutPicksInput = {
@@ -501,6 +531,57 @@ export type MamParticipantUncheckedUpdateWithoutPicksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutParticipantNestedInput
+}
+
+export type MamParticipantCreateWithoutDailyRecommendationsInput = {
+  displayName: string
+  slug: string
+  createdAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutMamParticipantInput
+  picks?: Prisma.MamPickCreateNestedManyWithoutParticipantInput
+}
+
+export type MamParticipantUncheckedCreateWithoutDailyRecommendationsInput = {
+  id?: number
+  displayName: string
+  slug: string
+  userId?: string | null
+  createdAt?: Date | string
+  picks?: Prisma.MamPickUncheckedCreateNestedManyWithoutParticipantInput
+}
+
+export type MamParticipantCreateOrConnectWithoutDailyRecommendationsInput = {
+  where: Prisma.MamParticipantWhereUniqueInput
+  create: Prisma.XOR<Prisma.MamParticipantCreateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedCreateWithoutDailyRecommendationsInput>
+}
+
+export type MamParticipantUpsertWithoutDailyRecommendationsInput = {
+  update: Prisma.XOR<Prisma.MamParticipantUpdateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedUpdateWithoutDailyRecommendationsInput>
+  create: Prisma.XOR<Prisma.MamParticipantCreateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedCreateWithoutDailyRecommendationsInput>
+  where?: Prisma.MamParticipantWhereInput
+}
+
+export type MamParticipantUpdateToOneWithWhereWithoutDailyRecommendationsInput = {
+  where?: Prisma.MamParticipantWhereInput
+  data: Prisma.XOR<Prisma.MamParticipantUpdateWithoutDailyRecommendationsInput, Prisma.MamParticipantUncheckedUpdateWithoutDailyRecommendationsInput>
+}
+
+export type MamParticipantUpdateWithoutDailyRecommendationsInput = {
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutMamParticipantNestedInput
+  picks?: Prisma.MamPickUpdateManyWithoutParticipantNestedInput
+}
+
+export type MamParticipantUncheckedUpdateWithoutDailyRecommendationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  picks?: Prisma.MamPickUncheckedUpdateManyWithoutParticipantNestedInput
 }
 
 
@@ -510,10 +591,12 @@ export type MamParticipantUncheckedUpdateWithoutPicksInput = {
 
 export type MamParticipantCountOutputType = {
   picks: number
+  dailyRecommendations: number
 }
 
 export type MamParticipantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   picks?: boolean | MamParticipantCountOutputTypeCountPicksArgs
+  dailyRecommendations?: boolean | MamParticipantCountOutputTypeCountDailyRecommendationsArgs
 }
 
 /**
@@ -533,6 +616,13 @@ export type MamParticipantCountOutputTypeCountPicksArgs<ExtArgs extends runtime.
   where?: Prisma.MamPickWhereInput
 }
 
+/**
+ * MamParticipantCountOutputType without action
+ */
+export type MamParticipantCountOutputTypeCountDailyRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyRecommendationWhereInput
+}
+
 
 export type MamParticipantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -542,6 +632,7 @@ export type MamParticipantSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   user?: boolean | Prisma.MamParticipant$userArgs<ExtArgs>
   picks?: boolean | Prisma.MamParticipant$picksArgs<ExtArgs>
+  dailyRecommendations?: boolean | Prisma.MamParticipant$dailyRecommendationsArgs<ExtArgs>
   _count?: boolean | Prisma.MamParticipantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mamParticipant"]>
 
@@ -575,6 +666,7 @@ export type MamParticipantOmit<ExtArgs extends runtime.Types.Extensions.Internal
 export type MamParticipantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.MamParticipant$userArgs<ExtArgs>
   picks?: boolean | Prisma.MamParticipant$picksArgs<ExtArgs>
+  dailyRecommendations?: boolean | Prisma.MamParticipant$dailyRecommendationsArgs<ExtArgs>
   _count?: boolean | Prisma.MamParticipantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MamParticipantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -589,6 +681,7 @@ export type $MamParticipantPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     user: Prisma.$UserPayload<ExtArgs> | null
     picks: Prisma.$MamPickPayload<ExtArgs>[]
+    dailyRecommendations: Prisma.$DailyRecommendationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -992,6 +1085,7 @@ export interface Prisma__MamParticipantClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.MamParticipant$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MamParticipant$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   picks<T extends Prisma.MamParticipant$picksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MamParticipant$picksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MamPickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailyRecommendations<T extends Prisma.MamParticipant$dailyRecommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MamParticipant$dailyRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1462,6 +1556,30 @@ export type MamParticipant$picksArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.MamPickScalarFieldEnum | Prisma.MamPickScalarFieldEnum[]
+}
+
+/**
+ * MamParticipant.dailyRecommendations
+ */
+export type MamParticipant$dailyRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyRecommendation
+   */
+  select?: Prisma.DailyRecommendationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyRecommendation
+   */
+  omit?: Prisma.DailyRecommendationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyRecommendationInclude<ExtArgs> | null
+  where?: Prisma.DailyRecommendationWhereInput
+  orderBy?: Prisma.DailyRecommendationOrderByWithRelationInput | Prisma.DailyRecommendationOrderByWithRelationInput[]
+  cursor?: Prisma.DailyRecommendationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyRecommendationScalarFieldEnum | Prisma.DailyRecommendationScalarFieldEnum[]
 }
 
 /**

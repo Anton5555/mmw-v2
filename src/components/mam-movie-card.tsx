@@ -107,15 +107,17 @@ export function MamMovieCard({
             {/* Hover Overlay: Reveal metadata */}
             <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
               <div className="space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="flex items-center gap-2">
-                  <Badge
-                    variant="outline"
-                    className="bg-white/10 backdrop-blur-md border-white/20 text-white"
-                  >
-                    <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
-                    {movie.totalPoints ?? 0} pts
-                  </Badge>
-                </div>
+                {(movie.totalPoints ?? 0) > 0 && (
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      variant="outline"
+                      className="bg-white/10 backdrop-blur-md border-white/20 text-white"
+                    >
+                      <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+                      {movie.totalPoints} pts
+                    </Badge>
+                  </div>
+                )}
                 <p className="text-[10px] text-zinc-300 line-clamp-3 leading-tight italic">
                   &quot;{movie.picks[0]?.review || 'Sin reseña destacada'}&quot;
                 </p>
@@ -139,7 +141,7 @@ export function MamMovieCard({
               {movie.picks.slice(0, 3).map((pick, i) => (
                 <div
                   key={pick.id}
-                  className="w-5 h-5 rounded-full border-2 border-background overflow-hidden"
+                  className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
                 >
                   <ParticipantAvatar
                     participant={pick.participant}

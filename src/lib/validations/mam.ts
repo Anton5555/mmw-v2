@@ -39,8 +39,9 @@ export type MamParticipantInput = z.infer<typeof mamParticipantSchema>;
 export const mamPickSchema = z.object({
   participantId: z.number().int().positive(),
   movieId: z.number().int().positive(),
-  score: z.number().int().min(1).max(5),
+  score: z.number().int().min(0).max(5),
   review: z.string().optional(),
+  isSpecialMention: z.boolean().optional().default(false),
 });
 
 export type MamPickInput = z.infer<typeof mamPickSchema>;
@@ -61,6 +62,7 @@ export const mamMovieWithPicksSchema = z.object({
       participantId: z.number(),
       score: z.number(),
       review: z.string().nullable(),
+      isSpecialMention: z.boolean(),
       createdAt: z.date(),
       participant: z.object({
         id: z.number(),
