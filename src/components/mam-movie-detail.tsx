@@ -40,11 +40,13 @@ export function MamMovieDetail({
   const displayRank = rank ?? movie.rank;
 
   // Logic for grouping picks
-  const topChoicePicks = movie.picks.filter((pick) => pick.score === 5);
-  const regularPicksWithReviews = movie.picks.filter(
+  const specialMentions = movie.picks.filter((pick) => pick.isSpecialMention);
+  const regularPicks = movie.picks.filter((pick) => !pick.isSpecialMention);
+  const topChoicePicks = regularPicks.filter((pick) => pick.score === 5);
+  const regularPicksWithReviews = regularPicks.filter(
     (pick) => pick.score === 1 && pick.review
   );
-  const regularPicksWithoutReviews = movie.picks.filter(
+  const regularPicksWithoutReviews = regularPicks.filter(
     (pick) => pick.score === 1 && !pick.review
   );
 
@@ -160,7 +162,7 @@ export function MamMovieDetail({
                 />
               ))}
 
-              {/* Regular Picks */}
+              {/* Regular Picks with Reviews */}
               {regularPicksWithReviews.map((pick) => (
                 <ReviewCard
                   key={pick.id}
@@ -182,6 +184,24 @@ export function MamMovieDetail({
                 </GlassCard>
               )}
 
+              {/* Special Mentions Section */}
+              {specialMentions.length > 0 && (
+                <>
+                  <h3 className="text-xl font-black uppercase tracking-widest text-white/40 mt-12 mb-4">
+                    Menciones Especiales
+                  </h3>
+                  {specialMentions.map((pick) => (
+                    <ReviewCard
+                      key={pick.id}
+                      pick={pick}
+                      isSpecialMention
+                      expandedReviews={expandedReviews}
+                      setExpandedReviews={setExpandedReviews}
+                    />
+                  ))}
+                </>
+              )}
+
               {/* Empty State */}
               {movie.picks.length === 0 && (
                 <GlassCard variant="review" className="p-8 text-center">
@@ -200,15 +220,17 @@ export function MamMovieDetail({
                 Estadísticas
               </h3>
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-3xl font-black">
-                    {movie.totalPoints ?? 0}
-                  </p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                    Puntos Totales
-                  </p>
-                </div>
-                <div>
+                {(movie.totalPoints ?? 0) > 0 && (
+                  <div>
+                    <p className="text-3xl font-black">
+                      {movie.totalPoints}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      Puntos Totales
+                    </p>
+                  </div>
+                )}
+                <div className={cn((movie.totalPoints ?? 0) > 0 ? '' : 'col-span-2')}>
                   <p className="text-3xl font-black">{movie.totalPicks ?? 0}</p>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                     Votantes
@@ -249,11 +271,13 @@ export function MamMovieDetail({
 function ReviewCard({
   pick,
   isTopChoice,
+  isSpecialMention,
   expandedReviews,
   setExpandedReviews,
 }: {
   pick: MamMovieWithPicks['picks'][0];
   isTopChoice?: boolean;
+  isSpecialMention?: boolean;
   expandedReviews: Set<number>;
   setExpandedReviews: React.Dispatch<React.SetStateAction<Set<number>>>;
 }) {
@@ -271,7 +295,11 @@ function ReviewCard({
   return (
     <GlassCard
       variant="review"
-      className={cn(isTopChoice && 'border-yellow-500/20 bg-yellow-500/[0.02]')}
+      className={cn(
+        isTopChoice && 'border-yellow-500/20 bg-yellow-500/[0.02]',
+        isSpecialMention &&
+          'border-purple-500/30 bg-gradient-to-br from-purple-500/[0.05] to-blue-500/[0.05]'
+      )}
     >
       <div className="p-6">
         <div className="flex items-center justify-between gap-4">
@@ -293,6 +321,11 @@ function ReviewCard({
                   Favorito de la lista
                 </span>
               )}
+              {isSpecialMention && (
+                <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">
+                  ⭐ Mención Especial
+                </span>
+              )}
             </div>
           </div>
           <div
@@ -300,10 +333,18 @@ function ReviewCard({
               'rounded-lg px-3 py-1 text-sm font-black',
               isTopChoice
                 ? 'bg-yellow-500 text-black'
-                : 'bg-white/10 text-white'
+                : isSpecialMention
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                  : 'bg-white/10 text-white'
             )}
           >
-            {pick.score} PT{pick.score > 1 ? 'S' : ''}
+            {isSpecialMention ? (
+              'ESPECIAL'
+            ) : (
+              <>
+                {pick.score} PT{pick.score > 1 ? 'S' : ''}
+              </>
+            )}
           </div>
         </div>
 

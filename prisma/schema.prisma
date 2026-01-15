@@ -172,12 +172,13 @@ model MamParticipant {
 }
 
 model MamPick {
-  id            Int      @id @default(autoincrement())
-  participantId Int
-  movieId       Int
-  score         Int // 5 for top pick, otherwise 1
-  review        String?
-  createdAt     DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  participantId   Int
+  movieId         Int
+  score           Int // 5 for top pick, otherwise 1 (0 for special mentions)
+  review          String?
+  isSpecialMention Boolean @default(false)
+  createdAt       DateTime @default(now())
 
   participant MamParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
   movie       Movie          @relation(fields: [movieId], references: [id], onDelete: Cascade)
@@ -185,4 +186,5 @@ model MamPick {
   @@unique([participantId, movieId])
   @@index([movieId])
   @@index([participantId])
+  @@index([isSpecialMention])
 }

@@ -55,20 +55,32 @@ export default async function MamPage({ searchParams }: MamPageProps) {
                 por la comunidad para ser vista, al menos, una vez en la vida.
               </p>
             </div>
-            {hasUserPicks && (
+            <div className="flex flex-wrap gap-4">
               <Button
                 asChild
-                className="relative overflow-hidden group rounded-full bg-white text-black hover:bg-white px-8 h-12"
+                className="relative overflow-hidden group rounded-full bg-white/10 text-white hover:bg-white/20 px-8 h-12 border border-white/20"
               >
-                <Link href="/mam/my-list">
-                  <span className="relative z-10 font-bold tracking-tight group-hover:text-white transition-colors duration-300">
-                    Mi Lista Personal
+                <Link href="/mam/special-mentions">
+                  <span className="relative z-10 font-bold tracking-tight">
+                    Menciones Especiales
                   </span>
-                  {/* Animated background on hover */}
-                  <div className="absolute inset-0 bg-linear-to-r from-yellow-400 to-orange-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Link>
               </Button>
-            )}
+              {hasUserPicks && (
+                <Button
+                  asChild
+                  className="relative overflow-hidden group rounded-full bg-white text-black hover:bg-white px-8 h-12"
+                >
+                  <Link href="/mam/my-list">
+                    <span className="relative z-10 font-bold tracking-tight group-hover:text-white transition-colors duration-300">
+                      Mi Lista Personal
+                    </span>
+                    {/* Animated background on hover */}
+                    <div className="absolute inset-0 bg-linear-to-r from-yellow-400 to-orange-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </Link>
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 

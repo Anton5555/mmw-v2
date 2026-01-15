@@ -32,18 +32,29 @@ export function ParticipantAvatar({
   className,
 }: ParticipantAvatarProps) {
   const sizeClasses = {
-    sm: 'h-6 w-6 text-xs',
-    md: 'h-8 w-8 text-sm',
-    lg: 'h-10 w-10 text-base',
+    sm: 'h-6 w-6 text-[11px] leading-none tracking-tight',
+    md: 'h-8 w-8 text-xs leading-none tracking-tight',
+    lg: 'h-10 w-10 text-sm leading-none tracking-tight',
   };
 
   const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((word) => word[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+    // Remove extra whitespace and split into words
+    const words = name.trim().split(/\s+/).filter(word => word.length > 0);
+    
+    if (words.length === 0) return '??';
+    
+    // Get first letter of first word
+    const firstLetter = words[0]?.[0]?.toUpperCase() || '?';
+    
+    if (words.length === 1) {
+      // Single word: take first 2 letters, but ensure we only get 2
+      const secondLetter = words[0]?.[1]?.toUpperCase() || firstLetter;
+      return (firstLetter + secondLetter).slice(0, 2);
+    }
+    
+    // Multiple words: first letter of first word + first letter of last word
+    const lastLetter = words[words.length - 1]?.[0]?.toUpperCase() || firstLetter;
+    return (firstLetter + lastLetter).slice(0, 2);
   };
 
   const getColorFromName = (name: string) => {
@@ -74,7 +85,10 @@ export function ParticipantAvatar({
     <Avatar className={cn(sizeClasses[size], className)}>
       <AvatarImage src={avatarUrl} alt={displayName} />
       <AvatarFallback
-        className={cn(getColorFromName(displayName), 'text-white font-medium')}
+        className={cn(
+          getColorFromName(displayName),
+          'text-white font-bold select-none'
+        )}
       >
         {getInitials(displayName)}
       </AvatarFallback>

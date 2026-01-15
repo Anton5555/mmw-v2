@@ -30,7 +30,7 @@ export const EventScalarFieldEnumSchema = z.enum(['id','title','description','mo
 
 export const MamParticipantScalarFieldEnumSchema = z.enum(['id','displayName','slug','userId','createdAt']);
 
-export const MamPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','score','review','createdAt']);
+export const MamPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','score','review','isSpecialMention','createdAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -219,6 +219,7 @@ export const MamPickSchema = z.object({
   movieId: z.number().int(),
   score: z.number().int(),
   review: z.string().nullable(),
+  isSpecialMention: z.boolean(),
   createdAt: z.coerce.date(),
 })
 

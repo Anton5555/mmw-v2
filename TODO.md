@@ -1,8 +1,6 @@
 # TODO
 
-## MAM Section
-
-- [ ] Add MAM ciones especiales like a separate section inside MAM section
+- Recomend a random movie from the MAMs, or a list from a particular participant, one per day is possible?
 
 ## UI improvements
 

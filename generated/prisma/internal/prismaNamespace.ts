@@ -1330,6 +1330,7 @@ export const MamPickScalarFieldEnum = {
   movieId: 'movieId',
   score: 'score',
   review: 'review',
+  isSpecialMention: 'isSpecialMention',
   createdAt: 'createdAt'
 } as const
 
