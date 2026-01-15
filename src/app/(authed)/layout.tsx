@@ -10,6 +10,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 // Separate component to fetch user data (wrapped in Suspense)
 async function AuthenticatedLayoutContent({
@@ -56,13 +57,7 @@ async function AuthenticatedLayoutContent({
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense
-      fallback={
-        <div className="flex items-center justify-center min-h-screen">
-          <div>Loading...</div>
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingSpinner />}>
       <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
     </Suspense>
   );
