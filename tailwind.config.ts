@@ -25,7 +25,7 @@ export default {
         sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       animation: {
-        aurora: 'aurora 60s linear infinite',
+        grain: 'grain 1s steps(6) infinite',
         collapse: 'collapse 0.2s ease-out',
         expand: 'expand 0.2s ease-out',
         shimmer: 'shimmer 2s infinite',
@@ -33,7 +33,8 @@ export default {
         'breadcrumb-fade': 'breadcrumb-fade 0.4s ease-out',
       },
       backgroundImage: {
-        'glass-gradient': 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0))',
+        'glass-gradient':
+          'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0))',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -96,7 +97,11 @@ export default {
   },
   plugins: [
     // Adds the perspective utilities
-    function ({ addUtilities }: { addUtilities: (utilities: Record<string, Record<string, string>>) => void }) {
+    function ({
+      addUtilities,
+    }: {
+      addUtilities: (utilities: Record<string, Record<string, string>>) => void;
+    }) {
       addUtilities({
         '.perspective-1000': {
           perspective: '1000px',
