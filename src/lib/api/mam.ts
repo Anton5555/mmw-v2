@@ -10,7 +10,7 @@ import { Prisma } from '@prisma/client';
  * Get all MAM participants
  */
 export async function getMamParticipants() {
-  "use cache";
+  'use cache';
   return await prisma.mamParticipant.findMany({
     include: {
       user: {
@@ -56,7 +56,7 @@ export async function getMamParticipantBySlug(slug: string) {
  * Uses cached mamAverageScore and mamTotalPicks for efficient sorting
  */
 export async function getMamMovies(query: MamMovieQuery) {
-  "use cache";
+  'use cache';
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
@@ -294,6 +294,7 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
           participantId: true,
           score: true,
           review: true,
+          isSpecialMention: true,
           createdAt: true,
           participant: {
             include: {
@@ -374,7 +375,7 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
  * Returns paginated movies that have at least one special mention
  */
 export async function getSpecialMentions(query: MamMovieQuery) {
-  "use cache";
+  'use cache';
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
@@ -486,7 +487,7 @@ export async function getSpecialMentions(query: MamMovieQuery) {
  * Uses cached mamAverageScore and mamTotalPicks for top movies
  */
 export async function getMamStats() {
-  "use cache";
+  'use cache';
   const [
     totalMovies,
     totalParticipants,
