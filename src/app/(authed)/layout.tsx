@@ -4,15 +4,19 @@ import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
 import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
-import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
 import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
 import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
+import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
 
 // Separate component to fetch user data (wrapped in Suspense)
-async function AuthenticatedLayoutContent({ children }: { children: React.ReactNode }) {
+async function AuthenticatedLayoutContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   await connection();
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -52,11 +56,13 @@ async function AuthenticatedLayoutContent({ children }: { children: React.ReactN
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen">
-        <div>Loading...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen">
+          <div>Loading...</div>
+        </div>
+      }
+    >
       <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
     </Suspense>
   );
