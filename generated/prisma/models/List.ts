@@ -241,6 +241,7 @@ export type ListWhereInput = {
   tags?: Prisma.StringFilter<"List"> | string
   createdAt?: Prisma.DateTimeFilter<"List"> | Date | string
   movies?: Prisma.MovieListListRelationFilter
+  dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
 }
 
 export type ListOrderByWithRelationInput = {
@@ -253,6 +254,7 @@ export type ListOrderByWithRelationInput = {
   tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   movies?: Prisma.MovieListOrderByRelationAggregateInput
+  dailyRecommendations?: Prisma.DailyRecommendationOrderByRelationAggregateInput
 }
 
 export type ListWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type ListWhereUniqueInput = Prisma.AtLeast<{
   tags?: Prisma.StringFilter<"List"> | string
   createdAt?: Prisma.DateTimeFilter<"List"> | Date | string
   movies?: Prisma.MovieListListRelationFilter
+  dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
 }, "id">
 
 export type ListOrderByWithAggregationInput = {
@@ -309,6 +312,7 @@ export type ListCreateInput = {
   tags: string
   createdAt?: Date | string
   movies?: Prisma.MovieListCreateNestedManyWithoutListInput
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutListInput
 }
 
 export type ListUncheckedCreateInput = {
@@ -321,6 +325,7 @@ export type ListUncheckedCreateInput = {
   tags: string
   createdAt?: Date | string
   movies?: Prisma.MovieListUncheckedCreateNestedManyWithoutListInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutListInput
 }
 
 export type ListUpdateInput = {
@@ -332,6 +337,7 @@ export type ListUpdateInput = {
   tags?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movies?: Prisma.MovieListUpdateManyWithoutListNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutListNestedInput
 }
 
 export type ListUncheckedUpdateInput = {
@@ -344,6 +350,7 @@ export type ListUncheckedUpdateInput = {
   tags?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   movies?: Prisma.MovieListUncheckedUpdateManyWithoutListNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutListNestedInput
 }
 
 export type ListCreateManyInput = {
@@ -424,6 +431,11 @@ export type ListScalarRelationFilter = {
   isNot?: Prisma.ListWhereInput
 }
 
+export type ListNullableScalarRelationFilter = {
+  is?: Prisma.ListWhereInput | null
+  isNot?: Prisma.ListWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -454,6 +466,22 @@ export type ListUpdateOneRequiredWithoutMoviesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ListUpdateToOneWithWhereWithoutMoviesInput, Prisma.ListUpdateWithoutMoviesInput>, Prisma.ListUncheckedUpdateWithoutMoviesInput>
 }
 
+export type ListCreateNestedOneWithoutDailyRecommendationsInput = {
+  create?: Prisma.XOR<Prisma.ListCreateWithoutDailyRecommendationsInput, Prisma.ListUncheckedCreateWithoutDailyRecommendationsInput>
+  connectOrCreate?: Prisma.ListCreateOrConnectWithoutDailyRecommendationsInput
+  connect?: Prisma.ListWhereUniqueInput
+}
+
+export type ListUpdateOneWithoutDailyRecommendationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ListCreateWithoutDailyRecommendationsInput, Prisma.ListUncheckedCreateWithoutDailyRecommendationsInput>
+  connectOrCreate?: Prisma.ListCreateOrConnectWithoutDailyRecommendationsInput
+  upsert?: Prisma.ListUpsertWithoutDailyRecommendationsInput
+  disconnect?: Prisma.ListWhereInput | boolean
+  delete?: Prisma.ListWhereInput | boolean
+  connect?: Prisma.ListWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ListUpdateToOneWithWhereWithoutDailyRecommendationsInput, Prisma.ListUpdateWithoutDailyRecommendationsInput>, Prisma.ListUncheckedUpdateWithoutDailyRecommendationsInput>
+}
+
 export type ListCreateWithoutMoviesInput = {
   name: string
   description: string
@@ -462,6 +490,7 @@ export type ListCreateWithoutMoviesInput = {
   createdBy: string
   tags: string
   createdAt?: Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutListInput
 }
 
 export type ListUncheckedCreateWithoutMoviesInput = {
@@ -473,6 +502,7 @@ export type ListUncheckedCreateWithoutMoviesInput = {
   createdBy: string
   tags: string
   createdAt?: Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutListInput
 }
 
 export type ListCreateOrConnectWithoutMoviesInput = {
@@ -499,6 +529,7 @@ export type ListUpdateWithoutMoviesInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutListNestedInput
 }
 
 export type ListUncheckedUpdateWithoutMoviesInput = {
@@ -510,6 +541,69 @@ export type ListUncheckedUpdateWithoutMoviesInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutListNestedInput
+}
+
+export type ListCreateWithoutDailyRecommendationsInput = {
+  name: string
+  description: string
+  letterboxdUrl: string
+  imgUrl: string
+  createdBy: string
+  tags: string
+  createdAt?: Date | string
+  movies?: Prisma.MovieListCreateNestedManyWithoutListInput
+}
+
+export type ListUncheckedCreateWithoutDailyRecommendationsInput = {
+  id?: number
+  name: string
+  description: string
+  letterboxdUrl: string
+  imgUrl: string
+  createdBy: string
+  tags: string
+  createdAt?: Date | string
+  movies?: Prisma.MovieListUncheckedCreateNestedManyWithoutListInput
+}
+
+export type ListCreateOrConnectWithoutDailyRecommendationsInput = {
+  where: Prisma.ListWhereUniqueInput
+  create: Prisma.XOR<Prisma.ListCreateWithoutDailyRecommendationsInput, Prisma.ListUncheckedCreateWithoutDailyRecommendationsInput>
+}
+
+export type ListUpsertWithoutDailyRecommendationsInput = {
+  update: Prisma.XOR<Prisma.ListUpdateWithoutDailyRecommendationsInput, Prisma.ListUncheckedUpdateWithoutDailyRecommendationsInput>
+  create: Prisma.XOR<Prisma.ListCreateWithoutDailyRecommendationsInput, Prisma.ListUncheckedCreateWithoutDailyRecommendationsInput>
+  where?: Prisma.ListWhereInput
+}
+
+export type ListUpdateToOneWithWhereWithoutDailyRecommendationsInput = {
+  where?: Prisma.ListWhereInput
+  data: Prisma.XOR<Prisma.ListUpdateWithoutDailyRecommendationsInput, Prisma.ListUncheckedUpdateWithoutDailyRecommendationsInput>
+}
+
+export type ListUpdateWithoutDailyRecommendationsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  letterboxdUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  movies?: Prisma.MovieListUpdateManyWithoutListNestedInput
+}
+
+export type ListUncheckedUpdateWithoutDailyRecommendationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  letterboxdUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imgUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  movies?: Prisma.MovieListUncheckedUpdateManyWithoutListNestedInput
 }
 
 
@@ -519,10 +613,12 @@ export type ListUncheckedUpdateWithoutMoviesInput = {
 
 export type ListCountOutputType = {
   movies: number
+  dailyRecommendations: number
 }
 
 export type ListCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   movies?: boolean | ListCountOutputTypeCountMoviesArgs
+  dailyRecommendations?: boolean | ListCountOutputTypeCountDailyRecommendationsArgs
 }
 
 /**
@@ -542,6 +638,13 @@ export type ListCountOutputTypeCountMoviesArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.MovieListWhereInput
 }
 
+/**
+ * ListCountOutputType without action
+ */
+export type ListCountOutputTypeCountDailyRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyRecommendationWhereInput
+}
+
 
 export type ListSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -553,6 +656,7 @@ export type ListSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   tags?: boolean
   createdAt?: boolean
   movies?: boolean | Prisma.List$moviesArgs<ExtArgs>
+  dailyRecommendations?: boolean | Prisma.List$dailyRecommendationsArgs<ExtArgs>
   _count?: boolean | Prisma.ListCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["list"]>
 
@@ -592,6 +696,7 @@ export type ListSelectScalar = {
 export type ListOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "letterboxdUrl" | "imgUrl" | "createdBy" | "tags" | "createdAt", ExtArgs["result"]["list"]>
 export type ListInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   movies?: boolean | Prisma.List$moviesArgs<ExtArgs>
+  dailyRecommendations?: boolean | Prisma.List$dailyRecommendationsArgs<ExtArgs>
   _count?: boolean | Prisma.ListCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ListIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -601,6 +706,7 @@ export type $ListPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "List"
   objects: {
     movies: Prisma.$MovieListPayload<ExtArgs>[]
+    dailyRecommendations: Prisma.$DailyRecommendationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1006,6 +1112,7 @@ readonly fields: ListFieldRefs;
 export interface Prisma__ListClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   movies<T extends Prisma.List$moviesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.List$moviesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovieListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailyRecommendations<T extends Prisma.List$dailyRecommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.List$dailyRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1452,6 +1559,30 @@ export type List$moviesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.MovieListScalarFieldEnum | Prisma.MovieListScalarFieldEnum[]
+}
+
+/**
+ * List.dailyRecommendations
+ */
+export type List$dailyRecommendationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyRecommendation
+   */
+  select?: Prisma.DailyRecommendationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyRecommendation
+   */
+  omit?: Prisma.DailyRecommendationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyRecommendationInclude<ExtArgs> | null
+  where?: Prisma.DailyRecommendationWhereInput
+  orderBy?: Prisma.DailyRecommendationOrderByWithRelationInput | Prisma.DailyRecommendationOrderByWithRelationInput[]
+  cursor?: Prisma.DailyRecommendationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyRecommendationScalarFieldEnum | Prisma.DailyRecommendationScalarFieldEnum[]
 }
 
 /**

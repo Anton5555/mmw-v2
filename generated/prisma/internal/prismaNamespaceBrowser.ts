@@ -60,7 +60,8 @@ export const ModelName = {
   Verification: 'Verification',
   Event: 'Event',
   MamParticipant: 'MamParticipant',
-  MamPick: 'MamPick'
+  MamPick: 'MamPick',
+  DailyRecommendation: 'DailyRecommendation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -222,6 +223,22 @@ export const MamPickScalarFieldEnum = {
 } as const
 
 export type MamPickScalarFieldEnum = (typeof MamPickScalarFieldEnum)[keyof typeof MamPickScalarFieldEnum]
+
+
+export const DailyRecommendationScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  type: 'type',
+  movieId: 'movieId',
+  listId: 'listId',
+  participantId: 'participantId',
+  curatorName: 'curatorName',
+  curatorImage: 'curatorImage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyRecommendationScalarFieldEnum = (typeof DailyRecommendationScalarFieldEnum)[keyof typeof DailyRecommendationScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -28,6 +28,7 @@ model List {
   tags          String
   createdAt     DateTime    @default(now())
   movies        MovieList[]
+  dailyRecommendations DailyRecommendation[]
 }
 
 model Movie {
@@ -41,6 +42,7 @@ model Movie {
   posterUrl        String
   MovieList        MovieList[]
   mamPicks         MamPick[]
+  dailyRecommendations DailyRecommendation[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -167,6 +169,7 @@ model MamParticipant {
   user        User?     @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
   picks       MamPick[]
+  dailyRecommendations DailyRecommendation[]
 
   @@index([displayName])
 }
@@ -187,4 +190,23 @@ model MamPick {
   @@index([movieId])
   @@index([participantId])
   @@index([isSpecialMention])
+}
+
+model DailyRecommendation {
+  id            String    @id @default(uuid())
+  date          DateTime  @unique // Date for which this recommendation is valid (YYYY-MM-DD, time set to 00:00)
+  type          String    // 'movie' | 'list' | 'participant'
+  movieId       Int?      // If type is 'movie'
+  listId        Int?      // If type is 'list'
+  participantId Int?      // If type is 'participant'
+  curatorName   String?   // Display name of curator
+  curatorImage  String?   // Image URL of curator
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  movie       Movie?          @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  list        List?           @relation(fields: [listId], references: [id], onDelete: Cascade)
+  participant MamParticipant? @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@index([date])
 }
