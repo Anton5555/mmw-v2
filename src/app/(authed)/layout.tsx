@@ -3,6 +3,10 @@ import { connection } from 'next/server';
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
+import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
+import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
+import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
+import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
@@ -32,8 +36,14 @@ async function AuthenticatedLayoutContent({ children }: { children: React.ReactN
 
       <SidebarInset className="mb-8">
         <BreadcrumbProvider>
-          <BreadcrumbsNav />
-          {children}
+          <FilmSlateProvider>
+            <FilmStripProvider>
+              <FilmSlateWrapper />
+              <FilmStripWrapper />
+              <BreadcrumbsNav />
+              {children}
+            </FilmStripProvider>
+          </FilmSlateProvider>
         </BreadcrumbProvider>
       </SidebarInset>
     </SidebarProvider>
