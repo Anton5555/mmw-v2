@@ -394,7 +394,8 @@ export const ModelName = {
   Event: 'Event',
   MamParticipant: 'MamParticipant',
   MamPick: 'MamPick',
-  DailyRecommendation: 'DailyRecommendation'
+  DailyRecommendation: 'DailyRecommendation',
+  BoardPost: 'BoardPost'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1228,6 +1229,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BoardPost: {
+      payload: Prisma.$BoardPostPayload<ExtArgs>
+      fields: Prisma.BoardPostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BoardPostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BoardPostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        findFirst: {
+          args: Prisma.BoardPostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BoardPostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        findMany: {
+          args: Prisma.BoardPostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>[]
+        }
+        create: {
+          args: Prisma.BoardPostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        createMany: {
+          args: Prisma.BoardPostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BoardPostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>[]
+        }
+        delete: {
+          args: Prisma.BoardPostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        update: {
+          args: Prisma.BoardPostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        deleteMany: {
+          args: Prisma.BoardPostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BoardPostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BoardPostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>[]
+        }
+        upsert: {
+          args: Prisma.BoardPostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BoardPostPayload>
+        }
+        aggregate: {
+          args: Prisma.BoardPostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBoardPost>
+        }
+        groupBy: {
+          args: Prisma.BoardPostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BoardPostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BoardPostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BoardPostCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1426,6 +1501,20 @@ export const DailyRecommendationScalarFieldEnum = {
 } as const
 
 export type DailyRecommendationScalarFieldEnum = (typeof DailyRecommendationScalarFieldEnum)[keyof typeof DailyRecommendationScalarFieldEnum]
+
+
+export const BoardPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  gridX: 'gridX',
+  gridY: 'gridY',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy'
+} as const
+
+export type BoardPostScalarFieldEnum = (typeof BoardPostScalarFieldEnum)[keyof typeof BoardPostScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1640,6 +1729,7 @@ export type GlobalOmitConfig = {
   mamParticipant?: Prisma.MamParticipantOmit
   mamPick?: Prisma.MamPickOmit
   dailyRecommendation?: Prisma.DailyRecommendationOmit
+  boardPost?: Prisma.BoardPostOmit
 }
 
 /* Types for Logging */

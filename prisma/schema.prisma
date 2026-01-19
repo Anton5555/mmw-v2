@@ -86,6 +86,7 @@ model User {
   banExpires     DateTime?
   Event          Event[]
   MamParticipant MamParticipant?
+  BoardPost      BoardPost[]
 
   @@map("user")
 }
@@ -209,4 +210,19 @@ model DailyRecommendation {
   participant MamParticipant? @relation(fields: [participantId], references: [id], onDelete: Cascade)
 
   @@index([date])
+}
+
+model BoardPost {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  gridX         Int      @default(0) // Column position (0-3 for lg)
+  gridY         Int      @default(0) // Row position
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdBy     String
+  createdByUser User     @relation(fields: [createdBy], references: [id])
+
+  @@index([gridY, gridX]) // For efficient position-based queries
+  @@map("BoardPost")
 }
