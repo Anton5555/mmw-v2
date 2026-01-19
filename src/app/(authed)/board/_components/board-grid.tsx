@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Responsive, useContainerWidth } from 'react-grid-layout';
 import type { Layout } from 'react-grid-layout';
 import { PostItCard } from './post-it-card';
@@ -61,13 +61,56 @@ export function BoardGrid({
   onPositionsChange,
 }: BoardGridProps) {
   const { width, containerRef, mounted } = useContainerWidth();
-  const [layouts, setLayouts] = useState<Layouts>(() => generateAllLayouts(posts));
+  
+  // Compute expected layouts from posts
+  const expectedLayouts = useMemo(() => generateAllLayouts(posts), [posts]);
+  
+  const [layouts, setLayouts] = useState<Layouts>(expectedLayouts);
+  const expectedLayoutsRef = useRef<Layouts>(expectedLayouts);
+  const isInitialMountRef = useRef(true);
 
+  // Sync layouts when expected layouts change (when posts change programmatically)
+  // We defer the state update using requestAnimationFrame to avoid cascading render warnings
+  // while still maintaining correct synchronization with react-grid-layout
   useEffect(() => {
-    setLayouts(generateAllLayouts(posts));
-  }, [posts]);
+    // Skip on initial mount since state is already initialized
+    if (isInitialMountRef.current) {
+      isInitialMountRef.current = false;
+      expectedLayoutsRef.current = expectedLayouts;
+      return;
+    }
+
+    // Only update if expected layouts actually changed
+    const layoutsChanged = JSON.stringify(expectedLayouts.lg) !== JSON.stringify(expectedLayoutsRef.current.lg);
+    
+    if (layoutsChanged) {
+      expectedLayoutsRef.current = expectedLayouts;
+      // Use requestAnimationFrame to defer state update and avoid cascading renders warning
+      // This still syncs the layout correctly on the next frame
+      const rafId = requestAnimationFrame(() => {
+        setLayouts(expectedLayouts);
+      });
+      
+      return () => cancelAnimationFrame(rafId);
+    }
+  }, [expectedLayouts]);
 
   const handleLayoutChange = (_currentLayout: Layout, allLayouts: Layouts) => {
+    // Check if this layout change matches the expected layout (programmatic update)
+    // If it matches, it's a programmatic update from posts changing, ignore it
+    const currentExpected = expectedLayoutsRef.current.lg;
+    const changedLayout = allLayouts.lg;
+    
+    if (currentExpected && changedLayout) {
+      const layoutsMatch = JSON.stringify(currentExpected) === JSON.stringify(changedLayout);
+      if (layoutsMatch) {
+        // This is a programmatic update, just update local state but don't trigger position change
+        setLayouts(allLayouts);
+        return;
+      }
+    }
+    
+    // This is a user-initiated change (drag/resize)
     setLayouts(allLayouts);
     
     const lgLayout = allLayouts.lg;
@@ -90,7 +133,7 @@ export function BoardGrid({
           breakpoints={BREAKPOINTS}
           cols={COLS}
           width={width}
-          rowHeight={200}
+          rowHeight={280}
           margin={[24, 24]}
           onLayoutChange={handleLayoutChange}
         >

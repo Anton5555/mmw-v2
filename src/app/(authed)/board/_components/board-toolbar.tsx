@@ -15,7 +15,7 @@ export function BoardToolbar({ onCreateClick }: BoardToolbarProps) {
         className="bg-yellow-500 hover:bg-yellow-600 text-black font-black uppercase tracking-[.2em]"
       >
         <Plus className="h-4 w-4" />
-        Create Post-It
+        Crear Post-It
       </Button>
     </div>
   );

@@ -5,6 +5,7 @@ import { BoardGrid } from './board-grid';
 import { BoardToolbar } from './board-toolbar';
 import { CreatePostDialog } from './create-post-dialog';
 import { EditPostDialog } from './edit-post-dialog';
+import { DeletePostDialog } from './delete-post-dialog';
 import { useBoardStream } from '@/lib/hooks/useBoardStream';
 import type { BoardPost, BoardEvent } from '@/lib/types/board';
 import { toast } from 'sonner';
@@ -22,6 +23,8 @@ export function BoardPageClient({
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<BoardPost | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deletingPost, setDeletingPost] = useState<BoardPost | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pendingPositionsRef = useRef<{ id: string; gridX: number; gridY: number }[] | null>(null);
 
@@ -70,28 +73,20 @@ export function BoardPageClient({
       .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this post-it?')) {
-      return;
+  const handleDelete = (id: string) => {
+    const post = posts.find((p) => p.id === id);
+    if (post) {
+      setDeletingPost(post);
+      setDeleteDialogOpen(true);
     }
+  };
 
-    try {
-      const response = await fetch(`/api/board?id=${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to delete post');
-      }
-
-      toast.success('Post-It deleted successfully');
-    } catch (error) {
-      console.error('Post deletion error:', error);
-      toast.error(
-        error instanceof Error ? error.message : 'Error deleting post'
-      );
-    }
+  const handleDeleteSuccess = () => {
+    setDeletingPost(null);
+    fetch('/api/board')
+      .then((res) => res.json())
+      .then((newPosts: BoardPost[]) => setPosts(newPosts))
+      .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
   };
 
   const handlePositionsChange = (positions: { id: string; gridX: number; gridY: number }[]) => {
@@ -128,7 +123,7 @@ export function BoardPageClient({
         });
       } catch (error) {
         console.error('[BoardPageClient] Error saving positions:', error);
-        toast.error('Failed to save grid positions');
+        toast.error('Error al guardar las posiciones del tablero');
       } finally {
         saveTimeoutRef.current = null;
       }
@@ -169,6 +164,16 @@ export function BoardPageClient({
           if (!open) setEditingPost(null);
         }}
         onSuccess={handleEditSuccess}
+      />
+
+      <DeletePostDialog
+        post={deletingPost}
+        open={deleteDialogOpen}
+        onOpenChange={(open) => {
+          setDeleteDialogOpen(open);
+          if (!open) setDeletingPost(null);
+        }}
+        onDeleted={handleDeleteSuccess}
       />
     </div>
   );
