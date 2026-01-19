@@ -7,6 +7,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { useEffect } from 'react';
 import type { EditorState } from 'lexical';
 import { deserializeEditorState, serializeEditorState } from '@/lib/utils/lexical';
@@ -106,6 +107,7 @@ export function LexicalEditor({
               {placeholder}
             </div>
           }
+          ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
         <OnChangePluginInternal onChange={onChange} />
