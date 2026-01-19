@@ -3,12 +3,21 @@ import { connection } from 'next/server';
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
+import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
+import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
+import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
+import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 // Separate component to fetch user data (wrapped in Suspense)
-async function AuthenticatedLayoutContent({ children }: { children: React.ReactNode }) {
+async function AuthenticatedLayoutContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   await connection();
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -32,8 +41,14 @@ async function AuthenticatedLayoutContent({ children }: { children: React.ReactN
 
       <SidebarInset className="mb-8">
         <BreadcrumbProvider>
-          <BreadcrumbsNav />
-          {children}
+          <FilmSlateProvider>
+            <FilmStripProvider>
+              <FilmSlateWrapper />
+              <FilmStripWrapper />
+              <BreadcrumbsNav />
+              {children}
+            </FilmStripProvider>
+          </FilmSlateProvider>
         </BreadcrumbProvider>
       </SidebarInset>
     </SidebarProvider>
@@ -42,11 +57,7 @@ async function AuthenticatedLayoutContent({ children }: { children: React.ReactN
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen">
-        <div>Loading...</div>
-      </div>
-    }>
+    <Suspense fallback={<LoadingSpinner />}>
       <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
     </Suspense>
   );

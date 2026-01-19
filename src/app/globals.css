@@ -7,15 +7,6 @@
 }
 
 /* Keyframes - moved to CSS */
-@keyframes aurora {
-  from {
-    background-position: 50% 50%, 50% 50%;
-  }
-  to {
-    background-position: 350% 50%, 350% 50%;
-  }
-}
-
 @keyframes collapse {
   from {
     height: var(--radix-collapsible-content-height);
@@ -60,6 +51,59 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+@keyframes grain {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  30% {
+    transform: translate(3%, -8%);
+  }
+  50% {
+    transform: translate(-8%, 4%);
+  }
+  70% {
+    transform: translate(9%, 9%);
+  }
+  90% {
+    transform: translate(-3%, 7%);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.2);
+  }
+}
+
+.animate-grain {
+  animation: grain 1s steps(6) infinite;
+}
+
+.animate-spin-smooth {
+  animation: spin 0.8s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* Still need JS config for content paths, darkMode, and nested color structures */

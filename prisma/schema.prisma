@@ -19,29 +19,29 @@ datasource db {
 }
 
 model List {
-  id            Int         @id @default(autoincrement())
-  name          String
-  description   String
-  letterboxdUrl String
-  imgUrl        String
-  createdBy     String
-  tags          String
-  createdAt     DateTime    @default(now())
-  movies        MovieList[]
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  description          String
+  letterboxdUrl        String
+  imgUrl               String
+  createdBy            String
+  tags                 String
+  createdAt            DateTime              @default(now())
+  movies               MovieList[]
   dailyRecommendations DailyRecommendation[]
 }
 
 model Movie {
-  id               Int         @id @default(autoincrement())
-  title            String
-  originalTitle    String
-  originalLanguage String
-  releaseDate      DateTime
-  letterboxdUrl    String
-  imdbId           String      @unique
-  posterUrl        String
-  MovieList        MovieList[]
-  mamPicks         MamPick[]
+  id                   Int                   @id @default(autoincrement())
+  title                String
+  originalTitle        String
+  originalLanguage     String
+  releaseDate          DateTime
+  letterboxdUrl        String
+  imdbId               String                @unique
+  posterUrl            String
+  MovieList            MovieList[]
+  mamPicks             MamPick[]
   dailyRecommendations DailyRecommendation[]
 
   // MAM cached metrics (updated when picks change)
@@ -162,26 +162,26 @@ model Event {
 }
 
 model MamParticipant {
-  id          Int       @id @default(autoincrement())
-  displayName String
-  slug        String    @unique
-  userId      String?   @unique
-  user        User?     @relation(fields: [userId], references: [id])
-  createdAt   DateTime  @default(now())
-  picks       MamPick[]
+  id                   Int                   @id @default(autoincrement())
+  displayName          String
+  slug                 String                @unique
+  userId               String?               @unique
+  user                 User?                 @relation(fields: [userId], references: [id])
+  createdAt            DateTime              @default(now())
+  picks                MamPick[]
   dailyRecommendations DailyRecommendation[]
 
   @@index([displayName])
 }
 
 model MamPick {
-  id              Int      @id @default(autoincrement())
-  participantId   Int
-  movieId         Int
-  score           Int // 5 for top pick, otherwise 1 (0 for special mentions)
-  review          String?
-  isSpecialMention Boolean @default(false)
-  createdAt       DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  participantId    Int
+  movieId          Int
+  score            Int // 5 for top pick, otherwise 1 (0 for special mentions)
+  review           String?
+  isSpecialMention Boolean  @default(false)
+  createdAt        DateTime @default(now())
 
   participant MamParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
   movie       Movie          @relation(fields: [movieId], references: [id], onDelete: Cascade)
@@ -193,16 +193,16 @@ model MamPick {
 }
 
 model DailyRecommendation {
-  id            String    @id @default(uuid())
-  date          DateTime  @unique // Date for which this recommendation is valid (YYYY-MM-DD, time set to 00:00)
-  type          String    // 'movie' | 'list' | 'participant'
-  movieId       Int?      // If type is 'movie'
-  listId        Int?      // If type is 'list'
-  participantId Int?      // If type is 'participant'
-  curatorName   String?   // Display name of curator
-  curatorImage  String?   // Image URL of curator
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id            String   @id @default(uuid())
+  date          DateTime @unique // Date for which this recommendation is valid (YYYY-MM-DD, time set to 00:00)
+  type          String // 'movie' | 'list' | 'participant'
+  movieId       Int? // If type is 'movie'
+  listId        Int? // If type is 'list'
+  participantId Int? // If type is 'participant'
+  curatorName   String? // Display name of curator
+  curatorImage  String? // Image URL of curator
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   movie       Movie?          @relation(fields: [movieId], references: [id], onDelete: Cascade)
   list        List?           @relation(fields: [listId], references: [id], onDelete: Cascade)

@@ -3,7 +3,6 @@
 import { List } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {
   Carousel,
   CarouselContent,
@@ -14,6 +13,7 @@ import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
+import { useFilmSlate } from '@/lib/contexts/film-slate-context';
 
 export const ListsCarousel = ({
   lists,
@@ -24,6 +24,7 @@ export const ListsCarousel = ({
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const { triggerSlate } = useFilmSlate();
 
   useEffect(() => {
     if (!api) return;
@@ -93,15 +94,14 @@ export const ListsCarousel = ({
                       {list.name}
                     </h2>
                     <div className="flex flex-wrap items-center gap-4">
-                      <Link href={`/lists/${list.id}`}>
-                        <Button
-                          size="lg"
-                          className="h-14 bg-white px-8 text-black hover:bg-yellow-500 hover:text-black font-bold uppercase italic shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                        >
-                          <Play className="mr-2 h-5 w-5 fill-current" />
-                          Ver Lista
-                        </Button>
-                      </Link>
+                      <Button
+                        size="lg"
+                        onClick={() => triggerSlate(list.name, `/lists/${list.id}`)}
+                        className="h-14 bg-white px-8 text-black hover:bg-yellow-500 hover:text-black font-bold uppercase italic shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                      >
+                        <Play className="mr-2 h-5 w-5 fill-current" />
+                        Ver Lista
+                      </Button>
                     </div>
                   </div>
                 </div>
