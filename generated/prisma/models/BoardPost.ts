@@ -27,21 +27,18 @@ export type AggregateBoardPost = {
 }
 
 export type BoardPostAvgAggregateOutputType = {
-  gridX: number | null
-  gridY: number | null
+  order: number | null
 }
 
 export type BoardPostSumAggregateOutputType = {
-  gridX: number | null
-  gridY: number | null
+  order: number | null
 }
 
 export type BoardPostMinAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  gridX: number | null
-  gridY: number | null
+  order: number | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
@@ -51,8 +48,7 @@ export type BoardPostMaxAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  gridX: number | null
-  gridY: number | null
+  order: number | null
   createdAt: Date | null
   updatedAt: Date | null
   createdBy: string | null
@@ -62,8 +58,7 @@ export type BoardPostCountAggregateOutputType = {
   id: number
   title: number
   description: number
-  gridX: number
-  gridY: number
+  order: number
   createdAt: number
   updatedAt: number
   createdBy: number
@@ -72,21 +67,18 @@ export type BoardPostCountAggregateOutputType = {
 
 
 export type BoardPostAvgAggregateInputType = {
-  gridX?: true
-  gridY?: true
+  order?: true
 }
 
 export type BoardPostSumAggregateInputType = {
-  gridX?: true
-  gridY?: true
+  order?: true
 }
 
 export type BoardPostMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  gridX?: true
-  gridY?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -96,8 +88,7 @@ export type BoardPostMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  gridX?: true
-  gridY?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -107,8 +98,7 @@ export type BoardPostCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  gridX?: true
-  gridY?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
   createdBy?: true
@@ -205,8 +195,7 @@ export type BoardPostGroupByOutputType = {
   id: string
   title: string
   description: string
-  gridX: number
-  gridY: number
+  order: number
   createdAt: Date
   updatedAt: Date
   createdBy: string
@@ -239,8 +228,7 @@ export type BoardPostWhereInput = {
   id?: Prisma.StringFilter<"BoardPost"> | string
   title?: Prisma.StringFilter<"BoardPost"> | string
   description?: Prisma.StringFilter<"BoardPost"> | string
-  gridX?: Prisma.IntFilter<"BoardPost"> | number
-  gridY?: Prisma.IntFilter<"BoardPost"> | number
+  order?: Prisma.IntFilter<"BoardPost"> | number
   createdAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   createdBy?: Prisma.StringFilter<"BoardPost"> | string
@@ -251,8 +239,7 @@ export type BoardPostOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -266,8 +253,7 @@ export type BoardPostWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BoardPostWhereInput | Prisma.BoardPostWhereInput[]
   title?: Prisma.StringFilter<"BoardPost"> | string
   description?: Prisma.StringFilter<"BoardPost"> | string
-  gridX?: Prisma.IntFilter<"BoardPost"> | number
-  gridY?: Prisma.IntFilter<"BoardPost"> | number
+  order?: Prisma.IntFilter<"BoardPost"> | number
   createdAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   createdBy?: Prisma.StringFilter<"BoardPost"> | string
@@ -278,8 +264,7 @@ export type BoardPostOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -297,8 +282,7 @@ export type BoardPostScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"BoardPost"> | string
   title?: Prisma.StringWithAggregatesFilter<"BoardPost"> | string
   description?: Prisma.StringWithAggregatesFilter<"BoardPost"> | string
-  gridX?: Prisma.IntWithAggregatesFilter<"BoardPost"> | number
-  gridY?: Prisma.IntWithAggregatesFilter<"BoardPost"> | number
+  order?: Prisma.IntWithAggregatesFilter<"BoardPost"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BoardPost"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BoardPost"> | Date | string
   createdBy?: Prisma.StringWithAggregatesFilter<"BoardPost"> | string
@@ -308,8 +292,7 @@ export type BoardPostCreateInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdByUser: Prisma.UserCreateNestedOneWithoutBoardPostInput
@@ -319,8 +302,7 @@ export type BoardPostUncheckedCreateInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -330,8 +312,7 @@ export type BoardPostUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdByUser?: Prisma.UserUpdateOneRequiredWithoutBoardPostNestedInput
@@ -341,8 +322,7 @@ export type BoardPostUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -352,8 +332,7 @@ export type BoardPostCreateManyInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy: string
@@ -363,8 +342,7 @@ export type BoardPostUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -373,8 +351,7 @@ export type BoardPostUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
@@ -394,24 +371,21 @@ export type BoardPostCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
 }
 
 export type BoardPostAvgOrderByAggregateInput = {
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type BoardPostMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
@@ -421,16 +395,14 @@ export type BoardPostMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
 }
 
 export type BoardPostSumOrderByAggregateInput = {
-  gridX?: Prisma.SortOrder
-  gridY?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type BoardPostCreateNestedManyWithoutCreatedByUserInput = {
@@ -479,8 +451,7 @@ export type BoardPostCreateWithoutCreatedByUserInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -489,8 +460,7 @@ export type BoardPostUncheckedCreateWithoutCreatedByUserInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -528,8 +498,7 @@ export type BoardPostScalarWhereInput = {
   id?: Prisma.StringFilter<"BoardPost"> | string
   title?: Prisma.StringFilter<"BoardPost"> | string
   description?: Prisma.StringFilter<"BoardPost"> | string
-  gridX?: Prisma.IntFilter<"BoardPost"> | number
-  gridY?: Prisma.IntFilter<"BoardPost"> | number
+  order?: Prisma.IntFilter<"BoardPost"> | number
   createdAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BoardPost"> | Date | string
   createdBy?: Prisma.StringFilter<"BoardPost"> | string
@@ -539,8 +508,7 @@ export type BoardPostCreateManyCreatedByUserInput = {
   id?: string
   title: string
   description: string
-  gridX?: number
-  gridY?: number
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -549,8 +517,7 @@ export type BoardPostUpdateWithoutCreatedByUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -559,8 +526,7 @@ export type BoardPostUncheckedUpdateWithoutCreatedByUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -569,8 +535,7 @@ export type BoardPostUncheckedUpdateManyWithoutCreatedByUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  gridX?: Prisma.IntFieldUpdateOperationsInput | number
-  gridY?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -581,8 +546,7 @@ export type BoardPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   title?: boolean
   description?: boolean
-  gridX?: boolean
-  gridY?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -593,8 +557,7 @@ export type BoardPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   title?: boolean
   description?: boolean
-  gridX?: boolean
-  gridY?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -605,8 +568,7 @@ export type BoardPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   title?: boolean
   description?: boolean
-  gridX?: boolean
-  gridY?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
@@ -617,14 +579,13 @@ export type BoardPostSelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
-  gridX?: boolean
-  gridY?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdBy?: boolean
 }
 
-export type BoardPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "gridX" | "gridY" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["boardPost"]>
+export type BoardPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "order" | "createdAt" | "updatedAt" | "createdBy", ExtArgs["result"]["boardPost"]>
 export type BoardPostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdByUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -644,8 +605,7 @@ export type $BoardPostPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     title: string
     description: string
-    gridX: number
-    gridY: number
+    order: number
     createdAt: Date
     updatedAt: Date
     createdBy: string
@@ -1076,8 +1036,7 @@ export interface BoardPostFieldRefs {
   readonly id: Prisma.FieldRef<"BoardPost", 'String'>
   readonly title: Prisma.FieldRef<"BoardPost", 'String'>
   readonly description: Prisma.FieldRef<"BoardPost", 'String'>
-  readonly gridX: Prisma.FieldRef<"BoardPost", 'Int'>
-  readonly gridY: Prisma.FieldRef<"BoardPost", 'Int'>
+  readonly order: Prisma.FieldRef<"BoardPost", 'Int'>
   readonly createdAt: Prisma.FieldRef<"BoardPost", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BoardPost", 'DateTime'>
   readonly createdBy: Prisma.FieldRef<"BoardPost", 'String'>

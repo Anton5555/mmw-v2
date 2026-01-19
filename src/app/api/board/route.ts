@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db';
 import {
   createBoardPostSchema,
   updateBoardPostSchema,
-  updateBoardPostPositionSchema,
+  updateBoardPostReorderSchema,
 } from '@/lib/validations/board';
 
 export async function GET() {
@@ -19,7 +19,7 @@ export async function GET() {
     }
 
     const posts = await prisma.boardPost.findMany({
-      orderBy: [{ gridY: 'asc' }, { gridX: 'asc' }],
+      orderBy: { order: 'asc' },
       include: {
         createdByUser: {
           select: {
@@ -55,30 +55,19 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = createBoardPostSchema.parse(body);
 
-    // Find the next available position in the grid (4 columns for lg breakpoint)
-    const existingPosts = await prisma.boardPost.findMany({
-      orderBy: [{ gridY: 'desc' }, { gridX: 'desc' }],
-      select: { gridX: true, gridY: true },
+    // Find the maximum order value and add 1 for the new post
+    const maxOrderPost = await prisma.boardPost.findFirst({
+      orderBy: { order: 'desc' },
+      select: { order: true },
     });
 
-    // Find the first empty slot, starting from top-left
-    let gridX = 0;
-    let gridY = 0;
-    const cols = 4; // lg breakpoint columns
-
-    if (existingPosts.length > 0) {
-      // Find the last position
-      const lastPost = existingPosts[0];
-      gridX = (lastPost.gridX + 1) % cols;
-      gridY = lastPost.gridY + Math.floor((lastPost.gridX + 1) / cols);
-    }
+    const newOrder = maxOrderPost ? maxOrderPost.order + 1 : 0;
 
     const post = await prisma.boardPost.create({
       data: {
         title: validatedData.title,
         description: validatedData.description,
-        gridX,
-        gridY,
+        order: newOrder,
         createdBy: session.user.id,
       },
       include: {
@@ -189,14 +178,14 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const validatedData = updateBoardPostPositionSchema.parse(body);
+    const validatedData = updateBoardPostReorderSchema.parse(body);
 
     // Update all posts in a transaction
     await prisma.$transaction(
-      validatedData.map(({ id, gridX, gridY }) =>
+      validatedData.map(({ id, order }) =>
         prisma.boardPost.update({
           where: { id },
-          data: { gridX, gridY },
+          data: { order },
         })
       )
     );

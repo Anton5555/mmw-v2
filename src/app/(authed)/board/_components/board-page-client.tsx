@@ -26,7 +26,7 @@ export function BoardPageClient({
   const [deletingPost, setDeletingPost] = useState<BoardPost | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const pendingPositionsRef = useRef<{ id: string; gridX: number; gridY: number }[] | null>(null);
+  const pendingReorderRef = useRef<string[] | null>(null);
 
   const handleBoardEvent = (event: BoardEvent) => {
     if (event.type === 'post-it:created') {
@@ -34,9 +34,7 @@ export function BoardPageClient({
         if (prev.find((p) => p.id === event.data.id)) {
           return prev;
         }
-        return [...prev, event.data].sort((a, b) =>
-          a.gridY !== b.gridY ? a.gridY - b.gridY : a.gridX - b.gridX
-        );
+        return [...prev, event.data].sort((a, b) => a.order - b.order);
       });
     } else if (event.type === 'post-it:updated') {
       setPosts((prev) =>
@@ -89,41 +87,54 @@ export function BoardPageClient({
       .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
   };
 
-  const handlePositionsChange = (positions: { id: string; gridX: number; gridY: number }[]) => {
-    pendingPositionsRef.current = positions;
+  const handleReorder = (orderedIds: string[]) => {
+    pendingReorderRef.current = orderedIds;
 
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
 
+    // Optimistically update local state
+    setPosts((prev) => {
+      const postMap = new Map(prev.map((p) => [p.id, p]));
+      return orderedIds.map((id, index) => {
+        const post = postMap.get(id);
+        return post ? { ...post, order: index } : post!;
+      });
+    });
+
     saveTimeoutRef.current = setTimeout(async () => {
-      const positionsToSave = pendingPositionsRef.current;
-      if (!positionsToSave) return;
+      const orderedIdsToSave = pendingReorderRef.current;
+      if (!orderedIdsToSave) return;
 
       try {
+        // Create update payload: [{ id, order }, ...]
+        const updates = orderedIdsToSave.map((id, order) => ({
+          id,
+          order,
+        }));
+
         const response = await fetch('/api/board', {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(positionsToSave),
+          body: JSON.stringify(updates),
         });
 
         if (!response.ok) {
-          throw new Error('Failed to update positions');
+          throw new Error('Failed to update order');
         }
 
-        setPosts((prev) => {
-          const posMap = new Map(positionsToSave.map((p) => [p.id, p]));
-          return prev.map((post) => {
-            const newPos = posMap.get(post.id);
-            if (newPos) {
-              return { ...post, gridX: newPos.gridX, gridY: newPos.gridY };
-            }
-            return post;
-          });
-        });
+        // Fetch fresh data to ensure consistency
+        const freshPosts = await fetch('/api/board').then((res) => res.json());
+        setPosts(freshPosts);
       } catch (error) {
-        console.error('[BoardPageClient] Error saving positions:', error);
-        toast.error('Error al guardar las posiciones del tablero');
+        console.error('[BoardPageClient] Error saving order:', error);
+        toast.error('Error al guardar el orden del tablero');
+        // Revert by fetching fresh data
+        fetch('/api/board')
+          .then((res) => res.json())
+          .then((newPosts: BoardPost[]) => setPosts(newPosts))
+          .catch((err) => console.error('[BoardPageClient] Error fetching posts:', err));
       } finally {
         saveTimeoutRef.current = null;
       }
@@ -147,7 +158,7 @@ export function BoardPageClient({
         currentUserId={currentUserId}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        onPositionsChange={handlePositionsChange}
+        onReorder={handleReorder}
       />
 
       <CreatePostDialog

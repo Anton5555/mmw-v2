@@ -4,8 +4,7 @@ export type BoardPost = {
   id: string;
   title: string;
   description: string; // Serialized Lexical editor state as JSON string
-  gridX: number; // Column position (0-3 for lg)
-  gridY: number; // Row position
+  order: number; // Position in ordered list (0, 1, 2, ...)
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -27,10 +26,9 @@ export type BoardPostUpdateInput = {
   description?: string; // Serialized Lexical editor state
 };
 
-export type BoardPostPositionUpdate = {
+export type BoardPostReorderUpdate = {
   id: string;
-  gridX: number;
-  gridY: number;
+  order: number;
 }[];
 
 export type BoardEvent =

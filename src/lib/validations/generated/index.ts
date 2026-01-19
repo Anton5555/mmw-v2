@@ -34,7 +34,7 @@ export const MamPickScalarFieldEnumSchema = z.enum(['id','participantId','movieI
 
 export const DailyRecommendationScalarFieldEnumSchema = z.enum(['id','date','type','movieId','listId','participantId','curatorName','curatorImage','createdAt','updatedAt']);
 
-export const BoardPostScalarFieldEnumSchema = z.enum(['id','title','description','gridX','gridY','createdAt','updatedAt','createdBy']);
+export const BoardPostScalarFieldEnumSchema = z.enum(['id','title','description','order','createdAt','updatedAt','createdBy']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -256,8 +256,7 @@ export const BoardPostSchema = z.object({
   id: z.uuid(),
   title: z.string(),
   description: z.string(),
-  gridX: z.number().int(),
-  gridY: z.number().int(),
+  order: z.number().int(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   createdBy: z.string(),

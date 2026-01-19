@@ -216,13 +216,12 @@ model BoardPost {
   id            String   @id @default(uuid())
   title         String
   description   String
-  gridX         Int      @default(0) // Column position (0-3 for lg)
-  gridY         Int      @default(0) // Row position
+  order         Int      @default(0) // Position in ordered list (0, 1, 2, ...)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   createdBy     String
   createdByUser User     @relation(fields: [createdBy], references: [id])
 
-  @@index([gridY, gridX]) // For efficient position-based queries
+  @@index([order]) // For efficient order-based queries
   @@map("BoardPost")
 }

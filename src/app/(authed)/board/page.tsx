@@ -15,7 +15,7 @@ export default async function BoardPage() {
 
   // Fetch initial posts
   const posts = await prisma.boardPost.findMany({
-    orderBy: [{ gridY: 'asc' }, { gridX: 'asc' }],
+    orderBy: { order: 'asc' },
     include: {
       createdByUser: {
         select: {

@@ -39,6 +39,7 @@ interface PostItCardProps extends BoardPost {
   currentUserId?: string;
   onEdit?: () => void;
   onDelete?: () => void;
+  dragHandleRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export function PostItCard({
@@ -49,13 +50,17 @@ export function PostItCard({
   currentUserId,
   onEdit,
   onDelete,
+  dragHandleRef,
 }: PostItCardProps) {
   const isOwner = currentUserId === createdBy;
 
   return (
     <div className="group relative h-full flex flex-col bg-zinc-900 border border-white/5 rounded-lg overflow-hidden transition-colors hover:border-yellow-500/50">
       {/* Drag Handle - The "Tape" look */}
-      <div className="h-6 flex-shrink-0 bg-zinc-800/50 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none">
+      <div
+        ref={dragHandleRef}
+        className="h-6 flex-shrink-0 bg-zinc-800/50 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"
+      >
         <div className="flex gap-1">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="w-1 h-1 rounded-full bg-zinc-600" />

@@ -15,16 +15,15 @@ export const updateBoardPostSchema = z.object({
 
 export type UpdateBoardPostFormValues = z.infer<typeof updateBoardPostSchema>;
 
-export const updateBoardPostPositionSchema = z.array(
+export const updateBoardPostReorderSchema = z.array(
   z.object({
     id: z.string(),
-    gridX: z.number().int().min(0),
-    gridY: z.number().int().min(0),
+    order: z.number().int().min(0),
   })
 );
 
-export type UpdateBoardPostPositionFormValues = z.infer<
-  typeof updateBoardPostPositionSchema
+export type UpdateBoardPostReorderFormValues = z.infer<
+  typeof updateBoardPostReorderSchema
 >;
 
 export const deleteBoardPostSchema = z.object({

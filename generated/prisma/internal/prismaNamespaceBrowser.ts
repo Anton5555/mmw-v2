@@ -246,8 +246,7 @@ export const BoardPostScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  gridX: 'gridX',
-  gridY: 'gridY',
+  order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdBy: 'createdBy'
