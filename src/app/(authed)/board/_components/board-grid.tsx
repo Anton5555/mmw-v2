@@ -24,6 +24,7 @@ export function BoardGrid({
   const sortedPosts = [...posts].sort((a, b) => a.order - b.order);
   const [draggedPostId, setDraggedPostId] = useState<string | null>(null);
   const [draggedOverIndex, setDraggedOverIndex] = useState<number | null>(null);
+  const [dragPreview, setDragPreview] = useState<{ x: number; y: number } | null>(null);
 
   // Set up drag monitoring
   useEffect(() => {
@@ -32,6 +33,14 @@ export function BoardGrid({
         setDraggedPostId(source.data.id as string);
       },
       onDrag({ location }) {
+        // Track cursor position for drag preview
+        if (location.current.input.clientX && location.current.input.clientY) {
+          setDragPreview({
+            x: location.current.input.clientX,
+            y: location.current.input.clientY,
+          });
+        }
+
         // Find which index we're hovering over
         const element = location.current.dropTargets[0];
         if (element) {
@@ -62,27 +71,53 @@ export function BoardGrid({
         
         setDraggedPostId(null);
         setDraggedOverIndex(null);
+        setDragPreview(null);
       },
     });
   }, [sortedPosts, onReorder]);
 
+  const draggedPost = draggedPostId ? sortedPosts.find((p) => p.id === draggedPostId) : null;
+
   return (
-    <div className="w-full p-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 *:transition-all *:duration-300 *:ease-in-out">
-        {sortedPosts.map((post, index) => (
-          <GridItem
-            key={post.id}
-            post={post}
-            index={index}
-            currentUserId={currentUserId}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            isDragging={draggedPostId === post.id}
-            isDragOver={draggedOverIndex === index && draggedPostId !== post.id}
-          />
-        ))}
+    <>
+      <div className="w-full p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 *:transition-all *:duration-300 *:ease-in-out">
+          {sortedPosts.map((post, index) => (
+            <GridItem
+              key={post.id}
+              post={post}
+              index={index}
+              currentUserId={currentUserId}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              isDragging={draggedPostId === post.id}
+              isDragOver={draggedOverIndex === index && draggedPostId !== post.id}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Drag Preview - follows cursor */}
+      {draggedPost && dragPreview && (
+        <div
+          className="fixed pointer-events-none z-[9999] w-[280px]"
+          style={{
+            left: dragPreview.x - 140, // Center the preview on cursor
+            top: dragPreview.y - 20, // Offset above cursor
+            transform: 'rotate(-2deg) scale(0.95)',
+          }}
+        >
+          <div className="opacity-90 shadow-2xl">
+            <PostItCard
+              {...draggedPost}
+              currentUserId={currentUserId}
+              onEdit={() => {}}
+              onDelete={() => {}}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
