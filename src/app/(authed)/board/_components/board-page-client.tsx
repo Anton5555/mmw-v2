@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { BoardGrid } from './board-grid';
 import { BoardToolbar } from './board-toolbar';
 import { CreatePostDialog } from './create-post-dialog';
@@ -9,6 +10,7 @@ import { DeletePostDialog } from './delete-post-dialog';
 import { useBoardStream } from '@/lib/hooks/useBoardStream';
 import type { BoardPost, BoardEvent } from '@/lib/types/board';
 import { toast } from 'sonner';
+import { reorderBoardPostsAction } from '@/lib/actions/board/reorder-board-posts';
 
 interface BoardPageClientProps {
   initialPosts: BoardPost[];
@@ -19,6 +21,7 @@ export function BoardPageClient({
   initialPosts,
   currentUserId,
 }: BoardPageClientProps) {
+  const router = useRouter();
   const [posts, setPosts] = useState<BoardPost[]>(initialPosts);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<BoardPost | null>(null);
@@ -52,10 +55,7 @@ export function BoardPageClient({
   }, [initialPosts]);
 
   const handleCreateSuccess = () => {
-    fetch('/api/board')
-      .then((res) => res.json())
-      .then((newPosts: BoardPost[]) => setPosts(newPosts))
-      .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
+    router.refresh();
   };
 
   const handleEdit = (post: BoardPost) => {
@@ -65,10 +65,7 @@ export function BoardPageClient({
 
   const handleEditSuccess = () => {
     setEditingPost(null);
-    fetch('/api/board')
-      .then((res) => res.json())
-      .then((newPosts: BoardPost[]) => setPosts(newPosts))
-      .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
+    router.refresh();
   };
 
   const handleDelete = (id: string) => {
@@ -81,10 +78,7 @@ export function BoardPageClient({
 
   const handleDeleteSuccess = () => {
     setDeletingPost(null);
-    fetch('/api/board')
-      .then((res) => res.json())
-      .then((newPosts: BoardPost[]) => setPosts(newPosts))
-      .catch((error) => console.error('[BoardPageClient] Error fetching posts:', error));
+    router.refresh();
   };
 
   const handleReorder = (orderedIds: string[]) => {
@@ -114,27 +108,13 @@ export function BoardPageClient({
           order,
         }));
 
-        const response = await fetch('/api/board', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updates),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to update order');
-        }
-
-        // Fetch fresh data to ensure consistency
-        const freshPosts = await fetch('/api/board').then((res) => res.json());
-        setPosts(freshPosts);
+        await reorderBoardPostsAction(updates);
+        router.refresh();
       } catch (error) {
         console.error('[BoardPageClient] Error saving order:', error);
         toast.error('Error al guardar el orden del tablero');
-        // Revert by fetching fresh data
-        fetch('/api/board')
-          .then((res) => res.json())
-          .then((newPosts: BoardPost[]) => setPosts(newPosts))
-          .catch((err) => console.error('[BoardPageClient] Error fetching posts:', err));
+        // Revert by refreshing server data
+        router.refresh();
       } finally {
         saveTimeoutRef.current = null;
       }

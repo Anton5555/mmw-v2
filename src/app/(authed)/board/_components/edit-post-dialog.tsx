@@ -29,6 +29,7 @@ import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import type { BoardPost } from '@/lib/types/board';
+import { updateBoardPostAction } from '@/lib/actions/board/update-board-post';
 
 interface EditPostDialogProps {
   post: BoardPost | null;
@@ -76,19 +77,7 @@ export function EditPostDialog({
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/board', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to update post');
-      }
-
+      await updateBoardPostAction(data);
       toast.success('Post-It actualizado exitosamente');
       onOpenChange(false);
       onSuccess?.();

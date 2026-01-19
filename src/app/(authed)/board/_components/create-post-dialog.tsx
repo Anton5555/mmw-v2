@@ -28,6 +28,7 @@ import { LexicalEditor } from '@/components/board/lexical-editor';
 import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { createBoardPostAction } from '@/lib/actions/board/create-board-post';
 
 interface CreatePostDialogProps {
   open: boolean;
@@ -63,19 +64,7 @@ export function CreatePostDialog({
   const onSubmit = async (data: CreateBoardPostFormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/board', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to create post');
-      }
-
+      await createBoardPostAction(data);
       toast.success('Post-It creado exitosamente');
       form.reset();
       onOpenChange(false);
