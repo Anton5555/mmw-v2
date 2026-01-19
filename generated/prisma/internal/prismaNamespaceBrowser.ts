@@ -61,7 +61,8 @@ export const ModelName = {
   Event: 'Event',
   MamParticipant: 'MamParticipant',
   MamPick: 'MamPick',
-  DailyRecommendation: 'DailyRecommendation'
+  DailyRecommendation: 'DailyRecommendation',
+  BoardPost: 'BoardPost'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -239,6 +240,19 @@ export const DailyRecommendationScalarFieldEnum = {
 } as const
 
 export type DailyRecommendationScalarFieldEnum = (typeof DailyRecommendationScalarFieldEnum)[keyof typeof DailyRecommendationScalarFieldEnum]
+
+
+export const BoardPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdBy: 'createdBy'
+} as const
+
+export type BoardPostScalarFieldEnum = (typeof BoardPostScalarFieldEnum)[keyof typeof BoardPostScalarFieldEnum]
 
 
 export const SortOrder = {
