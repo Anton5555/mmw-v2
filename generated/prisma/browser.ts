@@ -72,3 +72,8 @@ export type MamPick = Prisma.MamPickModel
  * 
  */
 export type DailyRecommendation = Prisma.DailyRecommendationModel
+/**
+ * Model BoardPost
+ * 
+ */
+export type BoardPost = Prisma.BoardPostModel
