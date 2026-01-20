@@ -1,7 +1,7 @@
 import { getMamMovieById } from '@/lib/api/mam';
 import { getYearTopStatsForMovie } from '@/lib/api/year-top';
 import { getListsContainingMovie } from '@/lib/api/lists';
-import { MamMovieDetail } from '@/components/mam-movie-detail';
+import { MovieDetail } from '@/components/movie';
 import { notFound } from 'next/navigation';
 import { getMovieById, getMovieDetails } from '@/lib/tmdb';
 
@@ -47,7 +47,7 @@ export default async function YearTopMoviePage({
   }
 
   return (
-    <MamMovieDetail
+    <MovieDetail
       movie={movie}
       rank={movie.rank}
       director={director}

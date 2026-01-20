@@ -1,7 +1,7 @@
 import { getMamMovieById } from '@/lib/api/mam';
 import { getYearTopStatsForMovie } from '@/lib/api/year-top';
 import { getListsContainingMovie } from '@/lib/api/lists';
-import { MamMovieDetail } from '@/components/mam-movie-detail';
+import { MovieDetail } from '@/components/movie';
 import { MamMovieBreadcrumbUpdater } from '@/components/mam-movie-breadcrumb-updater';
 import { notFound } from 'next/navigation';
 import { getMovieById, getMovieDetails } from '@/lib/tmdb';
@@ -51,7 +51,7 @@ export default async function MamMoviePage({ params }: MamMoviePageProps) {
           movie.originalLanguage === 'es' ? movie.originalTitle : movie.title
         }
       />
-      <MamMovieDetail
+      <MovieDetail
         movie={movie}
         rank={movie.rank}
         director={director}

@@ -3,7 +3,7 @@ import {
   getListsContainingMovie,
 } from '@/lib/api/lists';
 import { getYearTopStatsForMovie } from '@/lib/api/year-top';
-import { MamMovieDetail } from '@/components/mam-movie-detail';
+import { MovieDetail } from '@/components/movie';
 import { ListMovieBreadcrumbUpdater } from '@/components/list-movie-breadcrumb-updater';
 import { notFound } from 'next/navigation';
 import { getMovieById, getMovieDetails } from '@/lib/tmdb';
@@ -76,7 +76,7 @@ export default async function ListMoviePage({
         listName={selectedList?.name}
         listId={selectedList?.id}
       />
-      <MamMovieDetail
+      <MovieDetail
         movie={movie}
         rank={movie.rank}
         director={director}
