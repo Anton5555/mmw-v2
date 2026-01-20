@@ -78,6 +78,10 @@ const TMDB_MOVIE_ID_OVERRIDES: Record<string, number> = {
   // TMDB movie: https://api.themoviedb.org/3/movie/1440171
   // IMDb ID:   https://www.imdb.com/title/tt28090350/
   tt28090350: 1440171,
+  // La Renga-totalmente poseidos (2024)
+  // TMDB movie: https://api.themoviedb.org/3/movie/1249452
+  // IMDb ID:   https://www.imdb.com/title/tt32065524/
+  tt32065524: 1249452,
 };
 
 function normalizeNewlines(text: string): string {
@@ -267,7 +271,7 @@ function printHelp() {
   );
 }
 
-function readCsvFile(filePath: string): CsvRow[] {
+function readCsvFile(filePath: string, year: number): CsvRow[] {
   const content = fs.readFileSync(filePath, 'utf8');
   const records = parseCsv(content, {
     columns: true,
@@ -296,16 +300,12 @@ function readCsvFile(filePath: string): CsvRow[] {
       
       // Try exact key matches first (various spacing combinations)
       const exactKeys = [
-        `MEJORES 2025   *nombre de la peli y link IMDB\n#${i}`,      // 3 spaces
-        `MEJORES 2025  *nombre de la peli y link IMDB\n#${i}`,       // 2 spaces
-        `MEJORES 2025 *nombre de la peli y link IMDB   \n#${i}`,     // 1 space + trailing
-        `MEJORES 2025   *nombre de la peli y link IMDB#${i}`,        // 3 spaces, no \n
-        `MEJORES 2025  *nombre de la peli y link IMDB#${i}`,         // 2 spaces, no \n
-        `MEJORES 2025 *nombre de la peli y link IMDB#${i}`,          // 1 space, no \n
-        // Also try with year as variable
-        `MEJORES ${new Date().getFullYear()}   *nombre de la peli y link IMDB\n#${i}`,
-        `MEJORES ${new Date().getFullYear()}  *nombre de la peli y link IMDB\n#${i}`,
-        `MEJORES ${new Date().getFullYear()} *nombre de la peli y link IMDB   \n#${i}`,
+        `MEJORES ${year}   *nombre de la peli y link IMDB\n#${i}`,      // 3 spaces
+        `MEJORES ${year}  *nombre de la peli y link IMDB\n#${i}`,       // 2 spaces
+        `MEJORES ${year} *nombre de la peli y link IMDB   \n#${i}`,     // 1 space + trailing
+        `MEJORES ${year}   *nombre de la peli y link IMDB#${i}`,        // 3 spaces, no \n
+        `MEJORES ${year}  *nombre de la peli y link IMDB#${i}`,         // 2 spaces, no \n
+        `MEJORES ${year} *nombre de la peli y link IMDB#${i}`,          // 1 space, no \n
       ];
       
       for (const key of exactKeys) {
@@ -318,8 +318,8 @@ function readCsvFile(filePath: string): CsvRow[] {
       // If exact match failed, try pattern matching on column names
       if (!value) {
         const matchingKey = Object.keys(record).find((key) => {
-          // Match pattern: MEJORES 2025 followed by optional spaces, asterisk, then #number
-          const pattern = new RegExp(`MEJORES 2025\\s+\\*nombre de la peli y link IMDB[\\s\\n]*#${i}`, 'i');
+          // Match pattern: MEJORES {year} followed by optional spaces, asterisk, then #number
+          const pattern = new RegExp(`MEJORES ${year}\\s+\\*nombre de la peli y link IMDB[\\s\\n]*#${i}`, 'i');
           return pattern.test(key);
         });
         
@@ -349,8 +349,8 @@ function readCsvFile(filePath: string): CsvRow[] {
     const worst3: string[] = [];
     for (let i = 3; i >= 1; i--) {
       const possibleKeys = [
-        `PORONGA #${i} 2025 que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
-        `PORONGA #${i} 2025 que merece el escarnio público y todo nuestro desprecio *nombre de la peli y link IMDB`,
+        `PORONGA #${i} ${year} que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
+        `PORONGA #${i} ${year} que merece el escarnio público y todo nuestro desprecio *nombre de la peli y link IMDB`,
         `PORONGA #${i} que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
       ];
       
@@ -427,7 +427,7 @@ async function main() {
   }
 
   console.log(`📄 Reading CSV: ${csvPath}`);
-  const csvRows = readCsvFile(csvPath);
+  const csvRows = readCsvFile(csvPath, args.year);
   console.log(`✅ Parsed ${csvRows.length} rows\n`);
 
   // Statistics

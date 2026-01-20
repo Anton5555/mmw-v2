@@ -66,3 +66,37 @@ export const yearTopMovieWithPicksSchema = z.object({
 });
 
 export type YearTopMovieWithPicks = z.infer<typeof yearTopMovieWithPicksSchema>;
+
+// YearTop summary type for displaying all year-top appearances of a movie
+export const yearTopSummaryItemSchema = z.object({
+  year: z.number(),
+  pickType: z.nativeEnum(YearTopPickType),
+  totalPoints: z.number(),
+  picksCount: z.number(),
+  picks: z.array(
+    z.object({
+      id: z.number(),
+      participantId: z.number(),
+      year: z.number(),
+      pickType: z.nativeEnum(YearTopPickType),
+      isTopPosition: z.boolean(),
+      createdAt: z.date(),
+      participant: z.object({
+        id: z.number(),
+        displayName: z.string(),
+        slug: z.string(),
+        year: z.number(),
+        userId: z.string().nullable().optional(),
+        user: z
+          .object({
+            image: z.string().nullable(),
+            name: z.string().nullable(),
+          })
+          .nullable()
+          .optional(),
+      }),
+    })
+  ),
+});
+
+export type YearTopSummaryItem = z.infer<typeof yearTopSummaryItemSchema>;

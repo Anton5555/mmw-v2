@@ -243,6 +243,83 @@ export async function getYearTopMovieById(
 }
 
 /**
+ * Get all YearTop stats for a specific movie across all years and pick types
+ * Returns an array of stats grouped by year and pickType
+ */
+export async function getYearTopStatsForMovie(movieId: number) {
+  // Get all stats for this movie
+  const stats = await prisma.yearTopMovieStats.findMany({
+    where: {
+      movieId,
+      totalPoints: { gt: 0 },
+    },
+    orderBy: [
+      { year: 'desc' },
+      { pickType: 'asc' },
+    ],
+  });
+
+  if (stats.length === 0) {
+    return [];
+  }
+
+  // Get all picks for this movie in one query, grouped by year and pickType
+  const allPicks = await prisma.yearTopPick.findMany({
+    where: {
+      movieId,
+      OR: stats.map((stat) => ({
+        AND: [
+          { year: stat.year },
+          { pickType: stat.pickType },
+        ],
+      })),
+    },
+    include: {
+      participant: {
+        include: {
+          user: {
+            select: {
+              image: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  // Group picks by year and pickType
+  const picksByYearAndType = allPicks.reduce(
+    (acc, pick) => {
+      const key = `${pick.year}-${pick.pickType}`;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(pick);
+      return acc;
+    },
+    {} as Record<string, typeof allPicks>
+  );
+
+  // Map stats to include picks
+  return stats.map((stat) => {
+    const key = `${stat.year}-${stat.pickType}`;
+    const picks = picksByYearAndType[key] || [];
+
+    return {
+      year: stat.year,
+      pickType: stat.pickType,
+      totalPoints: stat.totalPoints,
+      picksCount: picks.length,
+      picks,
+    };
+  });
+}
+
+/**
  * Get movies with picks for a specific user, filtered by year and pickType
  * Returns paginated movies with user's pick data
  */

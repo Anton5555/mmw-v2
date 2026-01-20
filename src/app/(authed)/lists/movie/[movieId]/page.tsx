@@ -2,6 +2,7 @@ import {
   getListMovieById,
   getListsContainingMovie,
 } from '@/lib/api/lists';
+import { getYearTopStatsForMovie } from '@/lib/api/year-top';
 import { MamMovieDetail } from '@/components/mam-movie-detail';
 import { ListMovieBreadcrumbUpdater } from '@/components/list-movie-breadcrumb-updater';
 import { notFound } from 'next/navigation';
@@ -31,6 +32,9 @@ export default async function ListMoviePage({
 
   // Get lists containing this movie
   const lists = await getListsContainingMovie(movieId);
+
+  // Fetch year-top stats for this movie
+  const yearTopSummary = await getYearTopStatsForMovie(movieId);
 
   // Use listId from query param if provided, otherwise use the first list
   const selectedListId = listIdParam
@@ -78,6 +82,7 @@ export default async function ListMoviePage({
         director={director}
         genre={genre}
         otherLists={otherLists}
+        yearTopSummary={yearTopSummary}
       />
     </>
   );

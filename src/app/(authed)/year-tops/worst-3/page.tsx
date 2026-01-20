@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import Link from 'next/link';
 import { getYearTopParticipants } from '@/lib/api/year-top';
 import { loadYearTopSearchParams } from '@/lib/searchParams';
 import { YearTopMovieFilters } from '@/components/year-top-movie-filters';
@@ -58,11 +59,35 @@ export default async function Worst3Page({ searchParams }: Worst3PageProps) {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
-                Peores 3 del Año
+                Porongas del Año
               </h1>
               <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                Las 3 peores películas de {validatedParams.year} según la comunidad.
+                Las 3 peores películas de {validatedParams.year} según cada participante.
               </p>
+            </div>
+          </div>
+          {/* Year navigation */}
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            <span>Ver otras listas de {validatedParams.year}:</span>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/year-tops/top-10?year=${validatedParams.year}`}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
+              >
+                Top 10
+              </Link>
+              <Link
+                href={`/year-tops/best-seen?year=${validatedParams.year}`}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
+              >
+                Mejor vista
+              </Link>
+              <Link
+                href={`/year-tops/worst-3?year=${validatedParams.year}`}
+                className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white"
+              >
+                Peores 3
+              </Link>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import Link from 'next/link';
 import { getYearTopParticipants } from '@/lib/api/year-top';
 import { loadYearTopSearchParams } from '@/lib/searchParams';
 import { YearTopMovieFilters } from '@/components/year-top-movie-filters';
@@ -63,6 +64,30 @@ export default async function Top10Page({ searchParams }: Top10PageProps) {
               <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
                 Las 10 mejores películas de {validatedParams.year} según la comunidad.
               </p>
+            </div>
+          </div>
+          {/* Year navigation */}
+          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            <span>Ver otras listas de {validatedParams.year}:</span>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/year-tops/top-10?year=${validatedParams.year}`}
+                className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white"
+              >
+                Top 10
+              </Link>
+              <Link
+                href={`/year-tops/best-seen?year=${validatedParams.year}`}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
+              >
+                Mejor vista
+              </Link>
+              <Link
+                href={`/year-tops/worst-3?year=${validatedParams.year}`}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
+              >
+                Peores 3
+              </Link>
             </div>
           </div>
         </div>

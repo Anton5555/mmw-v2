@@ -10,10 +10,17 @@ import {
   getParticipantDisplayName,
 } from './participant-avatar';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
-import { Calendar, Film, ChevronRight } from 'lucide-react';
+import { Calendar, Film, ChevronRight, Star } from 'lucide-react';
 import type { List as ListType } from '@/lib/validations/generated';
+import type { YearTopSummaryItem } from '@/lib/validations/year-top';
 import { GlassButton } from './ui/glass-button';
 import { GlassCard } from './ui/glass-card';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 interface MamMovieDetailProps {
   movie: MamMovieWithPicks;
@@ -21,6 +28,7 @@ interface MamMovieDetailProps {
   director?: string;
   genre?: string;
   otherLists?: ListType[];
+  yearTopSummary?: YearTopSummaryItem[];
 }
 
 export function MamMovieDetail({
@@ -29,6 +37,7 @@ export function MamMovieDetail({
   director,
   genre,
   otherLists = [],
+  yearTopSummary = [],
 }: MamMovieDetailProps) {
   const [expandedReviews, setExpandedReviews] = useState<Set<number>>(
     new Set()
@@ -143,101 +152,176 @@ export function MamMovieDetail({
 
       {/* 2. Stats Section */}
       <section className="container mx-auto px-4 py-12 md:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1fr_350px]">
+        <div className={cn(
+          "grid gap-12",
+          movie.picks && movie.picks.length > 0 ? "lg:grid-cols-[1fr_350px]" : "lg:grid-cols-[350px] lg:justify-center"
+        )}>
           {/* Main Content: Reviews */}
-          <div className="space-y-8">
-            <h2 className="text-2xl font-black uppercase tracking-widest text-white/40">
-              Votos y Reseñas
-            </h2>
+          {movie.picks && movie.picks.length > 0 && (
+            <div className="space-y-8">
+              <h2 className="text-2xl font-black uppercase tracking-widest text-white/40">
+                Votos y Reseñas
+              </h2>
 
-            <div className="space-y-4">
-              {/* Top Choice Section with specialized styling */}
-              {topChoicePicks.map((pick) => (
-                <ReviewCard
-                  key={pick.id}
-                  pick={pick}
-                  isTopChoice
-                  expandedReviews={expandedReviews}
-                  setExpandedReviews={setExpandedReviews}
-                />
-              ))}
+              <div className="space-y-4">
+                {/* Top Choice Section with specialized styling */}
+                {topChoicePicks.map((pick) => (
+                  <ReviewCard
+                    key={pick.id}
+                    pick={pick}
+                    isTopChoice
+                    expandedReviews={expandedReviews}
+                    setExpandedReviews={setExpandedReviews}
+                  />
+                ))}
 
-              {/* Regular Picks with Reviews */}
-              {regularPicksWithReviews.map((pick) => (
-                <ReviewCard
-                  key={pick.id}
-                  pick={pick}
-                  expandedReviews={expandedReviews}
-                  setExpandedReviews={setExpandedReviews}
-                />
-              ))}
+                {/* Regular Picks with Reviews */}
+                {regularPicksWithReviews.map((pick) => (
+                  <ReviewCard
+                    key={pick.id}
+                    pick={pick}
+                    expandedReviews={expandedReviews}
+                    setExpandedReviews={setExpandedReviews}
+                  />
+                ))}
 
-              {/* Grouped Voters (Simplified) */}
-              {regularPicksWithoutReviews.length > 0 && (
-                <GlassCard variant="review" className="p-6 text-center">
-                  <p className="text-sm font-medium text-white/40">
-                    <span className="text-white">
-                      {regularPicksWithoutReviews.length} personas
-                    </span>{' '}
-                    más votaron esta película sin dejar reseña.
-                  </p>
-                </GlassCard>
-              )}
+                {/* Grouped Voters (Simplified) */}
+                {regularPicksWithoutReviews.length > 0 && (
+                  <GlassCard variant="review" className="p-6 text-center">
+                    <p className="text-sm font-medium text-white/40">
+                      <span className="text-white">
+                        {regularPicksWithoutReviews.length} personas
+                      </span>{' '}
+                      más votaron esta película sin dejar reseña.
+                    </p>
+                  </GlassCard>
+                )}
 
-              {/* Special Mentions Section */}
-              {specialMentions.length > 0 && (
-                <>
-                  <h3 className="text-xl font-black uppercase tracking-widest text-white/40 mt-12 mb-4">
-                    Menciones Especiales
-                  </h3>
-                  {specialMentions.map((pick) => (
-                    <ReviewCard
-                      key={pick.id}
-                      pick={pick}
-                      isSpecialMention
-                      expandedReviews={expandedReviews}
-                      setExpandedReviews={setExpandedReviews}
-                    />
-                  ))}
-                </>
-              )}
-
-              {/* Empty State */}
-              {movie.picks.length === 0 && (
-                <GlassCard variant="review" className="p-8 text-center">
-                  <p className="text-white/40">
-                    No hay votos registrados para esta película.
-                  </p>
-                </GlassCard>
-              )}
+                {/* Special Mentions Section */}
+                {specialMentions.length > 0 && (
+                  <>
+                    <h3 className="text-xl font-black uppercase tracking-widest text-white/40 mt-12 mb-4">
+                      Menciones Especiales
+                    </h3>
+                    {specialMentions.map((pick) => (
+                      <ReviewCard
+                        key={pick.id}
+                        pick={pick}
+                        isSpecialMention
+                        expandedReviews={expandedReviews}
+                        setExpandedReviews={setExpandedReviews}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Sidebar: Metadata & Lists */}
           <aside className="space-y-8">
-            <GlassCard variant="stats">
-              <h3 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-white/40">
-                Estadísticas
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {(movie.totalPoints ?? 0) > 0 && (
-                  <div>
-                    <p className="text-3xl font-black">
-                      {movie.totalPoints}
-                    </p>
+            {movie.picks && movie.picks.length > 0 && (
+              <GlassCard variant="stats">
+                <h3 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-white/40">
+                  Estadísticas
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {(movie.totalPoints ?? 0) > 0 && (
+                    <div>
+                      <p className="text-3xl font-black">
+                        {movie.totalPoints}
+                      </p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                        Puntos Totales
+                      </p>
+                    </div>
+                  )}
+                  <div className={cn((movie.totalPoints ?? 0) > 0 ? '' : 'col-span-2')}>
+                    <p className="text-3xl font-black">{movie.totalPicks ?? 0}</p>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                      Puntos Totales
+                      Votantes
                     </p>
                   </div>
-                )}
-                <div className={cn((movie.totalPoints ?? 0) > 0 ? '' : 'col-span-2')}>
-                  <p className="text-3xl font-black">{movie.totalPicks ?? 0}</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                    Votantes
-                  </p>
                 </div>
-              </div>
-            </GlassCard>
+              </GlassCard>
+            )}
+
+            {yearTopSummary.length > 0 && (
+              <TooltipProvider>
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/40">
+                    Top del Año
+                  </h3>
+                  <div className="space-y-3">
+                    {Object.entries(
+                      yearTopSummary.reduce((acc, item) => {
+                        if (!acc[item.year]) {
+                          acc[item.year] = [];
+                        }
+                        acc[item.year].push(item);
+                        return acc;
+                      }, {} as Record<number, YearTopSummaryItem[]>)
+                    )
+                      .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
+                      .map(([year, items]) => (
+                        <div key={year} className="space-y-2">
+                          <h4 className="text-sm font-bold text-white/60">{year}</h4>
+                          <div className="space-y-2">
+                            {items.map((item) => {
+                              const pickTypeLabel =
+                                item.pickType === 'TOP_10'
+                                  ? 'Top 10'
+                                  : item.pickType === 'BEST_SEEN'
+                                    ? 'Mejor Vista'
+                                    : 'Peores 3';
+
+                              const uniqueParticipants = Array.from(
+                                new Map(
+                                  item.picks.map((pick) => [
+                                    pick.participant.id,
+                                    pick.participant.displayName,
+                                  ])
+                                ).values()
+                              );
+
+                              return (
+                                <Tooltip key={`${year}-${item.pickType}`}>
+                                  <TooltipTrigger asChild>
+                                    <div className="group flex items-center justify-between rounded-lg border border-white/5 bg-white/5 px-4 py-3 transition-all hover:bg-white/10 cursor-default">
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-sm font-bold group-hover:text-primary">
+                                            {pickTypeLabel}
+                                          </span>
+                                          <div className="flex items-center gap-1.5 text-xs text-white/40">
+                                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                            <span>{item.totalPoints} pts</span>
+                                            <span className="text-white/20">•</span>
+                                            <span>{item.picksCount} votos</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <ChevronRight className="h-4 w-4 text-white/20" />
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent side="left" className="max-w-xs break-words">
+                                    <p className="font-bold mb-1 text-xs">
+                                      Participantes ({uniqueParticipants.length})
+                                    </p>
+                                    <p className="text-[11px] leading-snug">
+                                      {uniqueParticipants.join(' • ')}
+                                    </p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </TooltipProvider>
+            )}
 
             {otherLists.length > 0 && (
               <div className="space-y-4">

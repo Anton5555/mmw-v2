@@ -43,7 +43,7 @@ export default async function YearTopsPage() {
             <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-8 hover:bg-white/10 transition-all duration-300 group">
               <h2 className="text-2xl font-bold mb-2">Top 10</h2>
               <p className="text-muted-foreground text-sm">
-                Las 10 mejores películas del año
+                Las 10 mejores películas del año según cada participante.
               </p>
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-linear-to-tl from-yellow-500/20 to-transparent rounded-tl-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
@@ -63,7 +63,7 @@ export default async function YearTopsPage() {
             <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-8 hover:bg-white/10 transition-all duration-300 group">
               <h2 className="text-2xl font-bold mb-2">Peores 3</h2>
               <p className="text-muted-foreground text-sm">
-                Las 3 peores películas del año
+                Las 3 porongas del año según cada participante.
               </p>
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-linear-to-tl from-red-500/20 to-transparent rounded-tl-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
