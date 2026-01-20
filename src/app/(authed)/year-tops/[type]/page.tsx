@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { getYearTopParticipants } from '@/lib/api/year-top';
 import { loadYearTopSearchParams } from '@/lib/searchParams';
 import { YearTopMovieFilters } from '@/components/year-top-movie-filters';
@@ -8,21 +9,59 @@ import { YearTopMovieGridWrapper } from '@/components/year-top-movie-grid-wrappe
 import { YearTopSkeletonGrid } from '@/components/year-top-skeleton-grid';
 import { prisma } from '@/lib/db';
 import { YearTopPickType } from '@prisma/client';
+import { cn } from '@/lib/utils';
 
-interface Top10PageProps {
+interface YearTopTypePageProps {
+  params: Promise<{ type: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function Top10Page({ searchParams }: Top10PageProps) {
-  // Load and validate search parameters using nuqs
-  const params = await loadYearTopSearchParams(searchParams);
-  
-  // Ensure pickType is TOP_10
-  const validatedParams = {
-    ...params,
+const TYPE_CONFIG = {
+  'top-10': {
     pickType: YearTopPickType.TOP_10,
-  };
+    title: 'Top del Año',
+    description: 'Las mejores películas de {year} según la comunidad.',
+  },
+  'best-seen': {
+    pickType: YearTopPickType.BEST_SEEN,
+    title: 'Mejor Vista del Año',
+    description: 'La mejor película vista en {year} (cualquier año de estreno).',
+  },
+  'worst-3': {
+    pickType: YearTopPickType.WORST_3,
+    title: 'Porongas del Año',
+    description: 'Las peores películas de {year} según cada participante.',
+  },
+} as const;
 
+type ValidType = keyof typeof TYPE_CONFIG;
+
+export default async function YearTopTypePage({
+  params,
+  searchParams,
+}: YearTopTypePageProps) {
+  const { type } = await params;
+
+  // Validate type
+  if (!(type in TYPE_CONFIG)) {
+    notFound();
+  }
+
+  const typeConfig = TYPE_CONFIG[type as ValidType];
+
+  // Load and validate search parameters using nuqs
+  const loadedParams = await loadYearTopSearchParams(searchParams);
+
+  // best-seen is only available for 2025
+  if (type === 'best-seen' && loadedParams.year !== 2025) {
+    notFound();
+  }
+
+  // Ensure pickType matches the route type
+  const validatedParams = {
+    ...loadedParams,
+    pickType: typeConfig.pickType,
+  };
 
   // Get available years
   const years = await prisma.yearTopParticipant.findMany({
@@ -38,7 +77,6 @@ export default async function Top10Page({ searchParams }: Top10PageProps) {
 
   // Fetch static data (participants list)
   const participantsList = await getYearTopParticipants(validatedParams.year);
-
 
   // Create a stable key for Suspense based on search params
   const suspenseKey = JSON.stringify({
@@ -59,10 +97,10 @@ export default async function Top10Page({ searchParams }: Top10PageProps) {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
-                Top 10 del Año
+                {typeConfig.title}
               </h1>
               <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                Las 10 mejores películas de {validatedParams.year} según la comunidad.
+                {typeConfig.description.replace('{year}', validatedParams.year.toString())}
               </p>
             </div>
           </div>
@@ -72,21 +110,38 @@ export default async function Top10Page({ searchParams }: Top10PageProps) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/year-tops/top-10?year=${validatedParams.year}`}
-                className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white"
+                className={cn(
+                  'rounded-full border px-3 py-1 text-xs font-medium transition',
+                  type === 'top-10'
+                    ? 'border-white/15 bg-white/10 text-white'
+                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                )}
               >
-                Top 10
+                Top del Año
               </Link>
-              <Link
-                href={`/year-tops/best-seen?year=${validatedParams.year}`}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
-              >
-                Mejor vista
-              </Link>
+              {validatedParams.year === 2025 && (
+                <Link
+                  href={`/year-tops/best-seen?year=${validatedParams.year}`}
+                  className={cn(
+                    'rounded-full border px-3 py-1 text-xs font-medium transition',
+                    type === 'best-seen'
+                      ? 'border-white/15 bg-white/10 text-white'
+                      : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                  )}
+                >
+                  Mejor vista
+                </Link>
+              )}
               <Link
                 href={`/year-tops/worst-3?year=${validatedParams.year}`}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium hover:bg-white/10 hover:border-white/20 transition"
+                className={cn(
+                  'rounded-full border px-3 py-1 text-xs font-medium transition',
+                  type === 'worst-3'
+                    ? 'border-white/15 bg-white/10 text-white'
+                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                )}
               >
-                Peores 3
+                Porongas del Año
               </Link>
             </div>
           </div>

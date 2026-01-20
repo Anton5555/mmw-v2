@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo, ReactNode } from 'react';
 import { YearTopSkeletonGrid } from './year-top-skeleton-grid';
 import { useYearTopParams } from '@/lib/hooks/useYearTopParams';
 import { startTransition } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface YearTopMovieGridWrapperProps {
   initialParams: {
@@ -61,6 +62,18 @@ export function YearTopMovieGridWrapper({
     return <YearTopSkeletonGrid />;
   }
 
-  // Render children (server component) when params match
-  return <>{children}</>;
+  // Render children (server component) with motion animations when params match
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={renderedParams.year}
+        initial={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
+        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+        exit={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
+        transition={{ duration: 0.3 }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
 }

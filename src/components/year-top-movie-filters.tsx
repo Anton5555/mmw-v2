@@ -6,25 +6,19 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FilterCombobox } from '@/components/ui/filter-combobox';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Search, Users, X, SlidersHorizontal, Calendar } from 'lucide-react';
+import { Search, Users, X, SlidersHorizontal } from 'lucide-react';
 import {
   ParticipantAvatar,
   getParticipantDisplayName,
 } from './participant-avatar';
 import { useYearTopParams } from '@/lib/hooks/useYearTopParams';
+import { cn } from '@/lib/utils';
 
 interface Participant {
   id: number;
@@ -79,26 +73,29 @@ function FiltersContent({
 
   return (
     <div className="space-y-4">
-      {/* Year Selector */}
-      <div className="flex items-center gap-2">
-        <Calendar className="h-4 w-4 text-muted-foreground" />
-        <Select
-          value={params.year.toString()}
-          onValueChange={(value) => {
-            setParams({ year: parseInt(value, 10), page: 1 });
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Seleccionar año" />
-          </SelectTrigger>
-          <SelectContent>
-            {availableYears.map((year) => (
-              <SelectItem key={year} value={year.toString()}>
-                {year}
-              </SelectItem>
+      {/* Year Selector - Film Strip */}
+      <div className="flex flex-col space-y-2">
+        <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] shrink-0">
+            Cambiar Año:
+          </span>
+          <div className="flex gap-2">
+            {availableYears.map((y) => (
+              <button
+                key={y}
+                onClick={() => setParams({ year: y, page: 1 })}
+                className={cn(
+                  'min-w-[80px] py-1 px-4 rounded border font-mono text-sm transition-all duration-200',
+                  params.year === y
+                    ? 'bg-yellow-500 border-yellow-500 text-black font-bold shadow-[0_0_15px_rgba(234,179,8,0.4)]'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600'
+                )}
+              >
+                {y}
+              </button>
             ))}
-          </SelectContent>
-        </Select>
+          </div>
+        </div>
       </div>
 
       {/* Search Inputs */}
@@ -240,66 +237,73 @@ export function YearTopMovieFilters({
         </Sheet>
       </div>
 
-      {/* Desktop: Floating Glassmorphism Filter Bar */}
+      {/* Desktop: Year Switcher + Floating Glassmorphism Filter Bar */}
       <div className="sticky top-4 z-50 mb-12 hidden md:block">
-        <div className="p-2 bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-4 px-6">
-          <Calendar className="w-5 h-5 text-muted-foreground shrink-0" />
-          <Select
-            value={params.year.toString()}
-            onValueChange={(value) => {
-              setParams({ year: parseInt(value, 10), page: 1 });
-            }}
-          >
-            <SelectTrigger className="w-[120px] bg-transparent border-0 focus:ring-0 text-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {availableYears.map((year) => (
-                <SelectItem key={year} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div className="h-6 w-[1px] bg-white/10" />
-          <Search className="w-5 h-5 text-muted-foreground shrink-0" />
-          <div className="flex-1 flex items-center gap-4">
-            <Input
-              placeholder="Buscar por título..."
-              value={params.title}
-              onChange={(e) => {
-                setParams({ title: e.target.value, page: 1 });
-              }}
-              className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-500 h-8"
-            />
-            {activeFiltersCount > 0 && (
-              <>
-                <div className="h-6 w-[1px] bg-white/10" />
-                <Badge
-                  variant="secondary"
-                  className="px-2 py-0.5 text-xs shrink-0"
+        <div className="flex flex-col space-y-6 mb-8 border-b border-white/5 pb-8">
+          {/* PRESTIGE YEAR SWITCHER */}
+          <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.3em] shrink-0">
+              Cambiar Año:
+            </span>
+            <div className="flex gap-2">
+              {availableYears.map((y) => (
+                <button
+                  key={y}
+                  onClick={() => setParams({ year: y, page: 1 })}
+                  className={cn(
+                    'min-w-[80px] py-1 px-4 rounded border font-mono text-sm transition-all duration-200',
+                    params.year === y
+                      ? 'bg-yellow-500 border-yellow-500 text-black font-bold shadow-[0_0_15px_rgba(234,179,8,0.4)]'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600'
+                  )}
                 >
-                  {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''}
-                </Badge>
-              </>
-            )}
+                  {y}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="h-6 w-[1px] bg-white/10" />
-          <div className="shrink-0">
-            <FilterCombobox
-              options={participants.map((p) => ({
-                value: p.slug,
-                label: getParticipantDisplayName(p),
-              }))}
-              selected={params.participants}
-              onChange={(values) => {
-                setParams({ participants: values, page: 1 });
-              }}
-              placeholder="Participantes..."
-              emptyMessage="No se encontraron participantes."
-              groupLabel="Filtrar por participantes"
-              icon={<Users className="h-4 w-4" />}
-            />
+
+          {/* SEARCH & OTHER FILTERS */}
+          <div className="p-2 bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-4 px-6">
+            <Search className="w-5 h-5 text-muted-foreground shrink-0" />
+            <div className="flex-1 flex items-center gap-4">
+              <Input
+                placeholder="Buscar por título..."
+                value={params.title}
+                onChange={(e) => {
+                  setParams({ title: e.target.value, page: 1 });
+                }}
+                className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-500 h-8"
+              />
+              {activeFiltersCount > 0 && (
+                <>
+                  <div className="h-6 w-px bg-white/10" />
+                  <Badge
+                    variant="secondary"
+                    className="px-2 py-0.5 text-xs shrink-0"
+                  >
+                    {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''}
+                  </Badge>
+                </>
+              )}
+            </div>
+            <div className="h-6 w-px bg-white/10" />
+            <div className="shrink-0">
+              <FilterCombobox
+                options={participants.map((p) => ({
+                  value: p.slug,
+                  label: getParticipantDisplayName(p),
+                }))}
+                selected={params.participants}
+                onChange={(values) => {
+                  setParams({ participants: values, page: 1 });
+                }}
+                placeholder="Participantes..."
+                emptyMessage="No se encontraron participantes."
+                groupLabel="Filtrar por participantes"
+                icon={<Users className="h-4 w-4" />}
+              />
+            </div>
           </div>
         </div>
       </div>
