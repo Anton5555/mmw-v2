@@ -99,3 +99,18 @@ export type DailyRecommendation = Prisma.DailyRecommendationModel
  * 
  */
 export type BoardPost = Prisma.BoardPostModel
+/**
+ * Model YearTopParticipant
+ * 
+ */
+export type YearTopParticipant = Prisma.YearTopParticipantModel
+/**
+ * Model YearTopPick
+ * 
+ */
+export type YearTopPick = Prisma.YearTopPickModel
+/**
+ * Model YearTopMovieStats
+ * 
+ */
+export type YearTopMovieStats = Prisma.YearTopMovieStatsModel

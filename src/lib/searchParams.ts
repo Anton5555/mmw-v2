@@ -17,3 +17,16 @@ export const mamMoviesSearchParams = {
 };
 
 export const loadMamMoviesSearchParams = createLoader(mamMoviesSearchParams);
+
+// YearTop movie search parameters
+export const yearTopSearchParams = {
+  year: parseAsInteger.withDefault(new Date().getFullYear()),
+  pickType: parseAsString.withDefault('TOP_10'), // Will be validated as enum in API
+  title: parseAsString.withDefault(''),
+  imdb: parseAsString.withDefault(''),
+  participants: parseAsArrayOf(parseAsString).withDefault([]), // array of participant slugs
+  page: parseAsInteger.withDefault(1),
+  limit: parseAsInteger.withDefault(30),
+};
+
+export const loadYearTopSearchParams = createLoader(yearTopSearchParams);

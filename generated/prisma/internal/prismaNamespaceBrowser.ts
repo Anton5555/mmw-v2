@@ -62,7 +62,10 @@ export const ModelName = {
   MamParticipant: 'MamParticipant',
   MamPick: 'MamPick',
   DailyRecommendation: 'DailyRecommendation',
-  BoardPost: 'BoardPost'
+  BoardPost: 'BoardPost',
+  YearTopParticipant: 'YearTopParticipant',
+  YearTopPick: 'YearTopPick',
+  YearTopMovieStats: 'YearTopMovieStats'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -253,6 +256,42 @@ export const BoardPostScalarFieldEnum = {
 } as const
 
 export type BoardPostScalarFieldEnum = (typeof BoardPostScalarFieldEnum)[keyof typeof BoardPostScalarFieldEnum]
+
+
+export const YearTopParticipantScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  displayName: 'displayName',
+  slug: 'slug',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type YearTopParticipantScalarFieldEnum = (typeof YearTopParticipantScalarFieldEnum)[keyof typeof YearTopParticipantScalarFieldEnum]
+
+
+export const YearTopPickScalarFieldEnum = {
+  id: 'id',
+  participantId: 'participantId',
+  movieId: 'movieId',
+  year: 'year',
+  pickType: 'pickType',
+  isTopPosition: 'isTopPosition',
+  createdAt: 'createdAt'
+} as const
+
+export type YearTopPickScalarFieldEnum = (typeof YearTopPickScalarFieldEnum)[keyof typeof YearTopPickScalarFieldEnum]
+
+
+export const YearTopMovieStatsScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  year: 'year',
+  pickType: 'pickType',
+  totalPoints: 'totalPoints'
+} as const
+
+export type YearTopMovieStatsScalarFieldEnum = (typeof YearTopMovieStatsScalarFieldEnum)[keyof typeof YearTopMovieStatsScalarFieldEnum]
 
 
 export const SortOrder = {
