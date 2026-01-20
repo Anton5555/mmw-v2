@@ -1,5 +1,23 @@
 [
   {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Emilia Perez",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Madame Web",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Venom 3",
+    "error": "No IMDB ID found"
+  },
+  {
     "participant": "Lavtaro",
     "pickType": "TOP_10",
     "movieText": "Popular tradicion de esta tierra - https://www.filmaffinity.com/es/film916323.html",

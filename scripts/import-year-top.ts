@@ -346,11 +346,21 @@ function readCsvFile(filePath: string, year: number): CsvRow[] {
     }
 
     // Worst 3 (#3 to #1) - try different key formats
+    // Note: CSV headers vary - #3 and #2 have "que consideres que merece", #1 has "que merece"
     const worst3: string[] = [];
     for (let i = 3; i >= 1; i--) {
       const possibleKeys = [
+        // For #3 and #2: "que consideres que merece"
+        `PORONGA #${i} ${year}  que consideres que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
+        `PORONGA #${i} ${year} que consideres que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
+        `PORONGA #${i} ${year}  que consideres que merece el escarnio público y todo nuestro desprecio *nombre de la peli y link IMDB`,
+        // For #1: "que merece" with two spaces after year (exact match for #1)
+        `PORONGA #${i} ${year}  que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
+        // For all: "que merece" (simpler version)
         `PORONGA #${i} ${year} que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
         `PORONGA #${i} ${year} que merece el escarnio público y todo nuestro desprecio *nombre de la peli y link IMDB`,
+        // Without year
+        `PORONGA #${i}  que consideres que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
         `PORONGA #${i} que merece el escarnio público y todo nuestro desprecio  *nombre de la peli y link IMDB`,
       ];
       
@@ -359,6 +369,19 @@ function readCsvFile(filePath: string, year: number): CsvRow[] {
         if (record[key]) {
           value = record[key];
           break;
+        }
+      }
+      
+      // If exact match failed, try pattern matching on column names
+      if (!value) {
+        const matchingKey = Object.keys(record).find((key) => {
+          // Match pattern: PORONGA #number followed by optional year, then "que" (with optional "consideres que"), then "merece"
+          const pattern = new RegExp(`PORONGA #${i}(?: ${year})?\\s+que (?:consideres que )?merece el escarnio público y todo nuestro desprecio[\\s\\*]*nombre de la peli y link IMDB`, 'i');
+          return pattern.test(key);
+        });
+        
+        if (matchingKey && record[matchingKey]) {
+          value = record[matchingKey];
         }
       }
       
