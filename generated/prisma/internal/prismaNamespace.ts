@@ -395,7 +395,10 @@ export const ModelName = {
   MamParticipant: 'MamParticipant',
   MamPick: 'MamPick',
   DailyRecommendation: 'DailyRecommendation',
-  BoardPost: 'BoardPost'
+  BoardPost: 'BoardPost',
+  YearTopParticipant: 'YearTopParticipant',
+  YearTopPick: 'YearTopPick',
+  YearTopMovieStats: 'YearTopMovieStats'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1303,6 +1306,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    YearTopParticipant: {
+      payload: Prisma.$YearTopParticipantPayload<ExtArgs>
+      fields: Prisma.YearTopParticipantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YearTopParticipantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YearTopParticipantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        findFirst: {
+          args: Prisma.YearTopParticipantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YearTopParticipantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        findMany: {
+          args: Prisma.YearTopParticipantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>[]
+        }
+        create: {
+          args: Prisma.YearTopParticipantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        createMany: {
+          args: Prisma.YearTopParticipantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YearTopParticipantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>[]
+        }
+        delete: {
+          args: Prisma.YearTopParticipantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        update: {
+          args: Prisma.YearTopParticipantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        deleteMany: {
+          args: Prisma.YearTopParticipantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YearTopParticipantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YearTopParticipantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>[]
+        }
+        upsert: {
+          args: Prisma.YearTopParticipantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopParticipantPayload>
+        }
+        aggregate: {
+          args: Prisma.YearTopParticipantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYearTopParticipant>
+        }
+        groupBy: {
+          args: Prisma.YearTopParticipantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopParticipantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YearTopParticipantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopParticipantCountAggregateOutputType> | number
+        }
+      }
+    }
+    YearTopPick: {
+      payload: Prisma.$YearTopPickPayload<ExtArgs>
+      fields: Prisma.YearTopPickFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YearTopPickFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YearTopPickFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        findFirst: {
+          args: Prisma.YearTopPickFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YearTopPickFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        findMany: {
+          args: Prisma.YearTopPickFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>[]
+        }
+        create: {
+          args: Prisma.YearTopPickCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        createMany: {
+          args: Prisma.YearTopPickCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YearTopPickCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>[]
+        }
+        delete: {
+          args: Prisma.YearTopPickDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        update: {
+          args: Prisma.YearTopPickUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        deleteMany: {
+          args: Prisma.YearTopPickDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YearTopPickUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YearTopPickUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>[]
+        }
+        upsert: {
+          args: Prisma.YearTopPickUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopPickPayload>
+        }
+        aggregate: {
+          args: Prisma.YearTopPickAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYearTopPick>
+        }
+        groupBy: {
+          args: Prisma.YearTopPickGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopPickGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YearTopPickCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopPickCountAggregateOutputType> | number
+        }
+      }
+    }
+    YearTopMovieStats: {
+      payload: Prisma.$YearTopMovieStatsPayload<ExtArgs>
+      fields: Prisma.YearTopMovieStatsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YearTopMovieStatsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YearTopMovieStatsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        findFirst: {
+          args: Prisma.YearTopMovieStatsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YearTopMovieStatsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        findMany: {
+          args: Prisma.YearTopMovieStatsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>[]
+        }
+        create: {
+          args: Prisma.YearTopMovieStatsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        createMany: {
+          args: Prisma.YearTopMovieStatsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YearTopMovieStatsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>[]
+        }
+        delete: {
+          args: Prisma.YearTopMovieStatsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        update: {
+          args: Prisma.YearTopMovieStatsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        deleteMany: {
+          args: Prisma.YearTopMovieStatsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YearTopMovieStatsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YearTopMovieStatsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>[]
+        }
+        upsert: {
+          args: Prisma.YearTopMovieStatsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearTopMovieStatsPayload>
+        }
+        aggregate: {
+          args: Prisma.YearTopMovieStatsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYearTopMovieStats>
+        }
+        groupBy: {
+          args: Prisma.YearTopMovieStatsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopMovieStatsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YearTopMovieStatsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearTopMovieStatsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1516,6 +1741,42 @@ export const BoardPostScalarFieldEnum = {
 export type BoardPostScalarFieldEnum = (typeof BoardPostScalarFieldEnum)[keyof typeof BoardPostScalarFieldEnum]
 
 
+export const YearTopParticipantScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  displayName: 'displayName',
+  slug: 'slug',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type YearTopParticipantScalarFieldEnum = (typeof YearTopParticipantScalarFieldEnum)[keyof typeof YearTopParticipantScalarFieldEnum]
+
+
+export const YearTopPickScalarFieldEnum = {
+  id: 'id',
+  participantId: 'participantId',
+  movieId: 'movieId',
+  year: 'year',
+  pickType: 'pickType',
+  isTopPosition: 'isTopPosition',
+  createdAt: 'createdAt'
+} as const
+
+export type YearTopPickScalarFieldEnum = (typeof YearTopPickScalarFieldEnum)[keyof typeof YearTopPickScalarFieldEnum]
+
+
+export const YearTopMovieStatsScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  year: 'year',
+  pickType: 'pickType',
+  totalPoints: 'totalPoints'
+} as const
+
+export type YearTopMovieStatsScalarFieldEnum = (typeof YearTopMovieStatsScalarFieldEnum)[keyof typeof YearTopMovieStatsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1620,6 +1881,20 @@ export type EnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'EventType[]'
  */
 export type ListEnumEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'YearTopPickType'
+ */
+export type EnumYearTopPickTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'YearTopPickType'>
+    
+
+
+/**
+ * Reference to a field of type 'YearTopPickType[]'
+ */
+export type ListEnumYearTopPickTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'YearTopPickType[]'>
     
 
 /**
@@ -1729,6 +2004,9 @@ export type GlobalOmitConfig = {
   mamPick?: Prisma.MamPickOmit
   dailyRecommendation?: Prisma.DailyRecommendationOmit
   boardPost?: Prisma.BoardPostOmit
+  yearTopParticipant?: Prisma.YearTopParticipantOmit
+  yearTopPick?: Prisma.YearTopPickOmit
+  yearTopMovieStats?: Prisma.YearTopMovieStatsOmit
 }
 
 /* Types for Logging */

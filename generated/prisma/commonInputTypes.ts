@@ -259,6 +259,23 @@ export type EnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
 }
 
+export type EnumYearTopPickTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.YearTopPickType | Prisma.EnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel> | $Enums.YearTopPickType
+}
+
+export type EnumYearTopPickTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.YearTopPickType | Prisma.EnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumYearTopPickTypeWithAggregatesFilter<$PrismaModel> | $Enums.YearTopPickType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -504,6 +521,23 @@ export type NestedEnumEventTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEventTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumYearTopPickTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.YearTopPickType | Prisma.EnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel> | $Enums.YearTopPickType
+}
+
+export type NestedEnumYearTopPickTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.YearTopPickType | Prisma.EnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.YearTopPickType[] | Prisma.ListEnumYearTopPickTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumYearTopPickTypeWithAggregatesFilter<$PrismaModel> | $Enums.YearTopPickType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
 }
 
 

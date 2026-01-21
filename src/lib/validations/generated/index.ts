@@ -36,6 +36,12 @@ export const DailyRecommendationScalarFieldEnumSchema = z.enum(['id','date','typ
 
 export const BoardPostScalarFieldEnumSchema = z.enum(['id','title','description','order','createdAt','updatedAt','createdBy']);
 
+export const YearTopParticipantScalarFieldEnumSchema = z.enum(['id','year','displayName','slug','userId','createdAt']);
+
+export const YearTopPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','year','pickType','isTopPosition','createdAt']);
+
+export const YearTopMovieStatsScalarFieldEnumSchema = z.enum(['id','movieId','year','pickType','totalPoints']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -49,6 +55,10 @@ export type UserRoleType = `${z.infer<typeof UserRoleSchema>}`
 export const EventTypeSchema = z.enum(['BIRTHDAY','ANNIVERSARY','DISCORD','IN_PERSON','OTHER']);
 
 export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`
+
+export const YearTopPickTypeSchema = z.enum(['TOP_10','BEST_SEEN','WORST_3']);
+
+export type YearTopPickTypeType = `${z.infer<typeof YearTopPickTypeSchema>}`
 
 /////////////////////////////////////////
 // MODELS
@@ -263,3 +273,48 @@ export const BoardPostSchema = z.object({
 })
 
 export type BoardPost = z.infer<typeof BoardPostSchema>
+
+/////////////////////////////////////////
+// YEAR TOP PARTICIPANT SCHEMA
+/////////////////////////////////////////
+
+export const YearTopParticipantSchema = z.object({
+  id: z.number().int(),
+  year: z.number().int(),
+  displayName: z.string(),
+  slug: z.string(),
+  userId: z.string().nullable(),
+  createdAt: z.coerce.date(),
+})
+
+export type YearTopParticipant = z.infer<typeof YearTopParticipantSchema>
+
+/////////////////////////////////////////
+// YEAR TOP PICK SCHEMA
+/////////////////////////////////////////
+
+export const YearTopPickSchema = z.object({
+  pickType: YearTopPickTypeSchema,
+  id: z.number().int(),
+  participantId: z.number().int(),
+  movieId: z.number().int(),
+  year: z.number().int(),
+  isTopPosition: z.boolean(),
+  createdAt: z.coerce.date(),
+})
+
+export type YearTopPick = z.infer<typeof YearTopPickSchema>
+
+/////////////////////////////////////////
+// YEAR TOP MOVIE STATS SCHEMA
+/////////////////////////////////////////
+
+export const YearTopMovieStatsSchema = z.object({
+  pickType: YearTopPickTypeSchema,
+  id: z.number().int(),
+  movieId: z.number().int(),
+  year: z.number().int(),
+  totalPoints: z.number().int(),
+})
+
+export type YearTopMovieStats = z.infer<typeof YearTopMovieStatsSchema>

@@ -1,0 +1,38 @@
+[
+  {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Emilia Perez",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Madame Web",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Tishey",
+    "pickType": "WORST_3",
+    "movieText": "Venom 3",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Lavtaro",
+    "pickType": "TOP_10",
+    "movieText": "Popular tradicion de esta tierra - https://www.filmaffinity.com/es/film916323.html",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "IaiIu",
+    "pickType": "TOP_10",
+    "movieText": "Popular tradición de esta tierra - https://www.filmaffinity.com/es/film916323.html",
+    "error": "No IMDB ID found"
+  },
+  {
+    "participant": "Sanntee",
+    "pickType": "TOP_10",
+    "movieText": "Humanist Vampire Seeking Consenting Suicidal Person.",
+    "error": "No IMDB ID found"
+  }
+]

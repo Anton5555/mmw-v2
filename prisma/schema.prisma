@@ -43,6 +43,8 @@ model Movie {
   MovieList            MovieList[]
   mamPicks             MamPick[]
   dailyRecommendations DailyRecommendation[]
+  yearTopPicks         YearTopPick[]
+  yearTopStats         YearTopMovieStats[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -80,13 +82,14 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  role           String?
-  banned         Boolean?
-  banReason      String?
-  banExpires     DateTime?
-  Event          Event[]
-  MamParticipant MamParticipant?
-  BoardPost      BoardPost[]
+  role                String?
+  banned              Boolean?
+  banReason           String?
+  banExpires          DateTime?
+  Event               Event[]
+  MamParticipant      MamParticipant?
+  BoardPost           BoardPost[]
+  yearTopParticipants YearTopParticipant[]
 
   @@map("user")
 }
@@ -224,4 +227,58 @@ model BoardPost {
 
   @@index([order]) // For efficient order-based queries
   @@map("BoardPost")
+}
+
+enum YearTopPickType {
+  TOP_10
+  BEST_SEEN
+  WORST_3
+}
+
+model YearTopParticipant {
+  id          Int           @id @default(autoincrement())
+  year        Int
+  displayName String
+  slug        String
+  userId      String?
+  user        User?         @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  picks       YearTopPick[]
+
+  @@unique([year, slug])
+  @@unique([userId, year])
+  @@index([year])
+  @@index([displayName])
+}
+
+model YearTopPick {
+  id            Int             @id @default(autoincrement())
+  participantId Int
+  movieId       Int
+  year          Int
+  pickType      YearTopPickType
+  isTopPosition Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+
+  participant YearTopParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  movie       Movie              @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, movieId, year, pickType])
+  @@index([movieId])
+  @@index([participantId])
+  @@index([year, pickType])
+}
+
+model YearTopMovieStats {
+  id          Int             @id @default(autoincrement())
+  movieId     Int
+  year        Int
+  pickType    YearTopPickType
+  totalPoints Int             @default(0)
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, year, pickType])
+  @@index([year, pickType, totalPoints])
+  @@index([movieId])
 }

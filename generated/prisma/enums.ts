@@ -26,3 +26,12 @@ export const EventType = {
 } as const
 
 export type EventType = (typeof EventType)[keyof typeof EventType]
+
+
+export const YearTopPickType = {
+  TOP_10: 'TOP_10',
+  BEST_SEEN: 'BEST_SEEN',
+  WORST_3: 'WORST_3'
+} as const
+
+export type YearTopPickType = (typeof YearTopPickType)[keyof typeof YearTopPickType]

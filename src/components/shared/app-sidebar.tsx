@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar, ClipboardList, Film, Info, NotebookTabs } from 'lucide-react';
+import { Calendar, ClipboardList, Film, Info, NotebookTabs, Trophy } from 'lucide-react';
 
 import {
   Sidebar,
@@ -40,6 +40,11 @@ const navItems = [
     title: 'MAM',
     url: '/mam',
     icon: Film,
+  },
+  {
+    title: 'Top del Año',
+    url: '/year-tops',
+    icon: Trophy,
   },
   // {
   //   title: 'Padlet',

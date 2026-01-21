@@ -2,24 +2,26 @@ import { getMamMovieById } from '@/lib/api/mam';
 import { getYearTopStatsForMovie } from '@/lib/api/year-top';
 import { getListsContainingMovie } from '@/lib/api/lists';
 import { MovieDetail } from '@/components/movie';
-import { MamMovieBreadcrumbUpdater } from '@/components/mam-movie-breadcrumb-updater';
 import { notFound } from 'next/navigation';
 import { getMovieById, getMovieDetails } from '@/lib/tmdb';
 
-interface MamMoviePageProps {
+interface YearTopMoviePageProps {
   params: Promise<{ movieId: string }>;
 }
 
-export default async function MamMoviePage({ params }: MamMoviePageProps) {
+export default async function YearTopMoviePage({
+  params,
+}: YearTopMoviePageProps) {
   const movieId = parseInt((await params).movieId);
 
   if (isNaN(movieId)) {
     notFound();
   }
 
+  // Fetch MAM movie data (for the main detail view)
   const movie = await getMamMovieById(movieId);
 
-  if (!movie || !movie.picks || movie.picks.length === 0) {
+  if (!movie) {
     notFound();
   }
 
@@ -45,20 +47,13 @@ export default async function MamMoviePage({ params }: MamMoviePageProps) {
   }
 
   return (
-    <>
-      <MamMovieBreadcrumbUpdater
-        movieTitle={
-          movie.originalLanguage === 'es' ? movie.originalTitle : movie.title
-        }
-      />
-      <MovieDetail
-        movie={movie}
-        rank={movie.rank}
-        director={director}
-        genre={genre}
-        otherLists={otherLists}
-        yearTopSummary={yearTopSummary}
-      />
-    </>
+    <MovieDetail
+      movie={movie}
+      rank={movie.rank}
+      director={director}
+      genre={genre}
+      otherLists={otherLists}
+      yearTopSummary={yearTopSummary}
+    />
   );
 }
