@@ -12,7 +12,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { ParticipantAvatar } from './participant-avatar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 import { useFilmStrip } from '@/lib/contexts/film-strip-context';
@@ -144,20 +150,40 @@ export function MamMovieCard({
             <span className="text-[11px] font-medium text-muted-foreground">
               {new Date(movie.releaseDate).getFullYear()}
             </span>
-            <div className="flex -space-x-2">
-              {movie.picks.slice(0, 3).map((pick, i) => (
-                <div
-                  key={pick.id}
-                  className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
-                >
-                  <ParticipantAvatar
-                    participant={pick.participant}
-                    size="sm"
-                    className="w-full h-full"
-                  />
-                </div>
-              ))}
-            </div>
+            {movie.picks.length > 0 && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex -space-x-2 cursor-pointer">
+                      {movie.picks.slice(0, 3).map((pick, i) => (
+                        <div
+                          key={pick.id}
+                          className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
+                        >
+                          <ParticipantAvatar
+                            participant={pick.participant}
+                            size="sm"
+                            className="w-full h-full"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs break-words">
+                    <p className="font-bold mb-1 text-xs">
+                      Participantes ({movie.picks.length})
+                    </p>
+                    <p className="text-[11px] leading-snug">
+                      {movie.picks
+                        .map((pick) =>
+                          getParticipantDisplayName(pick.participant)
+                        )
+                        .join(' • ')}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
       </div>
