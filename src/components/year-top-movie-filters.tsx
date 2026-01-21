@@ -105,7 +105,6 @@ function FiltersContent({
 }
 
 export function YearTopMovieFilters({
-  participants,
   availableYears,
 }: YearTopMovieFiltersProps) {
   const { params, setParams } = useYearTopParams();

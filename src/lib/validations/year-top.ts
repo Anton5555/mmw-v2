@@ -1,11 +1,10 @@
 import { z } from 'zod';
-import { YearTopPickType } from '@prisma/client';
 
 // YearTop movie query validation schema
 export const yearTopMovieQuerySchema = z.object({
   year: z.number().int().positive(),
   pickType: z.union([
-    z.nativeEnum(YearTopPickType),
+    z.enum(['TOP_10', 'BEST_SEEN', 'WORST_3']),
     z.literal('BEST_AND_WORST'), // Virtual pickType for movies in both TOP_10 and WORST_3
   ]),
   title: z.string().optional(),
@@ -27,7 +26,7 @@ export const yearTopMovieQuerySchema = z.object({
 export type YearTopMovieQuery = z.infer<typeof yearTopMovieQuerySchema>;
 
 // YearTop pick type enum validation
-export const yearTopPickTypeSchema = z.nativeEnum(YearTopPickType);
+export const yearTopPickTypeSchema = z.enum(['TOP_10', 'BEST_SEEN', 'WORST_3']);
 
 export type YearTopPickTypeInput = z.infer<typeof yearTopPickTypeSchema>;
 
@@ -46,7 +45,7 @@ export const yearTopMovieWithPicksSchema = z.object({
       id: z.number(),
       participantId: z.number(),
       year: z.number(),
-      pickType: z.nativeEnum(YearTopPickType),
+      pickType: z.enum(['TOP_10', 'BEST_SEEN', 'WORST_3']),
       isTopPosition: z.boolean(),
       createdAt: z.date(),
       participant: z.object({
@@ -73,7 +72,7 @@ export type YearTopMovieWithPicks = z.infer<typeof yearTopMovieWithPicksSchema>;
 // YearTop summary type for displaying all year-top appearances of a movie
 export const yearTopSummaryItemSchema = z.object({
   year: z.number(),
-  pickType: z.nativeEnum(YearTopPickType),
+  pickType: z.enum(['TOP_10', 'BEST_SEEN', 'WORST_3']),
   totalPoints: z.number(),
   picksCount: z.number(),
   picks: z.array(
@@ -81,7 +80,7 @@ export const yearTopSummaryItemSchema = z.object({
       id: z.number(),
       participantId: z.number(),
       year: z.number(),
-      pickType: z.nativeEnum(YearTopPickType),
+      pickType: z.enum(['TOP_10', 'BEST_SEEN', 'WORST_3']),
       isTopPosition: z.boolean(),
       createdAt: z.date(),
       participant: z.object({
