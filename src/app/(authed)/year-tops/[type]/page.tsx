@@ -7,6 +7,8 @@ import { YearTopMovieFilters } from '@/components/year-top-movie-filters';
 import { YearTopMovieGrid } from '@/components/year-top-movie-grid';
 import { YearTopMovieGridWrapper } from '@/components/year-top-movie-grid-wrapper';
 import { YearTopSkeletonGrid } from '@/components/year-top-skeleton-grid';
+import { YearTopParticipantNav } from '@/components/year-tops/participant-nav';
+import { YearTopParticipantHeader } from '@/components/year-tops/participant-header';
 import { prisma } from '@/lib/db';
 import { YearTopPickType } from '@prisma/client';
 import { cn } from '@/lib/utils';
@@ -31,6 +33,11 @@ const TYPE_CONFIG = {
     pickType: YearTopPickType.WORST_3,
     title: 'Porongas del Año',
     description: 'Las peores películas de {year} según cada participante.',
+  },
+  'best-and-worst': {
+    pickType: 'BEST_AND_WORST' as const,
+    title: 'Duales',
+    description: 'Películas que aparecen tanto en el Top del Año como en Porongas del Año.',
   },
 } as const;
 
@@ -58,6 +65,7 @@ export default async function YearTopTypePage({
   }
 
   // Ensure pickType matches the route type
+  // For best-and-worst, use the string literal; otherwise use the enum value
   const validatedParams = {
     ...loadedParams,
     pickType: typeConfig.pickType,
@@ -103,6 +111,13 @@ export default async function YearTopTypePage({
                 {typeConfig.description.replace('{year}', validatedParams.year.toString())}
               </p>
             </div>
+            <div className="flex flex-wrap gap-4">
+              <YearTopParticipantNav
+                participants={participantsList}
+                currentType={type}
+                year={validatedParams.year}
+              />
+            </div>
           </div>
           {/* Year navigation */}
           <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
@@ -143,9 +158,26 @@ export default async function YearTopTypePage({
               >
                 Porongas del Año
               </Link>
+              <Link
+                href={`/year-tops/best-and-worst?year=${validatedParams.year}`}
+                className={cn(
+                  'rounded-full border px-3 py-1 text-xs font-medium transition',
+                  type === 'best-and-worst'
+                    ? 'border-white/15 bg-white/10 text-white'
+                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                )}
+              >
+                Duales
+              </Link>
             </div>
           </div>
         </div>
+
+        {/* Participant Header (shown when viewing single participant) */}
+        <YearTopParticipantHeader
+          participants={participantsList}
+          year={validatedParams.year}
+        />
 
         {/* Filters */}
         <YearTopMovieFilters

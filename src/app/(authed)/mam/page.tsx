@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
+import { ParticipantNav } from '@/components/mam/participant-nav';
 
 interface MamPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -56,6 +57,7 @@ export default async function MamPage({ searchParams }: MamPageProps) {
               </p>
             </div>
             <div className="flex flex-wrap gap-4">
+              <ParticipantNav participants={participantsList} />
               <Button
                 asChild
                 className="relative overflow-hidden group rounded-full bg-white/10 text-white hover:bg-white/20 px-8 h-12 border border-white/20"
