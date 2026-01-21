@@ -69,7 +69,7 @@ export function YearTopsHero({ availableYears }: YearTopsHeroProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <ArchiveCard
           title="Top del Año"
           href={`/year-tops/top-10?year=${selectedYear}`}
@@ -89,6 +89,12 @@ export function YearTopsHero({ availableYears }: YearTopsHeroProps) {
           href={`/year-tops/worst-3?year=${selectedYear}`}
           color="red"
           desc="Lo más bajo del séptimo arte."
+        />
+        <ArchiveCard
+          title="Duales"
+          href={`/year-tops/best-and-worst?year=${selectedYear}`}
+          color="yellow"
+          desc="Películas que aparecen en ambos listados."
         />
       </div>
     </div>

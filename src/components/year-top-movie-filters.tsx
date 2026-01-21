@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { FilterCombobox } from '@/components/ui/filter-combobox';
 import {
   Sheet,
   SheetContent,
@@ -12,38 +11,20 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Search, Users, X, SlidersHorizontal } from 'lucide-react';
-import {
-  ParticipantAvatar,
-  getParticipantDisplayName,
-} from './participant-avatar';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { useYearTopParams } from '@/lib/hooks/useYearTopParams';
 import { cn } from '@/lib/utils';
 
-interface Participant {
-  id: number;
-  displayName: string;
-  slug: string;
-  year: number;
-  userId?: string | null;
-  user?: {
-    image: string | null;
-    name: string | null;
-  } | null;
-}
-
 interface YearTopMovieFiltersProps {
-  participants: Participant[];
+  participants: unknown[]; // Kept for backward compatibility but not used
   availableYears: number[];
 }
 
 function FiltersContent({
-  participants,
   availableYears,
   params,
   setParams,
 }: {
-  participants: Participant[];
   availableYears: number[];
   params: {
     year: number;
@@ -66,11 +47,6 @@ function FiltersContent({
     }>
   ) => void;
 }) {
-  // Get selected participants for display
-  const selectedParticipants = participants.filter((p) =>
-    params.participants.includes(p.slug)
-  );
-
   return (
     <div className="space-y-4">
       {/* Year Selector - Film Strip */}
@@ -124,65 +100,6 @@ function FiltersContent({
         </div>
       </div>
 
-      {/* Participant Filter */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <FilterCombobox
-          options={participants.map((p) => ({
-            value: p.slug,
-            label: getParticipantDisplayName(p),
-          }))}
-          selected={params.participants}
-          onChange={(values) => {
-            setParams({ participants: values, page: 1 });
-          }}
-          placeholder="Buscar participantes..."
-          emptyMessage="No se encontraron participantes."
-          groupLabel="Filtrar por participantes"
-          icon={<Users className="h-4 w-4" />}
-        />
-
-        {/* Selected Participants with Avatars */}
-        {selectedParticipants.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            {selectedParticipants.map((participant) => (
-              <Badge
-                key={participant.id}
-                variant="secondary"
-                className="flex items-center gap-1"
-              >
-                <ParticipantAvatar
-                  participant={{
-                    id: participant.id,
-                    displayName: participant.displayName,
-                    slug: participant.slug,
-                    userId: participant.userId ?? null,
-                    user: participant.user,
-                  }}
-                  size="sm"
-                />
-                <span className="text-xs">
-                  {getParticipantDisplayName(participant)}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto p-0 ml-1"
-                  onClick={() => {
-                    setParams({
-                      participants: params.participants.filter(
-                        (s) => s !== participant.slug
-                      ),
-                      page: 1,
-                    });
-                  }}
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-              </Badge>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
 }
@@ -197,12 +114,10 @@ export function YearTopMovieFilters({
   // Count active filters for badge
   const activeFiltersCount =
     (params.title ? 1 : 0) +
-    (params.imdb ? 1 : 0) +
-    params.participants.length;
+    (params.imdb ? 1 : 0);
 
   const filtersContent = (
     <FiltersContent
-      participants={participants}
       availableYears={availableYears}
       params={params}
       setParams={setParams}
@@ -286,23 +201,6 @@ export function YearTopMovieFilters({
                   </Badge>
                 </>
               )}
-            </div>
-            <div className="h-6 w-px bg-white/10" />
-            <div className="shrink-0">
-              <FilterCombobox
-                options={participants.map((p) => ({
-                  value: p.slug,
-                  label: getParticipantDisplayName(p),
-                }))}
-                selected={params.participants}
-                onChange={(values) => {
-                  setParams({ participants: values, page: 1 });
-                }}
-                placeholder="Participantes..."
-                emptyMessage="No se encontraron participantes."
-                groupLabel="Filtrar por participantes"
-                icon={<Users className="h-4 w-4" />}
-              />
             </div>
           </div>
         </div>

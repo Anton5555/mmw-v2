@@ -52,6 +52,7 @@ export async function getUserYearTopParticipant(userId: string, year: number) {
 /**
  * Get movies with YearTop picks and filtering
  * Uses cached YearTopMovieStats.totalPoints for efficient sorting
+ * Supports virtual BEST_AND_WORST pickType for movies in both TOP_10 and WORST_3
  */
 export async function getYearTopMovies(query: YearTopMovieQuery) {
   'use cache';
@@ -73,13 +74,174 @@ export async function getYearTopMovies(query: YearTopMovieQuery) {
           .filter(Boolean)
       : [];
 
-    // Build the where clause for movie filters (excluding the stats filter since we're already in YearTopMovieStats)
+    const isSingleParticipant = participantSlugs.length === 1;
+    const isBestAndWorst = pickType === 'BEST_AND_WORST';
+
+    // Handle BEST_AND_WORST virtual pickType
+    if (isBestAndWorst) {
+      // Find movies that have picks in both TOP_10 and WORST_3 for this year
+      const top10MovieIds = await prisma.yearTopPick.findMany({
+        where: {
+          year,
+          pickType: YearTopPickType.TOP_10,
+          ...(isSingleParticipant && {
+            participant: {
+              slug: participantSlugs[0],
+            },
+          }),
+        },
+        select: {
+          movieId: true,
+        },
+        distinct: ['movieId'],
+      });
+
+      const worst3MovieIds = await prisma.yearTopPick.findMany({
+        where: {
+          year,
+          pickType: YearTopPickType.WORST_3,
+          ...(isSingleParticipant && {
+            participant: {
+              slug: participantSlugs[0],
+            },
+          }),
+        },
+        select: {
+          movieId: true,
+        },
+        distinct: ['movieId'],
+      });
+
+      const top10Ids = new Set(top10MovieIds.map((p) => p.movieId));
+      const worst3Ids = new Set(worst3MovieIds.map((p) => p.movieId));
+      const dualMovieIds = Array.from(top10Ids).filter((id) => worst3Ids.has(id));
+
+      if (dualMovieIds.length === 0) {
+        return {
+          movies: [],
+          pagination: {
+            page,
+            limit,
+            totalCount: 0,
+            totalPages: 0,
+            hasNextPage: false,
+            hasPrevPage: false,
+          },
+        };
+      }
+
+      // Build where clause for dual movies
+      const movieWhereClause: Prisma.MovieWhereInput = {
+        id: { in: dualMovieIds },
+        ...(title && {
+          OR: [
+            { title: { contains: title, mode: 'insensitive' } },
+            { originalTitle: { contains: title, mode: 'insensitive' } },
+          ],
+        }),
+        ...(imdb && {
+          imdbId: { contains: imdb, mode: 'insensitive' },
+        }),
+      };
+
+      // Get total count
+      const totalCount = await prisma.movie.count({
+        where: movieWhereClause,
+      });
+
+      // Get paginated movies with picks from both types
+      const movies = await prisma.movie.findMany({
+        where: movieWhereClause,
+        include: {
+          yearTopPicks: {
+            where: {
+              year,
+              pickType: {
+                in: [YearTopPickType.TOP_10, YearTopPickType.WORST_3],
+              },
+              ...(isSingleParticipant && {
+                participant: {
+                  slug: participantSlugs[0],
+                },
+              }),
+            },
+            include: {
+              participant: {
+                include: {
+                  user: {
+                    select: {
+                      image: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        orderBy: [
+          { releaseDate: 'desc' },
+          { title: 'asc' },
+        ],
+        skip,
+        take: limit,
+      });
+
+      // Calculate points: if single participant, show their points; otherwise sum from both types
+      const paginatedMovies = movies.map((movie) => {
+        let totalPoints = 0;
+        if (isSingleParticipant) {
+          // Calculate individual participant's points
+          totalPoints = movie.yearTopPicks.reduce((sum, pick) => {
+            return sum + (pick.isTopPosition ? 2 : 1);
+          }, 0);
+        } else {
+          // Sum points from both TOP_10 and WORST_3 stats
+          const top10Stats = movie.yearTopPicks.filter(
+            (p) => p.pickType === YearTopPickType.TOP_10
+          );
+          const worst3Stats = movie.yearTopPicks.filter(
+            (p) => p.pickType === YearTopPickType.WORST_3
+          );
+          totalPoints =
+            top10Stats.reduce((sum, pick) => sum + (pick.isTopPosition ? 2 : 1), 0) +
+            worst3Stats.reduce((sum, pick) => sum + (pick.isTopPosition ? 2 : 1), 0);
+        }
+
+        return {
+          ...movie,
+          picks: movie.yearTopPicks,
+          totalPoints,
+        };
+      }) as YearTopMovieWithPicks[];
+
+      const totalPages = Math.ceil(totalCount / limit);
+      const hasNextPage = page < totalPages;
+      const hasPrevPage = page > 1;
+
+      return {
+        movies: paginatedMovies,
+        pagination: {
+          page,
+          limit,
+          totalCount,
+          totalPages,
+          hasNextPage,
+          hasPrevPage,
+        },
+      };
+    }
+
+    // Regular pickType handling
+    const actualPickType = pickType as YearTopPickType;
+
+    // Build the where clause for movie filters
     const movieWhereClause: Prisma.MovieWhereInput = {
       ...(participantSlugs.length > 0 && {
         yearTopPicks: {
           some: {
             year,
-            pickType,
+            pickType: actualPickType,
             participant: {
               slug: {
                 in: participantSlugs,
@@ -103,7 +265,7 @@ export async function getYearTopMovies(query: YearTopMovieQuery) {
     const totalCount = await prisma.yearTopMovieStats.count({
       where: {
         year,
-        pickType,
+        pickType: actualPickType,
         totalPoints: { gt: 0 },
         ...(Object.keys(movieWhereClause).length > 0 && {
           movie: movieWhereClause,
@@ -112,31 +274,36 @@ export async function getYearTopMovies(query: YearTopMovieQuery) {
     });
 
     // Get paginated movies - need to join with stats for sorting
-    // First get all movies with stats for this year/pickType, sorted
     const statsWithMovies = await prisma.yearTopMovieStats.findMany({
       where: {
         year,
-        pickType,
+        pickType: actualPickType,
         totalPoints: { gt: 0 },
         ...(Object.keys(movieWhereClause).length > 0 && {
           movie: movieWhereClause,
         }),
       },
-    include: {
-      movie: {
-        include: {
-          yearTopPicks: {
-            where: {
-              year,
-              pickType,
-            },
-            include: {
-              participant: {
-                include: {
-                  user: {
-                    select: {
-                      image: true,
-                      name: true,
+      include: {
+        movie: {
+          include: {
+            yearTopPicks: {
+              where: {
+                year,
+                pickType: actualPickType,
+                ...(isSingleParticipant && {
+                  participant: {
+                    slug: participantSlugs[0],
+                  },
+                }),
+              },
+              include: {
+                participant: {
+                  include: {
+                    user: {
+                      select: {
+                        image: true,
+                        name: true,
+                      },
                     },
                   },
                 },
@@ -145,21 +312,31 @@ export async function getYearTopMovies(query: YearTopMovieQuery) {
           },
         },
       },
-    },
-    orderBy: [
-      { totalPoints: 'desc' },
-      { movie: { title: 'asc' } },
-    ],
-    skip,
-    take: limit,
-  });
+      orderBy: [
+        { totalPoints: 'desc' },
+        { movie: { title: 'asc' } },
+      ],
+      skip,
+      take: limit,
+    });
 
     // Map to expected format
-    const paginatedMovies = statsWithMovies.map((stat) => ({
-      ...stat.movie,
-      picks: stat.movie.yearTopPicks,
-      totalPoints: stat.totalPoints,
-    })) as YearTopMovieWithPicks[];
+    // If single participant, calculate their individual points instead of community totalPoints
+    const paginatedMovies = statsWithMovies.map((stat) => {
+      let points = stat.totalPoints;
+      if (isSingleParticipant) {
+        // Calculate individual participant's points (2 for top position, 1 otherwise)
+        points = stat.movie.yearTopPicks.reduce((sum, pick) => {
+          return sum + (pick.isTopPosition ? 2 : 1);
+        }, 0);
+      }
+
+      return {
+        ...stat.movie,
+        picks: stat.movie.yearTopPicks,
+        totalPoints: points,
+      };
+    }) as YearTopMovieWithPicks[];
 
     const totalPages = Math.ceil(totalCount / limit);
     const hasNextPage = page < totalPages;

@@ -4,7 +4,10 @@ import { YearTopPickType } from '@prisma/client';
 // YearTop movie query validation schema
 export const yearTopMovieQuerySchema = z.object({
   year: z.number().int().positive(),
-  pickType: z.nativeEnum(YearTopPickType),
+  pickType: z.union([
+    z.nativeEnum(YearTopPickType),
+    z.literal('BEST_AND_WORST'), // Virtual pickType for movies in both TOP_10 and WORST_3
+  ]),
   title: z.string().optional(),
   imdb: z.string().optional(),
   // Accept both array and string for backward compatibility

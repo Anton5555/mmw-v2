@@ -23,9 +23,12 @@ export async function YearTopMovieGrid({ searchParams }: YearTopMovieGridProps) 
       ? searchParams.participants.join(',')
       : undefined;
 
-  // Validate pickType
-  const pickType = searchParams.pickType as YearTopPickType;
-  if (!Object.values(YearTopPickType).includes(pickType)) {
+  // Validate pickType - can be enum value or 'BEST_AND_WORST' string
+  const pickType = searchParams.pickType;
+  const isValidEnum = Object.values(YearTopPickType).includes(pickType as YearTopPickType);
+  const isValidVirtual = pickType === 'BEST_AND_WORST';
+  
+  if (!isValidEnum && !isValidVirtual) {
     return (
       <div className="text-center py-12">
         <Film className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
@@ -36,7 +39,7 @@ export async function YearTopMovieGrid({ searchParams }: YearTopMovieGridProps) 
 
   const { movies, pagination } = await getYearTopMovies({
     year: searchParams.year,
-    pickType,
+    pickType: pickType as YearTopPickType | 'BEST_AND_WORST',
     title: searchParams.title || undefined,
     imdb: searchParams.imdb || undefined,
     participants: participantsString,
