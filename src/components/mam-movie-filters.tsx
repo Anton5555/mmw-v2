@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FilterCombobox } from '@/components/ui/filter-combobox';
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import { Search, Users, X, SlidersHorizontal } from 'lucide-react';
 import {
   ParticipantAvatar,
@@ -65,27 +65,27 @@ function FiltersContent({
   return (
     <div className="space-y-4">
       {/* Search Inputs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
           <Input
             placeholder="Buscar por título..."
             value={params.title}
             onChange={(e) => {
               setParams({ title: e.target.value, page: 1 });
             }}
-            className="pl-10"
+            className="pl-10 bg-zinc-800/50 border-zinc-700/50 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
           />
         </div>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
           <Input
             placeholder="Buscar por IMDB ID..."
             value={params.imdb}
             onChange={(e) => {
               setParams({ imdb: e.target.value, page: 1 });
             }}
-            className="pl-10"
+            className="pl-10 bg-zinc-800/50 border-zinc-700/50 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
           />
         </div>
       </div>
@@ -146,7 +146,7 @@ function FiltersContent({
 
 export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
   const { params, setParams } = useMamMoviesParams();
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Count active filters for badge
   const activeFiltersCount =
@@ -162,30 +162,30 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
 
   return (
     <>
-      {/* Mobile: Sheet with trigger button */}
+      {/* Mobile: Drawer with trigger button */}
       <div className="md:hidden">
-        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="w-full justify-start">
-              <SlidersHorizontal className="mr-2 h-4 w-4" />
-              Filtros
+        <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+          <DrawerTrigger asChild>
+            <button className="w-full bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-3 px-6 py-3 text-white hover:bg-zinc-800/80 transition-colors">
+              <SlidersHorizontal className="h-4 w-4 shrink-0" />
+              <span className="flex-1 text-left">Filtros</span>
               {activeFiltersCount > 0 && (
                 <Badge
                   variant="secondary"
-                  className="ml-2 px-1.5 py-0.5 text-xs"
+                  className="px-2 py-0.5 text-xs shrink-0"
                 >
                   {activeFiltersCount}
                 </Badge>
               )}
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
-            <SheetHeader>
-              <SheetTitle>Filtros</SheetTitle>
-            </SheetHeader>
-            <div className="mt-6">{filtersContent}</div>
-          </SheetContent>
-        </Sheet>
+            </button>
+          </DrawerTrigger>
+          <DrawerContent className="max-h-[60vh] bg-zinc-900/95 backdrop-blur-xl border-t border-white/10">
+            <DrawerHeader className="text-left pb-4">
+              <DrawerTitle className="text-white">Filtros</DrawerTitle>
+            </DrawerHeader>
+            <div className="px-4 pb-6 overflow-y-auto">{filtersContent}</div>
+          </DrawerContent>
+        </Drawer>
       </div>
 
       {/* Desktop: Floating Glassmorphism Filter Bar */}
@@ -203,7 +203,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
             />
             {activeFiltersCount > 0 && (
               <>
-                <div className="h-6 w-[1px] bg-white/10" />
+                <div className="h-6 w-px bg-white/10" />
                 <Badge
                   variant="secondary"
                   className="px-2 py-0.5 text-xs shrink-0"
@@ -213,7 +213,7 @@ export function MamMovieFilters({ participants }: MamMovieFiltersProps) {
               </>
             )}
           </div>
-          <div className="h-6 w-[1px] bg-white/10" />
+          <div className="h-6 w-px bg-white/10" />
           <div className="shrink-0">
             <FilterCombobox
               options={participants.map((p) => ({
