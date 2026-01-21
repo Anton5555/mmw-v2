@@ -4,17 +4,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { ParticipantAvatar } from './participant-avatar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { YearTopMovieWithPicks } from '@/lib/validations/year-top';
 import { useFilmStrip } from '@/lib/contexts/film-strip-context';
+import { YearTopPickType } from '../../generated/prisma/enums';
 
 interface YearTopMovieCardProps {
   movie: YearTopMovieWithPicks;
   totalPoints?: number;
+  pickType?: YearTopPickType | 'BEST_AND_WORST';
 }
 
-export function YearTopMovieCard({ movie, totalPoints }: YearTopMovieCardProps) {
+export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieCardProps) {
   const { triggerStrip } = useFilmStrip();
 
   const displayTitle =
@@ -24,6 +32,15 @@ export function YearTopMovieCard({ movie, totalPoints }: YearTopMovieCardProps) 
     e.preventDefault();
     triggerStrip(displayTitle, `/year-tops/movie/${movie.id}`);
   };
+
+  // For BEST_AND_WORST, group picks by pickType
+  const isDuales = pickType === 'BEST_AND_WORST';
+  const top10Picks = isDuales
+    ? movie.picks.filter((pick) => pick.pickType === YearTopPickType.TOP_10)
+    : [];
+  const worst3Picks = isDuales
+    ? movie.picks.filter((pick) => pick.pickType === YearTopPickType.WORST_3)
+    : [];
 
   return (
     <div className="relative group">
@@ -87,26 +104,81 @@ export function YearTopMovieCard({ movie, totalPoints }: YearTopMovieCardProps) 
             <span className="text-[11px] font-medium text-muted-foreground">
               {new Date(movie.releaseDate).getFullYear()}
             </span>
-            <div className="flex -space-x-2">
-              {movie.picks.slice(0, 3).map((pick, i) => (
-                <div
-                  key={pick.id}
-                  className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
-                >
-                  <ParticipantAvatar
-                    participant={{
-                      id: pick.participant.id,
-                      displayName: pick.participant.displayName,
-                      slug: pick.participant.slug,
-                      userId: pick.participant.userId ?? null,
-                      user: pick.participant.user,
-                    }}
-                    size="sm"
-                    className="w-full h-full"
-                  />
-                </div>
-              ))}
-            </div>
+            {movie.picks.length > 0 && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex -space-x-2 cursor-pointer">
+                      {movie.picks.slice(0, 3).map((pick, i) => (
+                        <div
+                          key={pick.id}
+                          className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
+                        >
+                          <ParticipantAvatar
+                            participant={{
+                              id: pick.participant.id,
+                              displayName: pick.participant.displayName,
+                              slug: pick.participant.slug,
+                              userId: pick.participant.userId ?? null,
+                              user: pick.participant.user,
+                            }}
+                            size="sm"
+                            className="w-full h-full"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="max-w-xs break-words">
+                    {isDuales && (top10Picks.length > 0 || worst3Picks.length > 0) ? (
+                      <div className="space-y-2">
+                        {top10Picks.length > 0 && (
+                          <div>
+                            <p className="font-bold mb-1 text-xs text-yellow-400">
+                              Como mejor ({top10Picks.length})
+                            </p>
+                            <p className="text-[11px] leading-snug">
+                              {top10Picks
+                                .map((pick) =>
+                                  getParticipantDisplayName(pick.participant)
+                                )
+                                .join(' • ')}
+                            </p>
+                          </div>
+                        )}
+                        {worst3Picks.length > 0 && (
+                          <div>
+                            <p className="font-bold mb-1 text-xs text-red-400">
+                              Como peor ({worst3Picks.length})
+                            </p>
+                            <p className="text-[11px] leading-snug">
+                              {worst3Picks
+                                .map((pick) =>
+                                  getParticipantDisplayName(pick.participant)
+                                )
+                                .join(' • ')}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <>
+                        <p className="font-bold mb-1 text-xs">
+                          Participantes ({movie.picks.length})
+                        </p>
+                        <p className="text-[11px] leading-snug">
+                          {movie.picks
+                            .map((pick) =>
+                              getParticipantDisplayName(pick.participant)
+                            )
+                            .join(' • ')}
+                        </p>
+                      </>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
       </div>

@@ -83,7 +83,11 @@ export async function YearTopMovieGrid({ searchParams }: YearTopMovieGridProps) 
             className="animate-fade-in-up"
             style={{ animationDelay: `${index * 50}ms` }}
           >
-            <YearTopMovieCard movie={movie} totalPoints={movie.totalPoints} />
+            <YearTopMovieCard
+              movie={movie}
+              totalPoints={movie.totalPoints}
+              pickType={pickType as YearTopPickType | 'BEST_AND_WORST'}
+            />
           </div>
         ))}
       </div>
