@@ -12,12 +12,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { InfoPopover } from '@/components/ui/info-popover';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
@@ -44,7 +39,6 @@ export function MamMovieCard({
 
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
-  const isTop3 = rank && rank <= 3;
 
   const handleMovieClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -151,38 +145,40 @@ export function MamMovieCard({
               {new Date(movie.releaseDate).getFullYear()}
             </span>
             {movie.picks.length > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex -space-x-2 cursor-pointer">
-                      {movie.picks.slice(0, 3).map((pick, i) => (
-                        <div
-                          key={pick.id}
-                          className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
-                        >
-                          <ParticipantAvatar
-                            participant={pick.participant}
-                            size="sm"
-                            className="w-full h-full"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="max-w-xs break-words">
-                    <p className="font-bold mb-1 text-xs">
+              <InfoPopover
+                content={
+                  <>
+                    <p className="font-bold mb-1 text-xs text-white">
                       Participantes ({movie.picks.length})
                     </p>
-                    <p className="text-[11px] leading-snug">
+                    <p className="text-[11px] leading-snug text-zinc-400">
                       {movie.picks
-                        .map((pick) =>
-                          getParticipantDisplayName(pick.participant)
-                        )
+                        .map((pick) => getParticipantDisplayName(pick.participant))
                         .join(' • ')}
                     </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                  </>
+                }
+              >
+                <button className="flex -space-x-2 cursor-pointer outline-none group/avatars">
+                  {movie.picks.slice(0, 3).map((pick) => (
+                    <div
+                      key={pick.id}
+                      className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0 group-hover/avatars:border-primary/50 transition-colors"
+                    >
+                      <ParticipantAvatar
+                        participant={pick.participant}
+                        size="sm"
+                        className="w-full h-full"
+                      />
+                    </div>
+                  ))}
+                  {movie.picks.length > 3 && (
+                    <div className="w-6 h-6 rounded-full border-2 border-background bg-zinc-800 flex items-center justify-center text-[8px] font-bold text-white shrink-0">
+                      +{movie.picks.length - 3}
+                    </div>
+                  )}
+                </button>
+              </InfoPopover>
             )}
           </div>
         </div>

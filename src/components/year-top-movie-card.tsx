@@ -4,12 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { InfoPopover } from '@/components/ui/info-popover';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { YearTopMovieWithPicks } from '@/lib/validations/year-top';
@@ -105,79 +100,81 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
               {new Date(movie.releaseDate).getFullYear()}
             </span>
             {movie.picks.length > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex -space-x-2 cursor-pointer">
-                      {movie.picks.slice(0, 3).map((pick, i) => (
-                        <div
-                          key={pick.id}
-                          className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0"
-                        >
-                          <ParticipantAvatar
-                            participant={{
-                              id: pick.participant.id,
-                              displayName: pick.participant.displayName,
-                              slug: pick.participant.slug,
-                              userId: pick.participant.userId ?? null,
-                              user: pick.participant.user,
-                            }}
-                            size="sm"
-                            className="w-full h-full"
-                          />
+              <InfoPopover
+                content={
+                  isDuales && (top10Picks.length > 0 || worst3Picks.length > 0) ? (
+                    <div className="space-y-2">
+                      {top10Picks.length > 0 && (
+                        <div>
+                          <p className="font-bold mb-1 text-xs text-yellow-400">
+                            Como mejor ({top10Picks.length})
+                          </p>
+                          <p className="text-[11px] leading-snug text-zinc-400">
+                            {top10Picks
+                              .map((pick) =>
+                                getParticipantDisplayName(pick.participant)
+                              )
+                              .join(' • ')}
+                          </p>
                         </div>
-                      ))}
+                      )}
+                      {worst3Picks.length > 0 && (
+                        <div>
+                          <p className="font-bold mb-1 text-xs text-red-400">
+                            Como peor ({worst3Picks.length})
+                          </p>
+                          <p className="text-[11px] leading-snug text-zinc-400">
+                            {worst3Picks
+                              .map((pick) =>
+                                getParticipantDisplayName(pick.participant)
+                              )
+                              .join(' • ')}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="max-w-xs break-words">
-                    {isDuales && (top10Picks.length > 0 || worst3Picks.length > 0) ? (
-                      <div className="space-y-2">
-                        {top10Picks.length > 0 && (
-                          <div>
-                            <p className="font-bold mb-1 text-xs text-yellow-400">
-                              Como mejor ({top10Picks.length})
-                            </p>
-                            <p className="text-[11px] leading-snug">
-                              {top10Picks
-                                .map((pick) =>
-                                  getParticipantDisplayName(pick.participant)
-                                )
-                                .join(' • ')}
-                            </p>
-                          </div>
-                        )}
-                        {worst3Picks.length > 0 && (
-                          <div>
-                            <p className="font-bold mb-1 text-xs text-red-400">
-                              Como peor ({worst3Picks.length})
-                            </p>
-                            <p className="text-[11px] leading-snug">
-                              {worst3Picks
-                                .map((pick) =>
-                                  getParticipantDisplayName(pick.participant)
-                                )
-                                .join(' • ')}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <>
-                        <p className="font-bold mb-1 text-xs">
-                          Participantes ({movie.picks.length})
-                        </p>
-                        <p className="text-[11px] leading-snug">
-                          {movie.picks
-                            .map((pick) =>
-                              getParticipantDisplayName(pick.participant)
-                            )
-                            .join(' • ')}
-                        </p>
-                      </>
-                    )}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+                  ) : (
+                    <>
+                      <p className="font-bold mb-1 text-xs text-white">
+                        Participantes ({movie.picks.length})
+                      </p>
+                      <p className="text-[11px] leading-snug text-zinc-400">
+                        {movie.picks
+                          .map((pick) =>
+                            getParticipantDisplayName(pick.participant)
+                          )
+                          .join(' • ')}
+                      </p>
+                    </>
+                  )
+                }
+              >
+                <button className="flex -space-x-2 cursor-pointer outline-none group/avatars">
+                  {movie.picks.slice(0, 3).map((pick) => (
+                    <div
+                      key={pick.id}
+                      className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0 group-hover/avatars:border-primary/50 transition-colors"
+                    >
+                      <ParticipantAvatar
+                        participant={{
+                          id: pick.participant.id,
+                          displayName: pick.participant.displayName,
+                          slug: pick.participant.slug,
+                          userId: pick.participant.userId ?? null,
+                          user: pick.participant.user,
+                        }}
+                        size="sm"
+                        className="w-full h-full"
+                      />
+                    </div>
+                  ))}
+                  {movie.picks.length > 3 && (
+                    <div className="w-6 h-6 rounded-full border-2 border-background bg-zinc-800 flex items-center justify-center text-[8px] font-bold text-white shrink-0">
+                      +{movie.picks.length - 3}
+                    </div>
+                  )}
+                </button>
+              </InfoPopover>
             )}
           </div>
         </div>
