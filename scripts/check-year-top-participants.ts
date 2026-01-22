@@ -139,7 +139,6 @@ async function main() {
     csvName: string;
     slug: string;
     hasYearTop: boolean;
-    yearTopYear?: number;
     yearTopUserId?: string | null;
     hasMam: boolean;
     mamUserId?: string | null;
@@ -167,7 +166,6 @@ async function main() {
       csvName,
       slug,
       hasYearTop: !!yearTopParticipant,
-      yearTopYear: yearTopParticipant?.year,
       yearTopUserId: yearTopParticipant?.userId,
       hasMam: !!mamParticipant,
       mamUserId: mamParticipant?.userId,
@@ -188,7 +186,7 @@ async function main() {
       `   - ${item.csvName.padEnd(25)} → ${user?.name || user?.email || item.suggestedUserId} (${item.suggestedUserId})`
     );
     if (item.hasYearTop) {
-      console.log(`     └─ YearTop ${item.yearTopYear} participant`);
+      console.log(`     └─ YearTop participant`);
     }
     if (item.hasMam) {
       console.log(`     └─ MamParticipant`);
@@ -199,7 +197,7 @@ async function main() {
   for (const item of withoutUser) {
     console.log(`   - ${item.csvName}`);
     if (item.hasYearTop) {
-      console.log(`     └─ YearTop ${item.yearTopYear} participant (no userId)`);
+      console.log(`     └─ YearTop participant (no userId)`);
     }
     if (item.hasMam) {
       console.log(`     └─ MamParticipant (no userId)`);
@@ -208,11 +206,7 @@ async function main() {
 
   console.log(`\n📝 Participants already in YearTop: ${existingYearTop.length}`);
   for (const item of existingYearTop) {
-    if (item.yearTopYear !== 2024) {
-      console.log(
-        `   - ${item.csvName} (YearTop ${item.yearTopYear})`
-      );
-    }
+    console.log(`   - ${item.csvName}`);
   }
 
   console.log(`\n🎬 Participants in Mam: ${existingMam.length}`);
@@ -227,7 +221,7 @@ async function main() {
     csvName: item.csvName,
     slug: item.slug,
     note: item.hasYearTop
-      ? `YearTop ${item.yearTopYear} participant`
+      ? 'YearTop participant'
       : item.hasMam
       ? 'MamParticipant'
       : 'New participant',

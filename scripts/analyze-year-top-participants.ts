@@ -2,7 +2,7 @@
  * Analyze YearTopParticipant records to identify duplicates for consolidation
  *
  * Groups participants by userId (for linked) and by slug (for unlinked),
- * showing what will be consolidated when removing the year field.
+ * showing what will be consolidated. Keeps the most recent by createdAt.
  *
  * Usage:
  *   npx tsx scripts/analyze-year-top-participants.ts
@@ -26,7 +26,6 @@ const prisma = new PrismaClient({ adapter });
 
 interface ParticipantRecord {
   id: number;
-  year: number;
   displayName: string;
   slug: string;
   userId: string | null;
@@ -76,10 +75,7 @@ async function main() {
         },
       },
     },
-    orderBy: [
-      { year: 'desc' },
-      { createdAt: 'desc' },
-    ],
+    orderBy: [{ createdAt: 'desc' }],
   });
 
   console.log(`✅ Found ${participants.length} participant records\n`);
@@ -87,7 +83,6 @@ async function main() {
   // Transform to our format
   const records: ParticipantRecord[] = participants.map((p) => ({
     id: p.id,
-    year: p.year,
     displayName: p.displayName,
     slug: p.slug,
     userId: p.userId,
@@ -121,11 +116,10 @@ async function main() {
   const linkedGroups: ConsolidationGroup[] = [];
   for (const [userId, groupRecords] of linkedMap.entries()) {
     if (groupRecords.length > 1) {
-      // Sort by year desc, then createdAt desc to get most recent
-      const sorted = [...groupRecords].sort((a, b) => {
-        if (a.year !== b.year) return b.year - a.year;
-        return b.createdAt.getTime() - a.createdAt.getTime();
-      });
+      // Sort by createdAt desc to get most recent
+      const sorted = [...groupRecords].sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      );
       const keep = sorted[0];
       const toDelete = sorted.slice(1);
 
@@ -143,11 +137,10 @@ async function main() {
   const unlinkedSingles: ParticipantRecord[] = [];
   for (const [slug, groupRecords] of unlinkedMap.entries()) {
     if (groupRecords.length > 1) {
-      // Sort by year desc, then createdAt desc to get most recent
-      const sorted = [...groupRecords].sort((a, b) => {
-        if (a.year !== b.year) return b.year - a.year;
-        return b.createdAt.getTime() - a.createdAt.getTime();
-      });
+      // Sort by createdAt desc to get most recent
+      const sorted = [...groupRecords].sort(
+        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      );
       const keep = sorted[0];
       const toDelete = sorted.slice(1);
 
@@ -213,7 +206,7 @@ async function main() {
         const marker = isKeep ? '└─' : '├─';
         const action = isKeep ? 'KEEP (most recent)' : `DELETE, move ${p.pickCount} picks to id:${group.keepId}`;
         console.log(
-          `  ${marker} id:${p.id.toString().padStart(3)} year:${p.year} "${p.displayName}" (${p.pickCount} picks) <- ${action}`
+          `  ${marker} id:${p.id.toString().padStart(3)} "${p.displayName}" (${p.pickCount} picks) <- ${action}`
         );
       }
       console.log('');
@@ -229,7 +222,7 @@ async function main() {
         const marker = isKeep ? '└─' : '├─';
         const action = isKeep ? 'KEEP (most recent)' : `DELETE, move ${p.pickCount} picks to id:${group.keepId}`;
         console.log(
-          `  ${marker} id:${p.id.toString().padStart(3)} year:${p.year} "${p.displayName}" (${p.pickCount} picks) <- ${action}`
+          `  ${marker} id:${p.id.toString().padStart(3)} "${p.displayName}" (${p.pickCount} picks) <- ${action}`
         );
       }
       console.log('');
@@ -241,7 +234,7 @@ async function main() {
     console.log('  These will remain as-is (no consolidation needed):');
     for (const p of unlinkedSingles) {
       console.log(
-        `    id:${p.id.toString().padStart(3)} year:${p.year} "${p.displayName}" (slug: ${p.slug}, ${p.pickCount} picks)`
+        `    id:${p.id.toString().padStart(3)} "${p.displayName}" (slug: ${p.slug}, ${p.pickCount} picks)`
       );
     }
     console.log('');
