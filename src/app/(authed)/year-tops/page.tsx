@@ -6,8 +6,8 @@ export default async function YearTopsPage() {
   // Access headers first to make route dynamic, allowing use of new Date()
   await headers();
   
-  // Get available years from participants
-  const years = await prisma.yearTopParticipant.findMany({
+  // Get available years from picks (since year was removed from YearTopParticipant)
+  const years = await prisma.yearTopPick.findMany({
     select: {
       year: true,
     },

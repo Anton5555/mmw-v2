@@ -8,12 +8,28 @@ import { Prisma, YearTopPickType } from '@prisma/client';
 
 /**
  * Get all YearTop participants for a specific year
+ * Returns participants who have picks in the given year
  */
 export async function getYearTopParticipants(year: number) {
   'use cache';
-  return await prisma.yearTopParticipant.findMany({
+  // Get distinct participant IDs that have picks in this year
+  const participantIds = await prisma.yearTopPick.findMany({
     where: {
       year,
+    },
+    select: {
+      participantId: true,
+    },
+    distinct: ['participantId'],
+  });
+
+  const ids = participantIds.map((p) => p.participantId);
+
+  return await prisma.yearTopParticipant.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
     },
     include: {
       user: {
@@ -30,14 +46,14 @@ export async function getYearTopParticipants(year: number) {
 }
 
 /**
- * Get YearTop participant by userId and year
+ * Get YearTop participant by userId
  * Returns null if participant not found
+ * Note: year parameter is kept for backward compatibility but is ignored
  */
-export async function getUserYearTopParticipant(userId: string, year: number) {
-  return await prisma.yearTopParticipant.findFirst({
+export async function getUserYearTopParticipant(userId: string, year?: number) {
+  return await prisma.yearTopParticipant.findUnique({
     where: {
       userId,
-      year,
     },
     include: {
       _count: {
@@ -517,11 +533,10 @@ export async function getUserYearTopPicks(
 
   const skip = (page - 1) * limit;
 
-  // First, find the participant for this user and year
-  const participant = await prisma.yearTopParticipant.findFirst({
+  // First, find the participant for this user
+  const participant = await prisma.yearTopParticipant.findUnique({
     where: {
       userId,
-      year,
     },
     select: { id: true },
   });

@@ -22,7 +22,6 @@ interface Participant {
   id: number;
   displayName: string;
   slug: string;
-  year: number;
   userId?: string | null;
   user?: {
     image: string | null;

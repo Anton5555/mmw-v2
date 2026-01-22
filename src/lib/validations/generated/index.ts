@@ -36,7 +36,7 @@ export const DailyRecommendationScalarFieldEnumSchema = z.enum(['id','date','typ
 
 export const BoardPostScalarFieldEnumSchema = z.enum(['id','title','description','order','createdAt','updatedAt','createdBy']);
 
-export const YearTopParticipantScalarFieldEnumSchema = z.enum(['id','year','displayName','slug','userId','createdAt']);
+export const YearTopParticipantScalarFieldEnumSchema = z.enum(['id','displayName','slug','userId','createdAt']);
 
 export const YearTopPickScalarFieldEnumSchema = z.enum(['id','participantId','movieId','year','pickType','isTopPosition','createdAt']);
 
@@ -280,7 +280,6 @@ export type BoardPost = z.infer<typeof BoardPostSchema>
 
 export const YearTopParticipantSchema = z.object({
   id: z.number().int(),
-  year: z.number().int(),
   displayName: z.string(),
   slug: z.string(),
   userId: z.string().nullable(),

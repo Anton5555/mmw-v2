@@ -28,17 +28,14 @@ export type AggregateYearTopParticipant = {
 
 export type YearTopParticipantAvgAggregateOutputType = {
   id: number | null
-  year: number | null
 }
 
 export type YearTopParticipantSumAggregateOutputType = {
   id: number | null
-  year: number | null
 }
 
 export type YearTopParticipantMinAggregateOutputType = {
   id: number | null
-  year: number | null
   displayName: string | null
   slug: string | null
   userId: string | null
@@ -47,7 +44,6 @@ export type YearTopParticipantMinAggregateOutputType = {
 
 export type YearTopParticipantMaxAggregateOutputType = {
   id: number | null
-  year: number | null
   displayName: string | null
   slug: string | null
   userId: string | null
@@ -56,7 +52,6 @@ export type YearTopParticipantMaxAggregateOutputType = {
 
 export type YearTopParticipantCountAggregateOutputType = {
   id: number
-  year: number
   displayName: number
   slug: number
   userId: number
@@ -67,17 +62,14 @@ export type YearTopParticipantCountAggregateOutputType = {
 
 export type YearTopParticipantAvgAggregateInputType = {
   id?: true
-  year?: true
 }
 
 export type YearTopParticipantSumAggregateInputType = {
   id?: true
-  year?: true
 }
 
 export type YearTopParticipantMinAggregateInputType = {
   id?: true
-  year?: true
   displayName?: true
   slug?: true
   userId?: true
@@ -86,7 +78,6 @@ export type YearTopParticipantMinAggregateInputType = {
 
 export type YearTopParticipantMaxAggregateInputType = {
   id?: true
-  year?: true
   displayName?: true
   slug?: true
   userId?: true
@@ -95,7 +86,6 @@ export type YearTopParticipantMaxAggregateInputType = {
 
 export type YearTopParticipantCountAggregateInputType = {
   id?: true
-  year?: true
   displayName?: true
   slug?: true
   userId?: true
@@ -191,7 +181,6 @@ export type YearTopParticipantGroupByArgs<ExtArgs extends runtime.Types.Extensio
 
 export type YearTopParticipantGroupByOutputType = {
   id: number
-  year: number
   displayName: string
   slug: string
   userId: string | null
@@ -223,7 +212,6 @@ export type YearTopParticipantWhereInput = {
   OR?: Prisma.YearTopParticipantWhereInput[]
   NOT?: Prisma.YearTopParticipantWhereInput | Prisma.YearTopParticipantWhereInput[]
   id?: Prisma.IntFilter<"YearTopParticipant"> | number
-  year?: Prisma.IntFilter<"YearTopParticipant"> | number
   displayName?: Prisma.StringFilter<"YearTopParticipant"> | string
   slug?: Prisma.StringFilter<"YearTopParticipant"> | string
   userId?: Prisma.StringNullableFilter<"YearTopParticipant"> | string | null
@@ -234,7 +222,6 @@ export type YearTopParticipantWhereInput = {
 
 export type YearTopParticipantOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -245,23 +232,19 @@ export type YearTopParticipantOrderByWithRelationInput = {
 
 export type YearTopParticipantWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  year_slug?: Prisma.YearTopParticipantYearSlugCompoundUniqueInput
-  userId_year?: Prisma.YearTopParticipantUserIdYearCompoundUniqueInput
+  slug?: string
+  userId?: string
   AND?: Prisma.YearTopParticipantWhereInput | Prisma.YearTopParticipantWhereInput[]
   OR?: Prisma.YearTopParticipantWhereInput[]
   NOT?: Prisma.YearTopParticipantWhereInput | Prisma.YearTopParticipantWhereInput[]
-  year?: Prisma.IntFilter<"YearTopParticipant"> | number
   displayName?: Prisma.StringFilter<"YearTopParticipant"> | string
-  slug?: Prisma.StringFilter<"YearTopParticipant"> | string
-  userId?: Prisma.StringNullableFilter<"YearTopParticipant"> | string | null
   createdAt?: Prisma.DateTimeFilter<"YearTopParticipant"> | Date | string
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   picks?: Prisma.YearTopPickListRelationFilter
-}, "id" | "year_slug" | "userId_year">
+}, "id" | "slug" | "userId">
 
 export type YearTopParticipantOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -278,7 +261,6 @@ export type YearTopParticipantScalarWhereWithAggregatesInput = {
   OR?: Prisma.YearTopParticipantScalarWhereWithAggregatesInput[]
   NOT?: Prisma.YearTopParticipantScalarWhereWithAggregatesInput | Prisma.YearTopParticipantScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"YearTopParticipant"> | number
-  year?: Prisma.IntWithAggregatesFilter<"YearTopParticipant"> | number
   displayName?: Prisma.StringWithAggregatesFilter<"YearTopParticipant"> | string
   slug?: Prisma.StringWithAggregatesFilter<"YearTopParticipant"> | string
   userId?: Prisma.StringNullableWithAggregatesFilter<"YearTopParticipant"> | string | null
@@ -286,7 +268,6 @@ export type YearTopParticipantScalarWhereWithAggregatesInput = {
 }
 
 export type YearTopParticipantCreateInput = {
-  year: number
   displayName: string
   slug: string
   createdAt?: Date | string
@@ -296,7 +277,6 @@ export type YearTopParticipantCreateInput = {
 
 export type YearTopParticipantUncheckedCreateInput = {
   id?: number
-  year: number
   displayName: string
   slug: string
   userId?: string | null
@@ -305,7 +285,6 @@ export type YearTopParticipantUncheckedCreateInput = {
 }
 
 export type YearTopParticipantUpdateInput = {
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -315,7 +294,6 @@ export type YearTopParticipantUpdateInput = {
 
 export type YearTopParticipantUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -325,7 +303,6 @@ export type YearTopParticipantUncheckedUpdateInput = {
 
 export type YearTopParticipantCreateManyInput = {
   id?: number
-  year: number
   displayName: string
   slug: string
   userId?: string | null
@@ -333,7 +310,6 @@ export type YearTopParticipantCreateManyInput = {
 }
 
 export type YearTopParticipantUpdateManyMutationInput = {
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,7 +317,6 @@ export type YearTopParticipantUpdateManyMutationInput = {
 
 export type YearTopParticipantUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -358,19 +333,8 @@ export type YearTopParticipantOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type YearTopParticipantYearSlugCompoundUniqueInput = {
-  year: number
-  slug: string
-}
-
-export type YearTopParticipantUserIdYearCompoundUniqueInput = {
-  userId: string
-  year: number
-}
-
 export type YearTopParticipantCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -379,12 +343,10 @@ export type YearTopParticipantCountOrderByAggregateInput = {
 
 export type YearTopParticipantAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
 }
 
 export type YearTopParticipantMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -393,7 +355,6 @@ export type YearTopParticipantMaxOrderByAggregateInput = {
 
 export type YearTopParticipantMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -402,7 +363,6 @@ export type YearTopParticipantMinOrderByAggregateInput = {
 
 export type YearTopParticipantSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  year?: Prisma.SortOrder
 }
 
 export type YearTopParticipantScalarRelationFilter = {
@@ -467,7 +427,6 @@ export type YearTopParticipantUpdateOneRequiredWithoutPicksNestedInput = {
 }
 
 export type YearTopParticipantCreateWithoutUserInput = {
-  year: number
   displayName: string
   slug: string
   createdAt?: Date | string
@@ -476,7 +435,6 @@ export type YearTopParticipantCreateWithoutUserInput = {
 
 export type YearTopParticipantUncheckedCreateWithoutUserInput = {
   id?: number
-  year: number
   displayName: string
   slug: string
   createdAt?: Date | string
@@ -514,7 +472,6 @@ export type YearTopParticipantScalarWhereInput = {
   OR?: Prisma.YearTopParticipantScalarWhereInput[]
   NOT?: Prisma.YearTopParticipantScalarWhereInput | Prisma.YearTopParticipantScalarWhereInput[]
   id?: Prisma.IntFilter<"YearTopParticipant"> | number
-  year?: Prisma.IntFilter<"YearTopParticipant"> | number
   displayName?: Prisma.StringFilter<"YearTopParticipant"> | string
   slug?: Prisma.StringFilter<"YearTopParticipant"> | string
   userId?: Prisma.StringNullableFilter<"YearTopParticipant"> | string | null
@@ -522,7 +479,6 @@ export type YearTopParticipantScalarWhereInput = {
 }
 
 export type YearTopParticipantCreateWithoutPicksInput = {
-  year: number
   displayName: string
   slug: string
   createdAt?: Date | string
@@ -531,7 +487,6 @@ export type YearTopParticipantCreateWithoutPicksInput = {
 
 export type YearTopParticipantUncheckedCreateWithoutPicksInput = {
   id?: number
-  year: number
   displayName: string
   slug: string
   userId?: string | null
@@ -555,7 +510,6 @@ export type YearTopParticipantUpdateToOneWithWhereWithoutPicksInput = {
 }
 
 export type YearTopParticipantUpdateWithoutPicksInput = {
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -564,7 +518,6 @@ export type YearTopParticipantUpdateWithoutPicksInput = {
 
 export type YearTopParticipantUncheckedUpdateWithoutPicksInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -573,14 +526,12 @@ export type YearTopParticipantUncheckedUpdateWithoutPicksInput = {
 
 export type YearTopParticipantCreateManyUserInput = {
   id?: number
-  year: number
   displayName: string
   slug: string
   createdAt?: Date | string
 }
 
 export type YearTopParticipantUpdateWithoutUserInput = {
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -589,7 +540,6 @@ export type YearTopParticipantUpdateWithoutUserInput = {
 
 export type YearTopParticipantUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -598,7 +548,6 @@ export type YearTopParticipantUncheckedUpdateWithoutUserInput = {
 
 export type YearTopParticipantUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -637,7 +586,6 @@ export type YearTopParticipantCountOutputTypeCountPicksArgs<ExtArgs extends runt
 
 export type YearTopParticipantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  year?: boolean
   displayName?: boolean
   slug?: boolean
   userId?: boolean
@@ -649,7 +597,6 @@ export type YearTopParticipantSelect<ExtArgs extends runtime.Types.Extensions.In
 
 export type YearTopParticipantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  year?: boolean
   displayName?: boolean
   slug?: boolean
   userId?: boolean
@@ -659,7 +606,6 @@ export type YearTopParticipantSelectCreateManyAndReturn<ExtArgs extends runtime.
 
 export type YearTopParticipantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  year?: boolean
   displayName?: boolean
   slug?: boolean
   userId?: boolean
@@ -669,14 +615,13 @@ export type YearTopParticipantSelectUpdateManyAndReturn<ExtArgs extends runtime.
 
 export type YearTopParticipantSelectScalar = {
   id?: boolean
-  year?: boolean
   displayName?: boolean
   slug?: boolean
   userId?: boolean
   createdAt?: boolean
 }
 
-export type YearTopParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "year" | "displayName" | "slug" | "userId" | "createdAt", ExtArgs["result"]["yearTopParticipant"]>
+export type YearTopParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "displayName" | "slug" | "userId" | "createdAt", ExtArgs["result"]["yearTopParticipant"]>
 export type YearTopParticipantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.YearTopParticipant$userArgs<ExtArgs>
   picks?: boolean | Prisma.YearTopParticipant$picksArgs<ExtArgs>
@@ -697,7 +642,6 @@ export type $YearTopParticipantPayload<ExtArgs extends runtime.Types.Extensions.
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    year: number
     displayName: string
     slug: string
     userId: string | null
@@ -1128,7 +1072,6 @@ export interface Prisma__YearTopParticipantClient<T, Null = never, ExtArgs exten
  */
 export interface YearTopParticipantFieldRefs {
   readonly id: Prisma.FieldRef<"YearTopParticipant", 'Int'>
-  readonly year: Prisma.FieldRef<"YearTopParticipant", 'Int'>
   readonly displayName: Prisma.FieldRef<"YearTopParticipant", 'String'>
   readonly slug: Prisma.FieldRef<"YearTopParticipant", 'String'>
   readonly userId: Prisma.FieldRef<"YearTopParticipant", 'String'>

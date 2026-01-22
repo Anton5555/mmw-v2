@@ -71,8 +71,8 @@ export default async function YearTopTypePage({
     pickType: typeConfig.pickType,
   };
 
-  // Get available years
-  const years = await prisma.yearTopParticipant.findMany({
+  // Get available years from picks (since year was removed from YearTopParticipant)
+  const years = await prisma.yearTopPick.findMany({
     select: {
       year: true,
     },

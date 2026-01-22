@@ -52,7 +52,6 @@ export const yearTopMovieWithPicksSchema = z.object({
         id: z.number(),
         displayName: z.string(),
         slug: z.string(),
-        year: z.number(),
         userId: z.string().nullable().optional(),
         user: z
           .object({
@@ -87,7 +86,6 @@ export const yearTopSummaryItemSchema = z.object({
         id: z.number(),
         displayName: z.string(),
         slug: z.string(),
-        year: z.number(),
         userId: z.string().nullable().optional(),
         user: z
           .object({

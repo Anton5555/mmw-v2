@@ -237,17 +237,13 @@ enum YearTopPickType {
 
 model YearTopParticipant {
   id          Int           @id @default(autoincrement())
-  year        Int
   displayName String
-  slug        String
-  userId      String?
+  slug        String        @unique
+  userId      String?       @unique
   user        User?         @relation(fields: [userId], references: [id])
   createdAt   DateTime      @default(now())
   picks       YearTopPick[]
 
-  @@unique([year, slug])
-  @@unique([userId, year])
-  @@index([year])
   @@index([displayName])
 }
 

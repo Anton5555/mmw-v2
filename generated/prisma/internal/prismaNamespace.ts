@@ -1743,7 +1743,6 @@ export type BoardPostScalarFieldEnum = (typeof BoardPostScalarFieldEnum)[keyof t
 
 export const YearTopParticipantScalarFieldEnum = {
   id: 'id',
-  year: 'year',
   displayName: 'displayName',
   slug: 'slug',
   userId: 'userId',
