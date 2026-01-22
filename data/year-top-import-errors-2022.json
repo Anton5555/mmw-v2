@@ -1,0 +1,14 @@
+[
+  {
+    "participant": "Nati",
+    "pickType": "WORST_3",
+    "movieName": "The Sadness",
+    "error": "Missing TMDB data"
+  },
+  {
+    "participant": "Ale",
+    "pickType": "WORST_3",
+    "movieName": "Carter",
+    "error": "Missing TMDB data"
+  }
+]

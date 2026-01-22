@@ -1,0 +1,72 @@
+Next.js Best Practices:
+
+Utilize Next.js App Router for improved performance and easier routing
+Implement proper error boundaries to handle and display errors gracefully
+Use data fetching patterns with suspense for better user experience and performance
+Leverage Next.js built-in optimizations like code splitting and image optimization
+Implement server-side rendering or static generation where appropriate for SEO benefits
+
+React Best Practices:
+
+Use functional components and hooks instead of class components for better code organization
+With React Compiler enabled (Next.js 16+), avoid manual memoization (React.memo, useMemo, useCallback) - the compiler handles optimizations automatically
+Only use manual memoization if profiling indicates a specific performance bottleneck
+Follow the React hooks rules strictly to avoid common pitfalls
+Utilize context API or state management libraries for global state management
+Implement proper prop type validation for better code maintainability and error catching
+
+Prisma Best Practices:
+
+Use Prisma Client in a centralized way to manage database connections
+Implement proper error handling and logging for database operations
+Utilize Prisma's type-safe queries to improve code quality and prevent SQL injection
+Leverage Prisma Migrate for version control of your database schema
+Use Prisma's relation fields and eager loading to optimize database queries
+
+AWS SDK Best Practices:
+
+Use AWS SDK v3 for better performance and modular design
+Implement proper error handling and retry logic for AWS operations
+Utilize AWS SDK's built-in middleware system for request/response processing
+Leverage AWS SDK's type-safe clients to improve code quality and prevent runtime errors
+Implement proper credential management and rotation for security
+
+React Hook Form Best Practices:
+
+Use React Hook Form for efficient form handling and validation
+Implement proper form validation using Zod or Yup for better type safety
+Utilize the useForm hook with proper options for performance optimization
+Leverage the Controller component for complex form fields
+Implement proper error handling and user feedback for form submissions
+
+Zod Best Practices:
+
+Use Zod for runtime type checking and validation
+Implement proper error handling and user feedback for validation errors
+Utilize Zod's inferred types for better type safety and code maintainability
+Leverage Zod's custom validation methods for complex validation logic
+Implement Zod schemas for API request/response validation to improve security
+
+Tailwind CSS Best Practices:
+
+Use Tailwind CSS utility classes for consistent and maintainable styling
+Implement proper responsive design using Tailwind's responsive modifiers
+Utilize Tailwind's custom theme configuration for brand consistency
+Leverage Tailwind's JIT mode for better performance and smaller bundle sizes
+Implement proper accessibility practices with Tailwind's built-in classes
+
+Radix UI Best Practices:
+
+Use Radix UI components for accessible and customizable UI elements
+Implement proper accessibility attributes and ARIA roles for all components
+Utilize Radix UI's composition model for better code organization and reusability
+Leverage Radix UI's styling API for consistent theming across components
+Implement proper event handling and state management for interactive components
+
+General Standards:
+
+Keep components small and focused for better maintainability
+Follow proper state management patterns to avoid prop drilling and improve performance
+Implement comprehensive error handling and logging for better debugging and user experience
+Utilize TypeScript for improved type safety and code quality
+Implement proper testing practices, including unit tests and integration tests, for better code reliability

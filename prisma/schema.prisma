@@ -1,0 +1,284 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+generator zod {
+  provider               = "zod-prisma-types"
+  output                 = "../src/lib/validations/generated"
+  prismaClientPath       = "../../../../generated/prisma/client"
+  addInputTypeValidation = "false"
+  addSelectType          = "false"
+  createInputTypes       = "false"
+  addIncludeType         = "false"
+  createModelTypes       = "true"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model List {
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  description          String
+  letterboxdUrl        String
+  imgUrl               String
+  createdBy            String
+  tags                 String
+  createdAt            DateTime              @default(now())
+  movies               MovieList[]
+  dailyRecommendations DailyRecommendation[]
+}
+
+model Movie {
+  id                   Int                   @id @default(autoincrement())
+  title                String
+  originalTitle        String
+  originalLanguage     String
+  releaseDate          DateTime
+  letterboxdUrl        String
+  imdbId               String                @unique
+  posterUrl            String
+  MovieList            MovieList[]
+  mamPicks             MamPick[]
+  dailyRecommendations DailyRecommendation[]
+  yearTopPicks         YearTopPick[]
+  yearTopStats         YearTopMovieStats[]
+
+  // MAM cached metrics (updated when picks change)
+  mamTotalPicks   Int   @default(0)
+  mamTotalPoints  Int   @default(0)
+  mamAverageScore Float @default(0)
+  mamRank         Int?
+
+  @@index([mamTotalPoints(sort: Desc), mamTotalPicks(sort: Desc)])
+  @@index([mamRank])
+}
+
+model MovieList {
+  id      Int   @id @default(autoincrement())
+  movieId Int
+  listId  Int
+  list    List  @relation(fields: [listId], references: [id])
+  movie   Movie @relation(fields: [movieId], references: [id])
+
+  @@unique([movieId, listId])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  accounts      Account[]
+  sessions      Session[]
+
+  role                String?
+  banned              Boolean?
+  banReason           String?
+  banExpires          DateTime?
+  Event               Event[]
+  MamParticipant      MamParticipant?
+  BoardPost           BoardPost[]
+  yearTopParticipants YearTopParticipant[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  DISCORD
+  IN_PERSON
+  OTHER
+}
+
+model Event {
+  id            String    @id
+  title         String
+  description   String?
+  month         Int
+  day           Int
+  time          DateTime?
+  year          Int?
+  type          EventType
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdBy     String
+  createdByUser User      @relation(fields: [createdBy], references: [id])
+
+  @@map("event")
+}
+
+model MamParticipant {
+  id                   Int                   @id @default(autoincrement())
+  displayName          String
+  slug                 String                @unique
+  userId               String?               @unique
+  user                 User?                 @relation(fields: [userId], references: [id])
+  createdAt            DateTime              @default(now())
+  picks                MamPick[]
+  dailyRecommendations DailyRecommendation[]
+
+  @@index([displayName])
+}
+
+model MamPick {
+  id               Int      @id @default(autoincrement())
+  participantId    Int
+  movieId          Int
+  score            Int // 5 for top pick, otherwise 1 (0 for special mentions)
+  review           String?
+  isSpecialMention Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  participant MamParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  movie       Movie          @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, movieId])
+  @@index([movieId])
+  @@index([participantId])
+  @@index([isSpecialMention])
+}
+
+model DailyRecommendation {
+  id            String   @id @default(uuid())
+  date          DateTime @unique // Date for which this recommendation is valid (YYYY-MM-DD, time set to 00:00)
+  type          String // 'movie' | 'list' | 'participant'
+  movieId       Int? // If type is 'movie'
+  listId        Int? // If type is 'list'
+  participantId Int? // If type is 'participant'
+  curatorName   String? // Display name of curator
+  curatorImage  String? // Image URL of curator
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  movie       Movie?          @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  list        List?           @relation(fields: [listId], references: [id], onDelete: Cascade)
+  participant MamParticipant? @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@index([date])
+}
+
+model BoardPost {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  order         Int      @default(0) // Position in ordered list (0, 1, 2, ...)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  createdBy     String
+  createdByUser User     @relation(fields: [createdBy], references: [id])
+
+  @@index([order]) // For efficient order-based queries
+  @@map("BoardPost")
+}
+
+enum YearTopPickType {
+  TOP_10
+  BEST_SEEN
+  WORST_3
+}
+
+model YearTopParticipant {
+  id          Int           @id @default(autoincrement())
+  year        Int
+  displayName String
+  slug        String
+  userId      String?
+  user        User?         @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  picks       YearTopPick[]
+
+  @@unique([year, slug])
+  @@unique([userId, year])
+  @@index([year])
+  @@index([displayName])
+}
+
+model YearTopPick {
+  id            Int             @id @default(autoincrement())
+  participantId Int
+  movieId       Int
+  year          Int
+  pickType      YearTopPickType
+  isTopPosition Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+
+  participant YearTopParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  movie       Movie              @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, movieId, year, pickType])
+  @@index([movieId])
+  @@index([participantId])
+  @@index([year, pickType])
+}
+
+model YearTopMovieStats {
+  id          Int             @id @default(autoincrement())
+  movieId     Int
+  year        Int
+  pickType    YearTopPickType
+  totalPoints Int             @default(0)
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, year, pickType])
+  @@index([year, pickType, totalPoints])
+  @@index([movieId])
+}

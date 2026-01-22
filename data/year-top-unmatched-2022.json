@@ -1,0 +1,629 @@
+{
+  "unmatched": [
+    {
+      "movieName": "Bararian",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 913290,
+          "title": "Barbarian",
+          "release_date": "2022-09-08"
+        }
+      ]
+    },
+    {
+      "movieName": "Dangerous games: the legacy",
+      "participants": [
+        "Hernán Rodríguez"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1027385,
+          "title": "Dangerous Game: The Legacy Murders",
+          "release_date": "2022-10-07"
+        }
+      ]
+    }
+  ],
+  "ambiguous": [
+    {
+      "movieName": "Barbarian",
+      "participants": [
+        "Lucas Scheefer",
+        "GaryBusy",
+        "Martin Goniondzki",
+        "@Diego_el_fugado",
+        "Clauhernan73",
+        "@Lavtaro",
+        "marpezzuchi",
+        "Ivan Zamora",
+        "YamiGB"
+      ],
+      "tmdbResults": [
+        {
+          "id": 913290,
+          "title": "Barbarian",
+          "release_date": "2022-09-08"
+        }
+      ]
+    },
+    {
+      "movieName": "X",
+      "participants": [
+        "Lucas Scheefer",
+        "GaryBusy",
+        "Edgardo",
+        "@Lavtaro",
+        "Gabby",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 760104,
+          "title": "X",
+          "release_date": "2022-03-17"
+        }
+      ]
+    },
+    {
+      "movieName": "Top Gun: Maverick",
+      "participants": [
+        "Lucas Scheefer",
+        "Lucho",
+        "GaryBusy",
+        "Martin Goniondzki",
+        "Lucio B",
+        "Tishey",
+        "@hitoshidiaz",
+        "May",
+        "Clauhernan73",
+        "@mauroelninja",
+        "Santi",
+        "El Anton",
+        "MayerMatias",
+        "@ferheinz",
+        "Juan Navarro",
+        "Ivana",
+        "Leandro",
+        "marpezzuchi",
+        "albaletti",
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 361743,
+          "title": "Top Gun: Maverick",
+          "release_date": "2022-05-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Everything Everywhere All at Once",
+      "participants": [
+        "Lucho",
+        "GaryBusy",
+        "@hitoshidiaz",
+        "MayerMatias",
+        "@pepo_fco",
+        "@ferheinz",
+        "El_Diegot3",
+        "albaletti",
+        "YamiGB"
+      ],
+      "tmdbResults": [
+        {
+          "id": 545611,
+          "title": "Todo a la vez en todas partes",
+          "release_date": "2022-03-24"
+        }
+      ]
+    },
+    {
+      "movieName": "Elvis",
+      "participants": [
+        "Lucho",
+        "@IaiIu",
+        "@Lavtaro",
+        "@pepo_fco",
+        "El_Diegot3",
+        "@estrasnoy",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 614934,
+          "title": "Elvis",
+          "release_date": "2022-06-22"
+        }
+      ]
+    },
+    {
+      "movieName": "Black Adam",
+      "participants": [
+        "Lucho",
+        "GaryBusy",
+        "@hitoshidiaz",
+        "El Anton",
+        "MayerMatias"
+      ],
+      "tmdbResults": [
+        {
+          "id": 436270,
+          "title": "Black Adam",
+          "release_date": "2022-10-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Memory",
+      "participants": [
+        "GaryBusy"
+      ],
+      "tmdbResults": [
+        {
+          "id": 818397,
+          "title": "La memoria de un asesino",
+          "release_date": "2022-04-28"
+        }
+      ]
+    },
+    {
+      "movieName": "Uncharted",
+      "participants": [
+        "GaryBusy",
+        "El Anton",
+        "Juan Navarro",
+        "Pblo79",
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 335787,
+          "title": "Uncharted",
+          "release_date": "2022-02-10"
+        }
+      ]
+    },
+    {
+      "movieName": "The Twin",
+      "participants": [
+        "Martin Goniondzki"
+      ],
+      "tmdbResults": [
+        {
+          "id": 477462,
+          "title": "Gemelo siniestro",
+          "release_date": "2022-04-06"
+        }
+      ]
+    },
+    {
+      "movieName": "Men",
+      "participants": [
+        "Lucio B",
+        "@noelyas",
+        "Edgardo",
+        "@IaiIu",
+        "Santi",
+        "@estrasnoy",
+        "Leandro",
+        "albaletti"
+      ],
+      "tmdbResults": [
+        {
+          "id": 780609,
+          "title": "Men",
+          "release_date": "2022-05-20"
+        }
+      ]
+    },
+    {
+      "movieName": "Blonde",
+      "participants": [
+        "Lucio B",
+        "@hitoshidiaz",
+        "May",
+        "Hernán Rodríguez",
+        "Santi",
+        "marpezzuchi",
+        "Marce"
+      ],
+      "tmdbResults": [
+        {
+          "id": 301502,
+          "title": "Blonde",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Thor: Love and Thunder",
+      "participants": [
+        "Lucio B",
+        "May",
+        "Santi",
+        "@ferheinz",
+        "Leandro",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 616037,
+          "title": "Thor: Love and Thunder",
+          "release_date": "2022-07-06"
+        }
+      ]
+    },
+    {
+      "movieName": "Pleasure",
+      "participants": [
+        "Tishey"
+      ],
+      "tmdbResults": [
+        {
+          "id": 592695,
+          "title": "Pleasure",
+          "release_date": "2021-10-08"
+        }
+      ]
+    },
+    {
+      "movieName": "Olaf",
+      "participants": [
+        "alangmonzon",
+        "@hitoshidiaz",
+        "@noelyas",
+        "Clauhernan73",
+        "Nati",
+        "Hernán Rodríguez",
+        "Santi",
+        "MayerMatias",
+        "El_Diegot3",
+        "Juan Navarro",
+        "Leandro",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1002164,
+          "title": "Olaf",
+          "release_date": "2022-07-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Prey",
+      "participants": [
+        "@Diego_el_fugado",
+        "Clauhernan73",
+        "El Anton",
+        "El_Diegot3",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 766507,
+          "title": "Predator: La presa",
+          "release_date": "2022-08-02"
+        }
+      ]
+    },
+    {
+      "movieName": "The Black Phone",
+      "participants": [
+        "@Diego_el_fugado"
+      ],
+      "tmdbResults": [
+        {
+          "id": 756999,
+          "title": "Black Phone",
+          "release_date": "2022-06-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Amsterdam",
+      "participants": [
+        "@Diego_el_fugado",
+        "@pepo_fco"
+      ],
+      "tmdbResults": [
+        {
+          "id": 664469,
+          "title": "Ámsterdam",
+          "release_date": "2022-09-27"
+        }
+      ]
+    },
+    {
+      "movieName": "Smile",
+      "participants": [
+        "@Diego_el_fugado"
+      ],
+      "tmdbResults": [
+        {
+          "id": 882598,
+          "title": "Smile",
+          "release_date": "2022-09-23"
+        }
+      ]
+    },
+    {
+      "movieName": "Vengeance",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 683340,
+          "title": "Venganza",
+          "release_date": "2022-07-29"
+        }
+      ]
+    },
+    {
+      "movieName": "Lightyear",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 718789,
+          "title": "Lightyear",
+          "release_date": "2022-06-15"
+        }
+      ]
+    },
+    {
+      "movieName": "Aftersun",
+      "participants": [
+        "May",
+        "Edgardo",
+        "@IaiIu",
+        "Santee",
+        "Nati",
+        "Hernán Rodríguez",
+        "@estrasnoy",
+        "Ivana",
+        "@basophium",
+        "Marce"
+      ],
+      "tmdbResults": [
+        {
+          "id": 965150,
+          "title": "Aftersun",
+          "release_date": "2022-10-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Bodies, Bodies, Bodies",
+      "participants": [
+        "May",
+        "Clauhernan73",
+        "Santi",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 520023,
+          "title": "Muerte, muerte, muerte",
+          "release_date": "2022-08-05"
+        }
+      ]
+    },
+    {
+      "movieName": "Athena",
+      "participants": [
+        "@noelyas",
+        "@mauroelninja",
+        "Gabby"
+      ],
+      "tmdbResults": [
+        {
+          "id": 852046,
+          "title": "Atenea",
+          "release_date": "2022-09-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Death on the Nile",
+      "participants": [
+        "@noelyas",
+        "@mauroelninja",
+        "Juan Navarro",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 505026,
+          "title": "Muerte en el Nilo",
+          "release_date": "2022-02-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Pearl",
+      "participants": [
+        "Clauhernan73",
+        "FedeC",
+        "@Lavtaro",
+        "marpezzuchi",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 949423,
+          "title": "Pearl",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Texas chainsaw massacre",
+      "participants": [
+        "Clauhernan73"
+      ],
+      "tmdbResults": [
+        {
+          "id": 632727,
+          "title": "La matanza de Texas",
+          "release_date": "2022-02-18"
+        }
+      ]
+    },
+    {
+      "movieName": "Deep Water",
+      "participants": [
+        "@mauroelninja",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 619979,
+          "title": "Aguas profundas",
+          "release_date": "2022-03-17"
+        }
+      ]
+    },
+    {
+      "movieName": "Glorious",
+      "participants": [
+        "Santee"
+      ],
+      "tmdbResults": [
+        {
+          "id": 939914,
+          "title": "Glorious",
+          "release_date": "2022-07-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Dangerous",
+      "participants": [
+        "Santee"
+      ],
+      "tmdbResults": [
+        {
+          "id": 763788,
+          "title": "Instinto peligroso",
+          "release_date": "2021-11-05"
+        }
+      ]
+    },
+    {
+      "movieName": "Dune",
+      "participants": [
+        "@Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 438631,
+          "title": "Dune",
+          "release_date": "2021-09-15"
+        }
+      ]
+    },
+    {
+      "movieName": "The bubble",
+      "participants": [
+        "El Anton"
+      ],
+      "tmdbResults": [
+        {
+          "id": 765119,
+          "title": "La burbuja",
+          "release_date": "2022-03-25"
+        }
+      ]
+    },
+    {
+      "movieName": "The Batman",
+      "participants": [
+        "El_Diegot3",
+        "Ivan Zamora"
+      ],
+      "tmdbResults": [
+        {
+          "id": 414906,
+          "title": "The Batman",
+          "release_date": "2022-03-01"
+        }
+      ]
+    },
+    {
+      "movieName": "Guillermo del Toro's Pinocchio",
+      "participants": [
+        "@estrasnoy",
+        "Gabby",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 555604,
+          "title": "Pinocho de Guillermo del Toro",
+          "release_date": "2022-11-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Marry Me",
+      "participants": [
+        "Ivana"
+      ],
+      "tmdbResults": [
+        {
+          "id": 615904,
+          "title": "Cásate conmigo",
+          "release_date": "2022-02-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Avatar 2",
+      "participants": [
+        "Ivan Zamora"
+      ],
+      "tmdbResults": [
+        {
+          "id": 76600,
+          "title": "Avatar: El sentido del agua",
+          "release_date": "2022-12-14"
+        }
+      ]
+    },
+    {
+      "movieName": "Carter",
+      "participants": [
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1045275,
+          "title": "Carter",
+          "release_date": "2022-12-27"
+        }
+      ]
+    },
+    {
+      "movieName": "Texas Chainsaw Massacre",
+      "participants": [
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 632727,
+          "title": "La matanza de Texas",
+          "release_date": "2022-02-18"
+        }
+      ]
+    }
+  ]
+}

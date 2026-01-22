@@ -1,0 +1,2524 @@
+{
+  "year": 2023,
+  "participants": [
+    {
+      "name": "Pepo",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 4,
+          "movieName": "Oppenheimer",
+          "tmdbId": 872585,
+          "tmdbTitle": "Oppenheimer",
+          "imdbId": "tt15398776",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5t05uhX5ULn8Um2f1ZuznVvIffU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Oppenheimer"
+        },
+        {
+          "position": 3,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 2,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Martín G.",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 4,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Fallen Leaves",
+          "tmdbId": 986280,
+          "tmdbTitle": "Fallen Leaves",
+          "imdbId": "tt21027780",
+          "releaseDate": "2023-09-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jLyXy3mXjYFecel70vOH1PWgn5a.jpg",
+          "originalLanguage": "fi",
+          "originalTitle": "Kuolleet lehdet"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Ivan",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 4,
+          "movieName": "Scream 6",
+          "tmdbId": 934433,
+          "tmdbTitle": "Scream VI",
+          "imdbId": "tt17663992",
+          "releaseDate": "2023-03-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zh0JffFtxcWEJBLKayH3d34WnNT.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Scream VI"
+        },
+        {
+          "position": 3,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 2,
+          "movieName": "La Sociedad de la Nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Ale",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Cerrar los ojos",
+          "tmdbId": 997294,
+          "tmdbTitle": "Cerrar los ojos",
+          "imdbId": "tt21284358",
+          "releaseDate": "2023-08-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1lx8cw1c1j2RTlQHgjR4phQBmVB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cerrar los ojos"
+        },
+        {
+          "position": 4,
+          "movieName": "No voy a pedirle a nadie que me crea",
+          "tmdbId": 1145810,
+          "tmdbTitle": "No voy a pedirle a nadie que me crea",
+          "imdbId": "tt21738294",
+          "releaseDate": "2023-11-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/hU2EUVy0SkYVIX8dScHTpsC8cdB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "No voy a pedirle a nadie que me crea"
+        },
+        {
+          "position": 3,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 2,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 1,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Santi",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 4,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 3,
+          "movieName": "Cerrar los ojos",
+          "tmdbId": 997294,
+          "tmdbTitle": "Cerrar los ojos",
+          "imdbId": "tt21284358",
+          "releaseDate": "2023-08-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1lx8cw1c1j2RTlQHgjR4phQBmVB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cerrar los ojos"
+        },
+        {
+          "position": 2,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "May",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 4,
+          "movieName": "The Beast",
+          "tmdbId": 914206,
+          "tmdbTitle": "La bestia",
+          "imdbId": "tt14407336",
+          "releaseDate": "2024-02-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/kO7NBqYOhPh3r96ruyGTj6bTkP2.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "La Bête"
+        },
+        {
+          "position": 3,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 2,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Tishey",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Reality",
+          "tmdbId": 985617,
+          "tmdbTitle": "Reality",
+          "imdbId": "tt24068064",
+          "releaseDate": "2023-06-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rTEYxSDo9aJTTbM0zuMMLgzJcUJ.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Reality"
+        },
+        {
+          "position": 4,
+          "movieName": "Are you there god? It’s me Margaret",
+          "tmdbId": 555285,
+          "tmdbTitle": "¿Estás ahí, Dios? Soy yo, Margaret",
+          "imdbId": "tt9185206",
+          "releaseDate": "2023-03-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ov5q8zr2865zMyMnRkrv0nCqgUj.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Are You There God? It's Me, Margaret."
+        },
+        {
+          "position": 3,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 2,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Fernandojs",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 4,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 3,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 2,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 1,
+          "movieName": "Cerrar los ojos",
+          "tmdbId": 997294,
+          "tmdbTitle": "Cerrar los ojos",
+          "imdbId": "tt21284358",
+          "releaseDate": "2023-08-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1lx8cw1c1j2RTlQHgjR4phQBmVB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cerrar los ojos"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "GaryBusy",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 4,
+          "movieName": "Infinity Pool",
+          "tmdbId": 667216,
+          "tmdbTitle": "Piscina infinita",
+          "imdbId": "tt10365998",
+          "releaseDate": "2023-01-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/kOFKpWdNu8Q14PyOUL87LcNpNZD.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Infinity Pool"
+        },
+        {
+          "position": 3,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 2,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "El Pícaro",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Master Gardener",
+          "tmdbId": 869612,
+          "tmdbTitle": "El maestro jardinero",
+          "imdbId": "tt15342244",
+          "releaseDate": "2023-05-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rLzoUtTN1yf2RZkA7NiZTjvKI4B.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Master Gardener"
+        },
+        {
+          "position": 4,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Dream Scenario",
+          "tmdbId": 823482,
+          "tmdbTitle": "Dream Scenario",
+          "imdbId": "tt21942866",
+          "releaseDate": "2023-11-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nS4eutSuSidh8RKaorGfuBsSnZM.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dream Scenario"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Matías",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Fallen Leaves",
+          "tmdbId": 986280,
+          "tmdbTitle": "Fallen Leaves",
+          "imdbId": "tt21027780",
+          "releaseDate": "2023-09-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jLyXy3mXjYFecel70vOH1PWgn5a.jpg",
+          "originalLanguage": "fi",
+          "originalTitle": "Kuolleet lehdet"
+        },
+        {
+          "position": 4,
+          "movieName": "Pearl *",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 3,
+          "movieName": "The Fablemans",
+          "tmdbId": 804095,
+          "tmdbTitle": "The Fabelmans",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d2kuvq8i8q0n3oiz3gZkz3lFj0m.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 2,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Fede C",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Teenage Mutant Ninja Turtles: Mutant Mayhem",
+          "tmdbId": 614930,
+          "tmdbTitle": "Ninja Turtles: Caos mutante",
+          "imdbId": "tt8589698",
+          "releaseDate": "2023-07-31",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mgBXgA8jHext4KRWg84Cux5Y94L.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Teenage Mutant Ninja Turtles: Mutant Mayhem"
+        },
+        {
+          "position": 4,
+          "movieName": "La sociedad de la nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        },
+        {
+          "position": 3,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 2,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Vicky",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Dream Scenario",
+          "tmdbId": 823482,
+          "tmdbTitle": "Dream Scenario",
+          "imdbId": "tt21942866",
+          "releaseDate": "2023-11-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nS4eutSuSidh8RKaorGfuBsSnZM.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dream Scenario"
+        },
+        {
+          "position": 4,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon*",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Totally Killer",
+          "tmdbId": 974931,
+          "tmdbTitle": "Sangrientos dieciséis",
+          "imdbId": "tt11426232",
+          "releaseDate": "2023-09-28",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2uQ0klOw0jdm7ipUSDsab5Q72b4.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Totally Killer"
+        },
+        {
+          "position": 1,
+          "movieName": "Barbie",
+          "tmdbId": 346698,
+          "tmdbTitle": "Barbie",
+          "imdbId": "tt1517268",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fNtqD4BTFj0Bgo9lyoAtmNFzxHN.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbie"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Alan",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Puan",
+          "tmdbId": 764442,
+          "tmdbTitle": "Puan",
+          "imdbId": "tt13866866",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z0jLa2Ke2JASn21C2idntTnMmfF.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Puan"
+        },
+        {
+          "position": 4,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 3,
+          "movieName": "Clorindo Testa",
+          "tmdbId": 1045813,
+          "tmdbTitle": "Clorindo Testa",
+          "imdbId": "tt23182000",
+          "releaseDate": "2022-11-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uZdp9Fyt4188yptHi5rDxItGgrH.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Clorindo Testa"
+        },
+        {
+          "position": 2,
+          "movieName": "Dream Scenario",
+          "tmdbId": 823482,
+          "tmdbTitle": "Dream Scenario",
+          "imdbId": "tt21942866",
+          "releaseDate": "2023-11-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nS4eutSuSidh8RKaorGfuBsSnZM.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dream Scenario"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Hitoshi",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Air",
+          "tmdbId": 964980,
+          "tmdbTitle": "Air",
+          "imdbId": "tt16419074",
+          "releaseDate": "2023-04-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4ypRUscxdPXjF2o3BzsKsCUrkpK.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Air"
+        },
+        {
+          "position": 4,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 3,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 2,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 1,
+          "movieName": "La sociedad de la nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Marce",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 4,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 3,
+          "movieName": "El Juicio",
+          "tmdbId": 1063595,
+          "tmdbTitle": "El juicio",
+          "imdbId": "tt11396282",
+          "releaseDate": "2023-02-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4wzqZpqBGo1mqMt8KOnnOP4aVIq.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "El juicio"
+        },
+        {
+          "position": 2,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Ferheinz",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 4,
+          "movieName": "The Killer",
+          "tmdbId": 800158,
+          "tmdbTitle": "El asesino",
+          "imdbId": "tt1136617",
+          "releaseDate": "2023-10-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wXbAPrZTqJzlqmmRaUh95DJ5Lv1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Killer"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Clau",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Silent night",
+          "tmdbId": 891699,
+          "tmdbTitle": "Noche de paz",
+          "imdbId": "tt15799866",
+          "releaseDate": "2023-11-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pea7Wjf7c7siaXrlzLD7XYXubbI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Silent Night"
+        },
+        {
+          "position": 4,
+          "movieName": "Talk to me",
+          "tmdbId": 1008042,
+          "tmdbTitle": "Háblame",
+          "imdbId": "tt10638522",
+          "releaseDate": "2023-07-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nfY0LdXZzggFKfjhyHVEHZfO484.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Talk to Me"
+        },
+        {
+          "position": 3,
+          "movieName": "MANDÓ UNA SERIE",
+          "tmdbId": null,
+          "tmdbTitle": null,
+          "imdbId": null,
+          "releaseDate": null,
+          "posterUrl": null,
+          "originalLanguage": null,
+          "originalTitle": null,
+          "error": "Not found in TMDB"
+        },
+        {
+          "position": 2,
+          "movieName": "Anatomy of a fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Nati",
+      "topPicks": [
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Yani",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Cocaine bear",
+          "tmdbId": 804150,
+          "tmdbTitle": "Oso vicioso",
+          "imdbId": "tt14209916",
+          "releaseDate": "2023-02-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yGCpehozPDlaczL4Fas1d01mfAH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Cocaine Bear"
+        },
+        {
+          "position": 4,
+          "movieName": "Puan",
+          "tmdbId": 764442,
+          "tmdbTitle": "Puan",
+          "imdbId": "tt13866866",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z0jLa2Ke2JASn21C2idntTnMmfF.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Puan"
+        },
+        {
+          "position": 3,
+          "movieName": "La Sociedad de la Nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        },
+        {
+          "position": 2,
+          "movieName": "Cerrar los ojos",
+          "tmdbId": 997294,
+          "tmdbTitle": "Cerrar los ojos",
+          "imdbId": "tt21284358",
+          "releaseDate": "2023-08-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1lx8cw1c1j2RTlQHgjR4phQBmVB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cerrar los ojos"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "NOELYAS",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 4,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 3,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 2,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Basophium",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 4,
+          "movieName": "Mantícora",
+          "tmdbId": 760158,
+          "tmdbTitle": "Mantícora",
+          "imdbId": "tt13014746",
+          "releaseDate": "2022-12-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/q0aBTr5powKFlD08cQ5FqKkC4VQ.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Mantícora"
+        },
+        {
+          "position": 3,
+          "movieName": "Cerrar los ojos",
+          "tmdbId": 997294,
+          "tmdbTitle": "Cerrar los ojos",
+          "imdbId": "tt21284358",
+          "releaseDate": "2023-08-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1lx8cw1c1j2RTlQHgjR4phQBmVB.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cerrar los ojos"
+        },
+        {
+          "position": 2,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Lavtaro",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "El Santo",
+          "tmdbId": 1087420,
+          "tmdbTitle": "El Santo",
+          "imdbId": "tt27520543",
+          "releaseDate": "2023-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/eBMA4wyg59Jox7gXLOLsrpRjXJR.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "El Santo"
+        },
+        {
+          "position": 4,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "La vida a oscuras",
+          "tmdbId": 1110671,
+          "tmdbTitle": "La vida a oscuras",
+          "imdbId": "tt26545300",
+          "releaseDate": "2023-04-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pU77679PtMY5F3bumyIBzy4NAMD.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La vida a oscuras"
+        },
+        {
+          "position": 1,
+          "movieName": "El Juicio",
+          "tmdbId": 1063595,
+          "tmdbTitle": "El juicio",
+          "imdbId": "tt11396282",
+          "releaseDate": "2023-02-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4wzqZpqBGo1mqMt8KOnnOP4aVIq.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "El juicio"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Anton",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 4,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 3,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 2,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Diego",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 4,
+          "movieName": "Veré siempre sus rostros",
+          "tmdbId": 1000492,
+          "tmdbTitle": "Las dos caras de la justicia",
+          "imdbId": "tt24070754",
+          "releaseDate": "2023-03-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/t0bLhTHhxjlM8AfQFYNj1uYj8Kc.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Je verrai toujours vos visages"
+        },
+        {
+          "position": 3,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 2,
+          "movieName": "No One Will Save You",
+          "tmdbId": 820609,
+          "tmdbTitle": "Nadie te salvará",
+          "imdbId": "tt14509110",
+          "releaseDate": "2023-09-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7F6uEiOG7EE4tcfw1vYS3LdR3AT.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "No One Will Save You"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Lucho",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 4,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 3,
+          "movieName": "Spiderman across the spiderverse",
+          "tmdbId": 569094,
+          "tmdbTitle": "Spider-Man: Cruzando el Multiverso",
+          "imdbId": "tt9362722",
+          "releaseDate": "2023-05-31",
+          "posterUrl": "https://image.tmdb.org/t/p/original/37WcNMgNOMxdhT87MFl7tq7FM1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Spider-Man: Across the Spider-Verse"
+        },
+        {
+          "position": 2,
+          "movieName": "Oppenheimer",
+          "tmdbId": 872585,
+          "tmdbTitle": "Oppenheimer",
+          "imdbId": "tt15398776",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5t05uhX5ULn8Um2f1ZuznVvIffU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Oppenheimer"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Mar",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 4,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Barbie",
+          "tmdbId": 346698,
+          "tmdbTitle": "Barbie",
+          "imdbId": "tt1517268",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fNtqD4BTFj0Bgo9lyoAtmNFzxHN.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbie"
+        },
+        {
+          "position": 1,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Lailu",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Los Delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 4,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Hernan",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 4,
+          "movieName": "Fallen Leaves",
+          "tmdbId": 986280,
+          "tmdbTitle": "Fallen Leaves",
+          "imdbId": "tt21027780",
+          "releaseDate": "2023-09-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jLyXy3mXjYFecel70vOH1PWgn5a.jpg",
+          "originalLanguage": "fi",
+          "originalTitle": "Kuolleet lehdet"
+        },
+        {
+          "position": 3,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 2,
+          "movieName": "Anatomy of a Fall",
+          "tmdbId": 915935,
+          "tmdbTitle": "Anatomía de una caída",
+          "imdbId": "tt17009710",
+          "releaseDate": "2023-08-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vGzjaQyv4NPjhgI0hHmKXz3Orjs.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Anatomie d'une chute"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Santee",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Mantícora",
+          "tmdbId": 760158,
+          "tmdbTitle": "Mantícora",
+          "imdbId": "tt13014746",
+          "releaseDate": "2022-12-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/q0aBTr5powKFlD08cQ5FqKkC4VQ.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Mantícora"
+        },
+        {
+          "position": 4,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 3,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 2,
+          "movieName": "Fallen Leaves",
+          "tmdbId": 986280,
+          "tmdbTitle": "Fallen Leaves",
+          "imdbId": "tt21027780",
+          "releaseDate": "2023-09-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jLyXy3mXjYFecel70vOH1PWgn5a.jpg",
+          "originalLanguage": "fi",
+          "originalTitle": "Kuolleet lehdet"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Juan",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "La Sociedad de la Nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        },
+        {
+          "position": 4,
+          "movieName": "Tetris",
+          "tmdbId": 726759,
+          "tmdbTitle": "Tetris",
+          "imdbId": "tt12758060",
+          "releaseDate": "2023-03-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/qWZTrcZOIhWI4AkpferJFR5n5Ob.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Tetris"
+        },
+        {
+          "position": 3,
+          "movieName": "Misántropo",
+          "tmdbId": 605886,
+          "tmdbTitle": "Misántropo",
+          "imdbId": "tt10275534",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfjxw4nBFe7DlOMujBBcDnRb6KR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "To Catch a Killer"
+        },
+        {
+          "position": 2,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 1,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Agus",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 4,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 3,
+          "movieName": "Barbie",
+          "tmdbId": 346698,
+          "tmdbTitle": "Barbie",
+          "imdbId": "tt1517268",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fNtqD4BTFj0Bgo9lyoAtmNFzxHN.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbie"
+        },
+        {
+          "position": 2,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Pablo",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        },
+        {
+          "position": 4,
+          "movieName": "Teenage Mutant Ninja Turtles: Mutant Mayhem",
+          "tmdbId": 614930,
+          "tmdbTitle": "Ninja Turtles: Caos mutante",
+          "imdbId": "tt8589698",
+          "releaseDate": "2023-07-31",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mgBXgA8jHext4KRWg84Cux5Y94L.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Teenage Mutant Ninja Turtles: Mutant Mayhem"
+        },
+        {
+          "position": 3,
+          "movieName": "Home for Rent",
+          "tmdbId": 977177,
+          "tmdbTitle": "La secta del Himalaya (Home for Rent)",
+          "imdbId": "tt26547790",
+          "releaseDate": "2023-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1xBpaaNqFXEji00LrHRfPvw38ck.jpg",
+          "originalLanguage": "th",
+          "originalTitle": "บ้านเช่า..บูชายัญ"
+        },
+        {
+          "position": 2,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 1,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "El Diegot",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Beau is Afraid",
+          "tmdbId": 798286,
+          "tmdbTitle": "Beau tiene miedo",
+          "imdbId": "tt13521006",
+          "releaseDate": "2023-04-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6bvITjsMqTcPYQDqiLEkL1SJ27p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Beau Is Afraid"
+        },
+        {
+          "position": 4,
+          "movieName": "Mantícora",
+          "tmdbId": 760158,
+          "tmdbTitle": "Mantícora",
+          "imdbId": "tt13014746",
+          "releaseDate": "2022-12-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/q0aBTr5powKFlD08cQ5FqKkC4VQ.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Mantícora"
+        },
+        {
+          "position": 3,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 2,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Fedeambrosetti",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Viedma",
+          "tmdbId": 1111023,
+          "tmdbTitle": "Viedma, la capital que no fue",
+          "imdbId": "tt27514598",
+          "releaseDate": "2023-05-04",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wVchwP41770g8s17XG7tYh25j7k.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Viedma, la capital que no fue"
+        },
+        {
+          "position": 4,
+          "movieName": "Los delincuentes",
+          "tmdbId": 714889,
+          "tmdbTitle": "Los delincuentes",
+          "imdbId": "tt18558306",
+          "releaseDate": "2023-10-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rEMspUNW6J2Hn6CYecdg4pBOywA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Los delincuentes"
+        },
+        {
+          "position": 3,
+          "movieName": "Mantícora",
+          "tmdbId": 760158,
+          "tmdbTitle": "Mantícora",
+          "imdbId": "tt13014746",
+          "releaseDate": "2022-12-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/q0aBTr5powKFlD08cQ5FqKkC4VQ.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Mantícora"
+        },
+        {
+          "position": 2,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 1,
+          "movieName": "Cuando acecha la maldad",
+          "tmdbId": 744857,
+          "tmdbTitle": "Cuando acecha la maldad",
+          "imdbId": "tt16300962",
+          "releaseDate": "2023-10-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9Ly4S99McgnhO50XikTGguPFNvo.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Cuando acecha la maldad"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Evil",
+      "topPicks": [
+        {
+          "position": 2,
+          "movieName": "Scream VI",
+          "tmdbId": 934433,
+          "tmdbTitle": "Scream VI",
+          "imdbId": "tt17663992",
+          "releaseDate": "2023-03-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zh0JffFtxcWEJBLKayH3d34WnNT.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Scream VI"
+        },
+        {
+          "position": 1,
+          "movieName": "Oppenheimer",
+          "tmdbId": 872585,
+          "tmdbTitle": "Oppenheimer",
+          "imdbId": "tt15398776",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5t05uhX5ULn8Um2f1ZuznVvIffU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Oppenheimer"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "CHINO SILVA",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Killers of the Flower Moon",
+          "tmdbId": 466420,
+          "tmdbTitle": "Los asesinos de la luna",
+          "imdbId": "tt5537002",
+          "releaseDate": "2023-10-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/731ydMfVJaIyR1bhFEeX7rubqGH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Killers of the Flower Moon"
+        },
+        {
+          "position": 4,
+          "movieName": "Barbie",
+          "tmdbId": 346698,
+          "tmdbTitle": "Barbie",
+          "imdbId": "tt1517268",
+          "releaseDate": "2023-07-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fNtqD4BTFj0Bgo9lyoAtmNFzxHN.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbie"
+        },
+        {
+          "position": 3,
+          "movieName": "La Sociedad de la Nieve",
+          "tmdbId": 906126,
+          "tmdbTitle": "La sociedad de la nieve",
+          "imdbId": "tt16277242",
+          "releaseDate": "2023-12-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9tkJPQb4X4VoU3S5nqLDohZijPj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "La sociedad de la nieve"
+        },
+        {
+          "position": 2,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 1,
+          "movieName": "Evil Dead Rise",
+          "tmdbId": 713704,
+          "tmdbTitle": "Posesión infernal: El despertar",
+          "imdbId": "tt13345606",
+          "releaseDate": "2023-04-12",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ioMtng0qHbwNjR1fuxYZsRf1kjm.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Evil Dead Rise"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Albano",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Spiderman Across Th Sipderverse",
+          "tmdbId": 569094,
+          "tmdbTitle": "Spider-Man: Across the Spider-Verse",
+          "imdbId": "tt9362722",
+          "releaseDate": "2023-05-31",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8Vt6mWEReuy4H61m5zgr85aJ9vA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Spider-Man: Across the Spider-Verse"
+        },
+        {
+          "position": 4,
+          "movieName": "The Holdovers",
+          "tmdbId": 840430,
+          "tmdbTitle": "Los que se quedan",
+          "imdbId": "tt14849194",
+          "releaseDate": "2023-10-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aZj21Kcmazecm6VDBn4bYU4evi3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Holdovers"
+        },
+        {
+          "position": 3,
+          "movieName": "Poor Things",
+          "tmdbId": 792307,
+          "tmdbTitle": "Pobres criaturas",
+          "imdbId": "tt14230458",
+          "releaseDate": "2023-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9OYMVcP2zyw0zpWOTuxlDo2MsMw.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Poor Things"
+        },
+        {
+          "position": 2,
+          "movieName": "John Wick: Chapter 4",
+          "tmdbId": 603692,
+          "tmdbTitle": "John Wick 4",
+          "imdbId": "tt10366206",
+          "releaseDate": "2023-03-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mj2Z9HnRSIEk3n7yVPoOY4Uzzfh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "John Wick: Chapter 4"
+        },
+        {
+          "position": 1,
+          "movieName": "Retratos Fantasmas",
+          "tmdbId": 1112548,
+          "tmdbTitle": "Retratos fantasma",
+          "imdbId": "tt27502227",
+          "releaseDate": "2023-08-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5EP21rwMqpjHMyDHWoy65RG44jf.jpg",
+          "originalLanguage": "pt",
+          "originalTitle": "Retratos Fantasmas"
+        }
+      ],
+      "worstPicks": []
+    }
+  ],
+  "unmatchedMovies": [
+    {
+      "movieName": "The Fablemans",
+      "participants": [
+        "Matías"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "MANDÓ UNA SERIE",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "Mantícora",
+      "participants": [
+        "Basophium",
+        "Santee",
+        "El Diegot",
+        "Fedeambrosetti"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "Veré siempre sus rostros",
+      "participants": [
+        "Diego"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "Spiderman Across Th Sipderverse",
+      "participants": [
+        "Albano"
+      ],
+      "tmdbResults": []
+    }
+  ],
+  "ambiguousMatches": [
+    {
+      "movieName": "Oppenheimer",
+      "participants": [
+        "Pepo",
+        "Lucho",
+        "Evil"
+      ],
+      "tmdbResults": [
+        {
+          "id": 872585,
+          "title": "Oppenheimer",
+          "release_date": "2023-07-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Trenque Lauquen",
+      "participants": [
+        "Pepo",
+        "May",
+        "Fernandojs",
+        "Hernan",
+        "Fedeambrosetti"
+      ],
+      "tmdbResults": [
+        {
+          "id": 715742,
+          "title": "Trenque Lauquen",
+          "release_date": "2023-05-02"
+        }
+      ]
+    },
+    {
+      "movieName": "Cerrar los ojos",
+      "participants": [
+        "Ale",
+        "Santi",
+        "Fernandojs",
+        "Yani",
+        "Basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 997294,
+          "title": "Cerrar los ojos",
+          "release_date": "2023-08-16"
+        }
+      ]
+    },
+    {
+      "movieName": "The Beast",
+      "participants": [
+        "May"
+      ],
+      "tmdbResults": [
+        {
+          "id": 914206,
+          "title": "La bestia",
+          "release_date": "2024-02-07"
+        }
+      ]
+    },
+    {
+      "movieName": "Reality",
+      "participants": [
+        "Tishey"
+      ],
+      "tmdbResults": [
+        {
+          "id": 985617,
+          "title": "Reality",
+          "release_date": "2023-06-02"
+        }
+      ]
+    },
+    {
+      "movieName": "Pearl *",
+      "participants": [
+        "Matías"
+      ],
+      "tmdbResults": [
+        {
+          "id": 949423,
+          "title": "Pearl",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Barbie",
+      "participants": [
+        "Vicky",
+        "Mar",
+        "Agus",
+        "CHINO SILVA"
+      ],
+      "tmdbResults": [
+        {
+          "id": 346698,
+          "title": "Barbie",
+          "release_date": "2023-07-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Air",
+      "participants": [
+        "Hitoshi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 964980,
+          "title": "Air",
+          "release_date": "2023-04-05"
+        }
+      ]
+    },
+    {
+      "movieName": "El Juicio",
+      "participants": [
+        "Marce",
+        "Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1063595,
+          "title": "El juicio",
+          "release_date": "2023-02-19"
+        }
+      ]
+    },
+    {
+      "movieName": "The Killer",
+      "participants": [
+        "Ferheinz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 800158,
+          "title": "El asesino",
+          "release_date": "2023-10-25"
+        }
+      ]
+    },
+    {
+      "movieName": "Silent night",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": [
+        {
+          "id": 891699,
+          "title": "Noche de paz",
+          "release_date": "2023-11-30"
+        }
+      ]
+    },
+    {
+      "movieName": "Talk to me",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1008042,
+          "title": "Háblame",
+          "release_date": "2023-07-26"
+        }
+      ]
+    },
+    {
+      "movieName": "Cocaine bear",
+      "participants": [
+        "Yani"
+      ],
+      "tmdbResults": [
+        {
+          "id": 804150,
+          "title": "Oso vicioso",
+          "release_date": "2023-02-22"
+        }
+      ]
+    },
+    {
+      "movieName": "El Santo",
+      "participants": [
+        "Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1087420,
+          "title": "El Santo",
+          "release_date": "2023-04-20"
+        }
+      ]
+    },
+    {
+      "movieName": "Spiderman across the spiderverse",
+      "participants": [
+        "Lucho"
+      ],
+      "tmdbResults": [
+        {
+          "id": 569094,
+          "title": "Spider-Man: Cruzando el Multiverso",
+          "release_date": "2023-05-31"
+        }
+      ]
+    },
+    {
+      "movieName": "Beau is Afraid",
+      "participants": [
+        "El Diegot"
+      ],
+      "tmdbResults": [
+        {
+          "id": 798286,
+          "title": "Beau tiene miedo",
+          "release_date": "2023-04-14"
+        }
+      ]
+    },
+    {
+      "movieName": "Scream VI",
+      "participants": [
+        "Evil"
+      ],
+      "tmdbResults": [
+        {
+          "id": 934433,
+          "title": "Scream VI",
+          "release_date": "2023-03-08"
+        }
+      ]
+    }
+  ]
+}

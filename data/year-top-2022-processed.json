@@ -1,0 +1,4768 @@
+{
+  "year": 2022,
+  "participants": [
+    {
+      "name": "Lucas Scheefer",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 4,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 3,
+          "movieName": "Something in the Dirt",
+          "tmdbId": 843621,
+          "tmdbTitle": "Something in the Dirt",
+          "imdbId": "tt14895716",
+          "releaseDate": "2022-11-03",
+          "posterUrl": "https://image.tmdb.org/t/p/original/l0kUj5y1t6LDN9ssfYe7c1NVym1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Something in the Dirt"
+        },
+        {
+          "position": 2,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 1,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Lucho",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        },
+        {
+          "position": 4,
+          "movieName": "Terrifier 2",
+          "tmdbId": 663712,
+          "tmdbTitle": "Terrifier 2",
+          "imdbId": "tt10403420",
+          "releaseDate": "2022-10-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1jpaJU7mqyzCWkLwakpVxlBv9lA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Terrifier 2"
+        },
+        {
+          "position": 3,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 2,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        },
+        {
+          "position": 4,
+          "movieName": "Black Adam",
+          "tmdbId": 436270,
+          "tmdbTitle": "Black Adam",
+          "imdbId": "tt6443346",
+          "releaseDate": "2022-10-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Adam"
+        },
+        {
+          "position": 3,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 2,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 1,
+          "movieName": "Hocus pocus 2",
+          "tmdbId": 642885,
+          "tmdbTitle": "El retorno de las brujas 2",
+          "imdbId": "tt11909878",
+          "releaseDate": "2022-09-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/gbbZNVuGSD6cPGZ4sfcrA59EKNY.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Hocus Pocus 2"
+        }
+      ]
+    },
+    {
+      "name": "GaryBusy",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 4,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 3,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 2,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 1,
+          "movieName": "Something in the Dirt",
+          "tmdbId": 843621,
+          "tmdbTitle": "Something in the Dirt",
+          "imdbId": "tt14895716",
+          "releaseDate": "2022-11-03",
+          "posterUrl": "https://image.tmdb.org/t/p/original/l0kUj5y1t6LDN9ssfYe7c1NVym1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Something in the Dirt"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        },
+        {
+          "position": 4,
+          "movieName": "Memory",
+          "tmdbId": 818397,
+          "tmdbTitle": "La memoria de un asesino",
+          "imdbId": "tt11827628",
+          "releaseDate": "2022-04-28",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zUa7VyFnt4Wj3NYIlh8fn8xkVqq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Memory"
+        },
+        {
+          "position": 3,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 2,
+          "movieName": "Black Adam",
+          "tmdbId": 436270,
+          "tmdbTitle": "Black Adam",
+          "imdbId": "tt6443346",
+          "releaseDate": "2022-10-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Adam"
+        },
+        {
+          "position": 1,
+          "movieName": "Uncharted",
+          "tmdbId": 335787,
+          "tmdbTitle": "Uncharted",
+          "imdbId": "tt1464335",
+          "releaseDate": "2022-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Uncharted"
+        }
+      ]
+    },
+    {
+      "name": "Martin Goniondzki",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 4,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 3,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 2,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 1,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "The Twin",
+          "tmdbId": 477462,
+          "tmdbTitle": "Gemelo siniestro",
+          "imdbId": "tt12390572",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7JPK9FKrWrGWchBPhdoIWC6qktB.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Twin"
+        },
+        {
+          "position": 4,
+          "movieName": "Moonfall",
+          "tmdbId": 406759,
+          "tmdbTitle": "Moonfall",
+          "imdbId": "tt5834426",
+          "releaseDate": "2022-02-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nRUN5ywlehfB8opryZkXwfYSGAl.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Moonfall"
+        },
+        {
+          "position": 3,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 2,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        },
+        {
+          "position": 1,
+          "movieName": "30 Noches con mi ex",
+          "tmdbId": 882040,
+          "tmdbTitle": "30 noches con mi ex",
+          "imdbId": "tt15977950",
+          "releaseDate": "2022-08-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nXbhchOec3MKtAcKPO82Qu8r5AW.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "30 noches con mi ex"
+        }
+      ]
+    },
+    {
+      "name": "Lucio B",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "After Yang",
+          "tmdbId": 585378,
+          "tmdbTitle": "Despidiendo a Yang",
+          "imdbId": "tt8633464",
+          "releaseDate": "2022-03-04",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7POMD21p0ISkSPY3GRv9qkefStF.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "After Yang"
+        },
+        {
+          "position": 4,
+          "movieName": "Decision to Leave",
+          "tmdbId": 705996,
+          "tmdbTitle": "Decision to Leave",
+          "imdbId": "tt12477480",
+          "releaseDate": "2022-06-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9Tk2tkXL2zmbAuYr8staL0SZWO.jpg",
+          "originalLanguage": "ko",
+          "originalTitle": "헤어질 결심"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "The Souvenir: Part II",
+          "tmdbId": 473021,
+          "tmdbTitle": "The Souvenir: Part II",
+          "imdbId": "tt6992978",
+          "releaseDate": "2021-10-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fYNvmZ1vW7bNcUhrAzYjUBgKJWP.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Souvenir: Part II"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 3,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 2,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        },
+        {
+          "position": 1,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        }
+      ]
+    },
+    {
+      "name": "Tishey",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Emily The Criminal",
+          "tmdbId": 862965,
+          "tmdbTitle": "Emily la estafadora",
+          "imdbId": "tt15255876",
+          "releaseDate": "2022-08-12",
+          "posterUrl": "https://image.tmdb.org/t/p/original/omgF37fXTGoWl4Jg4gQNqOgBCrU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Emily the Criminal"
+        },
+        {
+          "position": 4,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 3,
+          "movieName": "Hellbender",
+          "tmdbId": 848886,
+          "tmdbTitle": "Hellbender",
+          "imdbId": "tt14905650",
+          "releaseDate": "2021-09-28",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uLDYfeJ9BvrQsC3MBqMUjG4Hgaz.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Hellbender"
+        },
+        {
+          "position": 2,
+          "movieName": "Pleasure",
+          "tmdbId": 592695,
+          "tmdbTitle": "Pleasure",
+          "imdbId": "tt8550054",
+          "releaseDate": "2021-10-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/eq2JtD4oWJG82zWMaJvzwsV7whK.jpg",
+          "originalLanguage": "sv",
+          "originalTitle": "Pleasure"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "alangmonzon",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 4,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 3,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 2,
+          "movieName": "Pequeña Flor",
+          "tmdbId": 660327,
+          "tmdbTitle": "Pequeña flor",
+          "imdbId": "tt10940736",
+          "releaseDate": "2022-06-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/hTu6AGatoigX8OKOmg9YRxcs1Pw.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Petite fleur"
+        },
+        {
+          "position": 1,
+          "movieName": "Decision to Leave",
+          "tmdbId": 705996,
+          "tmdbTitle": "Decision to Leave",
+          "imdbId": "tt12477480",
+          "releaseDate": "2022-06-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9Tk2tkXL2zmbAuYr8staL0SZWO.jpg",
+          "originalLanguage": "ko",
+          "originalTitle": "헤어질 결심"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 2,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "@Diego_el_fugado",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 4,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 3,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 2,
+          "movieName": "Prey",
+          "tmdbId": 766507,
+          "tmdbTitle": "Predator: La presa",
+          "imdbId": "tt11866324",
+          "releaseDate": "2022-08-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sNAMqQ9T7YnXnvUSufeWzaRgK6Y.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Prey"
+        },
+        {
+          "position": 1,
+          "movieName": "The Black Phone",
+          "tmdbId": 756999,
+          "tmdbTitle": "Black Phone",
+          "imdbId": "tt7144666",
+          "releaseDate": "2022-06-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/eVgRJqGCWmI5DlIOoHnP2G77PSO.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Black Phone"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 3,
+          "movieName": "Where the Crawdads Sing",
+          "tmdbId": 682507,
+          "tmdbTitle": "La chica salvaje",
+          "imdbId": "tt9411972",
+          "releaseDate": "2022-07-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/fmKCI3tweszvv1S7MoK0OCWsvht.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Where the Crawdads Sing"
+        },
+        {
+          "position": 2,
+          "movieName": "Amsterdam",
+          "tmdbId": 664469,
+          "tmdbTitle": "Ámsterdam",
+          "imdbId": "tt10304142",
+          "releaseDate": "2022-09-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vWQAUQny1hlvubLhWC3P8OxH2g1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Amsterdam"
+        },
+        {
+          "position": 1,
+          "movieName": "Smile",
+          "tmdbId": 882598,
+          "tmdbTitle": "Smile",
+          "imdbId": "tt15474916",
+          "releaseDate": "2022-09-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/qJO54b6LsBmEkMxdW8ZziL9Mnam.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Smile"
+        }
+      ]
+    },
+    {
+      "name": "@hitoshidiaz",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        },
+        {
+          "position": 4,
+          "movieName": "Vengeance",
+          "tmdbId": 683340,
+          "tmdbTitle": "Venganza",
+          "imdbId": "tt11976532",
+          "releaseDate": "2022-07-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zwBjTDwXsrDhKY80zIX7F4oi1is.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Vengeance"
+        },
+        {
+          "position": 3,
+          "movieName": "Bararian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 2,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 4,
+          "movieName": "Black Adam",
+          "tmdbId": 436270,
+          "tmdbTitle": "Black Adam",
+          "imdbId": "tt6443346",
+          "releaseDate": "2022-10-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Adam"
+        },
+        {
+          "position": 3,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        },
+        {
+          "position": 2,
+          "movieName": "Lightyear",
+          "tmdbId": 718789,
+          "tmdbTitle": "Lightyear",
+          "imdbId": "tt10298810",
+          "releaseDate": "2022-06-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/bPIm1SXYp5RQ3c4wP91JQRewIb8.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Lightyear"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "May",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 4,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 3,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 2,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 1,
+          "movieName": "Decision to Leave",
+          "tmdbId": 705996,
+          "tmdbTitle": "Decision to Leave",
+          "imdbId": "tt12477480",
+          "releaseDate": "2022-06-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9Tk2tkXL2zmbAuYr8staL0SZWO.jpg",
+          "originalLanguage": "ko",
+          "originalTitle": "헤어질 결심"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Bodies, Bodies, Bodies",
+          "tmdbId": 520023,
+          "tmdbTitle": "Muerte, muerte, muerte",
+          "imdbId": "tt8110652",
+          "releaseDate": "2022-08-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lypI7oQ8Ko4LiE4oGWclYNIIi16.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Bodies Bodies Bodies"
+        },
+        {
+          "position": 4,
+          "movieName": "Un crimen argentino",
+          "tmdbId": 941959,
+          "tmdbTitle": "Un crimen argentino",
+          "imdbId": "tt18436930",
+          "releaseDate": "2022-08-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1iGVhDwTaLMPYVK2DeOLa1uAKjN.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Un crimen argentino"
+        },
+        {
+          "position": 3,
+          "movieName": "The Grey man",
+          "tmdbId": 725201,
+          "tmdbTitle": "El agente invisible",
+          "imdbId": "tt1649418",
+          "releaseDate": "2022-07-13",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6RU2Nj5zbVuPdCLGWiMZes0ZISO.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Gray Man"
+        },
+        {
+          "position": 2,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 1,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        }
+      ]
+    },
+    {
+      "name": "@noelyas",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 4,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 3,
+          "movieName": "Athena",
+          "tmdbId": 852046,
+          "tmdbTitle": "Atenea",
+          "imdbId": "tt15445056",
+          "releaseDate": "2022-09-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uponqptyKtBsJuODqmxoronFd8P.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Athena"
+        },
+        {
+          "position": 2,
+          "movieName": "Red Rocket",
+          "tmdbId": 763329,
+          "tmdbTitle": "Red Rocket",
+          "imdbId": "tt13453006",
+          "releaseDate": "2021-12-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lh59vng3I3cZWNjl7UmgYdCe6K2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Red Rocket"
+        },
+        {
+          "position": 1,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 4,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 3,
+          "movieName": "Death on the Nile",
+          "tmdbId": 505026,
+          "tmdbTitle": "Muerte en el Nilo",
+          "imdbId": "tt7657566",
+          "releaseDate": "2022-02-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4Fbl3qZSraPXdgmQQzQIDJA736N.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Death on the Nile"
+        },
+        {
+          "position": 2,
+          "movieName": "Halloween Ends",
+          "tmdbId": 616820,
+          "tmdbTitle": "Halloween: El final",
+          "imdbId": "tt10665342",
+          "releaseDate": "2022-10-12",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nP53tROjP7v9YnVF3lsFkOZRjF8.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Halloween Ends"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "Yani",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Huesera",
+          "tmdbId": 772515,
+          "tmdbTitle": "Huesera",
+          "imdbId": "tt11718516",
+          "releaseDate": "2023-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uqQOjLjJRDH7AzdomnEtX2SvnCA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Huesera"
+        },
+        {
+          "position": 4,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 3,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 2,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 1,
+          "movieName": "Luminum",
+          "tmdbId": 898332,
+          "tmdbTitle": "Luminum",
+          "imdbId": "tt10665972",
+          "releaseDate": "2022-04-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/n51vF9tflFBY05QBgDMnxZJmvlj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Luminum"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "Clauhernan73",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 4,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 3,
+          "movieName": "Prey",
+          "tmdbId": 766507,
+          "tmdbTitle": "Predator: La presa",
+          "imdbId": "tt11866324",
+          "releaseDate": "2022-08-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sNAMqQ9T7YnXnvUSufeWzaRgK6Y.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Prey"
+        },
+        {
+          "position": 2,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Studio 666",
+          "tmdbId": 895744,
+          "tmdbTitle": "Terror en el Estudio 666",
+          "imdbId": "tt15374070",
+          "releaseDate": "2022-02-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vMEZTTeb73tVTWASyG8T4hKAS7j.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Studio 666"
+        },
+        {
+          "position": 4,
+          "movieName": "Texas chainsaw massacre",
+          "tmdbId": 632727,
+          "tmdbTitle": "La matanza de Texas",
+          "imdbId": "tt11755740",
+          "releaseDate": "2022-02-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lvwrg14ovXnAHgsmmlINnC3Oj13.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Texas Chainsaw Massacre"
+        },
+        {
+          "position": 3,
+          "movieName": "Bodies, Bodies, Bodies",
+          "tmdbId": 520023,
+          "tmdbTitle": "Muerte, muerte, muerte",
+          "imdbId": "tt8110652",
+          "releaseDate": "2022-08-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lypI7oQ8Ko4LiE4oGWclYNIIi16.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Bodies Bodies Bodies"
+        },
+        {
+          "position": 2,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "FedeC",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 4,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 3,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        },
+        {
+          "position": 2,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 1,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Mr Harrigan's Phone",
+          "tmdbId": 723419,
+          "tmdbTitle": "El teléfono del señor Harrigan",
+          "imdbId": "tt12908110",
+          "releaseDate": "2022-09-28",
+          "posterUrl": "https://image.tmdb.org/t/p/original/aERrzPJyUYAhmbies50dMz21W4u.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Mr. Harrigan's Phone"
+        },
+        {
+          "position": 4,
+          "movieName": "Medida Provisória",
+          "tmdbId": 614282,
+          "tmdbTitle": "Medida Provisória",
+          "imdbId": "tt10395866",
+          "releaseDate": "2022-04-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/oLfjccUqxsAG7pbCgs5rC6SEUWr.jpg",
+          "originalLanguage": "pt",
+          "originalTitle": "Medida Provisória"
+        },
+        {
+          "position": 3,
+          "movieName": "Bad luck banging or loony porn",
+          "tmdbId": 790496,
+          "tmdbTitle": "Un polvo desafortunado o porno loco",
+          "imdbId": "tt14033502",
+          "releaseDate": "2021-04-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/qEldkGi2NMzG3xGHqsgNIqtWKrN.jpg",
+          "originalLanguage": "ro",
+          "originalTitle": "Babardeala cu bucluc sau porno balamuc"
+        },
+        {
+          "position": 2,
+          "movieName": "Stutz",
+          "tmdbId": 799375,
+          "tmdbTitle": "Stutz",
+          "imdbId": "tt21819228",
+          "releaseDate": "2022-11-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uOiJmotRM12wsgfwiEXsp3AErdU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Stutz"
+        },
+        {
+          "position": 1,
+          "movieName": "Senior Year",
+          "tmdbId": 800937,
+          "tmdbTitle": "Vuelta al insti",
+          "imdbId": "tt5315212",
+          "releaseDate": "2022-05-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/hGlpctlRkYqcfFxbNqmz8flQfRy.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Senior Year"
+        }
+      ]
+    },
+    {
+      "name": "Edgardo",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "RRR",
+          "tmdbId": 579974,
+          "tmdbTitle": "RRR",
+          "imdbId": "tt8178634",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ljHw5eIMnki3HekwkKwCCHsRSbH.jpg",
+          "originalLanguage": "te",
+          "originalTitle": "రౌద్రం రణం రుధిరం"
+        },
+        {
+          "position": 4,
+          "movieName": "This Much I Know to be True",
+          "tmdbId": 927025,
+          "tmdbTitle": "This Much I Know to Be True",
+          "imdbId": "tt15721828",
+          "releaseDate": "2022-05-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/amYrP5cL5Q2uKJP5RM027ZUzFyQ.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "This Much I Know to Be True"
+        },
+        {
+          "position": 3,
+          "movieName": "Espiritu sagrado",
+          "tmdbId": 846779,
+          "tmdbTitle": "Espíritu sagrado",
+          "imdbId": "tt13841874",
+          "releaseDate": "2021-11-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pYsqlv4zPhCt7tjmDZesar8Tu1i.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Espíritu sagrado"
+        },
+        {
+          "position": 2,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 1,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 2,
+          "movieName": "Don't Worry, Darling",
+          "tmdbId": 619730,
+          "tmdbTitle": "No te preocupes querida",
+          "imdbId": "tt10731256",
+          "releaseDate": "2022-09-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ZulBDrSBeQN8cagY73lIzr2uh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Don't Worry Darling"
+        },
+        {
+          "position": 1,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        }
+      ]
+    },
+    {
+      "name": "@mauroelninja",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        },
+        {
+          "position": 4,
+          "movieName": "Huesera",
+          "tmdbId": 772515,
+          "tmdbTitle": "Huesera",
+          "imdbId": "tt11718516",
+          "releaseDate": "2023-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uqQOjLjJRDH7AzdomnEtX2SvnCA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Huesera"
+        },
+        {
+          "position": 3,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 2,
+          "movieName": "Athena",
+          "tmdbId": 852046,
+          "tmdbTitle": "Atenea",
+          "imdbId": "tt15445056",
+          "releaseDate": "2022-09-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uponqptyKtBsJuODqmxoronFd8P.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Athena"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Death on the Nile",
+          "tmdbId": 505026,
+          "tmdbTitle": "Muerte en el Nilo",
+          "imdbId": "tt7657566",
+          "releaseDate": "2022-02-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4Fbl3qZSraPXdgmQQzQIDJA736N.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Death on the Nile"
+        },
+        {
+          "position": 4,
+          "movieName": "Deep Water",
+          "tmdbId": 619979,
+          "tmdbTitle": "Aguas profundas",
+          "imdbId": "tt2180339",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2Z2GA7Ph8z5YsDNUJ6h1HJsP4a4.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Deep Water"
+        },
+        {
+          "position": 3,
+          "movieName": "Moonfall",
+          "tmdbId": 406759,
+          "tmdbTitle": "Moonfall",
+          "imdbId": "tt5834426",
+          "releaseDate": "2022-02-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nRUN5ywlehfB8opryZkXwfYSGAl.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Moonfall"
+        },
+        {
+          "position": 2,
+          "movieName": "Terrifier 2",
+          "tmdbId": 663712,
+          "tmdbTitle": "Terrifier 2",
+          "imdbId": "tt10403420",
+          "releaseDate": "2022-10-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1jpaJU7mqyzCWkLwakpVxlBv9lA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Terrifier 2"
+        },
+        {
+          "position": 1,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        }
+      ]
+    },
+    {
+      "name": "@IaiIu",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 4,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 3,
+          "movieName": "Huesera",
+          "tmdbId": 772515,
+          "tmdbTitle": "Huesera",
+          "imdbId": "tt11718516",
+          "releaseDate": "2023-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uqQOjLjJRDH7AzdomnEtX2SvnCA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Huesera"
+        },
+        {
+          "position": 2,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 1,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 4,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 3,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        },
+        {
+          "position": 2,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 1,
+          "movieName": "Ecos de un crimen",
+          "tmdbId": 842052,
+          "tmdbTitle": "Ecos de un crimen",
+          "imdbId": "tt15017554",
+          "releaseDate": "2022-01-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1ilviUUwqRzWDgOYqjZTmlUFbxR.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Ecos de un crimen"
+        }
+      ]
+    },
+    {
+      "name": "Santee",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 4,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 3,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 2,
+          "movieName": "Decision to Leave",
+          "tmdbId": 705996,
+          "tmdbTitle": "Decision to Leave",
+          "imdbId": "tt12477480",
+          "releaseDate": "2022-06-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9Tk2tkXL2zmbAuYr8staL0SZWO.jpg",
+          "originalLanguage": "ko",
+          "originalTitle": "헤어질 결심"
+        },
+        {
+          "position": 1,
+          "movieName": "Huesera",
+          "tmdbId": 772515,
+          "tmdbTitle": "Huesera",
+          "imdbId": "tt11718516",
+          "releaseDate": "2023-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uqQOjLjJRDH7AzdomnEtX2SvnCA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Huesera"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        },
+        {
+          "position": 4,
+          "movieName": "Matar a la bestia",
+          "tmdbId": 856245,
+          "tmdbTitle": "Matar a la bestia",
+          "imdbId": "tt14042038",
+          "releaseDate": "2021-12-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/u0OPPrum4L2oL4iC1p8rpDEVI4L.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Matar a la bestia"
+        },
+        {
+          "position": 3,
+          "movieName": "Glorious",
+          "tmdbId": 939914,
+          "tmdbTitle": "Glorious",
+          "imdbId": "tt12724306",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/gttZLC3yhLFx1EnfjEUaDb2YAwl.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Glorious"
+        },
+        {
+          "position": 2,
+          "movieName": "Hoy se arregla el mundo",
+          "tmdbId": 656796,
+          "tmdbTitle": "Hoy se arregla el mundo",
+          "imdbId": "tt11592014",
+          "releaseDate": "2022-01-13",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9QFiRicoeI9uvOgEPvRFciuhOUM.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Hoy se arregla el mundo"
+        },
+        {
+          "position": 1,
+          "movieName": "Dangerous",
+          "tmdbId": 763788,
+          "tmdbTitle": "Instinto peligroso",
+          "imdbId": "tt3876910",
+          "releaseDate": "2021-11-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ubeZN7kWlr7Bl1OxdBPck43FhD3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dangerous"
+        }
+      ]
+    },
+    {
+      "name": "Nati",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "After Yang",
+          "tmdbId": 585378,
+          "tmdbTitle": "Despidiendo a Yang",
+          "imdbId": "tt8633464",
+          "releaseDate": "2022-03-04",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7POMD21p0ISkSPY3GRv9qkefStF.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "After Yang"
+        },
+        {
+          "position": 4,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 3,
+          "movieName": "Moonage Daydream",
+          "tmdbId": 957457,
+          "tmdbTitle": "Moonage Daydream",
+          "imdbId": "tt9883832",
+          "releaseDate": "2022-09-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ikVMezPrLFLYbrspvBPFEwSzffj.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Moonage Daydream"
+        },
+        {
+          "position": 2,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 1,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "Hernán Rodríguez",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 4,
+          "movieName": "Saudade fez morada aquí dentro",
+          "tmdbId": 1016767,
+          "tmdbTitle": "Cuando la luz se apaga",
+          "imdbId": "tt23036540",
+          "releaseDate": "2023-10-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jd7iqrEljioFEL7oY1vZ6USS2Lw.jpg",
+          "originalLanguage": "pt",
+          "originalTitle": "Saudade fez Morada aqui Dentro"
+        },
+        {
+          "position": 3,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 2,
+          "movieName": "Trenque Lauquen",
+          "tmdbId": 715742,
+          "tmdbTitle": "Trenque Lauquen",
+          "imdbId": "tt21378968",
+          "releaseDate": "2023-05-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iET3xOZdDAicLiqHY0K4I8arJ0R.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Trenque Lauquen"
+        },
+        {
+          "position": 1,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Pacifiction",
+          "tmdbId": 691214,
+          "tmdbTitle": "Pacifiction",
+          "imdbId": "tt13702796",
+          "releaseDate": "2022-09-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/poG2Tbv2FNIgaIPCm318eVf3BLn.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Pacifiction"
+        },
+        {
+          "position": 4,
+          "movieName": "Dangerous games: the legacy",
+          "tmdbId": 1027385,
+          "tmdbTitle": "Juego Peligroso: Asesinatos Heredados",
+          "imdbId": "tt16375952",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/atrJQvcnotmqKHPIFBREHewUnQ0.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dangerous Game: The Legacy Murders"
+        },
+        {
+          "position": 3,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        },
+        {
+          "position": 2,
+          "movieName": "The Grey man",
+          "tmdbId": 725201,
+          "tmdbTitle": "El agente invisible",
+          "imdbId": "tt1649418",
+          "releaseDate": "2022-07-13",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6RU2Nj5zbVuPdCLGWiMZes0ZISO.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Gray Man"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "Santi",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 4,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 3,
+          "movieName": "Decision to Leave",
+          "tmdbId": 705996,
+          "tmdbTitle": "Decision to Leave",
+          "imdbId": "tt12477480",
+          "releaseDate": "2022-06-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9Tk2tkXL2zmbAuYr8staL0SZWO.jpg",
+          "originalLanguage": "ko",
+          "originalTitle": "헤어질 결심"
+        },
+        {
+          "position": 2,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 1,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        },
+        {
+          "position": 4,
+          "movieName": "Bodies, Bodies, Bodies",
+          "tmdbId": 520023,
+          "tmdbTitle": "Muerte, muerte, muerte",
+          "imdbId": "tt8110652",
+          "releaseDate": "2022-08-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lypI7oQ8Ko4LiE4oGWclYNIIi16.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Bodies Bodies Bodies"
+        },
+        {
+          "position": 3,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 2,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "@Lavtaro",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 4,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 3,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 2,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 1,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 3,
+          "movieName": "Dune",
+          "tmdbId": 438631,
+          "tmdbTitle": "Dune",
+          "imdbId": "tt1160419",
+          "releaseDate": "2021-09-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/szcew6yyjcDvaL0isaPBk2e3nkF.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Dune"
+        },
+        {
+          "position": 2,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 1,
+          "movieName": "Ecos de un crimen",
+          "tmdbId": 842052,
+          "tmdbTitle": "Ecos de un crimen",
+          "imdbId": "tt15017554",
+          "releaseDate": "2022-01-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1ilviUUwqRzWDgOYqjZTmlUFbxR.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Ecos de un crimen"
+        }
+      ]
+    },
+    {
+      "name": "El Anton",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 4,
+          "movieName": "Prey",
+          "tmdbId": 766507,
+          "tmdbTitle": "Predator: La presa",
+          "imdbId": "tt11866324",
+          "releaseDate": "2022-08-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sNAMqQ9T7YnXnvUSufeWzaRgK6Y.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Prey"
+        },
+        {
+          "position": 3,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 2,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 1,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "The bubble",
+          "tmdbId": 765119,
+          "tmdbTitle": "La burbuja",
+          "imdbId": "tt13610562",
+          "releaseDate": "2022-03-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/erMqgXfOUqM1GFf7Io5Pe57W5kU.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Bubble"
+        },
+        {
+          "position": 4,
+          "movieName": "Uncharted",
+          "tmdbId": 335787,
+          "tmdbTitle": "Uncharted",
+          "imdbId": "tt1464335",
+          "releaseDate": "2022-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Uncharted"
+        },
+        {
+          "position": 3,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 2,
+          "movieName": "Black Adam",
+          "tmdbId": 436270,
+          "tmdbTitle": "Black Adam",
+          "imdbId": "tt6443346",
+          "releaseDate": "2022-10-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Adam"
+        },
+        {
+          "position": 1,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        }
+      ]
+    },
+    {
+      "name": "MayerMatias",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "New York Ninja",
+          "tmdbId": 870219,
+          "tmdbTitle": "New York Ninja",
+          "imdbId": "tt15358226",
+          "releaseDate": "2021-10-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1oXECgPkTPx98EZWcaCpHH3Rdhv.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "New York Ninja"
+        },
+        {
+          "position": 4,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 3,
+          "movieName": "RRR",
+          "tmdbId": 579974,
+          "tmdbTitle": "RRR",
+          "imdbId": "tt8178634",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ljHw5eIMnki3HekwkKwCCHsRSbH.jpg",
+          "originalLanguage": "te",
+          "originalTitle": "రౌద్రం రణం రుధిరం"
+        },
+        {
+          "position": 2,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "30 noches con mi ex",
+          "tmdbId": 882040,
+          "tmdbTitle": "30 noches con mi ex",
+          "imdbId": "tt15977950",
+          "releaseDate": "2022-08-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nXbhchOec3MKtAcKPO82Qu8r5AW.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "30 noches con mi ex"
+        },
+        {
+          "position": 4,
+          "movieName": "The Menu",
+          "tmdbId": 593643,
+          "tmdbTitle": "El menú",
+          "imdbId": "tt9764362",
+          "releaseDate": "2022-11-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/eNcfCScUUyHQyjP84P25a8ColWp.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Menu"
+        },
+        {
+          "position": 3,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        },
+        {
+          "position": 2,
+          "movieName": "Black Adam",
+          "tmdbId": 436270,
+          "tmdbTitle": "Black Adam",
+          "imdbId": "tt6443346",
+          "releaseDate": "2022-10-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moDLTCdLx38kMhN53KOTw0LdWMh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Adam"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "@pepo_fco",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 4,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        },
+        {
+          "position": 3,
+          "movieName": "Pequeña Flor",
+          "tmdbId": 660327,
+          "tmdbTitle": "Pequeña flor",
+          "imdbId": "tt10940736",
+          "releaseDate": "2022-06-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/hTu6AGatoigX8OKOmg9YRxcs1Pw.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Petite fleur"
+        },
+        {
+          "position": 2,
+          "movieName": "Nightmare Alley",
+          "tmdbId": 597208,
+          "tmdbTitle": "El callejón de las almas perdidas",
+          "imdbId": "tt7740496",
+          "releaseDate": "2021-12-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tR6fZLYlrbauhTgprfWXIhi6ldc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nightmare Alley"
+        },
+        {
+          "position": 1,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Avatar: The Way of Water",
+          "tmdbId": 76600,
+          "tmdbTitle": "Avatar: El sentido del agua",
+          "imdbId": "tt1630029",
+          "releaseDate": "2022-12-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ckeTumMS4G31UQ9NNkmtW2QhfMF.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Avatar: The Way of Water"
+        },
+        {
+          "position": 4,
+          "movieName": "Más respeto que soy tu madre",
+          "tmdbId": 848763,
+          "tmdbTitle": "Más respeto que soy tu madre",
+          "imdbId": "tt22077666",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tFL9IuEwA35xmG3kSKFEWxWJDaz.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Más respeto que soy tu madre"
+        },
+        {
+          "position": 3,
+          "movieName": "Black Panther: Wakanda Forever",
+          "tmdbId": 505642,
+          "tmdbTitle": "Black Panther: Wakanda Forever",
+          "imdbId": "tt9114286",
+          "releaseDate": "2022-11-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mYpT2R7639KvKZ668uoQGS2QNFp.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Black Panther: Wakanda Forever"
+        },
+        {
+          "position": 2,
+          "movieName": "Amsterdam",
+          "tmdbId": 664469,
+          "tmdbTitle": "Ámsterdam",
+          "imdbId": "tt10304142",
+          "releaseDate": "2022-09-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vWQAUQny1hlvubLhWC3P8OxH2g1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Amsterdam"
+        },
+        {
+          "position": 1,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        }
+      ]
+    },
+    {
+      "name": "@ferheinz",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 4,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 1,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 3,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 2,
+          "movieName": "Mad Heidi",
+          "tmdbId": 566805,
+          "tmdbTitle": "Mad Heidi",
+          "imdbId": "tt2943178",
+          "releaseDate": "2022-11-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jhCUIKjo4K7m6FlbjDa7v17KaiE.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Mad Heidi"
+        },
+        {
+          "position": 1,
+          "movieName": "Jurassic world: Dominion",
+          "tmdbId": 507086,
+          "tmdbTitle": "Jurassic World: Dominion",
+          "imdbId": "tt8041270",
+          "releaseDate": "2022-06-01",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sXeWfpT1EhG7f4uBouqraOhmouH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Jurassic World Dominion"
+        }
+      ]
+    },
+    {
+      "name": "El_Diegot3",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Prey",
+          "tmdbId": 766507,
+          "tmdbTitle": "Predator: La presa",
+          "imdbId": "tt11866324",
+          "releaseDate": "2022-08-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sNAMqQ9T7YnXnvUSufeWzaRgK6Y.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Prey"
+        },
+        {
+          "position": 4,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "The Batman",
+          "tmdbId": 414906,
+          "tmdbTitle": "The Batman",
+          "imdbId": "tt1877830",
+          "releaseDate": "2022-03-01",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Batman"
+        },
+        {
+          "position": 1,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 4,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 3,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 2,
+          "movieName": "Cha Cha Real Smooth",
+          "tmdbId": 814340,
+          "tmdbTitle": "Bailando por la vida",
+          "imdbId": "tt14376344",
+          "releaseDate": "2022-06-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7n3se3N7IcB0B7bxvMJPJz32IAg.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Cha Cha Real Smooth"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "@estrasnoy",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 4,
+          "movieName": "Guillermo del Toro's Pinocchio",
+          "tmdbId": 555604,
+          "tmdbTitle": "Pinocho de Guillermo del Toro",
+          "imdbId": "tt1488589",
+          "releaseDate": "2022-11-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lGQR8HybJkO20DFTlrX3egEmvpR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Guillermo del Toro's Pinocchio"
+        },
+        {
+          "position": 3,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 2,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        },
+        {
+          "position": 1,
+          "movieName": "Huesera",
+          "tmdbId": 772515,
+          "tmdbTitle": "Huesera",
+          "imdbId": "tt11718516",
+          "releaseDate": "2023-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uqQOjLjJRDH7AzdomnEtX2SvnCA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Huesera"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Don't Worry, Darling",
+          "tmdbId": 619730,
+          "tmdbTitle": "No te preocupes querida",
+          "imdbId": "tt10731256",
+          "releaseDate": "2022-09-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ZulBDrSBeQN8cagY73lIzr2uh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Don't Worry Darling"
+        },
+        {
+          "position": 4,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 3,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 2,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 1,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        }
+      ]
+    },
+    {
+      "name": "Juan Navarro",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 4,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 3,
+          "movieName": "El Método Tangalanga",
+          "tmdbId": 1040531,
+          "tmdbTitle": "El método Tangalanga",
+          "imdbId": "tt23036332",
+          "releaseDate": "2023-01-19",
+          "posterUrl": "https://image.tmdb.org/t/p/original/puKRI1o5DCF4qgoSo5f5J45WVKj.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "El método Tangalanga"
+        },
+        {
+          "position": 2,
+          "movieName": "The Banshees of Inisherin",
+          "tmdbId": 674324,
+          "tmdbTitle": "Almas en pena de Inisherin",
+          "imdbId": "tt11813216",
+          "releaseDate": "2022-10-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/24zHdUTv3dHOB9VLsPPvx0WGntA.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Banshees of Inisherin"
+        },
+        {
+          "position": 1,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Death on the Nile",
+          "tmdbId": 505026,
+          "tmdbTitle": "Muerte en el Nilo",
+          "imdbId": "tt7657566",
+          "releaseDate": "2022-02-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4Fbl3qZSraPXdgmQQzQIDJA736N.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Death on the Nile"
+        },
+        {
+          "position": 4,
+          "movieName": "Fantastic Beasts: The Secrets of Dumbledore",
+          "tmdbId": 338953,
+          "tmdbTitle": "Animales fantásticos: Los secretos de Dumbledore",
+          "imdbId": "tt4123432",
+          "releaseDate": "2022-04-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yOeuJdwag4bAlnvgrdweRoiuXGC.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Fantastic Beasts: The Secrets of Dumbledore"
+        },
+        {
+          "position": 3,
+          "movieName": "Roald Dahl's Matilda the Musical",
+          "tmdbId": 668482,
+          "tmdbTitle": "Matilda de Roald Dahl: El musical",
+          "imdbId": "tt3447590",
+          "releaseDate": "2022-11-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/7iUkSvlCnYdyl9tSKexwHK9Mo8p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Roald Dahl's Matilda the Musical"
+        },
+        {
+          "position": 2,
+          "movieName": "Uncharted",
+          "tmdbId": 335787,
+          "tmdbTitle": "Uncharted",
+          "imdbId": "tt1464335",
+          "releaseDate": "2022-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Uncharted"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "Ivana",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 4,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 3,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 2,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 1,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 1,
+          "movieName": "Marry Me",
+          "tmdbId": 615904,
+          "tmdbTitle": "Cásate conmigo",
+          "imdbId": "tt10223460",
+          "releaseDate": "2022-02-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/f0p7beh1Zil35jahcUgSGL1v430.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Marry Me"
+        }
+      ]
+    },
+    {
+      "name": "Leandro",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Madres Paralelas",
+          "tmdbId": 766798,
+          "tmdbTitle": "Madres paralelas",
+          "imdbId": "tt12618926",
+          "releaseDate": "2021-10-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/cxp4W9QtHOOdi2VfgUmB9AtljvA.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Madres paralelas"
+        },
+        {
+          "position": 4,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 3,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 2,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 1,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 4,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        },
+        {
+          "position": 3,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        },
+        {
+          "position": 2,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "Gabby",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 4,
+          "movieName": "RRR",
+          "tmdbId": 579974,
+          "tmdbTitle": "RRR",
+          "imdbId": "tt8178634",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ljHw5eIMnki3HekwkKwCCHsRSbH.jpg",
+          "originalLanguage": "te",
+          "originalTitle": "రౌద్రం రణం రుధిరం"
+        },
+        {
+          "position": 3,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 2,
+          "movieName": "Guillermo del Toro's Pinocchio",
+          "tmdbId": 555604,
+          "tmdbTitle": "Pinocho de Guillermo del Toro",
+          "imdbId": "tt1488589",
+          "releaseDate": "2022-11-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lGQR8HybJkO20DFTlrX3egEmvpR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Guillermo del Toro's Pinocchio"
+        },
+        {
+          "position": 1,
+          "movieName": "Athena",
+          "tmdbId": 852046,
+          "tmdbTitle": "Atenea",
+          "imdbId": "tt15445056",
+          "releaseDate": "2022-09-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uponqptyKtBsJuODqmxoronFd8P.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "Athena"
+        }
+      ],
+      "worstPicks": []
+    },
+    {
+      "name": "marpezzuchi",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 4,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 1,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Ecos de un crimen",
+          "tmdbId": 842052,
+          "tmdbTitle": "Ecos de un crimen",
+          "imdbId": "tt15017554",
+          "releaseDate": "2022-01-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/1ilviUUwqRzWDgOYqjZTmlUFbxR.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Ecos de un crimen"
+        },
+        {
+          "position": 4,
+          "movieName": "Bodies, Bodies, Bodies",
+          "tmdbId": 520023,
+          "tmdbTitle": "Muerte, muerte, muerte",
+          "imdbId": "tt8110652",
+          "releaseDate": "2022-08-05",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lypI7oQ8Ko4LiE4oGWclYNIIi16.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Bodies Bodies Bodies"
+        },
+        {
+          "position": 3,
+          "movieName": "Death on the Nile",
+          "tmdbId": 505026,
+          "tmdbTitle": "Muerte en el Nilo",
+          "imdbId": "tt7657566",
+          "releaseDate": "2022-02-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4Fbl3qZSraPXdgmQQzQIDJA736N.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Death on the Nile"
+        },
+        {
+          "position": 2,
+          "movieName": "Elvis",
+          "tmdbId": 614934,
+          "tmdbTitle": "Elvis",
+          "imdbId": "tt3704428",
+          "releaseDate": "2022-06-22",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z4miRBGEqhkIkUr0ausHLfUytgq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Elvis"
+        },
+        {
+          "position": 1,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        }
+      ]
+    },
+    {
+      "name": "Pblo79",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 4,
+          "movieName": "Crimes of the future",
+          "tmdbId": 819876,
+          "tmdbTitle": "Crímenes del futuro",
+          "imdbId": "tt14549466",
+          "releaseDate": "2022-05-25",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6UA0pEWBy9KpbVghhHoWRex7Wk2.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Crimes of the Future"
+        },
+        {
+          "position": 3,
+          "movieName": "Prey",
+          "tmdbId": 766507,
+          "tmdbTitle": "Predator: La presa",
+          "imdbId": "tt11866324",
+          "releaseDate": "2022-08-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/sNAMqQ9T7YnXnvUSufeWzaRgK6Y.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Prey"
+        },
+        {
+          "position": 2,
+          "movieName": "Guillermo del Toro's Pinocchio",
+          "tmdbId": 555604,
+          "tmdbTitle": "Pinocho de Guillermo del Toro",
+          "imdbId": "tt1488589",
+          "releaseDate": "2022-11-09",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lGQR8HybJkO20DFTlrX3egEmvpR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Guillermo del Toro's Pinocchio"
+        },
+        {
+          "position": 1,
+          "movieName": "You Won't Be Alone",
+          "tmdbId": 883083,
+          "tmdbTitle": "No estarás sola",
+          "imdbId": "tt8296030",
+          "releaseDate": "2022-04-01",
+          "posterUrl": "https://image.tmdb.org/t/p/original/moBrEYoOxLRc1LsFl8IXeilYwtq.jpg",
+          "originalLanguage": "mk",
+          "originalTitle": "You Won't Be Alone"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Deep Water",
+          "tmdbId": 619979,
+          "tmdbTitle": "Aguas profundas",
+          "imdbId": "tt2180339",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2Z2GA7Ph8z5YsDNUJ6h1HJsP4a4.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Deep Water"
+        },
+        {
+          "position": 4,
+          "movieName": "Ambulance",
+          "tmdbId": 763285,
+          "tmdbTitle": "Ambulance. Plan de huida",
+          "imdbId": "tt4998632",
+          "releaseDate": "2022-03-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/y7Lnz3ayJyW9IWmbA0M19vpBbu4.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Ambulance"
+        },
+        {
+          "position": 3,
+          "movieName": "The Gray Man",
+          "tmdbId": 725201,
+          "tmdbTitle": "El agente invisible",
+          "imdbId": "tt1649418",
+          "releaseDate": "2022-07-13",
+          "posterUrl": "https://image.tmdb.org/t/p/original/6RU2Nj5zbVuPdCLGWiMZes0ZISO.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Gray Man"
+        },
+        {
+          "position": 2,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 1,
+          "movieName": "Uncharted",
+          "tmdbId": 335787,
+          "tmdbTitle": "Uncharted",
+          "imdbId": "tt1464335",
+          "releaseDate": "2022-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Uncharted"
+        }
+      ]
+    },
+    {
+      "name": "albaletti",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 4,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 3,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 2,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        },
+        {
+          "position": 1,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        },
+        {
+          "position": 4,
+          "movieName": "Glass Onion",
+          "tmdbId": 661374,
+          "tmdbTitle": "Puñales por la espalda: El misterio de Glass Onion",
+          "imdbId": "tt11564570",
+          "releaseDate": "2022-11-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yXGsWQURm614onIpb3iBcp1iLz8.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Glass Onion: A Knives Out Mystery"
+        },
+        {
+          "position": 3,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 2,
+          "movieName": "Don't Worry, Darling",
+          "tmdbId": 619730,
+          "tmdbTitle": "No te preocupes querida",
+          "imdbId": "tt10731256",
+          "releaseDate": "2022-09-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ZulBDrSBeQN8cagY73lIzr2uh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Don't Worry Darling"
+        },
+        {
+          "position": 1,
+          "movieName": "Men",
+          "tmdbId": 780609,
+          "tmdbTitle": "Men",
+          "imdbId": "tt13841850",
+          "releaseDate": "2022-05-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8bcHelHF3TZcBQtfvXsKOmfjhPc.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Men"
+        }
+      ]
+    },
+    {
+      "name": "Ivan Zamora",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 4,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "The Unbearable Weight of Massive Talent",
+          "tmdbId": 648579,
+          "tmdbTitle": "El insoportable peso de un talento descomunal",
+          "imdbId": "tt11291274",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nLXJRnVQlajzNYd8xDHC553Yi8H.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Unbearable Weight of Massive Talent"
+        },
+        {
+          "position": 1,
+          "movieName": "The Batman",
+          "tmdbId": 414906,
+          "tmdbTitle": "The Batman",
+          "imdbId": "tt1877830",
+          "releaseDate": "2022-03-01",
+          "posterUrl": "https://image.tmdb.org/t/p/original/mo7teil1qH0SxgLijnqeYP1Eb4w.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Batman"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Metal Lords",
+          "tmdbId": 739993,
+          "tmdbTitle": "Metal Lords",
+          "imdbId": "tt12141112",
+          "releaseDate": "2022-04-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/r97txZRmBb75SGsIAWqmplWJnO3.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Metal Lords"
+        },
+        {
+          "position": 4,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        },
+        {
+          "position": 3,
+          "movieName": "Avatar 2",
+          "tmdbId": 76600,
+          "tmdbTitle": "Avatar: El sentido del agua",
+          "imdbId": "tt1630029",
+          "releaseDate": "2022-12-14",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ckeTumMS4G31UQ9NNkmtW2QhfMF.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Avatar: The Way of Water"
+        },
+        {
+          "position": 2,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        },
+        {
+          "position": 1,
+          "movieName": "Incantation",
+          "tmdbId": 864370,
+          "tmdbTitle": "Maleficio",
+          "imdbId": "tt18968540",
+          "releaseDate": "2022-03-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/bEN0YnUefVD7AR4I0leT4Ep9tSm.jpg",
+          "originalLanguage": "zh",
+          "originalTitle": "咒"
+        }
+      ]
+    },
+    {
+      "name": "@basophium",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Speak No Evil",
+          "tmdbId": 833339,
+          "tmdbTitle": "Speak No Evil",
+          "imdbId": "tt14253846",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/vCBC2DX5jQjPpVe9oqeCa19l1Fo.jpg",
+          "originalLanguage": "da",
+          "originalTitle": "Speak No Evil"
+        },
+        {
+          "position": 4,
+          "movieName": "X",
+          "tmdbId": 760104,
+          "tmdbTitle": "X",
+          "imdbId": "tt13560574",
+          "releaseDate": "2022-03-17",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4pCSBPHUPia93rppHF3UX4cLQ9M.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "X"
+        },
+        {
+          "position": 3,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        },
+        {
+          "position": 2,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 1,
+          "movieName": "Pearl",
+          "tmdbId": 949423,
+          "tmdbTitle": "Pearl",
+          "imdbId": "tt18925334",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z5uIG81pXyHKg7cUFIu84Wjn4NS.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Pearl"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 3,
+          "movieName": "Thor: Love and Thunder",
+          "tmdbId": 616037,
+          "tmdbTitle": "Thor: Love and Thunder",
+          "imdbId": "tt10648342",
+          "releaseDate": "2022-07-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ajF6E39Hg2pXUofmUYgZHvdX.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Thor: Love and Thunder"
+        },
+        {
+          "position": 2,
+          "movieName": "Granizo",
+          "tmdbId": 682344,
+          "tmdbTitle": "Granizo",
+          "imdbId": "tt16427718",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/pnTp17HCwQ6EhsWfqzgwnUfhSym.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Granizo"
+        },
+        {
+          "position": 1,
+          "movieName": "Olaf",
+          "tmdbId": 1002164,
+          "tmdbTitle": "Olaf",
+          "imdbId": "tt21386232",
+          "releaseDate": "2022-07-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9pgNsIsIhTSRwRjPm485Fl4JY4V.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Olaf"
+        }
+      ]
+    },
+    {
+      "name": "YamiGB",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "The Northman",
+          "tmdbId": 639933,
+          "tmdbTitle": "El hombre del norte",
+          "imdbId": "tt11138512",
+          "releaseDate": "2022-04-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rdx0bIkwxW3EHvWn5kxZBFUT1Am.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Northman"
+        },
+        {
+          "position": 4,
+          "movieName": "Barbarian",
+          "tmdbId": 913290,
+          "tmdbTitle": "Barbarian",
+          "imdbId": "tt15791034",
+          "releaseDate": "2022-09-08",
+          "posterUrl": "https://image.tmdb.org/t/p/original/rHDL6LTRgc9h3oGkeoWVJpnkhTI.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Barbarian"
+        },
+        {
+          "position": 3,
+          "movieName": "Marcel The Shell With Shoes On",
+          "tmdbId": 869626,
+          "tmdbTitle": "Marcel, la concha con zapatos",
+          "imdbId": "tt15339456",
+          "releaseDate": "2022-06-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/x9VPPEYxv19AEdEoWccVAF1HKot.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Marcel the Shell with Shoes On"
+        },
+        {
+          "position": 2,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 1,
+          "movieName": "Everything Everywhere All at Once",
+          "tmdbId": 545611,
+          "tmdbTitle": "Todo a la vez en todas partes",
+          "imdbId": "tt6710474",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/9R1zEZJkIah6GuLwFZWsuygn552.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Everything Everywhere All at Once"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Don't Worry, Darling",
+          "tmdbId": 619730,
+          "tmdbTitle": "No te preocupes querida",
+          "imdbId": "tt10731256",
+          "releaseDate": "2022-09-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/z9ZulBDrSBeQN8cagY73lIzr2uh.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Don't Worry Darling"
+        },
+        {
+          "position": 4,
+          "movieName": "Glass Onion",
+          "tmdbId": 661374,
+          "tmdbTitle": "Puñales por la espalda: El misterio de Glass Onion",
+          "imdbId": "tt11564570",
+          "releaseDate": "2022-11-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yXGsWQURm614onIpb3iBcp1iLz8.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Glass Onion: A Knives Out Mystery"
+        },
+        {
+          "position": 3,
+          "movieName": "Matrimillas",
+          "tmdbId": 948037,
+          "tmdbTitle": "Matrimillas",
+          "imdbId": "tt18688184",
+          "releaseDate": "2022-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uJEVd5M5Klf7EYTF30lEC5ETh3B.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Matrimillas"
+        },
+        {
+          "position": 2,
+          "movieName": "Choose Or Die",
+          "tmdbId": 838484,
+          "tmdbTitle": "Elige o muere",
+          "imdbId": "tt11514780",
+          "releaseDate": "2022-04-15",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ydUhcaO8MFrlakuAdNBxmjVBEcq.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Choose or Die"
+        },
+        {
+          "position": 1,
+          "movieName": "Morbius",
+          "tmdbId": 526896,
+          "tmdbTitle": "Morbius",
+          "imdbId": "tt5108870",
+          "releaseDate": "2022-03-30",
+          "posterUrl": "https://image.tmdb.org/t/p/original/4jcJHqIVsb4MFdYrDajXeEVlDvH.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Morbius"
+        }
+      ]
+    },
+    {
+      "name": "Marce",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "La Conferencia (Die Wannseekonferenz)",
+          "tmdbId": 910365,
+          "tmdbTitle": "La conferencia",
+          "imdbId": "tt14321668",
+          "releaseDate": "2022-05-06",
+          "posterUrl": "https://image.tmdb.org/t/p/original/HPY2WagRVbuU9ApYxqpJft0pAB.jpg",
+          "originalLanguage": "de",
+          "originalTitle": "Die Wannseekonferenz"
+        },
+        {
+          "position": 4,
+          "movieName": "Licorice Pizza",
+          "tmdbId": 718032,
+          "tmdbTitle": "Licorice Pizza",
+          "imdbId": "tt11271038",
+          "releaseDate": "2021-11-26",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5ASO5vN6tImSLqw2BhLBxnrwVPd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Licorice Pizza"
+        },
+        {
+          "position": 3,
+          "movieName": "Nope",
+          "tmdbId": 762504,
+          "tmdbTitle": "¡Nop!",
+          "imdbId": "tt10954984",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/tfZPQAHZ3xKSdilLywRzHj8xH7p.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Nope"
+        },
+        {
+          "position": 2,
+          "movieName": "The Fabelmans",
+          "tmdbId": 804095,
+          "tmdbTitle": "Los Fabelman",
+          "imdbId": "tt14208870",
+          "releaseDate": "2022-11-11",
+          "posterUrl": "https://image.tmdb.org/t/p/original/wcgPDyvKkgo2agNXcdE1eXLGzmf.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "The Fabelmans"
+        },
+        {
+          "position": 1,
+          "movieName": "Aftersun",
+          "tmdbId": 965150,
+          "tmdbTitle": "Aftersun",
+          "imdbId": "tt19770238",
+          "releaseDate": "2022-10-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/zJd2NwGzciSMppCHividNSROIZR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Aftersun"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 4,
+          "movieName": "Matrimillas",
+          "tmdbId": 948037,
+          "tmdbTitle": "Matrimillas",
+          "imdbId": "tt18688184",
+          "releaseDate": "2022-12-07",
+          "posterUrl": "https://image.tmdb.org/t/p/original/uJEVd5M5Klf7EYTF30lEC5ETh3B.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Matrimillas"
+        },
+        {
+          "position": 3,
+          "movieName": "Julia no te cases",
+          "tmdbId": 960093,
+          "tmdbTitle": "Julia no te cases",
+          "imdbId": "tt19729072",
+          "releaseDate": "2022-04-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/jbXCn0yDiuZO4CUlWHGXZX9cOlN.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Julia no te cases"
+        },
+        {
+          "position": 2,
+          "movieName": "Blonde",
+          "tmdbId": 301502,
+          "tmdbTitle": "Blonde",
+          "imdbId": "tt1655389",
+          "releaseDate": "2022-09-16",
+          "posterUrl": "https://image.tmdb.org/t/p/original/2XDc3X71GrF2VQnEglnY1qqkrHR.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Blonde"
+        },
+        {
+          "position": 1,
+          "movieName": "L'etat et moi",
+          "tmdbId": 927993,
+          "tmdbTitle": "L'état et moi",
+          "imdbId": "tt17544202",
+          "releaseDate": "2022-09-01",
+          "posterUrl": "https://image.tmdb.org/t/p/original/iL8UN7jYAHv5RDRYHaz4qjthIzD.jpg",
+          "originalLanguage": "de",
+          "originalTitle": "L'état et moi"
+        }
+      ]
+    },
+    {
+      "name": "Ale",
+      "topPicks": [
+        {
+          "position": 5,
+          "movieName": "Argentina, 1985",
+          "tmdbId": 714888,
+          "tmdbTitle": "Argentina 1985",
+          "imdbId": "tt15301048",
+          "releaseDate": "2022-09-29",
+          "posterUrl": "https://image.tmdb.org/t/p/original/isLWtcB9TK3wLlTzEny2dPH6beh.jpg",
+          "originalLanguage": "es",
+          "originalTitle": "Argentina 1985"
+        },
+        {
+          "position": 4,
+          "movieName": "Top Gun: Maverick",
+          "tmdbId": 361743,
+          "tmdbTitle": "Top Gun: Maverick",
+          "imdbId": "tt1745960",
+          "releaseDate": "2022-05-21",
+          "posterUrl": "https://image.tmdb.org/t/p/original/AlWpEpQq0RgZIXVHAHZtFhEvRgd.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Top Gun: Maverick"
+        },
+        {
+          "position": 3,
+          "movieName": "RRR",
+          "tmdbId": 579974,
+          "tmdbTitle": "RRR",
+          "imdbId": "tt8178634",
+          "releaseDate": "2022-03-24",
+          "posterUrl": "https://image.tmdb.org/t/p/original/ljHw5eIMnki3HekwkKwCCHsRSbH.jpg",
+          "originalLanguage": "te",
+          "originalTitle": "రౌద్రం రణం రుధిరం"
+        },
+        {
+          "position": 2,
+          "movieName": "As Bestas",
+          "tmdbId": 848685,
+          "tmdbTitle": "As bestas",
+          "imdbId": "tt15006566",
+          "releaseDate": "2022-07-20",
+          "posterUrl": "https://image.tmdb.org/t/p/original/d5Vv89re9tBtukMUnktyseam0g7.jpg",
+          "originalLanguage": "fr",
+          "originalTitle": "As bestas"
+        },
+        {
+          "position": 1,
+          "movieName": "Something in the Dirt",
+          "tmdbId": 843621,
+          "tmdbTitle": "Something in the Dirt",
+          "imdbId": "tt14895716",
+          "releaseDate": "2022-11-03",
+          "posterUrl": "https://image.tmdb.org/t/p/original/l0kUj5y1t6LDN9ssfYe7c1NVym1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Something in the Dirt"
+        }
+      ],
+      "worstPicks": [
+        {
+          "position": 5,
+          "movieName": "Glass Onion",
+          "tmdbId": 661374,
+          "tmdbTitle": "Puñales por la espalda: El misterio de Glass Onion",
+          "imdbId": "tt11564570",
+          "releaseDate": "2022-11-23",
+          "posterUrl": "https://image.tmdb.org/t/p/original/yXGsWQURm614onIpb3iBcp1iLz8.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Glass Onion: A Knives Out Mystery"
+        },
+        {
+          "position": 4,
+          "movieName": "Carter",
+          "tmdbId": 1045275,
+          "tmdbTitle": "Carter",
+          "imdbId": "tt21237030",
+          "releaseDate": "2022-12-27",
+          "posterUrl": "https://image.tmdb.org/t/p/original/5fHE4pgAOpebZKj9Wsk4aasLxkM.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Carter"
+        },
+        {
+          "position": 3,
+          "movieName": "Uncharted",
+          "tmdbId": 335787,
+          "tmdbTitle": "Uncharted",
+          "imdbId": "tt1464335",
+          "releaseDate": "2022-02-10",
+          "posterUrl": "https://image.tmdb.org/t/p/original/8FiWi61YRbkN95xmH668iq5sCo1.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Uncharted"
+        },
+        {
+          "position": 2,
+          "movieName": "Texas Chainsaw Massacre",
+          "tmdbId": 632727,
+          "tmdbTitle": "La matanza de Texas",
+          "imdbId": "tt11755740",
+          "releaseDate": "2022-02-18",
+          "posterUrl": "https://image.tmdb.org/t/p/original/lvwrg14ovXnAHgsmmlINnC3Oj13.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Texas Chainsaw Massacre"
+        },
+        {
+          "position": 1,
+          "movieName": "Moonfall",
+          "tmdbId": 406759,
+          "tmdbTitle": "Moonfall",
+          "imdbId": "tt5834426",
+          "releaseDate": "2022-02-02",
+          "posterUrl": "https://image.tmdb.org/t/p/original/nRUN5ywlehfB8opryZkXwfYSGAl.jpg",
+          "originalLanguage": "en",
+          "originalTitle": "Moonfall"
+        }
+      ]
+    }
+  ],
+  "unmatchedMovies": [
+    {
+      "movieName": "Bararian",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "Dangerous games: the legacy",
+      "participants": [
+        "Hernán Rodríguez"
+      ],
+      "tmdbResults": []
+    }
+  ],
+  "ambiguousMatches": [
+    {
+      "movieName": "Barbarian",
+      "participants": [
+        "Lucas Scheefer",
+        "GaryBusy",
+        "Martin Goniondzki",
+        "@Diego_el_fugado",
+        "Clauhernan73",
+        "@Lavtaro",
+        "marpezzuchi",
+        "Ivan Zamora",
+        "YamiGB"
+      ],
+      "tmdbResults": [
+        {
+          "id": 913290,
+          "title": "Barbarian",
+          "release_date": "2022-09-08"
+        }
+      ]
+    },
+    {
+      "movieName": "X",
+      "participants": [
+        "Lucas Scheefer",
+        "GaryBusy",
+        "Edgardo",
+        "@Lavtaro",
+        "Gabby",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 760104,
+          "title": "X",
+          "release_date": "2022-03-17"
+        }
+      ]
+    },
+    {
+      "movieName": "Top Gun: Maverick",
+      "participants": [
+        "Lucas Scheefer",
+        "Lucho",
+        "GaryBusy",
+        "Martin Goniondzki",
+        "Lucio B",
+        "Tishey",
+        "@hitoshidiaz",
+        "May",
+        "Clauhernan73",
+        "@mauroelninja",
+        "Santi",
+        "El Anton",
+        "MayerMatias",
+        "@ferheinz",
+        "Juan Navarro",
+        "Ivana",
+        "Leandro",
+        "marpezzuchi",
+        "albaletti",
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 361743,
+          "title": "Top Gun: Maverick",
+          "release_date": "2022-05-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Everything Everywhere All at Once",
+      "participants": [
+        "Lucho",
+        "GaryBusy",
+        "@hitoshidiaz",
+        "MayerMatias",
+        "@pepo_fco",
+        "@ferheinz",
+        "El_Diegot3",
+        "albaletti",
+        "YamiGB"
+      ],
+      "tmdbResults": [
+        {
+          "id": 545611,
+          "title": "Todo a la vez en todas partes",
+          "release_date": "2022-03-24"
+        }
+      ]
+    },
+    {
+      "movieName": "Elvis",
+      "participants": [
+        "Lucho",
+        "@IaiIu",
+        "@Lavtaro",
+        "@pepo_fco",
+        "El_Diegot3",
+        "@estrasnoy",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 614934,
+          "title": "Elvis",
+          "release_date": "2022-06-22"
+        }
+      ]
+    },
+    {
+      "movieName": "Black Adam",
+      "participants": [
+        "Lucho",
+        "GaryBusy",
+        "@hitoshidiaz",
+        "El Anton",
+        "MayerMatias"
+      ],
+      "tmdbResults": [
+        {
+          "id": 436270,
+          "title": "Black Adam",
+          "release_date": "2022-10-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Memory",
+      "participants": [
+        "GaryBusy"
+      ],
+      "tmdbResults": [
+        {
+          "id": 818397,
+          "title": "La memoria de un asesino",
+          "release_date": "2022-04-28"
+        }
+      ]
+    },
+    {
+      "movieName": "Uncharted",
+      "participants": [
+        "GaryBusy",
+        "El Anton",
+        "Juan Navarro",
+        "Pblo79",
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 335787,
+          "title": "Uncharted",
+          "release_date": "2022-02-10"
+        }
+      ]
+    },
+    {
+      "movieName": "The Twin",
+      "participants": [
+        "Martin Goniondzki"
+      ],
+      "tmdbResults": [
+        {
+          "id": 477462,
+          "title": "Gemelo siniestro",
+          "release_date": "2022-04-06"
+        }
+      ]
+    },
+    {
+      "movieName": "Men",
+      "participants": [
+        "Lucio B",
+        "@noelyas",
+        "Edgardo",
+        "@IaiIu",
+        "Santi",
+        "@estrasnoy",
+        "Leandro",
+        "albaletti"
+      ],
+      "tmdbResults": [
+        {
+          "id": 780609,
+          "title": "Men",
+          "release_date": "2022-05-20"
+        }
+      ]
+    },
+    {
+      "movieName": "Blonde",
+      "participants": [
+        "Lucio B",
+        "@hitoshidiaz",
+        "May",
+        "Hernán Rodríguez",
+        "Santi",
+        "marpezzuchi",
+        "Marce"
+      ],
+      "tmdbResults": [
+        {
+          "id": 301502,
+          "title": "Blonde",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Thor: Love and Thunder",
+      "participants": [
+        "Lucio B",
+        "May",
+        "Santi",
+        "@ferheinz",
+        "Leandro",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 616037,
+          "title": "Thor: Love and Thunder",
+          "release_date": "2022-07-06"
+        }
+      ]
+    },
+    {
+      "movieName": "Pleasure",
+      "participants": [
+        "Tishey"
+      ],
+      "tmdbResults": [
+        {
+          "id": 592695,
+          "title": "Pleasure",
+          "release_date": "2021-10-08"
+        }
+      ]
+    },
+    {
+      "movieName": "Olaf",
+      "participants": [
+        "alangmonzon",
+        "@hitoshidiaz",
+        "@noelyas",
+        "Clauhernan73",
+        "Nati",
+        "Hernán Rodríguez",
+        "Santi",
+        "MayerMatias",
+        "El_Diegot3",
+        "Juan Navarro",
+        "Leandro",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1002164,
+          "title": "Olaf",
+          "release_date": "2022-07-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Prey",
+      "participants": [
+        "@Diego_el_fugado",
+        "Clauhernan73",
+        "El Anton",
+        "El_Diegot3",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 766507,
+          "title": "Predator: La presa",
+          "release_date": "2022-08-02"
+        }
+      ]
+    },
+    {
+      "movieName": "The Black Phone",
+      "participants": [
+        "@Diego_el_fugado"
+      ],
+      "tmdbResults": [
+        {
+          "id": 756999,
+          "title": "Black Phone",
+          "release_date": "2022-06-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Amsterdam",
+      "participants": [
+        "@Diego_el_fugado",
+        "@pepo_fco"
+      ],
+      "tmdbResults": [
+        {
+          "id": 664469,
+          "title": "Ámsterdam",
+          "release_date": "2022-09-27"
+        }
+      ]
+    },
+    {
+      "movieName": "Smile",
+      "participants": [
+        "@Diego_el_fugado"
+      ],
+      "tmdbResults": [
+        {
+          "id": 882598,
+          "title": "Smile",
+          "release_date": "2022-09-23"
+        }
+      ]
+    },
+    {
+      "movieName": "Vengeance",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 683340,
+          "title": "Venganza",
+          "release_date": "2022-07-29"
+        }
+      ]
+    },
+    {
+      "movieName": "Lightyear",
+      "participants": [
+        "@hitoshidiaz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 718789,
+          "title": "Lightyear",
+          "release_date": "2022-06-15"
+        }
+      ]
+    },
+    {
+      "movieName": "Aftersun",
+      "participants": [
+        "May",
+        "Edgardo",
+        "@IaiIu",
+        "Santee",
+        "Nati",
+        "Hernán Rodríguez",
+        "@estrasnoy",
+        "Ivana",
+        "@basophium",
+        "Marce"
+      ],
+      "tmdbResults": [
+        {
+          "id": 965150,
+          "title": "Aftersun",
+          "release_date": "2022-10-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Bodies, Bodies, Bodies",
+      "participants": [
+        "May",
+        "Clauhernan73",
+        "Santi",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 520023,
+          "title": "Muerte, muerte, muerte",
+          "release_date": "2022-08-05"
+        }
+      ]
+    },
+    {
+      "movieName": "Athena",
+      "participants": [
+        "@noelyas",
+        "@mauroelninja",
+        "Gabby"
+      ],
+      "tmdbResults": [
+        {
+          "id": 852046,
+          "title": "Atenea",
+          "release_date": "2022-09-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Death on the Nile",
+      "participants": [
+        "@noelyas",
+        "@mauroelninja",
+        "Juan Navarro",
+        "marpezzuchi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 505026,
+          "title": "Muerte en el Nilo",
+          "release_date": "2022-02-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Pearl",
+      "participants": [
+        "Clauhernan73",
+        "FedeC",
+        "@Lavtaro",
+        "marpezzuchi",
+        "albaletti",
+        "@basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 949423,
+          "title": "Pearl",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Texas chainsaw massacre",
+      "participants": [
+        "Clauhernan73"
+      ],
+      "tmdbResults": [
+        {
+          "id": 632727,
+          "title": "La matanza de Texas",
+          "release_date": "2022-02-18"
+        }
+      ]
+    },
+    {
+      "movieName": "Deep Water",
+      "participants": [
+        "@mauroelninja",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 619979,
+          "title": "Aguas profundas",
+          "release_date": "2022-03-17"
+        }
+      ]
+    },
+    {
+      "movieName": "Glorious",
+      "participants": [
+        "Santee"
+      ],
+      "tmdbResults": [
+        {
+          "id": 939914,
+          "title": "Glorious",
+          "release_date": "2022-07-21"
+        }
+      ]
+    },
+    {
+      "movieName": "Dangerous",
+      "participants": [
+        "Santee"
+      ],
+      "tmdbResults": [
+        {
+          "id": 763788,
+          "title": "Instinto peligroso",
+          "release_date": "2021-11-05"
+        }
+      ]
+    },
+    {
+      "movieName": "Dune",
+      "participants": [
+        "@Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 438631,
+          "title": "Dune",
+          "release_date": "2021-09-15"
+        }
+      ]
+    },
+    {
+      "movieName": "The bubble",
+      "participants": [
+        "El Anton"
+      ],
+      "tmdbResults": [
+        {
+          "id": 765119,
+          "title": "La burbuja",
+          "release_date": "2022-03-25"
+        }
+      ]
+    },
+    {
+      "movieName": "The Batman",
+      "participants": [
+        "El_Diegot3",
+        "Ivan Zamora"
+      ],
+      "tmdbResults": [
+        {
+          "id": 414906,
+          "title": "The Batman",
+          "release_date": "2022-03-01"
+        }
+      ]
+    },
+    {
+      "movieName": "Guillermo del Toro's Pinocchio",
+      "participants": [
+        "@estrasnoy",
+        "Gabby",
+        "Pblo79"
+      ],
+      "tmdbResults": [
+        {
+          "id": 555604,
+          "title": "Pinocho de Guillermo del Toro",
+          "release_date": "2022-11-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Marry Me",
+      "participants": [
+        "Ivana"
+      ],
+      "tmdbResults": [
+        {
+          "id": 615904,
+          "title": "Cásate conmigo",
+          "release_date": "2022-02-09"
+        }
+      ]
+    },
+    {
+      "movieName": "Avatar 2",
+      "participants": [
+        "Ivan Zamora"
+      ],
+      "tmdbResults": [
+        {
+          "id": 76600,
+          "title": "Avatar: El sentido del agua",
+          "release_date": "2022-12-14"
+        }
+      ]
+    },
+    {
+      "movieName": "Carter",
+      "participants": [
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1045275,
+          "title": "Carter",
+          "release_date": "2022-12-27"
+        }
+      ]
+    },
+    {
+      "movieName": "Texas Chainsaw Massacre",
+      "participants": [
+        "Ale"
+      ],
+      "tmdbResults": [
+        {
+          "id": 632727,
+          "title": "La matanza de Texas",
+          "release_date": "2022-02-18"
+        }
+      ]
+    }
+  ]
+}

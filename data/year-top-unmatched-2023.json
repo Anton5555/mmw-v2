@@ -1,0 +1,303 @@
+{
+  "unmatched": [
+    {
+      "movieName": "The Fabelmans",
+      "participants": [
+        "Matías"
+      ],
+      "tmdbResults": [
+        {
+          "id": 804095,
+          "title": "The Fabelmans",
+          "release_date": "2022-11-11"
+        }
+      ]
+    },
+    {
+      "movieName": "MANDÓ UNA SERIE",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": []
+    },
+    {
+      "movieName": "Mantícora",
+      "participants": [
+        "Basophium",
+        "Santee",
+        "El Diegot",
+        "Fedeambrosetti"
+      ],
+      "tmdbResults": [
+        {
+          "id": 760158,
+          "title": "Mantícora",
+          "release_date": "2023-10-06"
+        }
+      ]
+    },
+    {
+      "movieName": "Veré siempre sus rostros",
+      "participants": [
+        "Diego"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1000492,
+          "title": "Veré siempre sus rostros",
+          "release_date": "2023-03-15"
+        }
+      ]
+    },
+    {
+      "movieName": "Spider-Man: Across the Spider-Verse",
+      "participants": [
+        "Albano"
+      ],
+      "tmdbResults": [
+        {
+          "id": 569094,
+          "title": "Spider-Man: Across the Spider-Verse",
+          "release_date": "2023-05-31"
+        }
+      ]
+    }
+  ],
+  "ambiguous": [
+    {
+      "movieName": "Oppenheimer",
+      "participants": [
+        "Pepo",
+        "Lucho",
+        "Evil"
+      ],
+      "tmdbResults": [
+        {
+          "id": 872585,
+          "title": "Oppenheimer",
+          "release_date": "2023-07-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Trenque Lauquen",
+      "participants": [
+        "Pepo",
+        "May",
+        "Fernandojs",
+        "Hernan",
+        "Fedeambrosetti"
+      ],
+      "tmdbResults": [
+        {
+          "id": 715742,
+          "title": "Trenque Lauquen",
+          "release_date": "2023-05-02"
+        }    
+      ]
+    },
+    {
+      "movieName": "Cerrar los ojos",
+      "participants": [
+        "Ale",
+        "Santi",
+        "Fernandojs",
+        "Yani",
+        "Basophium"
+      ],
+      "tmdbResults": [
+        {
+          "id": 997294,
+          "title": "Cerrar los ojos",
+          "release_date": "2023-08-16"
+        }
+      ]
+    },
+    {
+      "movieName": "The Beast",
+      "participants": [
+        "May"
+      ],
+      "tmdbResults": [
+        {
+          "id": 914206,
+          "title": "The Beast",
+          "release_date": "2023-10-11"
+        }
+      ]
+    },
+    {
+      "movieName": "Reality",
+      "participants": [
+        "Tishey"
+      ],
+      "tmdbResults": [
+        {
+          "id": 985617,
+          "title": "Reality",
+          "release_date": "2023-06-02"
+        }
+      ]
+    },
+    {
+      "movieName": "Pearl *",
+      "participants": [
+        "Matías"
+      ],
+      "tmdbResults": [
+        {
+          "id": 949423,
+          "title": "Pearl",
+          "release_date": "2022-09-16"
+        }
+      ]
+    },
+    {
+      "movieName": "Barbie",
+      "participants": [
+        "Vicky",
+        "Mar",
+        "Agus",
+        "CHINO SILVA"
+      ],
+      "tmdbResults": [
+        {
+          "id": 346698,
+          "title": "Barbie",
+          "release_date": "2023-07-19"
+        }
+      ]
+    },
+    {
+      "movieName": "Air",
+      "participants": [
+        "Hitoshi"
+      ],
+      "tmdbResults": [
+        {
+          "id": 964980,
+          "title": "Air",
+          "release_date": "2023-04-05"
+        }
+      ]
+    },
+    {
+      "movieName": "El Juicio",
+      "participants": [
+        "Marce",
+        "Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1063595,
+          "title": "El juicio",
+          "release_date": "2023-02-19"
+        }
+      ]
+    },
+    {
+      "movieName": "The Killer",
+      "participants": [
+        "Ferheinz"
+      ],
+      "tmdbResults": [
+        {
+          "id": 800158,
+          "title": "El asesino",
+          "release_date": "2023-10-25"
+        }
+      ]
+    },
+    {
+      "movieName": "Silent night",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": [
+        {
+          "id": 891699,
+          "title": "Noche de paz",
+          "release_date": "2023-11-30"
+        }
+      ]
+    },
+    {
+      "movieName": "Talk to me",
+      "participants": [
+        "Clau"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1008042,
+          "title": "Háblame",
+          "release_date": "2023-07-26"
+        }
+      ]
+    },
+    {
+      "movieName": "Cocaine bear",
+      "participants": [
+        "Yani"
+      ],
+      "tmdbResults": [
+        {
+          "id": 804150,
+          "title": "Oso vicioso",
+          "release_date": "2023-02-22"
+        }
+      ]
+    },
+    {
+      "movieName": "El Santo",
+      "participants": [
+        "Lavtaro"
+      ],
+      "tmdbResults": [
+        {
+          "id": 1087420,
+          "title": "El Santo",
+          "release_date": "2023-04-20"
+        }
+      ]
+    },
+    {
+      "movieName": "Spiderman across the spiderverse",
+      "participants": [
+        "Lucho"
+      ],
+      "tmdbResults": [
+        {
+          "id": 569094,
+          "title": "Spider-Man: Cruzando el Multiverso",
+          "release_date": "2023-05-31"
+        }
+      ]
+    },
+    {
+      "movieName": "Beau is Afraid",
+      "participants": [
+        "El Diegot"
+      ],
+      "tmdbResults": [
+        {
+          "id": 798286,
+          "title": "Beau tiene miedo",
+          "release_date": "2023-04-14"
+        }
+      ]
+    },
+    {
+      "movieName": "Scream VI",
+      "participants": [
+        "Evil"
+      ],
+      "tmdbResults": [
+        {
+          "id": 934433,
+          "title": "Scream VI",
+          "release_date": "2023-03-08"
+          }
+      ]
+    }
+  ]
+}
