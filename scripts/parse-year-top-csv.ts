@@ -523,6 +523,9 @@ async function findMovieInTMDB(
       id: r.id,
       title: r.title,
       release_date: r.release_date,
+      original_language: r.original_language,
+      original_title: r.original_title,
+      poster_path: r.poster_path,
     })),
   };
 }
