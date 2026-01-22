@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Calendar, ClipboardList, Film, Info, NotebookTabs, Trophy } from 'lucide-react';
+import { OscarIcon } from '@/components/icons/oscar-icon';
 
 import {
   Sidebar,
@@ -45,6 +46,11 @@ const navItems = [
     title: 'Top del Año',
     url: '/year-tops',
     icon: Trophy,
+  },
+  {
+    title: 'Oscalos',
+    url: '/oscars',
+    icon: OscarIcon,
   },
   // {
   //   title: 'Padlet',

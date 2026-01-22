@@ -1,0 +1,264 @@
+{
+  "oscars_year": 2026,
+  "categories": [
+
+    {
+      "category": "Best Picture",
+      "nominees": [
+        { "nominee": "Bugonia", "imdb_id": "tt12300742" },
+        { "nominee": "F1", "imdb_id": "tt16311594" },
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "Hamnet", "imdb_id": "tt14905854" },
+        { "nominee": "Marty Supreme", "imdb_id": "tt32916440" },
+        { "nominee": "One Battle After Another", "imdb_id": "tt30144839" },
+        { "nominee": "The Secret Agent", "imdb_id": "tt27847051" },
+        { "nominee": "Sentimental Value", "imdb_id": "tt27714581" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" },
+        { "nominee": "Train Dreams", "imdb_id": "tt29768334" }
+      ]
+    },
+
+    {
+      "category": "Best Director",
+      "nominees": [
+        { "nominee": "Chloé Zhao", "imdb_person_id": "nm2125482", "imdb_title_id": "tt14905854" },
+        { "nominee": "Josh Safdie", "imdb_person_id": "nm1343394", "imdb_title_id": "tt32916440" },
+        { "nominee": "Paul Thomas Anderson", "imdb_person_id": "nm0000759", "imdb_title_id": "tt30144839" },
+        { "nominee": "Joachim Trier", "imdb_person_id": "nm1258686", "imdb_title_id": "tt27714581" },
+        { "nominee": "Ryan Coogler", "imdb_person_id": "nm3363032", "imdb_title_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Best Actor",
+      "nominees": [
+        { "nominee": "Timothée Chalamet", "imdb_person_id": "nm3154303", "imdb_title_id": "tt32916440" },
+        { "nominee": "Leonardo DiCaprio", "imdb_person_id": "nm0000138", "imdb_title_id": "tt30144839" },
+        { "nominee": "Ethan Hawke", "imdb_person_id": "nm0000160", "imdb_title_id": "tt32536315" },
+        { "nominee": "Michael B. Jordan", "imdb_person_id": "nm0430107", "imdb_title_id": "tt31193180" },
+        { "nominee": "Wagner Moura", "imdb_person_id": "nm0609944", "imdb_title_id": "tt27847051" }
+      ]
+    },
+
+    {
+      "category": "Best Actress",
+      "nominees": [
+        { "nominee": "Jessie Buckley", "imdb_person_id": "nm2976580", "imdb_title_id": "tt14905854" },
+        { "nominee": "Rose Byrne", "imdb_person_id": "nm0126284", "imdb_title_id": "tt18382850" },
+        { "nominee": "Kate Hudson", "imdb_person_id": "nm0005028", "imdb_title_id": "tt30343021" },
+        { "nominee": "Renate Reinsve", "imdb_person_id": "nm4561559", "imdb_title_id": "tt27714581" },
+        { "nominee": "Emma Stone", "imdb_person_id": "nm1297015", "imdb_title_id": "tt12300742" }
+      ]
+    },
+
+    {
+      "category": "Best Supporting Actor",
+      "nominees": [
+        { "nominee": "Benicio del Toro", "imdb_person_id": "nm0001125", "imdb_title_id": "tt30144839" },
+        { "nominee": "Jacob Elordi", "imdb_person_id": "nm8624059", "imdb_title_id": "tt1312221" },
+        { "nominee": "Delroy Lindo", "imdb_person_id": "nm0005148", "imdb_title_id": "tt31193180" },
+        { "nominee": "Sean Penn", "imdb_person_id": "nm0000576", "imdb_title_id": "tt30144839" },
+        { "nominee": "Stellan Skarsgård", "imdb_person_id": "nm0001745", "imdb_title_id": "tt27714581" }
+      ]
+    },
+
+    {
+      "category": "Best Supporting Actress",
+      "nominees": [
+        { "nominee": "Elle Fanning", "imdb_person_id": "nm1102577", "imdb_title_id": "tt27714581" },
+        { "nominee": "Inga Ibsdotter Lilleaas", "imdb_person_id": "nm6635521", "imdb_title_id": "tt27714581" },
+        { "nominee": "Amy Madigan", "imdb_person_id": "nm0001496", "imdb_title_id": "tt26581740" },
+        { "nominee": "Wunmi Mosaku", "imdb_person_id": "nm2148911", "imdb_title_id": "tt31193180" },
+        { "nominee": "Teyana Taylor", "imdb_person_id": "nm3692520", "imdb_title_id": "tt30144839" }
+      ]
+    },
+
+    {
+      "category": "Animated Feature Film",
+      "nominees": [
+        { "nominee": "Elio", "imdb_id": "tt4900148" },
+        { "nominee": "Arco", "imdb_id": "tt14883538" },
+        { "nominee": "KPop Demon Hunters", "imdb_id": "tt14205554" },
+        { "nominee": "Little Amélie or the Character of Rain", "imdb_id": "tt29313285" },
+        { "nominee": "Zootopia 2", "imdb_id": "tt26443597" }
+      ]
+    },
+
+    {
+      "category": "Animated Short Film",
+      "nominees": [
+        { "nominee": "Butterfly", "imdb_id": "tt30970587" },
+        { "nominee": "Forevergreen", "imdb_id": "tt36454323" },
+        { "nominee": "The Girl Who Cried Pearls", "imdb_id": "tt36956820" },
+        { "nominee": "Retirement Plan", "imdb_id": "tt33019507" },
+        { "nominee": "The Three Sisters", "imdb_id": "tt35676079" }
+      ]
+    },
+
+    {
+      "category": "Documentary Feature Film",
+      "nominees": [
+        { "nominee": "The Alabama Solution", "imdb_id": "tt35307139" },
+        { "nominee": "Come See Me in the Good Light", "imdb_id": "tt34966013" },
+        { "nominee": "Cutting through Rocks", "imdb_id": "tt10196414" },
+        { "nominee": "Mr. Nobody against Putin", "imdb_id": "tt34965515" },
+        { "nominee": "The Perfect Neighbor", "imdb_id": "tt34962891" }
+      ]
+    },
+
+    {
+      "category": "Documentary Short Film",
+      "nominees": [
+        { "nominee": "All the Empty Rooms", "imdb_id": "tt37798645" },
+        { "nominee": "Armed Only with a Camera: The Life and Death of Brent Renaud", "imdb_id": "tt35515733" },
+        { "nominee": "Children No More: \"Were and Are Gone\"", "imdb_id": "tt38691874" },
+        { "nominee": "The Devil Is Busy", "imdb_id": "tt34205548" },
+        { "nominee": "Perfectly a Strangeness", "imdb_id": "tt32205767" }
+      ]
+    },
+
+    {
+      "category": "International Feature Film",
+      "nominees": [
+        { "nominee": "The Secret Agent", "imdb_id": "tt27847051" },
+        { "nominee": "It Was Just an Accident", "imdb_id": "tt36491653" },
+        { "nominee": "Sentimental Value", "imdb_id": "tt27714581" },
+        { "nominee": "Sirāt", "imdb_id": "tt32298285" },
+        { "nominee": "The Voice of Hind Rajab", "imdb_id": "tt36943034" }
+      ]
+    },
+
+    {
+      "category": "Live Action Short Film",
+      "nominees": [
+        { "nominee": "Butcher’s Stain", "imdb_id": "tt39232815" },
+        { "nominee": "A Friend of Dorothy", "imdb_id": "tt35489516" },
+        { "nominee": "Jane Austen’s Period Drama", "imdb_id": "tt31171760" },
+        { "nominee": "The Singers", "imdb_id": "tt33508491" },
+        { "nominee": "Two People Exchanging Saliva", "imdb_id": "tt33365259" }
+      ]
+    },
+
+    {
+      "category": "Casting",
+      "nominees": [
+        { "nominee": "Nina Gold", "film": "Hamnet", "film_imdb_id": "tt14905854" },
+        { "nominee": "Jennifer Venditti", "film": "Marty Supreme", "film_imdb_id": "tt32916440" },
+        { "nominee": "Cassandra Kulukundis", "film": "One Battle After Another", "film_imdb_id": "tt30144839" },
+        { "nominee": "Gabriel Domingues", "film": "The Secret Agent", "film_imdb_id": "tt27847051" },
+        { "nominee": "Francine Maisler", "film": "Sinners", "film_imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Cinematography",
+      "nominees": [
+        { "nominee": "Dan Laustsen", "film": "Frankenstein", "film_imdb_id": "tt1312221" },
+        { "nominee": "Darius Khondji", "film": "Marty Supreme", "film_imdb_id": "tt32916440" },
+        { "nominee": "Michael Bauman", "film": "One Battle After Another", "film_imdb_id": "tt30144839" },
+        { "nominee": "Autumn Durald Arkapaw", "film": "Sinners", "film_imdb_id": "tt31193180" },
+        { "nominee": "Adolpho Veloso", "film": "Train Dreams", "film_imdb_id": "tt29768334" }
+      ]
+    },
+
+    {
+      "category": "Costume Design",
+      "nominees": [
+        { "nominee": "Deborah L. Scott", "film": "Avatar: Fire and Ash", "film_imdb_id": "tt1757678" },
+        { "nominee": "Kate Hawley", "film": "Frankenstein", "film_imdb_id": "tt1312221" },
+        { "nominee": "Malgosia Turzanska", "film": "Hamnet", "film_imdb_id": "tt14905854" },
+        { "nominee": "Miyako Bellizzi", "film": "Marty Supreme", "film_imdb_id": "tt32916440" },
+        { "nominee": "Ruth E. Carter", "film": "Sinners", "film_imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Film Editing",
+      "nominees": [
+        { "nominee": "Stephen Mirrione", "film": "F1", "film_imdb_id": "tt16311594" },
+        { "nominee": "Ronald Bronstein and Josh Safdie", "film": "Marty Supreme", "film_imdb_id": "tt32916440" },
+        { "nominee": "Andy Jurgensen", "film": "One Battle After Another", "film_imdb_id": "tt30144839" },
+        { "nominee": "Olivier Bugge Coutté", "film": "Sentimental Value", "film_imdb_id": "tt27714581" },
+        { "nominee": "Michael P. Shawver", "film": "Sinners", "film_imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Makeup and Hairstyling",
+      "nominees": [
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "Kokuho", "imdb_id": "tt35231039" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" },
+        { "nominee": "The Smashing Machine", "imdb_id": "tt11214558" },
+        { "nominee": "The Ugly Stepsister", "imdb_id": "tt29344903" }
+      ]
+    },
+
+    {
+      "category": "Music (Original Score)",
+      "nominees": [
+        { "nominee": "Bugonia", "imdb_id": "tt12300742" },
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "Hamnet", "imdb_id": "tt14905854" },
+        { "nominee": "One Battle After Another", "imdb_id": "tt30144839" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Production Design",
+      "nominees": [
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "Hamnet", "imdb_id": "tt14905854" },
+        { "nominee": "Marty Supreme", "imdb_id": "tt32916440" },
+        { "nominee": "One Battle After Another", "imdb_id": "tt30144839" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Sound",
+      "nominees": [
+        { "nominee": "F1", "imdb_id": "tt16311594" },
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "One Battle After Another", "imdb_id": "tt30144839" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" },
+        { "nominee": "Sirāt", "imdb_id": "tt32298285" }
+      ]
+    },
+
+    {
+      "category": "Visual Effects",
+      "nominees": [
+        { "nominee": "Avatar: Fire and Ash", "imdb_id": "tt1757678" },
+        { "nominee": "F1", "imdb_id": "tt16311594" },
+        { "nominee": "Jurassic World Rebirth", "imdb_id": "tt31036941" },
+        { "nominee": "The Lost Bus", "imdb_id": "tt21103218" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" }
+      ]
+    },
+
+    {
+      "category": "Writing (Adapted Screenplay)",
+      "nominees": [
+        { "nominee": "Bugonia", "imdb_id": "tt12300742" },
+        { "nominee": "Frankenstein", "imdb_id": "tt1312221" },
+        { "nominee": "Hamnet", "imdb_id": "tt14905854" },
+        { "nominee": "One Battle After Another", "imdb_id": "tt30144839" },
+        { "nominee": "Train Dreams", "imdb_id": "tt29768334" }
+      ]
+    },
+
+    {
+      "category": "Writing (Original Screenplay)",
+      "nominees": [
+        { "nominee": "Blue Moon", "imdb_id": "tt32536315" },
+        { "nominee": "It Was Just an Accident", "imdb_id": "tt36491653" },
+        { "nominee": "Marty Supreme", "imdb_id": "tt32916440" },
+        { "nominee": "Sentimental Value", "imdb_id": "tt27714581" },
+        { "nominee": "Sinners", "imdb_id": "tt31193180" }
+      ]
+    }
+
+  ]
+}
