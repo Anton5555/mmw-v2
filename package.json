@@ -16,7 +16,14 @@
     "db:migrate:status": "prisma migrate status",
     "db:push": "prisma db push",
     "seed:oscars": "tsx scripts/seed-oscars.ts",
-    "seed:oscars-2": "tsx scripts/seed-oscars-2.ts"
+    "seed:oscars-2": "tsx scripts/seed-oscars-2.ts",
+    "mam:generate-sql": "tsx scripts/generate-mam-sql.ts",
+    "mam:generate-reviews-sql": "tsx scripts/generate-mam-reviews-sql.ts",
+    "mam:generate-special-mentions-sql": "tsx scripts/generate-mam-special-mentions-sql.ts",
+    "mam:import-reviews-sql": "tsx scripts/import-mam-reviews-sql.ts",
+    "mam:import-special-mentions-sql": "tsx scripts/import-mam-special-mentions-sql.ts",
+    "mam:check-special-mentions": "tsx scripts/check-special-mentions-import.ts",
+    "mam:refresh-scores": "tsx scripts/refresh-mam-scores.ts"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.7",
