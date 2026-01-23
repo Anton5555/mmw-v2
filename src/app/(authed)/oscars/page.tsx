@@ -66,7 +66,7 @@ export default async function OscarsPage() {
             LOS OSCALOS
           </h1>
           <p className="text-zinc-400 mt-4 text-lg">
-            Hace tus apuestas para la {edition.year}ª edición de los Premios de la Academia.
+            Hace tus apuestas para la edición {edition.year} de los Premios de la Academia.
           </p>
         </header>
 

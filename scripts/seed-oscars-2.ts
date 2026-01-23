@@ -1,12 +1,13 @@
 /**
- * Oscar 2026 Data Import Script
+ * Oscar 2026 Additional Categories Import Script
  *
- * Imports Oscar categories and nominees from oscars_2026.json into the database.
+ * Imports missing Oscar categories from oscars_2026_2.json into the database.
+ * This script is for importing categories that were missing from the initial import.
  * Fetches movie data from TMDB for films and links them to the Movie table.
  *
  * Usage:
- *   npx tsx scripts/seed-oscars.ts
- *   npx tsx scripts/seed-oscars.ts --dry-run
+ *   npx tsx scripts/seed-oscars-2.ts
+ *   npx tsx scripts/seed-oscars-2.ts --dry-run
  */
 
 import { PrismaClient } from '../generated/prisma/client';
@@ -156,11 +157,11 @@ async function getOrCreateMovie(imdbId: string): Promise<number | null> {
   return movie.id;
 }
 
-async function seedOscars() {
-  console.log('Starting Oscar 2026 seed...\n');
+async function seedOscars2() {
+  console.log('Starting Oscar 2026 additional categories seed...\n');
 
-  // Read JSON file
-  const jsonPath = path.join(process.cwd(), 'data', 'oscars_2026.json');
+  // Read JSON file for missing categories
+  const jsonPath = path.join(process.cwd(), 'data', 'oscars_2026_2.json');
   const jsonData = fs.readFileSync(jsonPath, 'utf-8');
   const oscarsData: OscarsData = JSON.parse(jsonData);
 
@@ -169,31 +170,28 @@ async function seedOscars() {
   }
 
   try {
-    // Create or get edition
-    let edition = await prisma.oscarEdition.findUnique({
+    // Get existing edition (should already exist from first import)
+    const edition = await prisma.oscarEdition.findUnique({
       where: { year: oscarsData.oscars_year },
     });
 
     if (!edition) {
-      if (isDryRun) {
-        console.log(`Would create edition for year ${oscarsData.oscars_year}`);
-      } else {
-        edition = await prisma.oscarEdition.create({
-          data: {
-            year: oscarsData.oscars_year,
-            isActive: true,
-            resultsReleased: false,
-          },
-        });
-        console.log(`Created edition for year ${oscarsData.oscars_year}`);
-      }
-    } else {
-      console.log(`Edition for year ${oscarsData.oscars_year} already exists`);
+      throw new Error(
+        `Edition for year ${oscarsData.oscars_year} does not exist. Please run seed-oscars.ts first.`
+      );
     }
 
-    if (!edition) {
-      throw new Error('Edition not created');
-    }
+    console.log(`Found edition for year ${oscarsData.oscars_year}`);
+
+    // Get the highest order number from existing categories to continue numbering
+    const existingCategories = await prisma.oscarCategory.findMany({
+      where: { editionId: edition.id },
+      orderBy: { order: 'desc' },
+      take: 1,
+      select: { order: true },
+    });
+
+    const startOrder = existingCategories[0]?.order ?? 0;
 
     // Process categories
     for (let i = 0; i < oscarsData.categories.length; i++) {
@@ -222,19 +220,13 @@ async function seedOscars() {
               editionId: edition.id,
               name: categoryData.category,
               slug,
-              order: i + 1,
+              order: startOrder + i + 1,
             },
           });
           console.log(`  Created category: ${categoryData.category}`);
         }
       } else {
-        console.log(`  Category already exists, updating order...`);
-        if (!isDryRun) {
-          await prisma.oscarCategory.update({
-            where: { id: category.id },
-            data: { order: i + 1 },
-          });
-        }
+        console.log(`  Category already exists: ${categoryData.category}`);
       }
 
       if (!category) {
@@ -310,9 +302,9 @@ async function seedOscars() {
       }
     }
 
-    console.log('\n✅ Oscar seed completed successfully!');
+    console.log('\n✅ Additional Oscar categories seed completed successfully!');
   } catch (error) {
-    console.error('\n❌ Error seeding Oscars:', error);
+    console.error('\n❌ Error seeding additional Oscar categories:', error);
     throw error;
   } finally {
     await prisma.$disconnect();
@@ -321,7 +313,7 @@ async function seedOscars() {
 }
 
 // Run the seed
-seedOscars().catch((error) => {
+seedOscars2().catch((error) => {
   console.error('Fatal error:', error);
   process.exit(1);
 });
