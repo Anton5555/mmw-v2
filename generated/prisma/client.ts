@@ -139,3 +139,23 @@ export type OscarBallot = Prisma.OscarBallotModel
  * 
  */
 export type OscarPick = Prisma.OscarPickModel
+/**
+ * Model Genre
+ * 
+ */
+export type Genre = Prisma.GenreModel
+/**
+ * Model MovieGenre
+ * 
+ */
+export type MovieGenre = Prisma.MovieGenreModel
+/**
+ * Model Director
+ * 
+ */
+export type Director = Prisma.DirectorModel
+/**
+ * Model MovieDirector
+ * 
+ */
+export type MovieDirector = Prisma.MovieDirectorModel

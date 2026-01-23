@@ -60,7 +60,7 @@ export async function getMamMovies(query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, participants, page, limit } = validatedQuery;
+  const { title, imdb, participants, genre, director, page, limit } = validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -71,6 +71,26 @@ export async function getMamMovies(query: MamMovieQuery) {
     ? participants
         .split(',')
         .map((slug) => slug.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse genre filter
+  const genreNames = Array.isArray(genre)
+    ? genre.filter(Boolean)
+    : genre
+    ? genre
+        .split(',')
+        .map((g) => g.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse director filter
+  const directorNames = Array.isArray(director)
+    ? director.filter(Boolean)
+    : director
+    ? director
+        .split(',')
+        .map((d) => d.trim())
         .filter(Boolean)
     : [];
 
@@ -96,6 +116,28 @@ export async function getMamMovies(query: MamMovieQuery) {
     }),
     ...(imdb && {
       imdbId: { contains: imdb, mode: 'insensitive' },
+    }),
+    ...(genreNames.length > 0 && {
+      genres: {
+        some: {
+          genre: {
+            name: {
+              in: genreNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(directorNames.length > 0 && {
+      directors: {
+        some: {
+          director: {
+            name: {
+              in: directorNames,
+            },
+          },
+        },
+      },
     }),
   };
 
@@ -231,7 +273,7 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, page, limit } = validatedQuery;
+  const { title, imdb, genre, director, page, limit } = validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -255,6 +297,26 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
     };
   }
 
+  // Parse genre filter
+  const genreNames = Array.isArray(genre)
+    ? genre.filter(Boolean)
+    : genre
+    ? genre
+        .split(',')
+        .map((g) => g.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse director filter
+  const directorNames = Array.isArray(director)
+    ? director.filter(Boolean)
+    : director
+    ? director
+        .split(',')
+        .map((d) => d.trim())
+        .filter(Boolean)
+    : [];
+
   // Build the where clause for movies that have picks from this participant
   // Exclude special mentions from user's personal list
   const whereClause: Prisma.MovieWhereInput = {
@@ -272,6 +334,28 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
     }),
     ...(imdb && {
       imdbId: { contains: imdb, mode: 'insensitive' },
+    }),
+    ...(genreNames.length > 0 && {
+      genres: {
+        some: {
+          genre: {
+            name: {
+              in: genreNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(directorNames.length > 0 && {
+      directors: {
+        some: {
+          director: {
+            name: {
+              in: directorNames,
+            },
+          },
+        },
+      },
     }),
   };
 
@@ -379,7 +463,7 @@ export async function getSpecialMentions(query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, participants, page, limit } = validatedQuery;
+  const { title, imdb, participants, genre, director, page, limit } = validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -390,6 +474,26 @@ export async function getSpecialMentions(query: MamMovieQuery) {
     ? participants
         .split(',')
         .map((slug) => slug.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse genre filter
+  const genreNames = Array.isArray(genre)
+    ? genre.filter(Boolean)
+    : genre
+    ? genre
+        .split(',')
+        .map((g) => g.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse director filter
+  const directorNames = Array.isArray(director)
+    ? director.filter(Boolean)
+    : director
+    ? director
+        .split(',')
+        .map((d) => d.trim())
         .filter(Boolean)
     : [];
 
@@ -415,6 +519,28 @@ export async function getSpecialMentions(query: MamMovieQuery) {
     }),
     ...(imdb && {
       imdbId: { contains: imdb, mode: 'insensitive' },
+    }),
+    ...(genreNames.length > 0 && {
+      genres: {
+        some: {
+          genre: {
+            name: {
+              in: genreNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(directorNames.length > 0 && {
+      directors: {
+        some: {
+          director: {
+            name: {
+              in: directorNames,
+            },
+          },
+        },
+      },
     }),
   };
 

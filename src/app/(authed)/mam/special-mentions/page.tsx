@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { getMamParticipants } from '@/lib/api/mam';
+import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamSkeletonGrid } from '@/components/mam-skeleton-grid';
@@ -18,8 +19,12 @@ export default async function SpecialMentionsPage({
   // Load and validate search parameters using nuqs
   const params = await loadMamMoviesSearchParams(searchParams);
 
-  // Fetch static data (participants list)
-  const participantsList = await getMamParticipants();
+  // Fetch static data (participants list, genres, directors)
+  const [participantsList, genresList, directorsList] = await Promise.all([
+    getMamParticipants(),
+    getAllGenres(),
+    getAllDirectors(),
+  ]);
 
   // Create a stable key for Suspense based on search params
   const suspenseKey = JSON.stringify({
@@ -58,7 +63,11 @@ export default async function SpecialMentionsPage({
         </div>
 
         {/* Filters */}
-        <MamMovieFilters participants={participantsList} />
+        <MamMovieFilters
+          participants={participantsList}
+          genres={genresList}
+          directors={directorsList}
+        />
 
         {/* Movie Grid with client-side loading state and Suspense */}
         <SpecialMentionsGridWrapper initialParams={params}>

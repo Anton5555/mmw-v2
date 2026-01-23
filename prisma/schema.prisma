@@ -40,12 +40,15 @@ model Movie {
   letterboxdUrl        String
   imdbId               String                @unique
   posterUrl            String
+  tmdbId               Int?                  @unique
   MovieList            MovieList[]
   mamPicks             MamPick[]
   dailyRecommendations DailyRecommendation[]
   yearTopPicks         YearTopPick[]
   yearTopStats         YearTopMovieStats[]
   oscarNominees        OscarNominee[]
+  genres               MovieGenre[]
+  directors            MovieDirector[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -55,6 +58,7 @@ model Movie {
 
   @@index([mamTotalPoints(sort: Desc), mamTotalPicks(sort: Desc)])
   @@index([mamRank])
+  @@index([tmdbId])
 }
 
 model MovieList {
@@ -353,4 +357,46 @@ model OscarPick {
 
   @@unique([ballotId, categoryId])
   @@index([nomineeId])
+}
+
+model Genre {
+  id       Int          @id @default(autoincrement())
+  name     String       @unique
+  tmdbId   Int?
+  movies   MovieGenre[]
+
+  @@index([name])
+}
+
+model MovieGenre {
+  id       Int    @id @default(autoincrement())
+  movieId Int
+  genreId Int
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, genreId])
+  @@index([movieId])
+  @@index([genreId])
+}
+
+model Director {
+  id       Int            @id @default(autoincrement())
+  name     String         @unique
+  tmdbId   Int?
+  movies   MovieDirector[]
+
+  @@index([name])
+}
+
+model MovieDirector {
+  id          Int       @id @default(autoincrement())
+  movieId     Int
+  directorId  Int
+  movie       Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  director    Director  @relation(fields: [directorId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, directorId])
+  @@index([movieId])
+  @@index([directorId])
 }

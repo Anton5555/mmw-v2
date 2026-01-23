@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const ListScalarFieldEnumSchema = z.enum(['id','name','description','letterboxdUrl','imgUrl','createdBy','tags','createdAt']);
 
-export const MovieScalarFieldEnumSchema = z.enum(['id','title','originalTitle','originalLanguage','releaseDate','letterboxdUrl','imdbId','posterUrl','mamTotalPicks','mamTotalPoints','mamAverageScore','mamRank']);
+export const MovieScalarFieldEnumSchema = z.enum(['id','title','originalTitle','originalLanguage','releaseDate','letterboxdUrl','imdbId','posterUrl','tmdbId','mamTotalPicks','mamTotalPoints','mamAverageScore','mamRank']);
 
 export const MovieListScalarFieldEnumSchema = z.enum(['id','movieId','listId']);
 
@@ -51,6 +51,14 @@ export const OscarNomineeScalarFieldEnumSchema = z.enum(['id','categoryId','name
 export const OscarBallotScalarFieldEnumSchema = z.enum(['id','userId','editionId','submittedAt','score']);
 
 export const OscarPickScalarFieldEnumSchema = z.enum(['id','ballotId','categoryId','nomineeId']);
+
+export const GenreScalarFieldEnumSchema = z.enum(['id','name','tmdbId']);
+
+export const MovieGenreScalarFieldEnumSchema = z.enum(['id','movieId','genreId']);
+
+export const DirectorScalarFieldEnumSchema = z.enum(['id','name','tmdbId']);
+
+export const MovieDirectorScalarFieldEnumSchema = z.enum(['id','movieId','directorId']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -104,6 +112,7 @@ export const MovieSchema = z.object({
   letterboxdUrl: z.string(),
   imdbId: z.string(),
   posterUrl: z.string(),
+  tmdbId: z.number().int().nullable(),
   mamTotalPicks: z.number().int(),
   mamTotalPoints: z.number().int(),
   mamAverageScore: z.number(),
@@ -400,3 +409,51 @@ export const OscarPickSchema = z.object({
 })
 
 export type OscarPick = z.infer<typeof OscarPickSchema>
+
+/////////////////////////////////////////
+// GENRE SCHEMA
+/////////////////////////////////////////
+
+export const GenreSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  tmdbId: z.number().int().nullable(),
+})
+
+export type Genre = z.infer<typeof GenreSchema>
+
+/////////////////////////////////////////
+// MOVIE GENRE SCHEMA
+/////////////////////////////////////////
+
+export const MovieGenreSchema = z.object({
+  id: z.number().int(),
+  movieId: z.number().int(),
+  genreId: z.number().int(),
+})
+
+export type MovieGenre = z.infer<typeof MovieGenreSchema>
+
+/////////////////////////////////////////
+// DIRECTOR SCHEMA
+/////////////////////////////////////////
+
+export const DirectorSchema = z.object({
+  id: z.number().int(),
+  name: z.string(),
+  tmdbId: z.number().int().nullable(),
+})
+
+export type Director = z.infer<typeof DirectorSchema>
+
+/////////////////////////////////////////
+// MOVIE DIRECTOR SCHEMA
+/////////////////////////////////////////
+
+export const MovieDirectorSchema = z.object({
+  id: z.number().int(),
+  movieId: z.number().int(),
+  directorId: z.number().int(),
+})
+
+export type MovieDirector = z.infer<typeof MovieDirectorSchema>
