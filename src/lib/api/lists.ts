@@ -178,7 +178,10 @@ export async function createList({ data }: { data: CreateListFormValues }) {
   );
 
   // Now do all database operations in a transaction with increased timeout
-  // Increase timeout to 30 seconds to handle large batches of movies
+  // Increase timeout to 60 seconds to handle large batches of movies in production
+  // Process in batches to avoid hitting database limits
+  const BATCH_SIZE = 50; // Process movies in batches of 50
+  
   return await prisma.$transaction(
     async (tx) => {
       // Create the list first to get a valid ID
@@ -318,23 +321,28 @@ export async function createList({ data }: { data: CreateListFormValues }) {
         const genreMap = new Map(allGenresAfter.map((g) => [g.name, g]));
         const directorMap = new Map(allDirectorsAfter.map((d) => [d.name, d]));
 
-        // Create all movies
-        createdMovies = await Promise.all(
-          newMoviesData.map((movieData) =>
-            tx.movie.create({
-              data: {
-                title: movieData.title,
-                originalTitle: movieData.original_title,
-                originalLanguage: movieData.original_language,
-                releaseDate: new Date(movieData.release_date ?? new Date()),
-                letterboxdUrl: `https://letterboxd.com/tmdb/${movieData.id}`,
-                imdbId: movieData.imdbId,
-                posterUrl: movieData.poster_path || '',
-                tmdbId: movieData.id,
-              },
-            })
-          )
-        );
+        // Create all movies in batches to avoid overwhelming the database
+        createdMovies = [];
+        for (let i = 0; i < newMoviesData.length; i += BATCH_SIZE) {
+          const batch = newMoviesData.slice(i, i + BATCH_SIZE);
+          const batchResults = await Promise.all(
+            batch.map((movieData) =>
+              tx.movie.create({
+                data: {
+                  title: movieData.title,
+                  originalTitle: movieData.original_title,
+                  originalLanguage: movieData.original_language,
+                  releaseDate: new Date(movieData.release_date ?? new Date()),
+                  letterboxdUrl: `https://letterboxd.com/tmdb/${movieData.id}`,
+                  imdbId: movieData.imdbId,
+                  posterUrl: movieData.poster_path || '',
+                  tmdbId: movieData.id,
+                },
+              })
+            )
+          );
+          createdMovies.push(...batchResults);
+        }
 
         // Batch create movie-genre and movie-director relations
         const movieGenreRelations: Array<{ movieId: number; genreId: number }> =
@@ -370,40 +378,55 @@ export async function createList({ data }: { data: CreateListFormValues }) {
         });
 
         // Use createMany with skipDuplicates to avoid conflicts
+        // Process in batches to avoid hitting PostgreSQL's parameter limit (65535)
+        const RELATION_BATCH_SIZE = 1000;
+        
         if (movieGenreRelations.length > 0) {
-          await tx.movieGenre.createMany({
-            data: movieGenreRelations,
-            skipDuplicates: true,
-          });
+          for (let i = 0; i < movieGenreRelations.length; i += RELATION_BATCH_SIZE) {
+            const batch = movieGenreRelations.slice(i, i + RELATION_BATCH_SIZE);
+            await tx.movieGenre.createMany({
+              data: batch,
+              skipDuplicates: true,
+            });
+          }
         }
 
         if (movieDirectorRelations.length > 0) {
-          await tx.movieDirector.createMany({
-            data: movieDirectorRelations,
-            skipDuplicates: true,
-          });
+          for (let i = 0; i < movieDirectorRelations.length; i += RELATION_BATCH_SIZE) {
+            const batch = movieDirectorRelations.slice(i, i + RELATION_BATCH_SIZE);
+            await tx.movieDirector.createMany({
+              data: batch,
+              skipDuplicates: true,
+            });
+          }
         }
       }
 
       // Get all movies (both existing and newly created)
       const allMovies = [...existingMovies, ...createdMovies];
 
-      // Create movie-list relations
+      // Create movie-list relations in batches
       if (allMovies.length > 0) {
-        await tx.movieList.createMany({
-          data: allMovies.map((movie) => ({
-            movieId: movie.id,
-            listId: list.id,
-          })),
-          skipDuplicates: true,
-        });
+        const RELATION_BATCH_SIZE = 1000;
+        const movieListRelations = allMovies.map((movie) => ({
+          movieId: movie.id,
+          listId: list.id,
+        }));
+        
+        for (let i = 0; i < movieListRelations.length; i += RELATION_BATCH_SIZE) {
+          const batch = movieListRelations.slice(i, i + RELATION_BATCH_SIZE);
+          await tx.movieList.createMany({
+            data: batch,
+            skipDuplicates: true,
+          });
+        }
       }
 
       return list;
     },
     {
-      timeout: 30000, // 30 seconds timeout
-      maxWait: 10000, // 10 seconds max wait
+      timeout: 60000, // 60 seconds timeout for large lists
+      maxWait: 20000, // 20 seconds max wait
     }
   );
 }
