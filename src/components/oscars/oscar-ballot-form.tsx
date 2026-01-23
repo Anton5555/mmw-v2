@@ -286,7 +286,8 @@ export function OscarBallotForm({
                             <span className="text-white font-semibold">
                               {selectedNominee.name}
                             </span>
-                            {selectedNominee.filmTitle && (
+                            {selectedNominee.filmTitle && 
+                             selectedNominee.filmTitle.trim() !== selectedNominee.name.trim() && (
                               <span className="text-zinc-500 ml-2">
                                 • {selectedNominee.filmTitle}
                               </span>

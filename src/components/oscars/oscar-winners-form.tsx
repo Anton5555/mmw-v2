@@ -155,7 +155,8 @@ export function OscarWinnersForm({
                           >
                             <div className="flex flex-col">
                               <span className="font-semibold">{nominee.name}</span>
-                              {nominee.filmTitle && (
+                              {nominee.filmTitle && 
+                               nominee.filmTitle.trim() !== nominee.name.trim() && (
                                 <span className="text-xs text-zinc-400">
                                   {nominee.filmTitle}
                                 </span>
@@ -173,7 +174,8 @@ export function OscarWinnersForm({
                         </span>{' '}
                         <span className="text-white">
                           {selectedNominee.name}
-                          {selectedNominee.filmTitle && (
+                          {selectedNominee.filmTitle && 
+                           selectedNominee.filmTitle.trim() !== selectedNominee.name.trim() && (
                             <span className="text-zinc-500 ml-2">
                               • {selectedNominee.filmTitle}
                             </span>

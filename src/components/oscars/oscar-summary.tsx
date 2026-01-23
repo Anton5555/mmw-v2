@@ -163,7 +163,8 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
                   <h3 className="font-bold text-lg leading-tight group-hover:text-yellow-500 transition-colors">
                     {pick.nominee.name}
                   </h3>
-                  {movieTitle && (
+                  {movieTitle && 
+                   movieTitle.trim() !== pick.nominee.name.trim() && (
                     <p className="text-sm text-zinc-400 italic">{movieTitle}</p>
                   )}
                 </div>

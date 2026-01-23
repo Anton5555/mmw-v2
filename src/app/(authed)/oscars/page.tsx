@@ -43,7 +43,7 @@ export default async function OscarsPage() {
               Tus Apuestas
             </h1>
             <p className="text-zinc-500 mt-2">
-              Buena suerte, {session.user.name}. Los resultados se actualizarán en vivo.
+              Buena suerte, {session.user.name}. Los resultados se actualizarán en vivo (o quizás no, nadie sabe).
             </p>
           </header>
           <OscarSummary ballot={userBallot} editionYear={edition.year} />
