@@ -247,14 +247,9 @@ async function main() {
     displayName = stripLeadingAt(displayName);
     const slug = generateSlug(displayName);
 
-    // Get or create participant
+    // Get or create participant (slug is unique)
     let participant = await prisma.yearTopParticipant.findUnique({
-      where: {
-        year_slug: {
-          year: args.year,
-          slug,
-        },
-      },
+      where: { slug },
     });
 
     // Try to determine userId:
@@ -277,7 +272,6 @@ async function main() {
       if (!args.dryRun) {
         participant = await prisma.yearTopParticipant.create({
           data: {
-            year: args.year,
             displayName,
             slug,
             userId: userId ?? undefined,

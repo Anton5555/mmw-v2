@@ -65,7 +65,12 @@ export const ModelName = {
   BoardPost: 'BoardPost',
   YearTopParticipant: 'YearTopParticipant',
   YearTopPick: 'YearTopPick',
-  YearTopMovieStats: 'YearTopMovieStats'
+  YearTopMovieStats: 'YearTopMovieStats',
+  OscarEdition: 'OscarEdition',
+  OscarCategory: 'OscarCategory',
+  OscarNominee: 'OscarNominee',
+  OscarBallot: 'OscarBallot',
+  OscarPick: 'OscarPick'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -291,6 +296,64 @@ export const YearTopMovieStatsScalarFieldEnum = {
 } as const
 
 export type YearTopMovieStatsScalarFieldEnum = (typeof YearTopMovieStatsScalarFieldEnum)[keyof typeof YearTopMovieStatsScalarFieldEnum]
+
+
+export const OscarEditionScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  ceremonyDate: 'ceremonyDate',
+  isActive: 'isActive',
+  resultsReleased: 'resultsReleased',
+  createdAt: 'createdAt'
+} as const
+
+export type OscarEditionScalarFieldEnum = (typeof OscarEditionScalarFieldEnum)[keyof typeof OscarEditionScalarFieldEnum]
+
+
+export const OscarCategoryScalarFieldEnum = {
+  id: 'id',
+  editionId: 'editionId',
+  name: 'name',
+  slug: 'slug',
+  order: 'order',
+  winnerId: 'winnerId'
+} as const
+
+export type OscarCategoryScalarFieldEnum = (typeof OscarCategoryScalarFieldEnum)[keyof typeof OscarCategoryScalarFieldEnum]
+
+
+export const OscarNomineeScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  name: 'name',
+  filmTitle: 'filmTitle',
+  imdbId: 'imdbId',
+  filmImdbId: 'filmImdbId',
+  movieId: 'movieId'
+} as const
+
+export type OscarNomineeScalarFieldEnum = (typeof OscarNomineeScalarFieldEnum)[keyof typeof OscarNomineeScalarFieldEnum]
+
+
+export const OscarBallotScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  editionId: 'editionId',
+  submittedAt: 'submittedAt',
+  score: 'score'
+} as const
+
+export type OscarBallotScalarFieldEnum = (typeof OscarBallotScalarFieldEnum)[keyof typeof OscarBallotScalarFieldEnum]
+
+
+export const OscarPickScalarFieldEnum = {
+  id: 'id',
+  ballotId: 'ballotId',
+  categoryId: 'categoryId',
+  nomineeId: 'nomineeId'
+} as const
+
+export type OscarPickScalarFieldEnum = (typeof OscarPickScalarFieldEnum)[keyof typeof OscarPickScalarFieldEnum]
 
 
 export const SortOrder = {

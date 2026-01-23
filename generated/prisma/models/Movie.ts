@@ -293,6 +293,7 @@ export type MovieWhereInput = {
   dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
   yearTopPicks?: Prisma.YearTopPickListRelationFilter
   yearTopStats?: Prisma.YearTopMovieStatsListRelationFilter
+  oscarNominees?: Prisma.OscarNomineeListRelationFilter
 }
 
 export type MovieOrderByWithRelationInput = {
@@ -313,6 +314,7 @@ export type MovieOrderByWithRelationInput = {
   dailyRecommendations?: Prisma.DailyRecommendationOrderByRelationAggregateInput
   yearTopPicks?: Prisma.YearTopPickOrderByRelationAggregateInput
   yearTopStats?: Prisma.YearTopMovieStatsOrderByRelationAggregateInput
+  oscarNominees?: Prisma.OscarNomineeOrderByRelationAggregateInput
 }
 
 export type MovieWhereUniqueInput = Prisma.AtLeast<{
@@ -336,6 +338,7 @@ export type MovieWhereUniqueInput = Prisma.AtLeast<{
   dailyRecommendations?: Prisma.DailyRecommendationListRelationFilter
   yearTopPicks?: Prisma.YearTopPickListRelationFilter
   yearTopStats?: Prisma.YearTopMovieStatsListRelationFilter
+  oscarNominees?: Prisma.OscarNomineeListRelationFilter
 }, "id" | "imdbId">
 
 export type MovieOrderByWithAggregationInput = {
@@ -393,6 +396,7 @@ export type MovieCreateInput = {
   dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateInput = {
@@ -413,6 +417,7 @@ export type MovieUncheckedCreateInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUpdateInput = {
@@ -432,6 +437,7 @@ export type MovieUpdateInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateInput = {
@@ -452,6 +458,7 @@ export type MovieUncheckedUpdateInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieCreateManyInput = {
@@ -657,6 +664,22 @@ export type MovieUpdateOneRequiredWithoutYearTopStatsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MovieUpdateToOneWithWhereWithoutYearTopStatsInput, Prisma.MovieUpdateWithoutYearTopStatsInput>, Prisma.MovieUncheckedUpdateWithoutYearTopStatsInput>
 }
 
+export type MovieCreateNestedOneWithoutOscarNomineesInput = {
+  create?: Prisma.XOR<Prisma.MovieCreateWithoutOscarNomineesInput, Prisma.MovieUncheckedCreateWithoutOscarNomineesInput>
+  connectOrCreate?: Prisma.MovieCreateOrConnectWithoutOscarNomineesInput
+  connect?: Prisma.MovieWhereUniqueInput
+}
+
+export type MovieUpdateOneWithoutOscarNomineesNestedInput = {
+  create?: Prisma.XOR<Prisma.MovieCreateWithoutOscarNomineesInput, Prisma.MovieUncheckedCreateWithoutOscarNomineesInput>
+  connectOrCreate?: Prisma.MovieCreateOrConnectWithoutOscarNomineesInput
+  upsert?: Prisma.MovieUpsertWithoutOscarNomineesInput
+  disconnect?: Prisma.MovieWhereInput | boolean
+  delete?: Prisma.MovieWhereInput | boolean
+  connect?: Prisma.MovieWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MovieUpdateToOneWithWhereWithoutOscarNomineesInput, Prisma.MovieUpdateWithoutOscarNomineesInput>, Prisma.MovieUncheckedUpdateWithoutOscarNomineesInput>
+}
+
 export type MovieCreateWithoutMovieListInput = {
   title: string
   originalTitle: string
@@ -673,6 +696,7 @@ export type MovieCreateWithoutMovieListInput = {
   dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateWithoutMovieListInput = {
@@ -692,6 +716,7 @@ export type MovieUncheckedCreateWithoutMovieListInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieCreateOrConnectWithoutMovieListInput = {
@@ -726,6 +751,7 @@ export type MovieUpdateWithoutMovieListInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateWithoutMovieListInput = {
@@ -745,6 +771,7 @@ export type MovieUncheckedUpdateWithoutMovieListInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieCreateWithoutMamPicksInput = {
@@ -763,6 +790,7 @@ export type MovieCreateWithoutMamPicksInput = {
   dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateWithoutMamPicksInput = {
@@ -782,6 +810,7 @@ export type MovieUncheckedCreateWithoutMamPicksInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieCreateOrConnectWithoutMamPicksInput = {
@@ -816,6 +845,7 @@ export type MovieUpdateWithoutMamPicksInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateWithoutMamPicksInput = {
@@ -835,6 +865,7 @@ export type MovieUncheckedUpdateWithoutMamPicksInput = {
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieCreateWithoutDailyRecommendationsInput = {
@@ -853,6 +884,7 @@ export type MovieCreateWithoutDailyRecommendationsInput = {
   mamPicks?: Prisma.MamPickCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateWithoutDailyRecommendationsInput = {
@@ -872,6 +904,7 @@ export type MovieUncheckedCreateWithoutDailyRecommendationsInput = {
   mamPicks?: Prisma.MamPickUncheckedCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieCreateOrConnectWithoutDailyRecommendationsInput = {
@@ -906,6 +939,7 @@ export type MovieUpdateWithoutDailyRecommendationsInput = {
   mamPicks?: Prisma.MamPickUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateWithoutDailyRecommendationsInput = {
@@ -925,6 +959,7 @@ export type MovieUncheckedUpdateWithoutDailyRecommendationsInput = {
   mamPicks?: Prisma.MamPickUncheckedUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieCreateWithoutYearTopPicksInput = {
@@ -943,6 +978,7 @@ export type MovieCreateWithoutYearTopPicksInput = {
   mamPicks?: Prisma.MamPickCreateNestedManyWithoutMovieInput
   dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateWithoutYearTopPicksInput = {
@@ -962,6 +998,7 @@ export type MovieUncheckedCreateWithoutYearTopPicksInput = {
   mamPicks?: Prisma.MamPickUncheckedCreateNestedManyWithoutMovieInput
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieCreateOrConnectWithoutYearTopPicksInput = {
@@ -996,6 +1033,7 @@ export type MovieUpdateWithoutYearTopPicksInput = {
   mamPicks?: Prisma.MamPickUpdateManyWithoutMovieNestedInput
   dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateWithoutYearTopPicksInput = {
@@ -1015,6 +1053,7 @@ export type MovieUncheckedUpdateWithoutYearTopPicksInput = {
   mamPicks?: Prisma.MamPickUncheckedUpdateManyWithoutMovieNestedInput
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
   yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieCreateWithoutYearTopStatsInput = {
@@ -1033,6 +1072,7 @@ export type MovieCreateWithoutYearTopStatsInput = {
   mamPicks?: Prisma.MamPickCreateNestedManyWithoutMovieInput
   dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeCreateNestedManyWithoutMovieInput
 }
 
 export type MovieUncheckedCreateWithoutYearTopStatsInput = {
@@ -1052,6 +1092,7 @@ export type MovieUncheckedCreateWithoutYearTopStatsInput = {
   mamPicks?: Prisma.MamPickUncheckedCreateNestedManyWithoutMovieInput
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
   yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedCreateNestedManyWithoutMovieInput
 }
 
 export type MovieCreateOrConnectWithoutYearTopStatsInput = {
@@ -1086,6 +1127,7 @@ export type MovieUpdateWithoutYearTopStatsInput = {
   mamPicks?: Prisma.MamPickUpdateManyWithoutMovieNestedInput
   dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUpdateManyWithoutMovieNestedInput
 }
 
 export type MovieUncheckedUpdateWithoutYearTopStatsInput = {
@@ -1105,6 +1147,101 @@ export type MovieUncheckedUpdateWithoutYearTopStatsInput = {
   mamPicks?: Prisma.MamPickUncheckedUpdateManyWithoutMovieNestedInput
   dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
   yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
+  oscarNominees?: Prisma.OscarNomineeUncheckedUpdateManyWithoutMovieNestedInput
+}
+
+export type MovieCreateWithoutOscarNomineesInput = {
+  title: string
+  originalTitle: string
+  originalLanguage: string
+  releaseDate: Date | string
+  letterboxdUrl: string
+  imdbId: string
+  posterUrl: string
+  mamTotalPicks?: number
+  mamTotalPoints?: number
+  mamAverageScore?: number
+  mamRank?: number | null
+  MovieList?: Prisma.MovieListCreateNestedManyWithoutMovieInput
+  mamPicks?: Prisma.MamPickCreateNestedManyWithoutMovieInput
+  dailyRecommendations?: Prisma.DailyRecommendationCreateNestedManyWithoutMovieInput
+  yearTopPicks?: Prisma.YearTopPickCreateNestedManyWithoutMovieInput
+  yearTopStats?: Prisma.YearTopMovieStatsCreateNestedManyWithoutMovieInput
+}
+
+export type MovieUncheckedCreateWithoutOscarNomineesInput = {
+  id?: number
+  title: string
+  originalTitle: string
+  originalLanguage: string
+  releaseDate: Date | string
+  letterboxdUrl: string
+  imdbId: string
+  posterUrl: string
+  mamTotalPicks?: number
+  mamTotalPoints?: number
+  mamAverageScore?: number
+  mamRank?: number | null
+  MovieList?: Prisma.MovieListUncheckedCreateNestedManyWithoutMovieInput
+  mamPicks?: Prisma.MamPickUncheckedCreateNestedManyWithoutMovieInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedCreateNestedManyWithoutMovieInput
+  yearTopPicks?: Prisma.YearTopPickUncheckedCreateNestedManyWithoutMovieInput
+  yearTopStats?: Prisma.YearTopMovieStatsUncheckedCreateNestedManyWithoutMovieInput
+}
+
+export type MovieCreateOrConnectWithoutOscarNomineesInput = {
+  where: Prisma.MovieWhereUniqueInput
+  create: Prisma.XOR<Prisma.MovieCreateWithoutOscarNomineesInput, Prisma.MovieUncheckedCreateWithoutOscarNomineesInput>
+}
+
+export type MovieUpsertWithoutOscarNomineesInput = {
+  update: Prisma.XOR<Prisma.MovieUpdateWithoutOscarNomineesInput, Prisma.MovieUncheckedUpdateWithoutOscarNomineesInput>
+  create: Prisma.XOR<Prisma.MovieCreateWithoutOscarNomineesInput, Prisma.MovieUncheckedCreateWithoutOscarNomineesInput>
+  where?: Prisma.MovieWhereInput
+}
+
+export type MovieUpdateToOneWithWhereWithoutOscarNomineesInput = {
+  where?: Prisma.MovieWhereInput
+  data: Prisma.XOR<Prisma.MovieUpdateWithoutOscarNomineesInput, Prisma.MovieUncheckedUpdateWithoutOscarNomineesInput>
+}
+
+export type MovieUpdateWithoutOscarNomineesInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  originalLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  releaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  letterboxdUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imdbId?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mamTotalPicks?: Prisma.IntFieldUpdateOperationsInput | number
+  mamTotalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  mamAverageScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  mamRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  MovieList?: Prisma.MovieListUpdateManyWithoutMovieNestedInput
+  mamPicks?: Prisma.MamPickUpdateManyWithoutMovieNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUpdateManyWithoutMovieNestedInput
+  yearTopPicks?: Prisma.YearTopPickUpdateManyWithoutMovieNestedInput
+  yearTopStats?: Prisma.YearTopMovieStatsUpdateManyWithoutMovieNestedInput
+}
+
+export type MovieUncheckedUpdateWithoutOscarNomineesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  originalTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  originalLanguage?: Prisma.StringFieldUpdateOperationsInput | string
+  releaseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  letterboxdUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imdbId?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mamTotalPicks?: Prisma.IntFieldUpdateOperationsInput | number
+  mamTotalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  mamAverageScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  mamRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  MovieList?: Prisma.MovieListUncheckedUpdateManyWithoutMovieNestedInput
+  mamPicks?: Prisma.MamPickUncheckedUpdateManyWithoutMovieNestedInput
+  dailyRecommendations?: Prisma.DailyRecommendationUncheckedUpdateManyWithoutMovieNestedInput
+  yearTopPicks?: Prisma.YearTopPickUncheckedUpdateManyWithoutMovieNestedInput
+  yearTopStats?: Prisma.YearTopMovieStatsUncheckedUpdateManyWithoutMovieNestedInput
 }
 
 
@@ -1118,6 +1255,7 @@ export type MovieCountOutputType = {
   dailyRecommendations: number
   yearTopPicks: number
   yearTopStats: number
+  oscarNominees: number
 }
 
 export type MovieCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1126,6 +1264,7 @@ export type MovieCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   dailyRecommendations?: boolean | MovieCountOutputTypeCountDailyRecommendationsArgs
   yearTopPicks?: boolean | MovieCountOutputTypeCountYearTopPicksArgs
   yearTopStats?: boolean | MovieCountOutputTypeCountYearTopStatsArgs
+  oscarNominees?: boolean | MovieCountOutputTypeCountOscarNomineesArgs
 }
 
 /**
@@ -1173,6 +1312,13 @@ export type MovieCountOutputTypeCountYearTopStatsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.YearTopMovieStatsWhereInput
 }
 
+/**
+ * MovieCountOutputType without action
+ */
+export type MovieCountOutputTypeCountOscarNomineesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OscarNomineeWhereInput
+}
+
 
 export type MovieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1192,6 +1338,7 @@ export type MovieSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   dailyRecommendations?: boolean | Prisma.Movie$dailyRecommendationsArgs<ExtArgs>
   yearTopPicks?: boolean | Prisma.Movie$yearTopPicksArgs<ExtArgs>
   yearTopStats?: boolean | Prisma.Movie$yearTopStatsArgs<ExtArgs>
+  oscarNominees?: boolean | Prisma.Movie$oscarNomineesArgs<ExtArgs>
   _count?: boolean | Prisma.MovieCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["movie"]>
 
@@ -1247,6 +1394,7 @@ export type MovieInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   dailyRecommendations?: boolean | Prisma.Movie$dailyRecommendationsArgs<ExtArgs>
   yearTopPicks?: boolean | Prisma.Movie$yearTopPicksArgs<ExtArgs>
   yearTopStats?: boolean | Prisma.Movie$yearTopStatsArgs<ExtArgs>
+  oscarNominees?: boolean | Prisma.Movie$oscarNomineesArgs<ExtArgs>
   _count?: boolean | Prisma.MovieCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MovieIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1260,6 +1408,7 @@ export type $MoviePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     dailyRecommendations: Prisma.$DailyRecommendationPayload<ExtArgs>[]
     yearTopPicks: Prisma.$YearTopPickPayload<ExtArgs>[]
     yearTopStats: Prisma.$YearTopMovieStatsPayload<ExtArgs>[]
+    oscarNominees: Prisma.$OscarNomineePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1673,6 +1822,7 @@ export interface Prisma__MovieClient<T, Null = never, ExtArgs extends runtime.Ty
   dailyRecommendations<T extends Prisma.Movie$dailyRecommendationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$dailyRecommendationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyRecommendationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   yearTopPicks<T extends Prisma.Movie$yearTopPicksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$yearTopPicksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$YearTopPickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   yearTopStats<T extends Prisma.Movie$yearTopStatsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$yearTopStatsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$YearTopMovieStatsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  oscarNominees<T extends Prisma.Movie$oscarNomineesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movie$oscarNomineesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OscarNomineePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2219,6 +2369,30 @@ export type Movie$yearTopStatsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.YearTopMovieStatsScalarFieldEnum | Prisma.YearTopMovieStatsScalarFieldEnum[]
+}
+
+/**
+ * Movie.oscarNominees
+ */
+export type Movie$oscarNomineesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OscarNominee
+   */
+  select?: Prisma.OscarNomineeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OscarNominee
+   */
+  omit?: Prisma.OscarNomineeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OscarNomineeInclude<ExtArgs> | null
+  where?: Prisma.OscarNomineeWhereInput
+  orderBy?: Prisma.OscarNomineeOrderByWithRelationInput | Prisma.OscarNomineeOrderByWithRelationInput[]
+  cursor?: Prisma.OscarNomineeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OscarNomineeScalarFieldEnum | Prisma.OscarNomineeScalarFieldEnum[]
 }
 
 /**

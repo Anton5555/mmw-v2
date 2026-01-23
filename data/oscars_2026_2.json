@@ -1,0 +1,17 @@
+{
+  "oscars_year": 2026,
+  "categories": [
+
+    {
+      "category": "Best Original Song",
+      "nominees": [
+        { "nominee": "Dear Me by Diane Warren", "film": "Relentless", "film_imdb_id": "tt14588692" },
+        { "nominee": "Golden by EJAE, Mark Sonnenblick, Joong Gyu Kwak, Yu Han Lee, Hee Dong Nam, Jeong Hoon Seon y Teddy Park", "film": "Las guerreras K-Pop", "film_imdb_id": "tt14205554" },
+        { "nominee": "I Lied To You by Raphael Saadiq y Ludwig Göransson", "film": "Sinners", "film_imdb_id": "tt31193180" },
+        { "nominee": "Sweet Dreams Of Joy by Nicholas Pike", "film": "Viva Verdi!", "film_imdb_id": "tt3595454" },
+        { "nominee": "Train Dreams by Nick Cave y Bryce Dessner", "film": "Sueño de trenes", "film_imdb_id": "tt29768334" }
+      ]
+    }
+
+  ]
+}

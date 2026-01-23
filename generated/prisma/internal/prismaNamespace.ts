@@ -398,7 +398,12 @@ export const ModelName = {
   BoardPost: 'BoardPost',
   YearTopParticipant: 'YearTopParticipant',
   YearTopPick: 'YearTopPick',
-  YearTopMovieStats: 'YearTopMovieStats'
+  YearTopMovieStats: 'YearTopMovieStats',
+  OscarEdition: 'OscarEdition',
+  OscarCategory: 'OscarCategory',
+  OscarNominee: 'OscarNominee',
+  OscarBallot: 'OscarBallot',
+  OscarPick: 'OscarPick'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats" | "oscarEdition" | "oscarCategory" | "oscarNominee" | "oscarBallot" | "oscarPick"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1533,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OscarEdition: {
+      payload: Prisma.$OscarEditionPayload<ExtArgs>
+      fields: Prisma.OscarEditionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OscarEditionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OscarEditionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        findFirst: {
+          args: Prisma.OscarEditionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OscarEditionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        findMany: {
+          args: Prisma.OscarEditionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>[]
+        }
+        create: {
+          args: Prisma.OscarEditionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        createMany: {
+          args: Prisma.OscarEditionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OscarEditionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>[]
+        }
+        delete: {
+          args: Prisma.OscarEditionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        update: {
+          args: Prisma.OscarEditionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        deleteMany: {
+          args: Prisma.OscarEditionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OscarEditionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OscarEditionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>[]
+        }
+        upsert: {
+          args: Prisma.OscarEditionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarEditionPayload>
+        }
+        aggregate: {
+          args: Prisma.OscarEditionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOscarEdition>
+        }
+        groupBy: {
+          args: Prisma.OscarEditionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarEditionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OscarEditionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarEditionCountAggregateOutputType> | number
+        }
+      }
+    }
+    OscarCategory: {
+      payload: Prisma.$OscarCategoryPayload<ExtArgs>
+      fields: Prisma.OscarCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OscarCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OscarCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.OscarCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OscarCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.OscarCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.OscarCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.OscarCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OscarCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.OscarCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        update: {
+          args: Prisma.OscarCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.OscarCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OscarCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OscarCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.OscarCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.OscarCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOscarCategory>
+        }
+        groupBy: {
+          args: Prisma.OscarCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OscarCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    OscarNominee: {
+      payload: Prisma.$OscarNomineePayload<ExtArgs>
+      fields: Prisma.OscarNomineeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OscarNomineeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OscarNomineeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        findFirst: {
+          args: Prisma.OscarNomineeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OscarNomineeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        findMany: {
+          args: Prisma.OscarNomineeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>[]
+        }
+        create: {
+          args: Prisma.OscarNomineeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        createMany: {
+          args: Prisma.OscarNomineeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OscarNomineeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>[]
+        }
+        delete: {
+          args: Prisma.OscarNomineeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        update: {
+          args: Prisma.OscarNomineeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        deleteMany: {
+          args: Prisma.OscarNomineeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OscarNomineeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OscarNomineeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>[]
+        }
+        upsert: {
+          args: Prisma.OscarNomineeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarNomineePayload>
+        }
+        aggregate: {
+          args: Prisma.OscarNomineeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOscarNominee>
+        }
+        groupBy: {
+          args: Prisma.OscarNomineeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarNomineeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OscarNomineeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarNomineeCountAggregateOutputType> | number
+        }
+      }
+    }
+    OscarBallot: {
+      payload: Prisma.$OscarBallotPayload<ExtArgs>
+      fields: Prisma.OscarBallotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OscarBallotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OscarBallotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        findFirst: {
+          args: Prisma.OscarBallotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OscarBallotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        findMany: {
+          args: Prisma.OscarBallotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>[]
+        }
+        create: {
+          args: Prisma.OscarBallotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        createMany: {
+          args: Prisma.OscarBallotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OscarBallotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>[]
+        }
+        delete: {
+          args: Prisma.OscarBallotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        update: {
+          args: Prisma.OscarBallotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        deleteMany: {
+          args: Prisma.OscarBallotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OscarBallotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OscarBallotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>[]
+        }
+        upsert: {
+          args: Prisma.OscarBallotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarBallotPayload>
+        }
+        aggregate: {
+          args: Prisma.OscarBallotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOscarBallot>
+        }
+        groupBy: {
+          args: Prisma.OscarBallotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarBallotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OscarBallotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarBallotCountAggregateOutputType> | number
+        }
+      }
+    }
+    OscarPick: {
+      payload: Prisma.$OscarPickPayload<ExtArgs>
+      fields: Prisma.OscarPickFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OscarPickFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OscarPickFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        findFirst: {
+          args: Prisma.OscarPickFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OscarPickFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        findMany: {
+          args: Prisma.OscarPickFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>[]
+        }
+        create: {
+          args: Prisma.OscarPickCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        createMany: {
+          args: Prisma.OscarPickCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OscarPickCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>[]
+        }
+        delete: {
+          args: Prisma.OscarPickDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        update: {
+          args: Prisma.OscarPickUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        deleteMany: {
+          args: Prisma.OscarPickDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OscarPickUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OscarPickUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>[]
+        }
+        upsert: {
+          args: Prisma.OscarPickUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OscarPickPayload>
+        }
+        aggregate: {
+          args: Prisma.OscarPickAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOscarPick>
+        }
+        groupBy: {
+          args: Prisma.OscarPickGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarPickGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OscarPickCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OscarPickCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1776,6 +2151,64 @@ export const YearTopMovieStatsScalarFieldEnum = {
 export type YearTopMovieStatsScalarFieldEnum = (typeof YearTopMovieStatsScalarFieldEnum)[keyof typeof YearTopMovieStatsScalarFieldEnum]
 
 
+export const OscarEditionScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  ceremonyDate: 'ceremonyDate',
+  isActive: 'isActive',
+  resultsReleased: 'resultsReleased',
+  createdAt: 'createdAt'
+} as const
+
+export type OscarEditionScalarFieldEnum = (typeof OscarEditionScalarFieldEnum)[keyof typeof OscarEditionScalarFieldEnum]
+
+
+export const OscarCategoryScalarFieldEnum = {
+  id: 'id',
+  editionId: 'editionId',
+  name: 'name',
+  slug: 'slug',
+  order: 'order',
+  winnerId: 'winnerId'
+} as const
+
+export type OscarCategoryScalarFieldEnum = (typeof OscarCategoryScalarFieldEnum)[keyof typeof OscarCategoryScalarFieldEnum]
+
+
+export const OscarNomineeScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  name: 'name',
+  filmTitle: 'filmTitle',
+  imdbId: 'imdbId',
+  filmImdbId: 'filmImdbId',
+  movieId: 'movieId'
+} as const
+
+export type OscarNomineeScalarFieldEnum = (typeof OscarNomineeScalarFieldEnum)[keyof typeof OscarNomineeScalarFieldEnum]
+
+
+export const OscarBallotScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  editionId: 'editionId',
+  submittedAt: 'submittedAt',
+  score: 'score'
+} as const
+
+export type OscarBallotScalarFieldEnum = (typeof OscarBallotScalarFieldEnum)[keyof typeof OscarBallotScalarFieldEnum]
+
+
+export const OscarPickScalarFieldEnum = {
+  id: 'id',
+  ballotId: 'ballotId',
+  categoryId: 'categoryId',
+  nomineeId: 'nomineeId'
+} as const
+
+export type OscarPickScalarFieldEnum = (typeof OscarPickScalarFieldEnum)[keyof typeof OscarPickScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2006,6 +2439,11 @@ export type GlobalOmitConfig = {
   yearTopParticipant?: Prisma.YearTopParticipantOmit
   yearTopPick?: Prisma.YearTopPickOmit
   yearTopMovieStats?: Prisma.YearTopMovieStatsOmit
+  oscarEdition?: Prisma.OscarEditionOmit
+  oscarCategory?: Prisma.OscarCategoryOmit
+  oscarNominee?: Prisma.OscarNomineeOmit
+  oscarBallot?: Prisma.OscarBallotOmit
+  oscarPick?: Prisma.OscarPickOmit
 }
 
 /* Types for Logging */

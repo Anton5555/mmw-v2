@@ -1,5 +1,6 @@
 'use client';
 
+import type * as React from 'react';
 import { type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,6 +11,8 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
+type NavIcon = LucideIcon | React.ComponentType<React.SVGProps<SVGSVGElement>>;
+
 export function NavMain({
   items,
   onNavigate,
@@ -17,7 +20,7 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: LucideIcon;
+    icon?: NavIcon;
   }[];
   onNavigate?: () => void;
 }) {

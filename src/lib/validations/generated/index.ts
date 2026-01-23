@@ -42,6 +42,16 @@ export const YearTopPickScalarFieldEnumSchema = z.enum(['id','participantId','mo
 
 export const YearTopMovieStatsScalarFieldEnumSchema = z.enum(['id','movieId','year','pickType','totalPoints']);
 
+export const OscarEditionScalarFieldEnumSchema = z.enum(['id','year','ceremonyDate','isActive','resultsReleased','createdAt']);
+
+export const OscarCategoryScalarFieldEnumSchema = z.enum(['id','editionId','name','slug','order','winnerId']);
+
+export const OscarNomineeScalarFieldEnumSchema = z.enum(['id','categoryId','name','filmTitle','imdbId','filmImdbId','movieId']);
+
+export const OscarBallotScalarFieldEnumSchema = z.enum(['id','userId','editionId','submittedAt','score']);
+
+export const OscarPickScalarFieldEnumSchema = z.enum(['id','ballotId','categoryId','nomineeId']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -317,3 +327,76 @@ export const YearTopMovieStatsSchema = z.object({
 })
 
 export type YearTopMovieStats = z.infer<typeof YearTopMovieStatsSchema>
+
+/////////////////////////////////////////
+// OSCAR EDITION SCHEMA
+/////////////////////////////////////////
+
+export const OscarEditionSchema = z.object({
+  id: z.number().int(),
+  year: z.number().int(),
+  ceremonyDate: z.coerce.date().nullable(),
+  isActive: z.boolean(),
+  resultsReleased: z.boolean(),
+  createdAt: z.coerce.date(),
+})
+
+export type OscarEdition = z.infer<typeof OscarEditionSchema>
+
+/////////////////////////////////////////
+// OSCAR CATEGORY SCHEMA
+/////////////////////////////////////////
+
+export const OscarCategorySchema = z.object({
+  id: z.number().int(),
+  editionId: z.number().int(),
+  name: z.string(),
+  slug: z.string(),
+  order: z.number().int(),
+  winnerId: z.number().int().nullable(),
+})
+
+export type OscarCategory = z.infer<typeof OscarCategorySchema>
+
+/////////////////////////////////////////
+// OSCAR NOMINEE SCHEMA
+/////////////////////////////////////////
+
+export const OscarNomineeSchema = z.object({
+  id: z.number().int(),
+  categoryId: z.number().int(),
+  name: z.string(),
+  filmTitle: z.string().nullable(),
+  imdbId: z.string().nullable(),
+  filmImdbId: z.string().nullable(),
+  movieId: z.number().int().nullable(),
+})
+
+export type OscarNominee = z.infer<typeof OscarNomineeSchema>
+
+/////////////////////////////////////////
+// OSCAR BALLOT SCHEMA
+/////////////////////////////////////////
+
+export const OscarBallotSchema = z.object({
+  id: z.uuid(),
+  userId: z.string(),
+  editionId: z.number().int(),
+  submittedAt: z.coerce.date(),
+  score: z.number().int().nullable(),
+})
+
+export type OscarBallot = z.infer<typeof OscarBallotSchema>
+
+/////////////////////////////////////////
+// OSCAR PICK SCHEMA
+/////////////////////////////////////////
+
+export const OscarPickSchema = z.object({
+  id: z.number().int(),
+  ballotId: z.string(),
+  categoryId: z.number().int(),
+  nomineeId: z.number().int(),
+})
+
+export type OscarPick = z.infer<typeof OscarPickSchema>
