@@ -70,7 +70,11 @@ export const ModelName = {
   OscarCategory: 'OscarCategory',
   OscarNominee: 'OscarNominee',
   OscarBallot: 'OscarBallot',
-  OscarPick: 'OscarPick'
+  OscarPick: 'OscarPick',
+  Genre: 'Genre',
+  MovieGenre: 'MovieGenre',
+  Director: 'Director',
+  MovieDirector: 'MovieDirector'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -112,6 +116,7 @@ export const MovieScalarFieldEnum = {
   letterboxdUrl: 'letterboxdUrl',
   imdbId: 'imdbId',
   posterUrl: 'posterUrl',
+  tmdbId: 'tmdbId',
   mamTotalPicks: 'mamTotalPicks',
   mamTotalPoints: 'mamTotalPoints',
   mamAverageScore: 'mamAverageScore',
@@ -354,6 +359,42 @@ export const OscarPickScalarFieldEnum = {
 } as const
 
 export type OscarPickScalarFieldEnum = (typeof OscarPickScalarFieldEnum)[keyof typeof OscarPickScalarFieldEnum]
+
+
+export const GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tmdbId: 'tmdbId'
+} as const
+
+export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
+
+
+export const MovieGenreScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  genreId: 'genreId'
+} as const
+
+export type MovieGenreScalarFieldEnum = (typeof MovieGenreScalarFieldEnum)[keyof typeof MovieGenreScalarFieldEnum]
+
+
+export const DirectorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tmdbId: 'tmdbId'
+} as const
+
+export type DirectorScalarFieldEnum = (typeof DirectorScalarFieldEnum)[keyof typeof DirectorScalarFieldEnum]
+
+
+export const MovieDirectorScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  directorId: 'directorId'
+} as const
+
+export type MovieDirectorScalarFieldEnum = (typeof MovieDirectorScalarFieldEnum)[keyof typeof MovieDirectorScalarFieldEnum]
 
 
 export const SortOrder = {

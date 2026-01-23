@@ -1,16 +1,20 @@
 import { getListById, getListMovies } from '@/lib/api/lists';
+import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { MovieGrid } from '@/components/movie-grid';
+import { ListMovieFilters } from '@/components/list-movie-filters';
 import { ListBreadcrumbUpdater } from '@/components/list-breadcrumb-updater';
 import { GlassButton } from '@/components/ui/glass-button';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { parseAsString, parseAsArrayOf } from 'nuqs/server';
 
 type PageProps = {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 const ITEMS_PER_PAGE = 20;
 
-export default async function ListPage({ params }: PageProps) {
+export default async function ListPage({ params, searchParams }: PageProps) {
   const listId = parseInt((await params).id);
 
   const list = await getListById({ id: listId });
@@ -19,11 +23,32 @@ export default async function ListPage({ params }: PageProps) {
     notFound();
   }
 
-  const { movies, totalMovies, hasMore } = await getListMovies({
-    listId,
-    take: ITEMS_PER_PAGE,
-    skip: 0,
-  });
+  // Parse search params
+  const resolvedSearchParams = await searchParams;
+  const title = parseAsString.withDefault('').parseServerSide(
+    resolvedSearchParams.title
+  );
+  const genre = parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .parseServerSide(resolvedSearchParams.genre);
+  const director = parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .parseServerSide(resolvedSearchParams.director);
+
+  // Fetch genres, directors, and movies in parallel
+  const [genresList, directorsList, { movies, totalMovies, hasMore }] =
+    await Promise.all([
+      getAllGenres(),
+      getAllDirectors(),
+      getListMovies({
+        listId,
+        take: ITEMS_PER_PAGE,
+        skip: 0,
+        title: title || undefined,
+        genre: genre.length > 0 ? genre.join(',') : undefined,
+        director: director.length > 0 ? director.join(',') : undefined,
+      }),
+    ]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -87,6 +112,9 @@ export default async function ListPage({ params }: PageProps) {
 
       {/* Movie Grid Section */}
       <section className="container mx-auto -mt-8 px-4 pb-20 md:px-8">
+        {/* Filters */}
+        <ListMovieFilters genres={genresList} directors={directorsList} />
+
         <MovieGrid
           initialMovies={movies}
           listId={listId}

@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { getMamParticipants, getUserMamParticipant } from '@/lib/api/mam';
+import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamMovieGrid } from '@/components/mam-movie-grid';
@@ -24,9 +25,11 @@ export default async function MamPage({ searchParams }: MamPageProps) {
     headers: await headers(),
   });
 
-  // Fetch static data (participants list and user info) - these don't depend on search params
-  const [participantsList, userParticipant] = await Promise.all([
+  // Fetch static data (participants list, genres, directors, and user info) - these don't depend on search params
+  const [participantsList, genresList, directorsList, userParticipant] = await Promise.all([
     getMamParticipants(),
+    getAllGenres(),
+    getAllDirectors(),
     session?.user?.id ? getUserMamParticipant(session.user.id) : null,
   ]);
 
@@ -37,6 +40,8 @@ export default async function MamPage({ searchParams }: MamPageProps) {
     title: params.title,
     imdb: params.imdb,
     participants: params.participants,
+    genre: params.genre,
+    director: params.director,
     page: params.page,
     limit: params.limit,
   });
@@ -87,7 +92,11 @@ export default async function MamPage({ searchParams }: MamPageProps) {
         </div>
 
         {/* Filters */}
-        <MamMovieFilters participants={participantsList} />
+        <MamMovieFilters
+          participants={participantsList}
+          genres={genresList}
+          directors={directorsList}
+        />
 
         {/* Movie Grid with client-side loading state and Suspense */}
         <MamMovieGridWrapper initialParams={params}>

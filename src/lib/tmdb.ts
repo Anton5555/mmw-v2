@@ -63,13 +63,27 @@ export interface TMDBMovieDetailsResponse {
   id: number;
   genres: Array<{ id: number; name: string }>;
   credits?: {
-    crew: Array<{ job: string; name: string }>;
+    crew: Array<{ job: string; name: string; id?: number }>;
   };
 }
 
 export interface MovieDetails {
   director?: string;
   genre?: string;
+}
+
+export interface TMDBMovieDetailsFullResponse {
+  id: number;
+  genres: Array<{ id: number; name: string }>;
+  credits?: {
+    crew: Array<{ job: string; name: string; id?: number }>;
+  };
+}
+
+export interface MovieDetailsFull {
+  genres: Array<{ id: number; name: string }>;
+  directors: Array<{ id?: number; name: string }>;
+  tmdbId: number;
 }
 
 export interface TMDBMovieSearchResult {
@@ -120,6 +134,7 @@ export async function searchMovieByName(
 
 /**
  * Get movie details (director and genre) from TMDB by TMDB movie ID
+ * Returns only first director and genre for backward compatibility
  */
 export async function getMovieDetails(tmdbId: number): Promise<MovieDetails | null> {
   "use cache";
@@ -150,6 +165,47 @@ export async function getMovieDetails(tmdbId: number): Promise<MovieDetails | nu
     };
   } catch (error) {
     console.error(`Error fetching movie details for TMDB ID ${tmdbId}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Get full movie details (all genres and directors) from TMDB by TMDB movie ID
+ * Returns all genres and directors for database storage
+ */
+export async function getMovieDetailsFull(tmdbId: number): Promise<MovieDetailsFull | null> {
+  "use cache";
+  cacheLife('hours'); // Movie details from TMDB don't change frequently
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${env.TMDB_API_KEY}&append_to_response=credits`
+    );
+
+    if (!response.ok) {
+      console.error(`TMDB API error for movie ${tmdbId}: ${response.status}`);
+      return null;
+    }
+
+    const data = (await response.json()) as TMDBMovieDetailsFullResponse;
+
+    // Get all directors from credits.crew
+    const directors = data.credits?.crew
+      .filter((person) => person.job === 'Director')
+      .map((person) => ({
+        id: person.id,
+        name: person.name,
+      })) || [];
+
+    // Get all genres
+    const genres = data.genres || [];
+
+    return {
+      genres,
+      directors,
+      tmdbId: data.id,
+    };
+  } catch (error) {
+    console.error(`Error fetching full movie details for TMDB ID ${tmdbId}:`, error);
     return null;
   }
 }

@@ -12,23 +12,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Search, Users, X, SlidersHorizontal, Film, User } from 'lucide-react';
-import {
-  ParticipantAvatar,
-  getParticipantDisplayName,
-} from './participant-avatar';
-import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
-
-interface Participant {
-  id: number;
-  displayName: string;
-  slug: string;
-  userId?: string | null;
-  user?: {
-    image: string | null;
-    name: string | null;
-  } | null;
-}
+import { Search, Film, User, X, SlidersHorizontal } from 'lucide-react';
+import { useQueryStates } from 'nuqs';
+import { parseAsString, parseAsArrayOf } from 'nuqs';
 
 interface Genre {
   id: number;
@@ -40,48 +26,39 @@ interface Director {
   name: string;
 }
 
-interface MamMovieFiltersProps {
-  participants: Participant[];
+interface ListMovieFiltersProps {
   genres: Genre[];
   directors: Director[];
 }
 
+// Define search params for list filters
+const listMoviesSearchParams = {
+  title: parseAsString.withDefault(''),
+  genre: parseAsArrayOf(parseAsString).withDefault([]),
+  director: parseAsArrayOf(parseAsString).withDefault([]),
+};
+
 function FiltersContent({
-  participants,
   genres,
   directors,
   params,
   setParams,
 }: {
-  participants: Participant[];
   genres: Genre[];
   directors: Director[];
   params: {
     title: string;
-    imdb: string;
-    participants: string[];
     genre: string[];
     director: string[];
-    page: number;
-    limit: number;
   };
   setParams: (
     updates: Partial<{
       title: string | null;
-      imdb: string | null;
-      participants: string[] | null;
       genre: string[] | null;
       director: string[] | null;
-      page: number;
-      limit: number;
     }>
   ) => void;
 }) {
-  // Get selected participants for display
-  const selectedParticipants = participants.filter((p) =>
-    params.participants.includes(p.slug)
-  );
-
   // Get selected genres for display
   const selectedGenres = genres.filter((g) => params.genre.includes(g.name));
 
@@ -92,7 +69,7 @@ function FiltersContent({
 
   return (
     <div className="space-y-4">
-      {/* Search Inputs */}
+      {/* Search Input */}
       <div className="grid grid-cols-1 gap-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
@@ -100,73 +77,11 @@ function FiltersContent({
             placeholder="Buscar por título..."
             value={params.title}
             onChange={(e) => {
-              setParams({ title: e.target.value, page: 1 });
+              setParams({ title: e.target.value });
             }}
             className="pl-10 bg-zinc-800/50 border-zinc-700/50 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
           />
         </div>
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
-          <Input
-            placeholder="Buscar por IMDB ID..."
-            value={params.imdb}
-            onChange={(e) => {
-              setParams({ imdb: e.target.value, page: 1 });
-            }}
-            className="pl-10 bg-zinc-800/50 border-zinc-700/50 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
-          />
-        </div>
-      </div>
-
-      {/* Participant Filter */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <FilterCombobox
-          options={participants.map((p) => ({
-            value: p.slug,
-            label: getParticipantDisplayName(p),
-          }))}
-          selected={params.participants}
-          onChange={(values) => {
-            setParams({ participants: values, page: 1 });
-          }}
-          placeholder="Buscar participantes..."
-          emptyMessage="No se encontraron participantes."
-          groupLabel="Filtrar por participantes"
-          icon={<Users className="h-4 w-4" />}
-        />
-
-        {/* Selected Participants with Avatars */}
-        {selectedParticipants.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            {selectedParticipants.map((participant) => (
-              <Badge
-                key={participant.id}
-                variant="secondary"
-                className="flex items-center gap-1"
-              >
-                <ParticipantAvatar participant={participant} size="sm" />
-                <span className="text-xs">
-                  {getParticipantDisplayName(participant)}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto p-0 ml-1"
-                  onClick={() => {
-                    setParams({
-                      participants: params.participants.filter(
-                        (s) => s !== participant.slug
-                      ),
-                      page: 1,
-                    });
-                  }}
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-              </Badge>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Genre Filter */}
@@ -178,7 +93,7 @@ function FiltersContent({
           }))}
           selected={params.genre}
           onChange={(values) => {
-            setParams({ genre: values, page: 1 });
+            setParams({ genre: values });
           }}
           placeholder="Buscar géneros..."
           emptyMessage="No se encontraron géneros."
@@ -203,7 +118,6 @@ function FiltersContent({
                   onClick={() => {
                     setParams({
                       genre: params.genre.filter((g) => g !== genre.name),
-                      page: 1,
                     });
                   }}
                 >
@@ -224,7 +138,7 @@ function FiltersContent({
           }))}
           selected={params.director}
           onChange={(values) => {
-            setParams({ director: values, page: 1 });
+            setParams({ director: values });
           }}
           placeholder="Buscar directores..."
           emptyMessage="No se encontraron directores."
@@ -251,7 +165,6 @@ function FiltersContent({
                       director: params.director.filter(
                         (d) => d !== director.name
                       ),
-                      page: 1,
                     });
                   }}
                 >
@@ -266,25 +179,20 @@ function FiltersContent({
   );
 }
 
-export function MamMovieFilters({
-  participants,
-  genres,
-  directors,
-}: MamMovieFiltersProps) {
-  const { params, setParams } = useMamMoviesParams();
+export function ListMovieFilters({ genres, directors }: ListMovieFiltersProps) {
+  const [params, setParams] = useQueryStates(listMoviesSearchParams, {
+    shallow: false,
+    history: 'replace',
+    throttleMs: 500,
+  });
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Count active filters for badge
   const activeFiltersCount =
-    (params.title ? 1 : 0) +
-    (params.imdb ? 1 : 0) +
-    params.participants.length +
-    params.genre.length +
-    params.director.length;
+    (params.title ? 1 : 0) + params.genre.length + params.director.length;
 
   const filtersContent = (
     <FiltersContent
-      participants={participants}
       genres={genres}
       directors={directors}
       params={params}
@@ -329,7 +237,7 @@ export function MamMovieFilters({
               placeholder="Buscar por título..."
               value={params.title}
               onChange={(e) => {
-                setParams({ title: e.target.value, page: 1 });
+                setParams({ title: e.target.value });
               }}
               className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-500 h-8"
             />
@@ -348,27 +256,13 @@ export function MamMovieFilters({
           <div className="h-6 w-px bg-white/10" />
           <div className="shrink-0 flex items-center gap-2">
             <FilterCombobox
-              options={participants.map((p) => ({
-                value: p.slug,
-                label: getParticipantDisplayName(p),
-              }))}
-              selected={params.participants}
-              onChange={(values) => {
-                setParams({ participants: values, page: 1 });
-              }}
-              placeholder="Participantes..."
-              emptyMessage="No se encontraron participantes."
-              groupLabel="Filtrar por participantes"
-              icon={<Users className="h-4 w-4" />}
-            />
-            <FilterCombobox
               options={genres.map((g) => ({
                 value: g.name,
                 label: g.name,
               }))}
               selected={params.genre}
               onChange={(values) => {
-                setParams({ genre: values, page: 1 });
+                setParams({ genre: values });
               }}
               placeholder="Géneros..."
               emptyMessage="No se encontraron géneros."
@@ -382,7 +276,7 @@ export function MamMovieFilters({
               }))}
               selected={params.director}
               onChange={(values) => {
-                setParams({ director: values, page: 1 });
+                setParams({ director: values });
               }}
               placeholder="Directores..."
               emptyMessage="No se encontraron directores."
