@@ -177,137 +177,235 @@ export async function createList({ data }: { data: CreateListFormValues }) {
     })
   );
 
-  // Now do all database operations in a transaction
-  return await prisma.$transaction(async (tx) => {
-    // Create the list first to get a valid ID
-    const list = await tx.list.create({
-      data: {
-        name: data.name,
-        description: data.description,
-        letterboxdUrl: data.letterboxdUrl,
-        imgUrl: data.imgUrl,
-        tags: data.tags,
-        createdBy: data.createdBy,
-      },
-    });
+  // Now do all database operations in a transaction with increased timeout
+  // Increase timeout to 30 seconds to handle large batches of movies
+  return await prisma.$transaction(
+    async (tx) => {
+      // Create the list first to get a valid ID
+      const list = await tx.list.create({
+        data: {
+          name: data.name,
+          description: data.description,
+          letterboxdUrl: data.letterboxdUrl,
+          imgUrl: data.imgUrl,
+          tags: data.tags,
+          createdBy: data.createdBy,
+        },
+      });
 
-    // Create new movies if any
-    let createdMovies: typeof existingMovies = [];
-    if (newMoviesData.length > 0) {
-      createdMovies = await Promise.all(
-        newMoviesData.map(async (movieData) => {
-          const movie = await tx.movie.create({
-            data: {
-              title: movieData.title,
-              originalTitle: movieData.original_title,
-              originalLanguage: movieData.original_language,
-              releaseDate: new Date(movieData.release_date ?? new Date()),
-              letterboxdUrl: `https://letterboxd.com/tmdb/${movieData.id}`,
-              imdbId: movieData.imdbId,
-              posterUrl: movieData.poster_path || '',
-              tmdbId: movieData.id,
+      // Create new movies if any
+      let createdMovies: typeof existingMovies = [];
+      if (newMoviesData.length > 0) {
+        // First, collect all unique genres and directors from all movies
+        const allGenres = new Map<string, { name: string; tmdbId: number }>();
+        const allDirectors = new Map<string, { name: string; tmdbId?: number }>();
+        const movieGenreMap = new Map<number, string[]>(); // movie index -> genre names
+        const movieDirectorMap = new Map<number, string[]>(); // movie index -> director names
+
+        newMoviesData.forEach((movieData, index) => {
+          if (movieData.details) {
+            movieData.details.genres.forEach((genre) => {
+              allGenres.set(genre.name, { name: genre.name, tmdbId: genre.id });
+              if (!movieGenreMap.has(index)) {
+                movieGenreMap.set(index, []);
+              }
+              movieGenreMap.get(index)!.push(genre.name);
+            });
+
+            movieData.details.directors.forEach((director) => {
+              allDirectors.set(director.name, {
+                name: director.name,
+                tmdbId: director.id,
+              });
+              if (!movieDirectorMap.has(index)) {
+                movieDirectorMap.set(index, []);
+              }
+              movieDirectorMap.get(index)!.push(director.name);
+            });
+          }
+        });
+
+        // Batch fetch existing genres and directors
+        const existingGenres = await tx.genre.findMany({
+          where: {
+            name: {
+              in: Array.from(allGenres.keys()),
             },
+          },
+        });
+        const existingDirectors = await tx.director.findMany({
+          where: {
+            name: {
+              in: Array.from(allDirectors.keys()),
+            },
+          },
+        });
+
+        const existingGenreMap = new Map(
+          existingGenres.map((g) => [g.name, g])
+        );
+        const existingDirectorMap = new Map(
+          existingDirectors.map((d) => [d.name, d])
+        );
+
+        // Create missing genres and directors, and update those missing tmdbId
+        const genresToCreate = Array.from(allGenres.values()).filter(
+          (g) => !existingGenreMap.has(g.name)
+        );
+        const directorsToCreate = Array.from(allDirectors.values()).filter(
+          (d) => !existingDirectorMap.has(d.name)
+        );
+
+        if (genresToCreate.length > 0) {
+          await tx.genre.createMany({
+            data: genresToCreate.map((g) => ({
+              name: g.name,
+              tmdbId: g.tmdbId,
+            })),
+            skipDuplicates: true,
+          });
+        }
+
+        if (directorsToCreate.length > 0) {
+          await tx.director.createMany({
+            data: directorsToCreate.map((d) => ({
+              name: d.name,
+              tmdbId: d.tmdbId,
+            })),
+            skipDuplicates: true,
+          });
+        }
+
+        // Update genres and directors missing tmdbId
+        const genresToUpdate = existingGenres.filter(
+          (g) => !g.tmdbId && allGenres.get(g.name)?.tmdbId
+        );
+        const directorsToUpdate = existingDirectors.filter(
+          (d) => !d.tmdbId && allDirectors.get(d.name)?.tmdbId
+        );
+
+        await Promise.all([
+          ...genresToUpdate.map((g) =>
+            tx.genre.update({
+              where: { id: g.id },
+              data: { tmdbId: allGenres.get(g.name)!.tmdbId },
+            })
+          ),
+          ...directorsToUpdate.map((d) =>
+            tx.director.update({
+              where: { id: d.id },
+              data: { tmdbId: allDirectors.get(d.name)!.tmdbId },
+            })
+          ),
+        ]);
+
+        // Refresh genre and director maps after creates/updates
+        const allGenresAfter = await tx.genre.findMany({
+          where: {
+            name: {
+              in: Array.from(allGenres.keys()),
+            },
+          },
+        });
+        const allDirectorsAfter = await tx.director.findMany({
+          where: {
+            name: {
+              in: Array.from(allDirectors.keys()),
+            },
+          },
+        });
+
+        const genreMap = new Map(allGenresAfter.map((g) => [g.name, g]));
+        const directorMap = new Map(allDirectorsAfter.map((d) => [d.name, d]));
+
+        // Create all movies
+        createdMovies = await Promise.all(
+          newMoviesData.map((movieData) =>
+            tx.movie.create({
+              data: {
+                title: movieData.title,
+                originalTitle: movieData.original_title,
+                originalLanguage: movieData.original_language,
+                releaseDate: new Date(movieData.release_date ?? new Date()),
+                letterboxdUrl: `https://letterboxd.com/tmdb/${movieData.id}`,
+                imdbId: movieData.imdbId,
+                posterUrl: movieData.poster_path || '',
+                tmdbId: movieData.id,
+              },
+            })
+          )
+        );
+
+        // Batch create movie-genre and movie-director relations
+        const movieGenreRelations: Array<{ movieId: number; genreId: number }> =
+          [];
+        const movieDirectorRelations: Array<{
+          movieId: number;
+          directorId: number;
+        }> = [];
+
+        createdMovies.forEach((movie, index) => {
+          const genreNames = movieGenreMap.get(index) || [];
+          const directorNames = movieDirectorMap.get(index) || [];
+
+          genreNames.forEach((genreName) => {
+            const genre = genreMap.get(genreName);
+            if (genre) {
+              movieGenreRelations.push({
+                movieId: movie.id,
+                genreId: genre.id,
+              });
+            }
           });
 
-          // Process genres and directors if details are available
-          if (movieData.details) {
-            // Process genres
-            for (const genreData of movieData.details.genres) {
-              // Find or create genre
-              let genre = await tx.genre.findUnique({
-                where: { name: genreData.name },
-              });
-
-              if (!genre) {
-                genre = await tx.genre.create({
-                  data: {
-                    name: genreData.name,
-                    tmdbId: genreData.id,
-                  },
-                });
-              } else if (!genre.tmdbId && genreData.id) {
-                // Update genre with TMDB ID if missing
-                await tx.genre.update({
-                  where: { id: genre.id },
-                  data: { tmdbId: genreData.id },
-                });
-              }
-
-              // Link movie to genre
-              await tx.movieGenre.upsert({
-                where: {
-                  movieId_genreId: {
-                    movieId: movie.id,
-                    genreId: genre.id,
-                  },
-                },
-                create: {
-                  movieId: movie.id,
-                  genreId: genre.id,
-                },
-                update: {},
+          directorNames.forEach((directorName) => {
+            const director = directorMap.get(directorName);
+            if (director) {
+              movieDirectorRelations.push({
+                movieId: movie.id,
+                directorId: director.id,
               });
             }
+          });
+        });
 
-            // Process directors
-            for (const directorData of movieData.details.directors) {
-              // Find or create director
-              let director = await tx.director.findUnique({
-                where: { name: directorData.name },
-              });
+        // Use createMany with skipDuplicates to avoid conflicts
+        if (movieGenreRelations.length > 0) {
+          await tx.movieGenre.createMany({
+            data: movieGenreRelations,
+            skipDuplicates: true,
+          });
+        }
 
-              if (!director) {
-                director = await tx.director.create({
-                  data: {
-                    name: directorData.name,
-                    tmdbId: directorData.id || undefined,
-                  },
-                });
-              } else if (!director.tmdbId && directorData.id) {
-                // Update director with TMDB ID if missing
-                await tx.director.update({
-                  where: { id: director.id },
-                  data: { tmdbId: directorData.id },
-                });
-              }
+        if (movieDirectorRelations.length > 0) {
+          await tx.movieDirector.createMany({
+            data: movieDirectorRelations,
+            skipDuplicates: true,
+          });
+        }
+      }
 
-              // Link movie to director
-              await tx.movieDirector.upsert({
-                where: {
-                  movieId_directorId: {
-                    movieId: movie.id,
-                    directorId: director.id,
-                  },
-                },
-                create: {
-                  movieId: movie.id,
-                  directorId: director.id,
-                },
-                update: {},
-              });
-            }
-          }
+      // Get all movies (both existing and newly created)
+      const allMovies = [...existingMovies, ...createdMovies];
 
-          return movie;
-        })
-      );
+      // Create movie-list relations
+      if (allMovies.length > 0) {
+        await tx.movieList.createMany({
+          data: allMovies.map((movie) => ({
+            movieId: movie.id,
+            listId: list.id,
+          })),
+          skipDuplicates: true,
+        });
+      }
+
+      return list;
+    },
+    {
+      timeout: 30000, // 30 seconds timeout
+      maxWait: 10000, // 10 seconds max wait
     }
-
-    // Get all movies (both existing and newly created)
-    const allMovies = [...existingMovies, ...createdMovies];
-
-    // Create movie-list relations
-    if (allMovies.length > 0) {
-      await tx.movieList.createMany({
-        data: allMovies.map((movie) => ({
-          movieId: movie.id,
-          listId: list.id,
-        })),
-      });
-    }
-
-    return list;
-  });
+  );
 }
 
 /**

@@ -498,6 +498,8 @@ export async function getSpecialMentions(query: MamMovieQuery) {
     : [];
 
   // Build the where clause - only movies with special mentions
+  // Note: We don't filter by mamTotalPicks > 0 because special mentions
+  // can exist for movies that only have special mentions (score 0, don't count toward mamTotalPicks)
   const whereClause: Prisma.MovieWhereInput = {
     mamPicks: {
       some: {

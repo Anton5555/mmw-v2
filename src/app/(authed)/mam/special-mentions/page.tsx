@@ -31,6 +31,8 @@ export default async function SpecialMentionsPage({
     title: params.title,
     imdb: params.imdb,
     participants: params.participants,
+    genre: params.genre,
+    director: params.director,
     page: params.page,
     limit: params.limit,
   });

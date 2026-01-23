@@ -8,6 +8,8 @@ interface SpecialMentionsGridProps {
     title: string;
     imdb: string;
     participants: string[];
+    genre: string[];
+    director: string[];
     page: number;
     limit: number;
   };
@@ -16,16 +18,26 @@ interface SpecialMentionsGridProps {
 export async function SpecialMentionsGrid({
   searchParams,
 }: SpecialMentionsGridProps) {
-  // Convert participants array to comma-separated string for API
+  // Convert arrays to comma-separated strings for API
   const participantsString =
     searchParams.participants.length > 0
       ? searchParams.participants.join(',')
+      : undefined;
+  const genreString =
+    searchParams.genre.length > 0
+      ? searchParams.genre.join(',')
+      : undefined;
+  const directorString =
+    searchParams.director.length > 0
+      ? searchParams.director.join(',')
       : undefined;
 
   const { movies, pagination } = await getSpecialMentions({
     title: searchParams.title || undefined,
     imdb: searchParams.imdb || undefined,
     participants: participantsString,
+    genre: genreString,
+    director: directorString,
     page: searchParams.page,
     limit: searchParams.limit,
   });

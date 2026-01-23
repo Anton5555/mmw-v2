@@ -1,6 +1,8 @@
 import { getUserMamPicks } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
+import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { MamMovieCard } from '@/components/mam-movie-card';
+import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { Film } from 'lucide-react';
 import Link from 'next/link';
 import { auth } from '@/lib/auth';
@@ -24,17 +26,28 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
   const userId = session.user.id;
 
   // Load and validate search parameters
-  const { title, imdb, page, limit } = await loadMamMoviesSearchParams(
-    searchParams
-  );
+  const { title, imdb, genre, director, page, limit } =
+    await loadMamMoviesSearchParams(searchParams);
 
-  // Fetch user's picks
-  const moviesData = await getUserMamPicks(userId, {
-    title,
-    imdb,
-    page,
-    limit,
-  });
+  // Convert arrays to comma-separated strings for API
+  const genreString =
+    genre.length > 0 ? genre.join(',') : undefined;
+  const directorString =
+    director.length > 0 ? director.join(',') : undefined;
+
+  // Fetch genres, directors, and user's picks in parallel
+  const [genresList, directorsList, moviesData] = await Promise.all([
+    getAllGenres(),
+    getAllDirectors(),
+    getUserMamPicks(userId, {
+      title,
+      imdb,
+      genre: genreString,
+      director: directorString,
+      page,
+      limit,
+    }),
+  ]);
 
   const { movies, pagination } = moviesData;
 
@@ -46,6 +59,15 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
         <p className="text-muted-foreground">
           Tus películas seleccionadas para Míralas Antes de Morir.
         </p>
+      </div>
+
+      {/* Filters */}
+      <div className="mb-8">
+        <MamMovieFilters
+          participants={[]}
+          genres={genresList}
+          directors={directorsList}
+        />
       </div>
 
       {/* Results Count */}
@@ -96,14 +118,15 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
         <div className="mt-8 flex items-center justify-center gap-2">
           {pagination.hasPrevPage && (
             <Link
-              href={`/mam/my-list?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries({ title, imdb }).filter(
-                    ([, value]) => value !== ''
-                  )
-                ),
-                page: (page - 1).toString(),
-              }).toString()}`}
+              href={`/mam/my-list?${(() => {
+                const params = new URLSearchParams();
+                if (title) params.set('title', title);
+                if (imdb) params.set('imdb', imdb);
+                genre.forEach((g) => params.append('genre', g));
+                director.forEach((d) => params.append('director', d));
+                params.set('page', (page - 1).toString());
+                return params.toString();
+              })()}`}
               className="px-3 py-2 text-sm border rounded-md hover:bg-accent transition-colors"
             >
               Anterior
@@ -116,14 +139,15 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
 
           {pagination.hasNextPage && (
             <Link
-              href={`/mam/my-list?${new URLSearchParams({
-                ...Object.fromEntries(
-                  Object.entries({ title, imdb }).filter(
-                    ([, value]) => value !== ''
-                  )
-                ),
-                page: (page + 1).toString(),
-              }).toString()}`}
+              href={`/mam/my-list?${(() => {
+                const params = new URLSearchParams();
+                if (title) params.set('title', title);
+                if (imdb) params.set('imdb', imdb);
+                genre.forEach((g) => params.append('genre', g));
+                director.forEach((d) => params.append('director', d));
+                params.set('page', (page + 1).toString());
+                return params.toString();
+              })()}`}
               className="px-3 py-2 text-sm border rounded-md hover:bg-accent transition-colors"
             >
               Siguiente
