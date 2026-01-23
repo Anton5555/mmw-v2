@@ -13,8 +13,7 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Search, Film, User, X, SlidersHorizontal } from 'lucide-react';
-import { useQueryStates } from 'nuqs';
-import { parseAsString, parseAsArrayOf } from 'nuqs';
+import { useListMoviesParams } from '@/lib/hooks/useListMoviesParams';
 
 interface Genre {
   id: number;
@@ -30,13 +29,6 @@ interface ListMovieFiltersProps {
   genres: Genre[];
   directors: Director[];
 }
-
-// Define search params for list filters
-const listMoviesSearchParams = {
-  title: parseAsString.withDefault(''),
-  genre: parseAsArrayOf(parseAsString).withDefault([]),
-  director: parseAsArrayOf(parseAsString).withDefault([]),
-};
 
 function FiltersContent({
   genres,
@@ -180,11 +172,7 @@ function FiltersContent({
 }
 
 export function ListMovieFilters({ genres, directors }: ListMovieFiltersProps) {
-  const [params, setParams] = useQueryStates(listMoviesSearchParams, {
-    shallow: false,
-    history: 'replace',
-    throttleMs: 500,
-  });
+  const { params, setParams } = useListMoviesParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Count active filters for badge

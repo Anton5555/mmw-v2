@@ -1,6 +1,8 @@
-import { getListById, getListMovies } from '@/lib/api/lists';
+import { Suspense } from 'react';
+import { getListById } from '@/lib/api/lists';
 import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
-import { MovieGrid } from '@/components/movie-grid';
+import { ListMovieGrid } from '@/components/list-movie-grid';
+import { ListMovieGridWrapper } from '@/components/list-movie-grid-wrapper';
 import { ListMovieFilters } from '@/components/list-movie-filters';
 import { ListBreadcrumbUpdater } from '@/components/list-breadcrumb-updater';
 import { GlassButton } from '@/components/ui/glass-button';
@@ -12,7 +14,6 @@ type PageProps = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
-const ITEMS_PER_PAGE = 20;
 
 export default async function ListPage({ params, searchParams }: PageProps) {
   const listId = parseInt((await params).id);
@@ -35,20 +36,18 @@ export default async function ListPage({ params, searchParams }: PageProps) {
     .withDefault([])
     .parseServerSide(resolvedSearchParams.director);
 
-  // Fetch genres, directors, and movies in parallel
-  const [genresList, directorsList, { movies, totalMovies, hasMore }] =
-    await Promise.all([
-      getAllGenres(),
-      getAllDirectors(),
-      getListMovies({
-        listId,
-        take: ITEMS_PER_PAGE,
-        skip: 0,
-        title: title || undefined,
-        genre: genre.length > 0 ? genre.join(',') : undefined,
-        director: director.length > 0 ? director.join(',') : undefined,
-      }),
-    ]);
+  // Fetch genres and directors
+  const [genresList, directorsList] = await Promise.all([
+    getAllGenres(),
+    getAllDirectors(),
+  ]);
+
+  // Create a stable key for Suspense based on search params
+  const suspenseKey = JSON.stringify({
+    title,
+    genre,
+    director,
+  });
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -115,12 +114,35 @@ export default async function ListPage({ params, searchParams }: PageProps) {
         {/* Filters */}
         <ListMovieFilters genres={genresList} directors={directorsList} />
 
-        <MovieGrid
-          initialMovies={movies}
-          listId={listId}
-          hasMore={hasMore}
-          totalMovies={totalMovies}
-        />
+        {/* Movie Grid with client-side loading state and Suspense */}
+        <ListMovieGridWrapper
+          initialParams={{
+            title,
+            genre,
+            director,
+          }}
+        >
+          <Suspense
+            key={suspenseKey}
+            fallback={
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-[2/3] bg-zinc-800/50 rounded-lg animate-pulse"
+                  />
+                ))}
+              </div>
+            }
+          >
+            <ListMovieGrid
+              listId={listId}
+              title={title || undefined}
+              genre={genre.length > 0 ? genre.join(',') : undefined}
+              director={director.length > 0 ? director.join(',') : undefined}
+            />
+          </Suspense>
+        </ListMovieGridWrapper>
       </section>
     </div>
   );
