@@ -5,14 +5,10 @@
 - Use shadcn new time picker components
 - Improve the Form fields look with the new design
 
-- add more filters to MAM list:
-    * By director
-
 - Add more data from tmdb to movies so we can do more with the lists:
     * Most voted director
     * Most voted actors? 
     * movie procedence
-    * Genres
 
 ## MAM 
 
