@@ -236,6 +236,7 @@ export type UserWhereInput = {
   MamParticipant?: Prisma.XOR<Prisma.MamParticipantNullableScalarRelationFilter, Prisma.MamParticipantWhereInput> | null
   BoardPost?: Prisma.BoardPostListRelationFilter
   yearTopParticipants?: Prisma.YearTopParticipantListRelationFilter
+  oscarBallots?: Prisma.OscarBallotListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -256,6 +257,7 @@ export type UserOrderByWithRelationInput = {
   MamParticipant?: Prisma.MamParticipantOrderByWithRelationInput
   BoardPost?: Prisma.BoardPostOrderByRelationAggregateInput
   yearTopParticipants?: Prisma.YearTopParticipantOrderByRelationAggregateInput
+  oscarBallots?: Prisma.OscarBallotOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -279,6 +281,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   MamParticipant?: Prisma.XOR<Prisma.MamParticipantNullableScalarRelationFilter, Prisma.MamParticipantWhereInput> | null
   BoardPost?: Prisma.BoardPostListRelationFilter
   yearTopParticipants?: Prisma.YearTopParticipantListRelationFilter
+  oscarBallots?: Prisma.OscarBallotListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -333,6 +336,7 @@ export type UserCreateInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -353,6 +357,7 @@ export type UserUncheckedCreateInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -373,6 +378,7 @@ export type UserUpdateInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -393,6 +399,7 @@ export type UserUncheckedUpdateInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -593,6 +600,20 @@ export type UserUpdateOneWithoutYearTopParticipantsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutYearTopParticipantsInput, Prisma.UserUpdateWithoutYearTopParticipantsInput>, Prisma.UserUncheckedUpdateWithoutYearTopParticipantsInput>
 }
 
+export type UserCreateNestedOneWithoutOscarBallotsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOscarBallotsInput, Prisma.UserUncheckedCreateWithoutOscarBallotsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOscarBallotsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOscarBallotsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOscarBallotsInput, Prisma.UserUncheckedCreateWithoutOscarBallotsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOscarBallotsInput
+  upsert?: Prisma.UserUpsertWithoutOscarBallotsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOscarBallotsInput, Prisma.UserUpdateWithoutOscarBallotsInput>, Prisma.UserUncheckedUpdateWithoutOscarBallotsInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   name: string
@@ -610,6 +631,7 @@ export type UserCreateWithoutSessionsInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -629,6 +651,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -664,6 +687,7 @@ export type UserUpdateWithoutSessionsInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -683,6 +707,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -702,6 +727,7 @@ export type UserCreateWithoutAccountsInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -721,6 +747,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -756,6 +783,7 @@ export type UserUpdateWithoutAccountsInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -775,6 +803,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEventInput = {
@@ -794,6 +823,7 @@ export type UserCreateWithoutEventInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventInput = {
@@ -813,6 +843,7 @@ export type UserUncheckedCreateWithoutEventInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventInput = {
@@ -848,6 +879,7 @@ export type UserUpdateWithoutEventInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventInput = {
@@ -867,6 +899,7 @@ export type UserUncheckedUpdateWithoutEventInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMamParticipantInput = {
@@ -886,6 +919,7 @@ export type UserCreateWithoutMamParticipantInput = {
   Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMamParticipantInput = {
@@ -905,6 +939,7 @@ export type UserUncheckedCreateWithoutMamParticipantInput = {
   Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMamParticipantInput = {
@@ -940,6 +975,7 @@ export type UserUpdateWithoutMamParticipantInput = {
   Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMamParticipantInput = {
@@ -959,6 +995,7 @@ export type UserUncheckedUpdateWithoutMamParticipantInput = {
   Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBoardPostInput = {
@@ -978,6 +1015,7 @@ export type UserCreateWithoutBoardPostInput = {
   Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBoardPostInput = {
@@ -997,6 +1035,7 @@ export type UserUncheckedCreateWithoutBoardPostInput = {
   Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBoardPostInput = {
@@ -1032,6 +1071,7 @@ export type UserUpdateWithoutBoardPostInput = {
   Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBoardPostInput = {
@@ -1051,6 +1091,7 @@ export type UserUncheckedUpdateWithoutBoardPostInput = {
   Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutYearTopParticipantsInput = {
@@ -1070,6 +1111,7 @@ export type UserCreateWithoutYearTopParticipantsInput = {
   Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutYearTopParticipantsInput = {
@@ -1089,6 +1131,7 @@ export type UserUncheckedCreateWithoutYearTopParticipantsInput = {
   Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutYearTopParticipantsInput = {
@@ -1124,6 +1167,7 @@ export type UserUpdateWithoutYearTopParticipantsInput = {
   Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutYearTopParticipantsInput = {
@@ -1143,6 +1187,103 @@ export type UserUncheckedUpdateWithoutYearTopParticipantsInput = {
   Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOscarBallotsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOscarBallotsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOscarBallotsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOscarBallotsInput, Prisma.UserUncheckedCreateWithoutOscarBallotsInput>
+}
+
+export type UserUpsertWithoutOscarBallotsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOscarBallotsInput, Prisma.UserUncheckedUpdateWithoutOscarBallotsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOscarBallotsInput, Prisma.UserUncheckedCreateWithoutOscarBallotsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOscarBallotsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOscarBallotsInput, Prisma.UserUncheckedUpdateWithoutOscarBallotsInput>
+}
+
+export type UserUpdateWithoutOscarBallotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOscarBallotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1156,6 +1297,7 @@ export type UserCountOutputType = {
   Event: number
   BoardPost: number
   yearTopParticipants: number
+  oscarBallots: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1164,6 +1306,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   Event?: boolean | UserCountOutputTypeCountEventArgs
   BoardPost?: boolean | UserCountOutputTypeCountBoardPostArgs
   yearTopParticipants?: boolean | UserCountOutputTypeCountYearTopParticipantsArgs
+  oscarBallots?: boolean | UserCountOutputTypeCountOscarBallotsArgs
 }
 
 /**
@@ -1211,6 +1354,13 @@ export type UserCountOutputTypeCountYearTopParticipantsArgs<ExtArgs extends runt
   where?: Prisma.YearTopParticipantWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOscarBallotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OscarBallotWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1230,6 +1380,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   MamParticipant?: boolean | Prisma.User$MamParticipantArgs<ExtArgs>
   BoardPost?: boolean | Prisma.User$BoardPostArgs<ExtArgs>
   yearTopParticipants?: boolean | Prisma.User$yearTopParticipantsArgs<ExtArgs>
+  oscarBallots?: boolean | Prisma.User$oscarBallotsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1283,6 +1434,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   MamParticipant?: boolean | Prisma.User$MamParticipantArgs<ExtArgs>
   BoardPost?: boolean | Prisma.User$BoardPostArgs<ExtArgs>
   yearTopParticipants?: boolean | Prisma.User$yearTopParticipantsArgs<ExtArgs>
+  oscarBallots?: boolean | Prisma.User$oscarBallotsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1297,6 +1449,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     MamParticipant: Prisma.$MamParticipantPayload<ExtArgs> | null
     BoardPost: Prisma.$BoardPostPayload<ExtArgs>[]
     yearTopParticipants: Prisma.$YearTopParticipantPayload<ExtArgs>[]
+    oscarBallots: Prisma.$OscarBallotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1710,6 +1863,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   MamParticipant<T extends Prisma.User$MamParticipantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$MamParticipantArgs<ExtArgs>>): Prisma.Prisma__MamParticipantClient<runtime.Types.Result.GetResult<Prisma.$MamParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   BoardPost<T extends Prisma.User$BoardPostArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$BoardPostArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BoardPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   yearTopParticipants<T extends Prisma.User$yearTopParticipantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$yearTopParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$YearTopParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  oscarBallots<T extends Prisma.User$oscarBallotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$oscarBallotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OscarBallotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2274,6 +2428,30 @@ export type User$yearTopParticipantsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.YearTopParticipantScalarFieldEnum | Prisma.YearTopParticipantScalarFieldEnum[]
+}
+
+/**
+ * User.oscarBallots
+ */
+export type User$oscarBallotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OscarBallot
+   */
+  select?: Prisma.OscarBallotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OscarBallot
+   */
+  omit?: Prisma.OscarBallotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OscarBallotInclude<ExtArgs> | null
+  where?: Prisma.OscarBallotWhereInput
+  orderBy?: Prisma.OscarBallotOrderByWithRelationInput | Prisma.OscarBallotOrderByWithRelationInput[]
+  cursor?: Prisma.OscarBallotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OscarBallotScalarFieldEnum | Prisma.OscarBallotScalarFieldEnum[]
 }
 
 /**

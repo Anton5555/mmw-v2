@@ -45,6 +45,7 @@ model Movie {
   dailyRecommendations DailyRecommendation[]
   yearTopPicks         YearTopPick[]
   yearTopStats         YearTopMovieStats[]
+  oscarNominees        OscarNominee[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -90,6 +91,7 @@ model User {
   MamParticipant      MamParticipant?
   BoardPost           BoardPost[]
   yearTopParticipants YearTopParticipant[]
+  oscarBallots        OscarBallot[]
 
   @@map("user")
 }
@@ -277,4 +279,78 @@ model YearTopMovieStats {
   @@unique([movieId, year, pickType])
   @@index([year, pickType, totalPoints])
   @@index([movieId])
+}
+
+model OscarEdition {
+  id              Int       @id @default(autoincrement())
+  year            Int       @unique
+  ceremonyDate    DateTime?
+  isActive        Boolean   @default(true)
+  resultsReleased Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+
+  categories OscarCategory[]
+  ballots    OscarBallot[]
+}
+
+model OscarCategory {
+  id        Int    @id @default(autoincrement())
+  editionId Int
+  name      String
+  slug      String
+  order     Int
+  winnerId  Int?
+
+  edition  OscarEdition   @relation(fields: [editionId], references: [id], onDelete: Cascade)
+  nominees OscarNominee[]
+  picks    OscarPick[]
+
+  @@unique([editionId, slug])
+  @@index([editionId, order])
+}
+
+model OscarNominee {
+  id         Int     @id @default(autoincrement())
+  categoryId Int
+  name       String
+  filmTitle  String?
+  imdbId     String?
+  filmImdbId String?
+  movieId    Int?
+
+  category OscarCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  movie    Movie?        @relation(fields: [movieId], references: [id], onDelete: SetNull)
+  picks    OscarPick[]
+
+  @@index([categoryId])
+  @@index([movieId])
+}
+
+model OscarBallot {
+  id          String   @id @default(uuid())
+  userId      String
+  editionId   Int
+  submittedAt DateTime @default(now())
+  score       Int?
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  edition OscarEdition @relation(fields: [editionId], references: [id], onDelete: Cascade)
+  picks   OscarPick[]
+
+  @@unique([userId, editionId])
+  @@index([editionId, score(sort: Desc)])
+}
+
+model OscarPick {
+  id         Int    @id @default(autoincrement())
+  ballotId   String
+  categoryId Int
+  nomineeId  Int
+
+  ballot   OscarBallot   @relation(fields: [ballotId], references: [id], onDelete: Cascade)
+  category OscarCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  nominee  OscarNominee  @relation(fields: [nomineeId], references: [id], onDelete: Cascade)
+
+  @@unique([ballotId, categoryId])
+  @@index([nomineeId])
 }

@@ -114,3 +114,28 @@ export type YearTopPick = Prisma.YearTopPickModel
  * 
  */
 export type YearTopMovieStats = Prisma.YearTopMovieStatsModel
+/**
+ * Model OscarEdition
+ * 
+ */
+export type OscarEdition = Prisma.OscarEditionModel
+/**
+ * Model OscarCategory
+ * 
+ */
+export type OscarCategory = Prisma.OscarCategoryModel
+/**
+ * Model OscarNominee
+ * 
+ */
+export type OscarNominee = Prisma.OscarNomineeModel
+/**
+ * Model OscarBallot
+ * 
+ */
+export type OscarBallot = Prisma.OscarBallotModel
+/**
+ * Model OscarPick
+ * 
+ */
+export type OscarPick = Prisma.OscarPickModel
