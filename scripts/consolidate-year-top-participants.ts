@@ -30,7 +30,6 @@ interface ConsolidationGroup {
   type: 'linked' | 'unlinked';
   participants: Array<{
     id: number;
-    year: number;
     displayName: string;
     slug: string;
     userId: string | null;
@@ -106,16 +105,52 @@ async function main() {
 
       if (pickCount > 0) {
         console.log(
-          `  Moving ${pickCount} picks from id:${deleteId} (${deleteParticipant.displayName}, year:${deleteParticipant.year}) to id:${group.keepId}`
+          `  Moving ${pickCount} picks from id:${deleteId} (${deleteParticipant.displayName}) to id:${group.keepId}`
         );
 
         if (!dryRun) {
           try {
-            await prisma.yearTopPick.updateMany({
+            // Get all picks to move
+            const picksToMove = await prisma.yearTopPick.findMany({
               where: { participantId: deleteId },
-              data: { participantId: group.keepId },
             });
-            totalPicksUpdated += pickCount;
+
+            let moved = 0;
+            let deleted = 0;
+            let skipped = 0;
+
+            // Move picks one by one, handling duplicates
+            for (const pick of picksToMove) {
+              // Check if a pick already exists for the target participant
+              const existingPick = await prisma.yearTopPick.findUnique({
+                where: {
+                  participantId_movieId_year_pickType: {
+                    participantId: group.keepId,
+                    movieId: pick.movieId,
+                    year: pick.year,
+                    pickType: pick.pickType,
+                  },
+                },
+              });
+
+              if (existingPick) {
+                // Duplicate exists - delete the one we're moving
+                await prisma.yearTopPick.delete({
+                  where: { id: pick.id },
+                });
+                deleted++;
+              } else {
+                // No duplicate - move the pick
+                await prisma.yearTopPick.update({
+                  where: { id: pick.id },
+                  data: { participantId: group.keepId },
+                });
+                moved++;
+              }
+            }
+
+            totalPicksUpdated += moved;
+            console.log(`    ✅ Moved ${moved}, deleted ${deleted} duplicates`);
           } catch (error) {
             const errorMsg = `Failed to update picks: ${error instanceof Error ? error.message : String(error)}`;
             console.error(`  ❌ ${errorMsg}`);
@@ -127,26 +162,35 @@ async function main() {
         }
       }
 
-      // Delete the duplicate participant
-      console.log(`  Deleting participant id:${deleteId} (${deleteParticipant.displayName}, year:${deleteParticipant.year})`);
-
+      // Delete the duplicate participant (only if it still exists)
       if (!dryRun) {
-        try {
-          await prisma.yearTopParticipant.delete({
-            where: { id: deleteId },
-          });
-          totalParticipantsDeleted++;
-        } catch (error) {
-          const errorMsg = `Failed to delete participant: ${error instanceof Error ? error.message : String(error)}`;
-          console.error(`  ❌ ${errorMsg}`);
-          errors.push({ group: groupLabel, error: errorMsg });
+        const participantExists = await prisma.yearTopParticipant.findUnique({
+          where: { id: deleteId },
+          select: { id: true },
+        });
+
+        if (participantExists) {
+          console.log(`  Deleting participant id:${deleteId} (${deleteParticipant.displayName})`);
+          try {
+            await prisma.yearTopParticipant.delete({
+              where: { id: deleteId },
+            });
+            totalParticipantsDeleted++;
+          } catch (error) {
+            const errorMsg = `Failed to delete participant: ${error instanceof Error ? error.message : String(error)}`;
+            console.error(`  ❌ ${errorMsg}`);
+            errors.push({ group: groupLabel, error: errorMsg });
+          }
+        } else {
+          console.log(`  ⚠️  Participant id:${deleteId} already deleted, skipping`);
         }
       } else {
+        console.log(`  Deleting participant id:${deleteId} (${deleteParticipant.displayName})`);
         totalParticipantsDeleted++;
       }
     }
 
-    console.log(`  ✅ Kept participant id:${group.keepId} (${keepParticipant.displayName}, year:${keepParticipant.year})\n`);
+    console.log(`  ✅ Kept participant id:${group.keepId} (${keepParticipant.displayName})\n`);
   }
 
   // Summary

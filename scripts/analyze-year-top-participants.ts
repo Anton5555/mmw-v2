@@ -90,6 +90,32 @@ async function main() {
     pickCount: p._count.picks,
   }));
 
+  // Known slug variations that should be consolidated
+  // Maps variant slugs to canonical slugs
+  // All variants map to the canonical slug (the one to keep)
+  const slugCanonicalMap: Record<string, string> = {
+    'matias-mayer-mayermatias': 'mayermatias',
+    'el-diegot': 'el-diegot3',
+    'alan': 'alangmonzon',
+    'clau': 'claudiohernan73',
+    'clauhernan73': 'claudiohernan73',
+    'fede-c': 'fedec',
+    'lucho': 'lucho73r', // Use lucho73r as canonical
+    'mar': 'marpezzuchi',
+    'martin-g': 'martin-goniondzki', // Use martin-goniondzki as canonical
+    'natalia': 'nati',
+  };
+
+  // Normalize slugs for unlinked participants using canonical mapping
+  const getCanonicalSlug = (slug: string, userId: string | null): string => {
+    if (userId) {
+      // For linked participants, use slug as-is (grouping by userId handles it)
+      return slug;
+    }
+    // For unlinked, check if there's a canonical mapping
+    return slugCanonicalMap[slug] || slug;
+  };
+
   // Group by userId (for linked participants)
   const linkedMap = new Map<string, ParticipantRecord[]>();
   for (const record of records) {
@@ -101,14 +127,15 @@ async function main() {
     }
   }
 
-  // Group by slug (for unlinked participants)
+  // Group by canonical slug (for unlinked participants)
   const unlinkedMap = new Map<string, ParticipantRecord[]>();
   for (const record of records) {
     if (!record.userId) {
-      if (!unlinkedMap.has(record.slug)) {
-        unlinkedMap.set(record.slug, []);
+      const canonicalSlug = getCanonicalSlug(record.slug, record.userId);
+      if (!unlinkedMap.has(canonicalSlug)) {
+        unlinkedMap.set(canonicalSlug, []);
       }
-      unlinkedMap.get(record.slug)!.push(record);
+      unlinkedMap.get(canonicalSlug)!.push(record);
     }
   }
 
@@ -135,17 +162,19 @@ async function main() {
 
   const unlinkedGroups: ConsolidationGroup[] = [];
   const unlinkedSingles: ParticipantRecord[] = [];
-  for (const [slug, groupRecords] of unlinkedMap.entries()) {
+  for (const [canonicalSlug, groupRecords] of unlinkedMap.entries()) {
     if (groupRecords.length > 1) {
-      // Sort by createdAt desc to get most recent
-      const sorted = [...groupRecords].sort(
-        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-      );
+      // Sort by createdAt desc to get most recent, then by pickCount desc as tiebreaker
+      const sorted = [...groupRecords].sort((a, b) => {
+        const timeDiff = b.createdAt.getTime() - a.createdAt.getTime();
+        if (timeDiff !== 0) return timeDiff;
+        return b.pickCount - a.pickCount;
+      });
       const keep = sorted[0];
       const toDelete = sorted.slice(1);
 
       unlinkedGroups.push({
-        key: slug,
+        key: canonicalSlug,
         type: 'unlinked',
         participants: sorted,
         keepId: keep.id,

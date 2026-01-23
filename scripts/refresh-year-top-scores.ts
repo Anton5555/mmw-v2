@@ -8,6 +8,7 @@
  *   npx tsx scripts/refresh-year-top-scores.ts
  *   npx tsx scripts/refresh-year-top-scores.ts --dry-run
  *   npx tsx scripts/refresh-year-top-scores.ts --year 2025
+ *   npx tsx scripts/refresh-year-top-scores.ts --year=2025
  */
 
 import { PrismaClient, YearTopPickType } from '../generated/prisma/client';
@@ -27,8 +28,18 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const yearArg = args.find((arg) => arg.startsWith('--year='));
-  const yearFilter = yearArg ? parseInt(yearArg.split('=')[1], 10) : undefined;
+  
+  // Support both --year=2025 and --year 2025 formats
+  let yearFilter: number | undefined = undefined;
+  const yearArgWithEquals = args.find((arg) => arg.startsWith('--year='));
+  if (yearArgWithEquals) {
+    yearFilter = parseInt(yearArgWithEquals.split('=')[1], 10);
+  } else {
+    const yearArgIndex = args.findIndex((arg) => arg === '--year');
+    if (yearArgIndex !== -1 && yearArgIndex + 1 < args.length) {
+      yearFilter = parseInt(args[yearArgIndex + 1], 10);
+    }
+  }
 
   console.log('🔄 Refresh YearTop Movie Scores');
   console.log('================================');

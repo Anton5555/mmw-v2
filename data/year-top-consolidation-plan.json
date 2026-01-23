@@ -1,1675 +1,389 @@
 {
-  "linkedGroups": [
-    {
-      "key": "LjtyVykpToUBLXNoLdM89l3eFD373VXW",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 33,
-          "year": 2025,
-          "displayName": "Santiago",
-          "slug": "santiago",
-          "userId": "LjtyVykpToUBLXNoLdM89l3eFD373VXW",
-          "createdAt": "2026-01-20T14:13:31.556Z",
-          "pickCount": 14
-        },
-        {
-          "id": 68,
-          "year": 2024,
-          "displayName": "Santiago",
-          "slug": "santiago",
-          "userId": "LjtyVykpToUBLXNoLdM89l3eFD373VXW",
-          "createdAt": "2026-01-20T17:27:30.233Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 33,
-      "deleteIds": [
-        68
-      ]
-    },
-    {
-      "key": "BERM4YZBpgn0PEvU4xNk01im1WnGFJim",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 32,
-          "year": 2025,
-          "displayName": "Ale",
-          "slug": "ale",
-          "userId": "BERM4YZBpgn0PEvU4xNk01im1WnGFJim",
-          "createdAt": "2026-01-20T14:13:28.380Z",
-          "pickCount": 13
-        },
-        {
-          "id": 57,
-          "year": 2024,
-          "displayName": "Ale",
-          "slug": "ale",
-          "userId": "BERM4YZBpgn0PEvU4xNk01im1WnGFJim",
-          "createdAt": "2026-01-20T17:27:11.312Z",
-          "pickCount": 13
-        },
-        {
-          "id": 112,
-          "year": 2023,
-          "displayName": "Ale",
-          "slug": "ale",
-          "userId": "BERM4YZBpgn0PEvU4xNk01im1WnGFJim",
-          "createdAt": "2026-01-21T19:53:22.426Z",
-          "pickCount": 5
-        },
-        {
-          "id": 108,
-          "year": 2022,
-          "displayName": "Ale",
-          "slug": "ale",
-          "userId": "BERM4YZBpgn0PEvU4xNk01im1WnGFJim",
-          "createdAt": "2026-01-21T19:08:26.043Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 32,
-      "deleteIds": [
-        57,
-        112,
-        108
-      ]
-    },
-    {
-      "key": "IecYzFDkQVyR3na2tbkcyNcnugeIdtav",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 31,
-          "year": 2025,
-          "displayName": "El Picaro",
-          "slug": "el-picaro",
-          "userId": "IecYzFDkQVyR3na2tbkcyNcnugeIdtav",
-          "createdAt": "2026-01-20T14:13:25.493Z",
-          "pickCount": 14
-        },
-        {
-          "id": 34,
-          "year": 2024,
-          "displayName": "El Picaro",
-          "slug": "el-picaro",
-          "userId": "IecYzFDkQVyR3na2tbkcyNcnugeIdtav",
-          "createdAt": "2026-01-20T17:26:16.157Z",
-          "pickCount": 13
-        },
-        {
-          "id": 118,
-          "year": 2023,
-          "displayName": "El Pícaro",
-          "slug": "el-picaro",
-          "userId": "IecYzFDkQVyR3na2tbkcyNcnugeIdtav",
-          "createdAt": "2026-01-21T19:53:26.376Z",
-          "pickCount": 5
-        },
-        {
-          "id": 84,
-          "year": 2022,
-          "displayName": "mauroelninja",
-          "slug": "mauroelninja",
-          "userId": "IecYzFDkQVyR3na2tbkcyNcnugeIdtav",
-          "createdAt": "2026-01-21T19:08:00.136Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 31,
-      "deleteIds": [
-        34,
-        118,
-        84
-      ]
-    },
-    {
-      "key": "lDNkFRKDeKVwN9TvMBjtf85aQtGXPeUp",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 30,
-          "year": 2025,
-          "displayName": "Ivana",
-          "slug": "ivana",
-          "userId": "lDNkFRKDeKVwN9TvMBjtf85aQtGXPeUp",
-          "createdAt": "2026-01-20T14:13:22.886Z",
-          "pickCount": 11
-        },
-        {
-          "id": 67,
-          "year": 2024,
-          "displayName": "Ivana",
-          "slug": "ivana",
-          "userId": "lDNkFRKDeKVwN9TvMBjtf85aQtGXPeUp",
-          "createdAt": "2026-01-20T17:27:29.044Z",
-          "pickCount": 13
-        },
-        {
-          "id": 98,
-          "year": 2022,
-          "displayName": "Ivana",
-          "slug": "ivana",
-          "userId": "lDNkFRKDeKVwN9TvMBjtf85aQtGXPeUp",
-          "createdAt": "2026-01-21T19:08:15.821Z",
-          "pickCount": 6
-        }
-      ],
-      "keepId": 30,
-      "deleteIds": [
-        67,
-        98
-      ]
-    },
-    {
-      "key": "mK2pQtkeXUNfyCDxtEDdDpKKDryamqde",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 29,
-          "year": 2025,
-          "displayName": "Santee",
-          "slug": "santee",
-          "userId": "mK2pQtkeXUNfyCDxtEDdDpKKDryamqde",
-          "createdAt": "2026-01-20T14:13:19.572Z",
-          "pickCount": 14
-        },
-        {
-          "id": 65,
-          "year": 2024,
-          "displayName": "Sanntee",
-          "slug": "sanntee",
-          "userId": "mK2pQtkeXUNfyCDxtEDdDpKKDryamqde",
-          "createdAt": "2026-01-20T17:27:25.019Z",
-          "pickCount": 13
-        },
-        {
-          "id": 138,
-          "year": 2023,
-          "displayName": "Santee",
-          "slug": "santee",
-          "userId": "mK2pQtkeXUNfyCDxtEDdDpKKDryamqde",
-          "createdAt": "2026-01-21T19:53:38.264Z",
-          "pickCount": 5
-        },
-        {
-          "id": 86,
-          "year": 2022,
-          "displayName": "Santee",
-          "slug": "santee",
-          "userId": "mK2pQtkeXUNfyCDxtEDdDpKKDryamqde",
-          "createdAt": "2026-01-21T19:08:02.374Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 29,
-      "deleteIds": [
-        65,
-        138,
-        86
-      ]
-    },
-    {
-      "key": "826KGHXCYJtZtNh2pY1ncZpJQbUDjvQr",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 28,
-          "year": 2025,
-          "displayName": "El_Diegot3",
-          "slug": "el-diegot3",
-          "userId": "826KGHXCYJtZtNh2pY1ncZpJQbUDjvQr",
-          "createdAt": "2026-01-20T14:13:16.015Z",
-          "pickCount": 14
-        },
-        {
-          "id": 55,
-          "year": 2024,
-          "displayName": "El_Diegot3",
-          "slug": "el-diegot3",
-          "userId": "826KGHXCYJtZtNh2pY1ncZpJQbUDjvQr",
-          "createdAt": "2026-01-20T17:27:08.891Z",
-          "pickCount": 12
-        },
-        {
-          "id": 142,
-          "year": 2023,
-          "displayName": "El Diegot",
-          "slug": "el-diegot",
-          "userId": "826KGHXCYJtZtNh2pY1ncZpJQbUDjvQr",
-          "createdAt": "2026-01-21T19:53:40.561Z",
-          "pickCount": 5
-        },
-        {
-          "id": 95,
-          "year": 2022,
-          "displayName": "El_Diegot3",
-          "slug": "el-diegot3",
-          "userId": "826KGHXCYJtZtNh2pY1ncZpJQbUDjvQr",
-          "createdAt": "2026-01-21T19:08:12.280Z",
-          "pickCount": 9
-        }
-      ],
-      "keepId": 28,
-      "deleteIds": [
-        55,
-        142,
-        95
-      ]
-    },
-    {
-      "key": "46id8WdacVRvjgzsTonOnDxKaNzi7e7C",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 27,
-          "year": 2025,
-          "displayName": "Fer Heinz",
-          "slug": "fer-heinz",
-          "userId": "46id8WdacVRvjgzsTonOnDxKaNzi7e7C",
-          "createdAt": "2026-01-20T14:13:13.453Z",
-          "pickCount": 12
-        },
-        {
-          "id": 56,
-          "year": 2024,
-          "displayName": "ferheinz",
-          "slug": "ferheinz",
-          "userId": "46id8WdacVRvjgzsTonOnDxKaNzi7e7C",
-          "createdAt": "2026-01-20T17:27:10.056Z",
-          "pickCount": 10
-        },
-        {
-          "id": 125,
-          "year": 2023,
-          "displayName": "Ferheinz",
-          "slug": "ferheinz",
-          "userId": "46id8WdacVRvjgzsTonOnDxKaNzi7e7C",
-          "createdAt": "2026-01-21T19:53:30.617Z",
-          "pickCount": 5
-        },
-        {
-          "id": 94,
-          "year": 2022,
-          "displayName": "ferheinz",
-          "slug": "ferheinz",
-          "userId": "46id8WdacVRvjgzsTonOnDxKaNzi7e7C",
-          "createdAt": "2026-01-21T19:08:11.302Z",
-          "pickCount": 8
-        }
-      ],
-      "keepId": 27,
-      "deleteIds": [
-        56,
-        125,
-        94
-      ]
-    },
-    {
-      "key": "vZq3gBbHl9RL2TUM9JYpvPeR16UypgR5",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 26,
-          "year": 2025,
-          "displayName": "Juan Navarro",
-          "slug": "juan-navarro",
-          "userId": "vZq3gBbHl9RL2TUM9JYpvPeR16UypgR5",
-          "createdAt": "2026-01-20T14:13:09.500Z",
-          "pickCount": 14
-        },
-        {
-          "id": 66,
-          "year": 2024,
-          "displayName": "Juan Navarro",
-          "slug": "juan-navarro",
-          "userId": "vZq3gBbHl9RL2TUM9JYpvPeR16UypgR5",
-          "createdAt": "2026-01-20T17:27:26.528Z",
-          "pickCount": 13
-        },
-        {
-          "id": 139,
-          "year": 2023,
-          "displayName": "Juan",
-          "slug": "juan",
-          "userId": "vZq3gBbHl9RL2TUM9JYpvPeR16UypgR5",
-          "createdAt": "2026-01-21T19:53:38.814Z",
-          "pickCount": 5
-        },
-        {
-          "id": 97,
-          "year": 2022,
-          "displayName": "Juan Navarro",
-          "slug": "juan-navarro",
-          "userId": "vZq3gBbHl9RL2TUM9JYpvPeR16UypgR5",
-          "createdAt": "2026-01-21T19:08:14.656Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 26,
-      "deleteIds": [
-        66,
-        139,
-        97
-      ]
-    },
-    {
-      "key": "mrrmdCMS49us6N7muuQtGyXEsHeZ8S11",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 25,
-          "year": 2025,
-          "displayName": "Matías Mayer @MayerMatias",
-          "slug": "matias-mayer-mayermatias",
-          "userId": "mrrmdCMS49us6N7muuQtGyXEsHeZ8S11",
-          "createdAt": "2026-01-20T14:13:04.860Z",
-          "pickCount": 13
-        },
-        {
-          "id": 35,
-          "year": 2024,
-          "displayName": "Matias Mayer",
-          "slug": "matias-mayer",
-          "userId": "mrrmdCMS49us6N7muuQtGyXEsHeZ8S11",
-          "createdAt": "2026-01-20T17:26:21.804Z",
-          "pickCount": 13
-        },
-        {
-          "id": 92,
-          "year": 2022,
-          "displayName": "MayerMatias",
-          "slug": "mayermatias",
-          "userId": "mrrmdCMS49us6N7muuQtGyXEsHeZ8S11",
-          "createdAt": "2026-01-21T19:08:08.958Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 25,
-      "deleteIds": [
-        35,
-        92
-      ]
-    },
-    {
-      "key": "xn94NLf6muXhuS61BwdUbouT9DWuPy54",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 24,
-          "year": 2025,
-          "displayName": "basophium",
-          "slug": "basophium",
-          "userId": "xn94NLf6muXhuS61BwdUbouT9DWuPy54",
-          "createdAt": "2026-01-20T14:13:02.594Z",
-          "pickCount": 13
-        },
-        {
-          "id": 64,
-          "year": 2024,
-          "displayName": "basophium",
-          "slug": "basophium",
-          "userId": "xn94NLf6muXhuS61BwdUbouT9DWuPy54",
-          "createdAt": "2026-01-20T17:27:23.396Z",
-          "pickCount": 13
-        },
-        {
-          "id": 130,
-          "year": 2023,
-          "displayName": "Basophium",
-          "slug": "basophium",
-          "userId": "xn94NLf6muXhuS61BwdUbouT9DWuPy54",
-          "createdAt": "2026-01-21T19:53:33.148Z",
-          "pickCount": 5
-        },
-        {
-          "id": 105,
-          "year": 2022,
-          "displayName": "basophium",
-          "slug": "basophium",
-          "userId": "xn94NLf6muXhuS61BwdUbouT9DWuPy54",
-          "createdAt": "2026-01-21T19:08:22.559Z",
-          "pickCount": 8
-        }
-      ],
-      "keepId": 24,
-      "deleteIds": [
-        64,
-        130,
-        105
-      ]
-    },
-    {
-      "key": "xhmcB6GIL2qyDqeNewdEhbc9qRmWXVwn",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 22,
-          "year": 2025,
-          "displayName": "/albaletti",
-          "slug": "albaletti",
-          "userId": "xhmcB6GIL2qyDqeNewdEhbc9qRmWXVwn",
-          "createdAt": "2026-01-20T14:12:55.000Z",
-          "pickCount": 14
-        },
-        {
-          "id": 61,
-          "year": 2024,
-          "displayName": "Albano! @albaletti",
-          "slug": "albano-albaletti",
-          "userId": "xhmcB6GIL2qyDqeNewdEhbc9qRmWXVwn",
-          "createdAt": "2026-01-20T17:27:18.925Z",
-          "pickCount": 13
-        },
-        {
-          "id": 146,
-          "year": 2023,
-          "displayName": "Albano",
-          "slug": "albano",
-          "userId": "xhmcB6GIL2qyDqeNewdEhbc9qRmWXVwn",
-          "createdAt": "2026-01-21T19:53:42.646Z",
-          "pickCount": 5
-        },
-        {
-          "id": 103,
-          "year": 2022,
-          "displayName": "albaletti",
-          "slug": "albaletti",
-          "userId": "xhmcB6GIL2qyDqeNewdEhbc9qRmWXVwn",
-          "createdAt": "2026-01-21T19:08:20.362Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 22,
-      "deleteIds": [
-        61,
-        146,
-        103
-      ]
-    },
-    {
-      "key": "xmFdh2f05gE6U6k2uGfjFfB02locKygQ",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 21,
-          "year": 2025,
-          "displayName": "Mar",
-          "slug": "mar",
-          "userId": "xmFdh2f05gE6U6k2uGfjFfB02locKygQ",
-          "createdAt": "2026-01-20T14:12:52.129Z",
-          "pickCount": 14
-        },
-        {
-          "id": 63,
-          "year": 2024,
-          "displayName": "Mar",
-          "slug": "mar",
-          "userId": "xmFdh2f05gE6U6k2uGfjFfB02locKygQ",
-          "createdAt": "2026-01-20T17:27:22.228Z",
-          "pickCount": 13
-        },
-        {
-          "id": 135,
-          "year": 2023,
-          "displayName": "Mar",
-          "slug": "mar",
-          "userId": "xmFdh2f05gE6U6k2uGfjFfB02locKygQ",
-          "createdAt": "2026-01-21T19:53:36.584Z",
-          "pickCount": 5
-        },
-        {
-          "id": 101,
-          "year": 2022,
-          "displayName": "marpezzuchi",
-          "slug": "marpezzuchi",
-          "userId": "xmFdh2f05gE6U6k2uGfjFfB02locKygQ",
-          "createdAt": "2026-01-21T19:08:18.222Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 21,
-      "deleteIds": [
-        63,
-        135,
-        101
-      ]
-    },
-    {
-      "key": "m4H1IwS5ZOKpPRqYzUFz4A9v3iaVZCaY",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 20,
-          "year": 2025,
-          "displayName": "Anton",
-          "slug": "anton",
-          "userId": "m4H1IwS5ZOKpPRqYzUFz4A9v3iaVZCaY",
-          "createdAt": "2026-01-20T14:12:49.246Z",
-          "pickCount": 14
-        },
-        {
-          "id": 50,
-          "year": 2024,
-          "displayName": "Anton",
-          "slug": "anton",
-          "userId": "m4H1IwS5ZOKpPRqYzUFz4A9v3iaVZCaY",
-          "createdAt": "2026-01-20T17:27:00.287Z",
-          "pickCount": 13
-        },
-        {
-          "id": 132,
-          "year": 2023,
-          "displayName": "Anton",
-          "slug": "anton",
-          "userId": "m4H1IwS5ZOKpPRqYzUFz4A9v3iaVZCaY",
-          "createdAt": "2026-01-21T19:53:34.753Z",
-          "pickCount": 5
-        },
-        {
-          "id": 91,
-          "year": 2022,
-          "displayName": "El Anton",
-          "slug": "el-anton",
-          "userId": "m4H1IwS5ZOKpPRqYzUFz4A9v3iaVZCaY",
-          "createdAt": "2026-01-21T19:08:07.869Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 20,
-      "deleteIds": [
-        50,
-        132,
-        91
-      ]
-    },
-    {
-      "key": "2jfo9RfQ0nwq8ZNPnOAiyfoW2uT5aDgq",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 19,
-          "year": 2025,
-          "displayName": "Esteban",
-          "slug": "esteban",
-          "userId": "2jfo9RfQ0nwq8ZNPnOAiyfoW2uT5aDgq",
-          "createdAt": "2026-01-20T14:12:44.929Z",
-          "pickCount": 14
-        },
-        {
-          "id": 52,
-          "year": 2024,
-          "displayName": "Esteban",
-          "slug": "esteban",
-          "userId": "2jfo9RfQ0nwq8ZNPnOAiyfoW2uT5aDgq",
-          "createdAt": "2026-01-20T17:27:03.993Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 19,
-      "deleteIds": [
-        52
-      ]
-    },
-    {
-      "key": "wYmygt9qmZjJlSqgzqYnYPbDpB4BzUfb",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 17,
-          "year": 2025,
-          "displayName": "Hernan Rodríguez",
-          "slug": "hernan-rodriguez",
-          "userId": "wYmygt9qmZjJlSqgzqYnYPbDpB4BzUfb",
-          "createdAt": "2026-01-20T14:12:38.281Z",
-          "pickCount": 12
-        },
-        {
-          "id": 59,
-          "year": 2024,
-          "displayName": "Hernán Rodriguez",
-          "slug": "hernan-rodriguez",
-          "userId": "wYmygt9qmZjJlSqgzqYnYPbDpB4BzUfb",
-          "createdAt": "2026-01-20T17:27:15.167Z",
-          "pickCount": 13
-        },
-        {
-          "id": 137,
-          "year": 2023,
-          "displayName": "Hernan",
-          "slug": "hernan",
-          "userId": "wYmygt9qmZjJlSqgzqYnYPbDpB4BzUfb",
-          "createdAt": "2026-01-21T19:53:37.717Z",
-          "pickCount": 5
-        },
-        {
-          "id": 88,
-          "year": 2022,
-          "displayName": "Hernán Rodríguez",
-          "slug": "hernan-rodriguez",
-          "userId": "wYmygt9qmZjJlSqgzqYnYPbDpB4BzUfb",
-          "createdAt": "2026-01-21T19:08:04.664Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 17,
-      "deleteIds": [
-        59,
-        137,
-        88
-      ]
-    },
-    {
-      "key": "uojeSPNmtz4wm8E8lVboKq0uihAegIbh",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 16,
-          "year": 2025,
-          "displayName": "noelyas",
-          "slug": "noelyas",
-          "userId": "uojeSPNmtz4wm8E8lVboKq0uihAegIbh",
-          "createdAt": "2026-01-20T14:12:36.135Z",
-          "pickCount": 12
-        },
-        {
-          "id": 43,
-          "year": 2024,
-          "displayName": "noelyas",
-          "slug": "noelyas",
-          "userId": "uojeSPNmtz4wm8E8lVboKq0uihAegIbh",
-          "createdAt": "2026-01-20T17:26:46.443Z",
-          "pickCount": 11
-        },
-        {
-          "id": 129,
-          "year": 2023,
-          "displayName": "NOELYAS",
-          "slug": "noelyas",
-          "userId": "uojeSPNmtz4wm8E8lVboKq0uihAegIbh",
-          "createdAt": "2026-01-21T19:53:32.584Z",
-          "pickCount": 5
-        },
-        {
-          "id": 79,
-          "year": 2022,
-          "displayName": "noelyas",
-          "slug": "noelyas",
-          "userId": "uojeSPNmtz4wm8E8lVboKq0uihAegIbh",
-          "createdAt": "2026-01-21T19:07:54.869Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 16,
-      "deleteIds": [
-        43,
-        129,
-        79
-      ]
-    },
-    {
-      "key": "6KzcAahCL41prsb71grEAGrhzlpQzsse",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 15,
-          "year": 2025,
-          "displayName": "Silvina",
-          "slug": "silvina",
-          "userId": "6KzcAahCL41prsb71grEAGrhzlpQzsse",
-          "createdAt": "2026-01-20T14:12:33.308Z",
-          "pickCount": 14
-        },
-        {
-          "id": 39,
-          "year": 2024,
-          "displayName": "mishilvina",
-          "slug": "mishilvina",
-          "userId": "6KzcAahCL41prsb71grEAGrhzlpQzsse",
-          "createdAt": "2026-01-20T17:26:33.491Z",
-          "pickCount": 12
-        }
-      ],
-      "keepId": 15,
-      "deleteIds": [
-        39
-      ]
-    },
-    {
-      "key": "Fae3tWtwhw6Yypod05W8SmONrBmECzAC",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 13,
-          "year": 2025,
-          "displayName": "Fede C",
-          "slug": "fede-c",
-          "userId": "Fae3tWtwhw6Yypod05W8SmONrBmECzAC",
-          "createdAt": "2026-01-20T14:12:24.145Z",
-          "pickCount": 14
-        },
-        {
-          "id": 48,
-          "year": 2024,
-          "displayName": "FedeC",
-          "slug": "fedec",
-          "userId": "Fae3tWtwhw6Yypod05W8SmONrBmECzAC",
-          "createdAt": "2026-01-20T17:26:56.513Z",
-          "pickCount": 13
-        },
-        {
-          "id": 120,
-          "year": 2023,
-          "displayName": "Fede C",
-          "slug": "fede-c",
-          "userId": "Fae3tWtwhw6Yypod05W8SmONrBmECzAC",
-          "createdAt": "2026-01-21T19:53:27.548Z",
-          "pickCount": 5
-        },
-        {
-          "id": 82,
-          "year": 2022,
-          "displayName": "FedeC",
-          "slug": "fedec",
-          "userId": "Fae3tWtwhw6Yypod05W8SmONrBmECzAC",
-          "createdAt": "2026-01-21T19:07:57.968Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 13,
-      "deleteIds": [
-        48,
-        120,
-        82
-      ]
-    },
-    {
-      "key": "9is8lihlXe0ulYeBuSNSrPxDRGg7dHIO",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 12,
-          "year": 2025,
-          "displayName": "martog23",
-          "slug": "martog23",
-          "userId": "9is8lihlXe0ulYeBuSNSrPxDRGg7dHIO",
-          "createdAt": "2026-01-20T14:12:19.990Z",
-          "pickCount": 14
-        },
-        {
-          "id": 45,
-          "year": 2024,
-          "displayName": "Martín Goniondzki",
-          "slug": "martin-goniondzki",
-          "userId": "9is8lihlXe0ulYeBuSNSrPxDRGg7dHIO",
-          "createdAt": "2026-01-20T17:26:50.623Z",
-          "pickCount": 13
-        },
-        {
-          "id": 110,
-          "year": 2023,
-          "displayName": "Martín G.",
-          "slug": "martin-g",
-          "userId": "9is8lihlXe0ulYeBuSNSrPxDRGg7dHIO",
-          "createdAt": "2026-01-21T19:53:21.153Z",
-          "pickCount": 5
-        },
-        {
-          "id": 72,
-          "year": 2022,
-          "displayName": "Martin Goniondzki",
-          "slug": "martin-goniondzki",
-          "userId": "9is8lihlXe0ulYeBuSNSrPxDRGg7dHIO",
-          "createdAt": "2026-01-21T19:07:47.251Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 12,
-      "deleteIds": [
-        45,
-        110,
-        72
-      ]
-    },
-    {
-      "key": "wZIj4nkyLc3DbQldfUkBCySiGy49lzpo",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 11,
-          "year": 2025,
-          "displayName": "claudiohernan73",
-          "slug": "claudiohernan73",
-          "userId": "wZIj4nkyLc3DbQldfUkBCySiGy49lzpo",
-          "createdAt": "2026-01-20T14:12:16.673Z",
-          "pickCount": 14
-        },
-        {
-          "id": 38,
-          "year": 2024,
-          "displayName": "claudio",
-          "slug": "claudio",
-          "userId": "wZIj4nkyLc3DbQldfUkBCySiGy49lzpo",
-          "createdAt": "2026-01-20T17:26:31.766Z",
-          "pickCount": 13
-        },
-        {
-          "id": 126,
-          "year": 2023,
-          "displayName": "Clau",
-          "slug": "clau",
-          "userId": "wZIj4nkyLc3DbQldfUkBCySiGy49lzpo",
-          "createdAt": "2026-01-21T19:53:31.216Z",
-          "pickCount": 4
-        },
-        {
-          "id": 81,
-          "year": 2022,
-          "displayName": "Clauhernan73",
-          "slug": "clauhernan73",
-          "userId": "wZIj4nkyLc3DbQldfUkBCySiGy49lzpo",
-          "createdAt": "2026-01-21T19:07:56.763Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 11,
-      "deleteIds": [
-        38,
-        126,
-        81
-      ]
-    },
-    {
-      "key": "Rs8KsaCmBS2QbHMngFyT3Bki9ivdV5Jz",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 10,
-          "year": 2025,
-          "displayName": "estrasnoy",
-          "slug": "estrasnoy",
-          "userId": "Rs8KsaCmBS2QbHMngFyT3Bki9ivdV5Jz",
-          "createdAt": "2026-01-20T14:12:12.367Z",
-          "pickCount": 14
-        },
-        {
-          "id": 62,
-          "year": 2024,
-          "displayName": "estrasnoy",
-          "slug": "estrasnoy",
-          "userId": "Rs8KsaCmBS2QbHMngFyT3Bki9ivdV5Jz",
-          "createdAt": "2026-01-20T17:27:20.567Z",
-          "pickCount": 13
-        },
-        {
-          "id": 140,
-          "year": 2023,
-          "displayName": "Agus",
-          "slug": "agus",
-          "userId": "Rs8KsaCmBS2QbHMngFyT3Bki9ivdV5Jz",
-          "createdAt": "2026-01-21T19:53:39.413Z",
-          "pickCount": 5
-        },
-        {
-          "id": 96,
-          "year": 2022,
-          "displayName": "estrasnoy",
-          "slug": "estrasnoy",
-          "userId": "Rs8KsaCmBS2QbHMngFyT3Bki9ivdV5Jz",
-          "createdAt": "2026-01-21T19:08:13.351Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 10,
-      "deleteIds": [
-        62,
-        140,
-        96
-      ]
-    },
-    {
-      "key": "88OSUg9nbLNRbxYdaZrWM1yVcTQykmaB",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 9,
-          "year": 2025,
-          "displayName": "Vicky_Picky",
-          "slug": "vicky-picky",
-          "userId": "88OSUg9nbLNRbxYdaZrWM1yVcTQykmaB",
-          "createdAt": "2026-01-20T14:12:09.040Z",
-          "pickCount": 14
-        },
-        {
-          "id": 46,
-          "year": 2024,
-          "displayName": "Vicky_Picky",
-          "slug": "vicky-picky",
-          "userId": "88OSUg9nbLNRbxYdaZrWM1yVcTQykmaB",
-          "createdAt": "2026-01-20T17:26:52.733Z",
-          "pickCount": 13
-        },
-        {
-          "id": 121,
-          "year": 2023,
-          "displayName": "Vicky",
-          "slug": "vicky",
-          "userId": "88OSUg9nbLNRbxYdaZrWM1yVcTQykmaB",
-          "createdAt": "2026-01-21T19:53:28.150Z",
-          "pickCount": 5
-        }
-      ],
-      "keepId": 9,
-      "deleteIds": [
-        46,
-        121
-      ]
-    },
-    {
-      "key": "ZkA3Uo3Rzegl7MLENcuE4KMKUlAFsOn7",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 8,
-          "year": 2025,
-          "displayName": "Marce",
-          "slug": "marce",
-          "userId": "ZkA3Uo3Rzegl7MLENcuE4KMKUlAFsOn7",
-          "createdAt": "2026-01-20T14:12:05.059Z",
-          "pickCount": 12
-        },
-        {
-          "id": 58,
-          "year": 2024,
-          "displayName": "Marce",
-          "slug": "marce",
-          "userId": "ZkA3Uo3Rzegl7MLENcuE4KMKUlAFsOn7",
-          "createdAt": "2026-01-20T17:27:13.068Z",
-          "pickCount": 13
-        },
-        {
-          "id": 124,
-          "year": 2023,
-          "displayName": "Marce",
-          "slug": "marce",
-          "userId": "ZkA3Uo3Rzegl7MLENcuE4KMKUlAFsOn7",
-          "createdAt": "2026-01-21T19:53:30.020Z",
-          "pickCount": 5
-        },
-        {
-          "id": 107,
-          "year": 2022,
-          "displayName": "Marce",
-          "slug": "marce",
-          "userId": "ZkA3Uo3Rzegl7MLENcuE4KMKUlAFsOn7",
-          "createdAt": "2026-01-21T19:08:24.928Z",
-          "pickCount": 9
-        }
-      ],
-      "keepId": 8,
-      "deleteIds": [
-        58,
-        124,
-        107
-      ]
-    },
-    {
-      "key": "tZwOit1Yz0marNszMjeDwrrg3yUPoZ6X",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 7,
-          "year": 2025,
-          "displayName": "GaryBusy",
-          "slug": "garybusy",
-          "userId": "tZwOit1Yz0marNszMjeDwrrg3yUPoZ6X",
-          "createdAt": "2026-01-20T14:12:01.152Z",
-          "pickCount": 14
-        },
-        {
-          "id": 37,
-          "year": 2024,
-          "displayName": "Gary Busy",
-          "slug": "gary-busy",
-          "userId": "tZwOit1Yz0marNszMjeDwrrg3yUPoZ6X",
-          "createdAt": "2026-01-20T17:26:29.248Z",
-          "pickCount": 13
-        },
-        {
-          "id": 117,
-          "year": 2023,
-          "displayName": "GaryBusy",
-          "slug": "garybusy",
-          "userId": "tZwOit1Yz0marNszMjeDwrrg3yUPoZ6X",
-          "createdAt": "2026-01-21T19:53:25.767Z",
-          "pickCount": 5
-        },
-        {
-          "id": 71,
-          "year": 2022,
-          "displayName": "GaryBusy",
-          "slug": "garybusy",
-          "userId": "tZwOit1Yz0marNszMjeDwrrg3yUPoZ6X",
-          "createdAt": "2026-01-21T19:07:46.061Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 7,
-      "deleteIds": [
-        37,
-        117,
-        71
-      ]
-    },
-    {
-      "key": "MnmzlEZtYoGDXeKtUL65qDq4PULd3F8B",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 5,
-          "year": 2025,
-          "displayName": "May",
-          "slug": "may",
-          "userId": "MnmzlEZtYoGDXeKtUL65qDq4PULd3F8B",
-          "createdAt": "2026-01-20T14:11:53.071Z",
-          "pickCount": 14
-        },
-        {
-          "id": 41,
-          "year": 2024,
-          "displayName": "May",
-          "slug": "may",
-          "userId": "MnmzlEZtYoGDXeKtUL65qDq4PULd3F8B",
-          "createdAt": "2026-01-20T17:26:39.877Z",
-          "pickCount": 13
-        },
-        {
-          "id": 114,
-          "year": 2023,
-          "displayName": "May",
-          "slug": "may",
-          "userId": "MnmzlEZtYoGDXeKtUL65qDq4PULd3F8B",
-          "createdAt": "2026-01-21T19:53:23.665Z",
-          "pickCount": 5
-        },
-        {
-          "id": 78,
-          "year": 2022,
-          "displayName": "May",
-          "slug": "may",
-          "userId": "MnmzlEZtYoGDXeKtUL65qDq4PULd3F8B",
-          "createdAt": "2026-01-21T19:07:53.437Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 5,
-      "deleteIds": [
-        41,
-        114,
-        78
-      ]
-    },
-    {
-      "key": "lfdwgTiaDfy5Odio7lvUmUcny10McWX7",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 3,
-          "year": 2025,
-          "displayName": "Santi",
-          "slug": "santi",
-          "userId": "lfdwgTiaDfy5Odio7lvUmUcny10McWX7",
-          "createdAt": "2026-01-20T14:11:42.852Z",
-          "pickCount": 14
-        },
-        {
-          "id": 36,
-          "year": 2024,
-          "displayName": "Santi",
-          "slug": "santi",
-          "userId": "lfdwgTiaDfy5Odio7lvUmUcny10McWX7",
-          "createdAt": "2026-01-20T17:26:26.257Z",
-          "pickCount": 13
-        },
-        {
-          "id": 113,
-          "year": 2023,
-          "displayName": "Santi",
-          "slug": "santi",
-          "userId": "lfdwgTiaDfy5Odio7lvUmUcny10McWX7",
-          "createdAt": "2026-01-21T19:53:23.106Z",
-          "pickCount": 5
-        },
-        {
-          "id": 89,
-          "year": 2022,
-          "displayName": "Santi",
-          "slug": "santi",
-          "userId": "lfdwgTiaDfy5Odio7lvUmUcny10McWX7",
-          "createdAt": "2026-01-21T19:08:05.895Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 3,
-      "deleteIds": [
-        36,
-        113,
-        89
-      ]
-    },
-    {
-      "key": "ExW9aaprtHfKP3rJPbaxoOhuDgz2lmjd",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 2,
-          "year": 2025,
-          "displayName": "Lucho73r",
-          "slug": "lucho73r",
-          "userId": "ExW9aaprtHfKP3rJPbaxoOhuDgz2lmjd",
-          "createdAt": "2026-01-20T14:11:36.885Z",
-          "pickCount": 12
-        },
-        {
-          "id": 42,
-          "year": 2024,
-          "displayName": "Lucho73r",
-          "slug": "lucho73r",
-          "userId": "ExW9aaprtHfKP3rJPbaxoOhuDgz2lmjd",
-          "createdAt": "2026-01-20T17:26:42.446Z",
-          "pickCount": 13
-        },
-        {
-          "id": 134,
-          "year": 2023,
-          "displayName": "Lucho",
-          "slug": "lucho",
-          "userId": "ExW9aaprtHfKP3rJPbaxoOhuDgz2lmjd",
-          "createdAt": "2026-01-21T19:53:35.970Z",
-          "pickCount": 5
-        },
-        {
-          "id": 70,
-          "year": 2022,
-          "displayName": "Lucho",
-          "slug": "lucho",
-          "userId": "ExW9aaprtHfKP3rJPbaxoOhuDgz2lmjd",
-          "createdAt": "2026-01-21T19:07:44.565Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 2,
-      "deleteIds": [
-        42,
-        134,
-        70
-      ]
-    },
-    {
-      "key": "YWHpeKyeAYDDinoa3kqxNpgPbrB9022g",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 53,
-          "year": 2024,
-          "displayName": "IaiIu",
-          "slug": "iaiiu",
-          "userId": "YWHpeKyeAYDDinoa3kqxNpgPbrB9022g",
-          "createdAt": "2026-01-20T17:27:05.630Z",
-          "pickCount": 12
-        },
-        {
-          "id": 136,
-          "year": 2023,
-          "displayName": "Lailu",
-          "slug": "lailu",
-          "userId": "YWHpeKyeAYDDinoa3kqxNpgPbrB9022g",
-          "createdAt": "2026-01-21T19:53:37.149Z",
-          "pickCount": 5
-        },
-        {
-          "id": 85,
-          "year": 2022,
-          "displayName": "IaiIu",
-          "slug": "iaiiu",
-          "userId": "YWHpeKyeAYDDinoa3kqxNpgPbrB9022g",
-          "createdAt": "2026-01-21T19:08:01.254Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 53,
-      "deleteIds": [
-        136,
-        85
-      ]
-    },
-    {
-      "key": "HP9rdSQbA8miPPkBqUIb9fHODX8tuG1R",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 51,
-          "year": 2024,
-          "displayName": "Lavtaro",
-          "slug": "lavtaro",
-          "userId": "HP9rdSQbA8miPPkBqUIb9fHODX8tuG1R",
-          "createdAt": "2026-01-20T17:27:02.471Z",
-          "pickCount": 11
-        },
-        {
-          "id": 131,
-          "year": 2023,
-          "displayName": "Lavtaro",
-          "slug": "lavtaro",
-          "userId": "HP9rdSQbA8miPPkBqUIb9fHODX8tuG1R",
-          "createdAt": "2026-01-21T19:53:33.763Z",
-          "pickCount": 5
-        },
-        {
-          "id": 90,
-          "year": 2022,
-          "displayName": "Lavtaro",
-          "slug": "lavtaro",
-          "userId": "HP9rdSQbA8miPPkBqUIb9fHODX8tuG1R",
-          "createdAt": "2026-01-21T19:08:06.948Z",
-          "pickCount": 8
-        }
-      ],
-      "keepId": 51,
-      "deleteIds": [
-        131,
-        90
-      ]
-    },
-    {
-      "key": "mR5enRowSz0nZp5GgiKGaUatr80dze49",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 49,
-          "year": 2024,
-          "displayName": "Alan",
-          "slug": "alan",
-          "userId": "mR5enRowSz0nZp5GgiKGaUatr80dze49",
-          "createdAt": "2026-01-20T17:26:58.164Z",
-          "pickCount": 13
-        },
-        {
-          "id": 122,
-          "year": 2023,
-          "displayName": "Alan",
-          "slug": "alan",
-          "userId": "mR5enRowSz0nZp5GgiKGaUatr80dze49",
-          "createdAt": "2026-01-21T19:53:28.786Z",
-          "pickCount": 5
-        },
-        {
-          "id": 75,
-          "year": 2022,
-          "displayName": "alangmonzon",
-          "slug": "alangmonzon",
-          "userId": "mR5enRowSz0nZp5GgiKGaUatr80dze49",
-          "createdAt": "2026-01-21T19:07:50.369Z",
-          "pickCount": 7
-        }
-      ],
-      "keepId": 49,
-      "deleteIds": [
-        122,
-        75
-      ]
-    },
-    {
-      "key": "lvU25mVOJ7PL2enZ55t5v0oahvrYKb4y",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 47,
-          "year": 2024,
-          "displayName": "EvilIpa",
-          "slug": "evilipa",
-          "userId": "lvU25mVOJ7PL2enZ55t5v0oahvrYKb4y",
-          "createdAt": "2026-01-20T17:26:54.473Z",
-          "pickCount": 10
-        },
-        {
-          "id": 144,
-          "year": 2023,
-          "displayName": "Evil",
-          "slug": "evil",
-          "userId": "lvU25mVOJ7PL2enZ55t5v0oahvrYKb4y",
-          "createdAt": "2026-01-21T19:53:41.750Z",
-          "pickCount": 2
-        }
-      ],
-      "keepId": 47,
-      "deleteIds": [
-        144
-      ]
-    },
-    {
-      "key": "7AgukJ9IAUYmnj57VQfndhZnFPk6Z8Gj",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 40,
-          "year": 2024,
-          "displayName": "Tishey",
-          "slug": "tishey",
-          "userId": "7AgukJ9IAUYmnj57VQfndhZnFPk6Z8Gj",
-          "createdAt": "2026-01-20T17:26:36.939Z",
-          "pickCount": 13
-        },
-        {
-          "id": 115,
-          "year": 2023,
-          "displayName": "Tishey",
-          "slug": "tishey",
-          "userId": "7AgukJ9IAUYmnj57VQfndhZnFPk6Z8Gj",
-          "createdAt": "2026-01-21T19:53:24.275Z",
-          "pickCount": 5
-        },
-        {
-          "id": 74,
-          "year": 2022,
-          "displayName": "Tishey",
-          "slug": "tishey",
-          "userId": "7AgukJ9IAUYmnj57VQfndhZnFPk6Z8Gj",
-          "createdAt": "2026-01-21T19:07:49.666Z",
-          "pickCount": 5
-        }
-      ],
-      "keepId": 40,
-      "deleteIds": [
-        115,
-        74
-      ]
-    },
-    {
-      "key": "GvrzejaaRIDNToqTkzfcZMEpXodF9vFF",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 128,
-          "year": 2023,
-          "displayName": "Yani",
-          "slug": "yani",
-          "userId": "GvrzejaaRIDNToqTkzfcZMEpXodF9vFF",
-          "createdAt": "2026-01-21T19:53:31.986Z",
-          "pickCount": 5
-        },
-        {
-          "id": 80,
-          "year": 2022,
-          "displayName": "Yani",
-          "slug": "yani",
-          "userId": "GvrzejaaRIDNToqTkzfcZMEpXodF9vFF",
-          "createdAt": "2026-01-21T19:07:56.094Z",
-          "pickCount": 5
-        }
-      ],
-      "keepId": 128,
-      "deleteIds": [
-        80
-      ]
-    },
-    {
-      "key": "egihmgdEvIaneHbly1SENnykwJdf0Ncd",
-      "type": "linked",
-      "participants": [
-        {
-          "id": 109,
-          "year": 2023,
-          "displayName": "Pepo",
-          "slug": "pepo",
-          "userId": "egihmgdEvIaneHbly1SENnykwJdf0Ncd",
-          "createdAt": "2026-01-21T19:53:20.382Z",
-          "pickCount": 5
-        },
-        {
-          "id": 93,
-          "year": 2022,
-          "displayName": "pepo_fco",
-          "slug": "pepo-fco",
-          "userId": "egihmgdEvIaneHbly1SENnykwJdf0Ncd",
-          "createdAt": "2026-01-21T19:08:10.055Z",
-          "pickCount": 10
-        }
-      ],
-      "keepId": 109,
-      "deleteIds": [
-        93
-      ]
-    }
-  ],
-  "unlinkedGroups": [
-    {
-      "key": "hitoshidiaz",
-      "type": "unlinked",
-      "participants": [
-        {
-          "id": 1,
-          "year": 2025,
-          "displayName": "hitoshidiaz",
-          "slug": "hitoshidiaz",
-          "userId": null,
-          "createdAt": "2026-01-20T14:11:28.866Z",
-          "pickCount": 14
-        },
-        {
-          "id": 77,
-          "year": 2022,
-          "displayName": "hitoshidiaz",
-          "slug": "hitoshidiaz",
-          "userId": null,
-          "createdAt": "2026-01-21T19:07:52.361Z",
-          "pickCount": 9
-        }
-      ],
-      "keepId": 1,
-      "deleteIds": [
-        77
-      ]
-    },
-    {
-      "key": "nati",
-      "type": "unlinked",
-      "participants": [
-        {
-          "id": 127,
-          "year": 2023,
-          "displayName": "Nati",
-          "slug": "nati",
-          "userId": null,
-          "createdAt": "2026-01-21T19:53:31.768Z",
-          "pickCount": 1
-        },
-        {
-          "id": 87,
-          "year": 2022,
-          "displayName": "Nati",
-          "slug": "nati",
-          "userId": null,
-          "createdAt": "2026-01-21T19:08:03.901Z",
-          "pickCount": 6
-        }
-      ],
-      "keepId": 127,
-      "deleteIds": [
-        87
-      ]
-    }
-  ],
+  "linkedGroups": [],
+  "unlinkedGroups": [],
   "unlinkedSingles": [
     {
-      "id": 18,
-      "year": 2025,
-      "displayName": "Santi García",
-      "slug": "santi-garcia",
+      "id": 87,
+      "displayName": "Matías Mayer @MayerMatias",
+      "slug": "matias-mayer-mayermatias",
       "userId": null,
-      "createdAt": "2026-01-20T14:12:42.743Z",
-      "pickCount": 12
-    },
-    {
-      "id": 60,
-      "year": 2024,
-      "displayName": "Mauricio P",
-      "slug": "mauricio-p",
-      "userId": null,
-      "createdAt": "2026-01-20T17:27:16.830Z",
+      "createdAt": "2026-01-23T17:04:16.830Z",
       "pickCount": 13
     },
     {
-      "id": 54,
-      "year": 2024,
-      "displayName": "Natalia",
-      "slug": "natalia",
+      "id": 83,
+      "displayName": "Facundo Valiente",
+      "slug": "facundo-valiente",
       "userId": null,
-      "createdAt": "2026-01-20T17:27:07.217Z",
+      "createdAt": "2026-01-23T17:03:45.394Z",
       "pickCount": 13
     },
     {
-      "id": 145,
-      "year": 2023,
-      "displayName": "CHINO SILVA",
-      "slug": "chino-silva",
+      "id": 80,
+      "displayName": "ponybiam",
+      "slug": "ponybiam",
       "userId": null,
-      "createdAt": "2026-01-21T19:53:42.048Z",
-      "pickCount": 5
-    },
-    {
-      "id": 143,
-      "year": 2023,
-      "displayName": "Fedeambrosetti",
-      "slug": "fedeambrosetti",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:41.156Z",
-      "pickCount": 5
-    },
-    {
-      "id": 141,
-      "year": 2023,
-      "displayName": "Pablo",
-      "slug": "pablo",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:39.963Z",
-      "pickCount": 5
-    },
-    {
-      "id": 133,
-      "year": 2023,
-      "displayName": "Diego",
-      "slug": "diego",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:35.320Z",
-      "pickCount": 5
-    },
-    {
-      "id": 123,
-      "year": 2023,
-      "displayName": "Hitoshi",
-      "slug": "hitoshi",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:29.425Z",
-      "pickCount": 5
-    },
-    {
-      "id": 119,
-      "year": 2023,
-      "displayName": "Matías",
-      "slug": "matias",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:26.980Z",
-      "pickCount": 5
-    },
-    {
-      "id": 116,
-      "year": 2023,
-      "displayName": "Fernandojs",
-      "slug": "fernandojs",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:24.904Z",
-      "pickCount": 5
-    },
-    {
-      "id": 111,
-      "year": 2023,
-      "displayName": "Ivan",
-      "slug": "ivan",
-      "userId": null,
-      "createdAt": "2026-01-21T19:53:21.745Z",
-      "pickCount": 5
-    },
-    {
-      "id": 106,
-      "year": 2022,
-      "displayName": "YamiGB",
-      "slug": "yamigb",
-      "userId": null,
-      "createdAt": "2026-01-21T19:08:23.419Z",
-      "pickCount": 10
-    },
-    {
-      "id": 104,
-      "year": 2022,
-      "displayName": "Ivan Zamora",
-      "slug": "ivan-zamora",
-      "userId": null,
-      "createdAt": "2026-01-21T19:08:21.469Z",
-      "pickCount": 10
-    },
-    {
-      "id": 102,
-      "year": 2022,
-      "displayName": "Pblo79",
-      "slug": "pblo79",
-      "userId": null,
-      "createdAt": "2026-01-21T19:08:19.266Z",
-      "pickCount": 10
-    },
-    {
-      "id": 99,
-      "year": 2022,
-      "displayName": "Leandro",
-      "slug": "leandro",
-      "userId": null,
-      "createdAt": "2026-01-21T19:08:16.578Z",
-      "pickCount": 9
+      "createdAt": "2026-01-23T17:03:18.832Z",
+      "pickCount": 11
     },
     {
       "id": 76,
-      "year": 2022,
-      "displayName": "Diego_el_fugado",
-      "slug": "diego-el-fugado",
+      "displayName": "Albano! @albaletti",
+      "slug": "albano-albaletti",
       "userId": null,
-      "createdAt": "2026-01-21T19:07:51.247Z",
-      "pickCount": 8
+      "createdAt": "2026-01-23T16:57:24.859Z",
+      "pickCount": 12
     },
     {
       "id": 73,
-      "year": 2022,
-      "displayName": "Lucio B",
-      "slug": "lucio-b",
+      "displayName": "Esteban",
+      "slug": "esteban",
       "userId": null,
-      "createdAt": "2026-01-21T19:07:48.512Z",
-      "pickCount": 8
+      "createdAt": "2026-01-23T16:57:05.438Z",
+      "pickCount": 22
     },
     {
       "id": 69,
-      "year": 2022,
+      "displayName": "Lucho73r",
+      "slug": "lucho73r",
+      "userId": null,
+      "createdAt": "2026-01-23T16:56:40.049Z",
+      "pickCount": 24
+    },
+    {
+      "id": 60,
+      "displayName": "El Diegot",
+      "slug": "el-diegot",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:34.023Z",
+      "pickCount": 5
+    },
+    {
+      "id": 54,
+      "displayName": "Mar",
+      "slug": "mar",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:29.344Z",
+      "pickCount": 30
+    },
+    {
+      "id": 53,
+      "displayName": "Diego",
+      "slug": "diego",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:27.734Z",
+      "pickCount": 16
+    },
+    {
+      "id": 51,
+      "displayName": "Clau",
+      "slug": "clau",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:23.598Z",
+      "pickCount": 4
+    },
+    {
+      "id": 49,
+      "displayName": "Alan",
+      "slug": "alan",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:20.758Z",
+      "pickCount": 27
+    },
+    {
+      "id": 47,
+      "displayName": "Fede C",
+      "slug": "fede-c",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:19.276Z",
+      "pickCount": 18
+    },
+    {
+      "id": 44,
+      "displayName": "Fernandojs",
+      "slug": "fernandojs",
+      "userId": null,
+      "createdAt": "2026-01-23T16:48:16.248Z",
+      "pickCount": 5
+    },
+    {
+      "id": 40,
+      "displayName": "Ale",
+      "slug": "ale",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:55.349Z",
+      "pickCount": 46
+    },
+    {
+      "id": 33,
+      "displayName": "marpezzuchi",
+      "slug": "marpezzuchi",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:46.819Z",
+      "pickCount": 21
+    },
+    {
+      "id": 32,
+      "displayName": "Gabby",
+      "slug": "gabby",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:46.180Z",
+      "pickCount": 10
+    },
+    {
+      "id": 31,
+      "displayName": "Leandro",
+      "slug": "leandro",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:45.108Z",
+      "pickCount": 31
+    },
+    {
+      "id": 30,
+      "displayName": "Ivana",
+      "slug": "ivana",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:44.314Z",
+      "pickCount": 36
+    },
+    {
+      "id": 29,
+      "displayName": "Juan Navarro",
+      "slug": "juan-navarro",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:43.032Z",
+      "pickCount": 57
+    },
+    {
+      "id": 28,
+      "displayName": "estrasnoy",
+      "slug": "estrasnoy",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:41.867Z",
+      "pickCount": 40
+    },
+    {
+      "id": 27,
+      "displayName": "El_Diegot3",
+      "slug": "el-diegot3",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:40.718Z",
+      "pickCount": 38
+    },
+    {
+      "id": 26,
+      "displayName": "ferheinz",
+      "slug": "ferheinz",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:39.672Z",
+      "pickCount": 29
+    },
+    {
+      "id": 25,
+      "displayName": "pepo_fco",
+      "slug": "pepo-fco",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:38.122Z",
+      "pickCount": 32
+    },
+    {
+      "id": 24,
+      "displayName": "MayerMatias",
+      "slug": "mayermatias",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:36.890Z",
+      "pickCount": 15
+    },
+    {
+      "id": 23,
+      "displayName": "El Anton",
+      "slug": "el-anton",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:35.675Z",
+      "pickCount": 10
+    },
+    {
+      "id": 22,
+      "displayName": "Lavtaro",
+      "slug": "lavtaro",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:34.666Z",
+      "pickCount": 27
+    },
+    {
+      "id": 21,
+      "displayName": "Santi",
+      "slug": "santi",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:33.535Z",
+      "pickCount": 44
+    },
+    {
+      "id": 20,
+      "displayName": "Hernán Rodríguez",
+      "slug": "hernan-rodriguez",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:32.225Z",
+      "pickCount": 38
+    },
+    {
+      "id": 19,
+      "displayName": "Nati",
+      "slug": "nati",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:31.439Z",
+      "pickCount": 37
+    },
+    {
+      "id": 18,
+      "displayName": "Santee",
+      "slug": "santee",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:30.076Z",
+      "pickCount": 28
+    },
+    {
+      "id": 17,
+      "displayName": "IaiIu",
+      "slug": "iaiiu",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:28.578Z",
+      "pickCount": 37
+    },
+    {
+      "id": 16,
+      "displayName": "mauroelninja",
+      "slug": "mauroelninja",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:27.368Z",
+      "pickCount": 28
+    },
+    {
+      "id": 15,
+      "displayName": "Edgardo",
+      "slug": "edgardo",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:26.379Z",
+      "pickCount": 43
+    },
+    {
+      "id": 14,
+      "displayName": "FedeC",
+      "slug": "fedec",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:24.900Z",
+      "pickCount": 22
+    },
+    {
+      "id": 13,
+      "displayName": "Clauhernan73",
+      "slug": "clauhernan73",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:23.636Z",
+      "pickCount": 28
+    },
+    {
+      "id": 12,
+      "displayName": "Yani",
+      "slug": "yani",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:22.902Z",
+      "pickCount": 45
+    },
+    {
+      "id": 11,
+      "displayName": "noelyas",
+      "slug": "noelyas",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:21.551Z",
+      "pickCount": 54
+    },
+    {
+      "id": 10,
+      "displayName": "May",
+      "slug": "may",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:20.197Z",
+      "pickCount": 42
+    },
+    {
+      "id": 9,
+      "displayName": "hitoshidiaz",
+      "slug": "hitoshidiaz",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:18.996Z",
+      "pickCount": 27
+    },
+    {
+      "id": 8,
+      "displayName": "Diego_el_fugado",
+      "slug": "diego-el-fugado",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:17.675Z",
+      "pickCount": 13
+    },
+    {
+      "id": 7,
+      "displayName": "alangmonzon",
+      "slug": "alangmonzon",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:16.726Z",
+      "pickCount": 60
+    },
+    {
+      "id": 6,
+      "displayName": "Tishey",
+      "slug": "tishey",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:15.983Z",
+      "pickCount": 22
+    },
+    {
+      "id": 5,
+      "displayName": "Lucio B",
+      "slug": "lucio-b",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:14.675Z",
+      "pickCount": 35
+    },
+    {
+      "id": 4,
+      "displayName": "Martin Goniondzki",
+      "slug": "martin-goniondzki",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:13.312Z",
+      "pickCount": 22
+    },
+    {
+      "id": 3,
+      "displayName": "GaryBusy",
+      "slug": "garybusy",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:12.029Z",
+      "pickCount": 35
+    },
+    {
+      "id": 2,
+      "displayName": "Lucho",
+      "slug": "lucho",
+      "userId": null,
+      "createdAt": "2026-01-23T16:45:10.429Z",
+      "pickCount": 31
+    },
+    {
+      "id": 1,
       "displayName": "Lucas Scheefer",
       "slug": "lucas-scheefer",
       "userId": null,
-      "createdAt": "2026-01-21T19:07:43.443Z",
-      "pickCount": 5
+      "createdAt": "2026-01-23T16:45:09.455Z",
+      "pickCount": 17
     }
   ],
   "summary": {
-    "totalParticipants": 146,
-    "totalGroups": 36,
-    "totalToConsolidate": 36,
-    "totalToDelete": 85,
-    "totalPicksToMove": 749
+    "totalParticipants": 47,
+    "totalGroups": 0,
+    "totalToConsolidate": 0,
+    "totalToDelete": 0,
+    "totalPicksToMove": 0
   }
 }
