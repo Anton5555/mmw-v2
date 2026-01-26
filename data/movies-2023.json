@@ -1,0 +1,98 @@
+{
+    "year": 2023,
+    "users": {
+      "El_Diegot3": {
+        "top": [
+          { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false },
+          { "title": "Killers of the Flower Moon", "imdb_id": "tt5537002", "needs_confirmation": false },
+          { "title": "Poor Things", "imdb_id": "tt14230458", "needs_confirmation": false }
+        ],
+        "best_seen": [
+          { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false }
+        ],
+        "porongas": [
+          { "title": "The Flash", "imdb_id": "tt0439572", "needs_confirmation": false }
+        ]
+      },
+      "Vicky_Picky": {
+        "top": [
+          { "title": "Past Lives", "imdb_id": "tt13238346", "needs_confirmation": false },
+          { "title": "Poor Things", "imdb_id": "tt14230458", "needs_confirmation": false },
+          { "title": "Anatomy of a Fall", "imdb_id": "tt17009710", "needs_confirmation": false }
+        ],
+        "best_seen": [
+          { "title": "Past Lives", "imdb_id": "tt13238346", "needs_confirmation": false }
+        ],
+        "porongas": [
+          { "title": "Saltburn", "imdb_id": "tt17351924", "needs_confirmation": false }
+        ]
+      },
+      "Santi": {
+        "top": [
+              { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false },
+              { "title": "John Wick: Chapter 4", "imdb_id": "tt10366206", "needs_confirmation": false },
+              { "title": "Mission: Impossible – Dead Reckoning Part One", "imdb_id": "tt9603212", "needs_confirmation": false }
+            ],
+            "best_seen": [
+              { "title": "John Wick: Chapter 4", "imdb_id": "tt10366206", "needs_confirmation": false }
+            ],
+            "porongas": [
+              { "title": "Fast X", "imdb_id": "tt5433140", "needs_confirmation": false }
+            ]
+          },
+          "Santiago": {
+            "top": [
+              { "title": "The Zone of Interest", "imdb_id": "tt7160372", "needs_confirmation": false },
+              { "title": "Anatomy of a Fall", "imdb_id": "tt17009710", "needs_confirmation": false },
+              { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false }
+            ],
+            "best_seen": [
+              { "title": "The Zone of Interest", "imdb_id": "tt7160372", "needs_confirmation": false }
+            ],
+            "porongas": [
+              { "title": "The Marvels", "imdb_id": "tt10676048", "needs_confirmation": false }
+            ]
+          },
+          "Santi Garcia": {
+            "top": [
+              { "title": "Poor Things", "imdb_id": "tt14230458", "needs_confirmation": false },
+              { "title": "Beau Is Afraid", "imdb_id": "tt13521006", "needs_confirmation": false },
+              { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false }
+            ],
+            "best_seen": [
+              { "title": "Beau Is Afraid", "imdb_id": "tt13521006", "needs_confirmation": false }
+            ],
+            "porongas": [
+              { "title": "Ant-Man and the Wasp: Quantumania", "imdb_id": "tt10954600", "needs_confirmation": false }
+            ]
+          },
+          
+              "basophium": {
+                "top": [
+                  { "title": "The Zone of Interest", "imdb_id": "tt7160372", "needs_confirmation": false },
+                  { "title": "Perfect Days", "imdb_id": "tt27503384", "needs_confirmation": false },
+                  { "title": "Anatomy of a Fall", "imdb_id": "tt17009710", "needs_confirmation": false }
+                ],
+                "best_seen": [
+                  { "title": "Perfect Days", "imdb_id": "tt27503384", "needs_confirmation": false }
+                ],
+                "porongas": [
+                  { "title": "65", "imdb_id": "tt12261776", "needs_confirmation": false }
+                ]
+              },
+              "estrasnoy": {
+                "top": [
+                  { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false },
+                  { "title": "Poor Things", "imdb_id": "tt14230458", "needs_confirmation": false },
+                  { "title": "John Wick: Chapter 4", "imdb_id": "tt10366206", "needs_confirmation": false }
+                ],
+                "best_seen": [
+                  { "title": "Oppenheimer", "imdb_id": "tt15398776", "needs_confirmation": false }
+                ],
+                "porongas": [
+                  { "title": "The Exorcist: Believer", "imdb_id": "tt12921446", "needs_confirmation": false }
+                ]
+              }
+            }
+          }
+          
