@@ -149,9 +149,8 @@ export function OscarBallotForm({
         selections: formattedSelections,
       });
 
-      toast.success('¡Los Oscalos enviados exitosamente!');
-      // Redirect to show confirmation page
-      router.push('/oscars');
+      // Redirect with search param to trigger success dialog on the summary page
+      router.push('/oscars?submitted=true');
       router.refresh();
     } catch (error) {
       console.error('Error submitting ballot:', error);
@@ -449,14 +448,19 @@ export function OscarBallotForm({
             <ChevronRight className="w-4 h-4 ml-2" />
           </Button>
         ) : (
-          <Button
-            onClick={handleNext}
-            disabled={!selectedNomineeId}
-            className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none transition-all duration-200"
-          >
-            Siguiente Categoría
-            <ChevronRight className="w-4 h-4 ml-2" />
-          </Button>
+          <div className="flex flex-col items-end gap-2">
+            <Button
+              onClick={handleNext}
+              disabled={!selectedNomineeId}
+              className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none transition-all duration-200"
+            >
+              Siguiente Categoría
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+            <p className="text-xs text-zinc-500 text-right">
+              Tranqui, podés volver atrás y revisar todo al final
+            </p>
+          </div>
         )}
       </div>
     </div>

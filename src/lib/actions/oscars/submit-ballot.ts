@@ -5,6 +5,7 @@ import { submitBallotSchema, type SubmitBallotFormValues } from '@/lib/validatio
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
+import { sendBallotEmail } from '@/lib/utils/emails';
 
 export async function submitBallotAction(input: SubmitBallotFormValues) {
   const session = await auth.api.getSession({
@@ -26,6 +27,7 @@ export async function submitBallotAction(input: SubmitBallotFormValues) {
     select: {
       isActive: true,
       ceremonyDate: true,
+      year: true,
     },
   });
 
@@ -126,6 +128,59 @@ export async function submitBallotAction(input: SubmitBallotFormValues) {
 
     revalidatePath('/oscars');
     revalidatePath('/oscars/results');
+
+    // Send email with ballot choices (don't block on email errors)
+    try {
+      // Fetch complete ballot data for email
+      const ballotForEmail = await prisma.oscarBallot.findUnique({
+        where: {
+          id: result.ballot.id,
+        },
+        include: {
+          picks: {
+            include: {
+              nominee: {
+                select: {
+                  name: true,
+                  filmTitle: true,
+                },
+              },
+              category: {
+                select: {
+                  name: true,
+                  order: true,
+                },
+              },
+            },
+            orderBy: {
+              category: {
+                order: 'asc',
+              },
+            },
+          },
+        },
+      });
+
+      if (ballotForEmail && session.user.email) {
+        await sendBallotEmail({
+          to: session.user.email,
+          userName: session.user.name || 'Usuario',
+          editionYear: edition.year,
+          picks: ballotForEmail.picks.map((pick) => ({
+            category: {
+              name: pick.category.name,
+            },
+            nominee: {
+              name: pick.nominee.name,
+              filmTitle: pick.nominee.filmTitle,
+            },
+          })),
+        });
+      }
+    } catch (emailError) {
+      // Log email error but don't fail the submission
+      console.error('Error sending ballot email:', emailError);
+    }
 
     return { success: true, ballotId: result.ballot.id };
   } catch (error: unknown) {

@@ -4,7 +4,9 @@ import { redirect } from 'next/navigation';
 import { getActiveEdition, getUserBallot, getOscarCategories } from '@/lib/api/oscars';
 import { OscarBallotForm } from '@/components/oscars/oscar-ballot-form';
 import { OscarSummary } from '@/components/oscars/oscar-summary';
+import { OscarSuccessDialog } from '@/components/oscars/oscar-success-dialog';
 import { Badge } from '@/components/ui/badge';
+import { Suspense } from 'react';
 
 export default async function OscarsPage() {
   const session = await auth.api.getSession({
@@ -37,6 +39,9 @@ export default async function OscarsPage() {
   if (userBallot) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] text-white">
+        <Suspense fallback={null}>
+          <OscarSuccessDialog />
+        </Suspense>
         <div className="container mx-auto px-4 py-12 max-w-6xl">
           <header className="mb-12 text-center">
             <h1 className="text-4xl md:text-6xl font-black tracking-tighter">
