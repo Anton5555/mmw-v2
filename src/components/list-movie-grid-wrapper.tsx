@@ -9,6 +9,7 @@ interface ListMovieGridWrapperProps {
     title: string;
     genre: string[];
     director: string[];
+    country: string[];
   };
   children?: ReactNode;
 }
@@ -28,7 +29,9 @@ export function ListMovieGridWrapper({
       JSON.stringify(initialParams.genre) !==
         JSON.stringify(renderedParams.genre) ||
       JSON.stringify(initialParams.director) !==
-        JSON.stringify(renderedParams.director);
+        JSON.stringify(renderedParams.director) ||
+      JSON.stringify(initialParams.country) !==
+        JSON.stringify(renderedParams.country);
 
     if (paramsChanged) {
       startTransition(() => {
@@ -44,7 +47,9 @@ export function ListMovieGridWrapper({
       JSON.stringify(clientParams.genre) !==
         JSON.stringify(renderedParams.genre) ||
       JSON.stringify(clientParams.director) !==
-        JSON.stringify(renderedParams.director)
+        JSON.stringify(renderedParams.director) ||
+      JSON.stringify(clientParams.country) !==
+        JSON.stringify(renderedParams.country)
     );
   }, [clientParams, renderedParams]);
 

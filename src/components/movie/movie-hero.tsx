@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { Calendar, Film } from 'lucide-react';
+import ReactCountryFlag from 'react-country-flag';
 import { GlassButton } from '../ui/glass-button';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
@@ -23,6 +24,7 @@ export function MovieHero({
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
   const releaseYear = new Date(movie.releaseDate).getFullYear();
   const displayRank = rank ?? movie.rank;
+  const countryCodes = movie.countryCodes ?? [];
 
   return (
     <div className="relative h-[50vh] w-full overflow-hidden border-b border-white/5 md:h-[60vh]">
@@ -75,6 +77,26 @@ export function MovieHero({
                   <span className="flex items-center gap-1.5">
                     <Film className="h-4 w-4" /> {genre || 'Cine'}
                   </span>
+                  {countryCodes.length > 0 && (
+                    <>
+                      <span className="h-1 w-1 rounded-full bg-white/20" />
+                      <span className="flex items-center gap-1">
+                        {countryCodes.map((code) => (
+                          <ReactCountryFlag
+                            key={code}
+                            countryCode={code}
+                            svg
+                            className="rounded-[2px] shadow-sm"
+                            style={{
+                              width: '1.1rem',
+                              height: '0.8rem',
+                            }}
+                            aria-label={code}
+                          />
+                        ))}
+                      </span>
+                    </>
+                  )}
                   {director && (
                     <>
                       <span className="h-1 w-1 rounded-full bg-white/20" />

@@ -45,19 +45,29 @@ To work with the database, follow these steps in order:
 pnpm db:generate
 ```
 
-2. Create and apply a new migration:
+2. Create a new migration **without applying it** (safe for a single shared DB, e.g. production):
 
 ```bash
-pnpm db:migrate your_migration_name
+pnpm db:migrate:create your_migration_name
 ```
 
-3. (Optional) To view and edit your data through Prisma Studio:
+This will create a new folder under `prisma/migrations/<timestamp>_your_migration_name/` with the SQL changes, but it will **not** touch your database. Review the generated SQL if needed.
+
+3. Apply pending migrations to your database:
+
+```bash
+pnpm db:migrate:deploy
+```
+
+This runs all unapplied migrations (including the one created in step 2) against the database pointed to by your `DIRECT_URL`. Use this in your single-prod-DB setup instead of `db push`.
+
+4. (Optional) To view and edit your data through Prisma Studio:
 
 ```bash
 pnpm db:studio
 ```
 
-Note: For development-only changes where you don't need to track migrations, you can use:
+> **Note:** For development-only changes against a **separate** throwaway database (not production), you can use:
 
 ```bash
 pnpm db:push

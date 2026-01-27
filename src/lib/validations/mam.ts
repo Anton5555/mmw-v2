@@ -34,6 +34,16 @@ export const mamMovieQuerySchema = z.object({
     },
     z.string().optional()
   ),
+  // Accept both array and string for country filter (country codes)
+  country: z.preprocess(
+    (val) => {
+      if (Array.isArray(val)) {
+        return val.join(',');
+      }
+      return val;
+    },
+    z.string().optional()
+  ),
   page: z.number().int().positive().default(1),
   limit: z.number().int().positive().max(100).default(20),
 });
@@ -76,6 +86,10 @@ export const mamMovieWithPicksSchema = z.object({
   letterboxdUrl: z.string(),
   imdbId: z.string(),
   posterUrl: z.string(),
+  // Country display names (for UI labels)
+  countries: z.array(z.string()).optional(),
+  // Country ISO codes (for flags, filters, etc.)
+  countryCodes: z.array(z.string()).optional(),
   picks: z.array(
     z.object({
       id: z.number(),

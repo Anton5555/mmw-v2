@@ -75,6 +75,7 @@ export interface MovieDetails {
 export interface TMDBMovieDetailsFullResponse {
   id: number;
   genres: Array<{ id: number; name: string }>;
+  production_countries?: Array<{ iso_3166_1: string; name: string }>;
   credits?: {
     crew: Array<{ job: string; name: string; id?: number }>;
   };
@@ -83,6 +84,7 @@ export interface TMDBMovieDetailsFullResponse {
 export interface MovieDetailsFull {
   genres: Array<{ id: number; name: string }>;
   directors: Array<{ id?: number; name: string }>;
+  countries: Array<{ code: string; name: string }>;
   tmdbId: number;
 }
 
@@ -199,9 +201,17 @@ export async function getMovieDetailsFull(tmdbId: number): Promise<MovieDetailsF
     // Get all genres
     const genres = data.genres || [];
 
+    // Get all production countries
+    const countries =
+      data.production_countries?.map((country) => ({
+        code: country.iso_3166_1,
+        name: country.name,
+      })) || [];
+
     return {
       genres,
       directors,
+      countries,
       tmdbId: data.id,
     };
   } catch (error) {

@@ -6,6 +6,7 @@ const listMoviesSearchParams = {
   title: parseAsString.withDefault(''),
   genre: parseAsArrayOf(parseAsString).withDefault([]),
   director: parseAsArrayOf(parseAsString).withDefault([]),
+  country: parseAsArrayOf(parseAsString).withDefault([]),
 };
 
 export function useListMoviesParams() {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,29 +26,39 @@ interface Director {
   name: string;
 }
 
+interface Country {
+  code: string;
+  name: string;
+}
+
 interface ListMovieFiltersProps {
   genres: Genre[];
   directors: Director[];
+  countries: Country[];
 }
 
 function FiltersContent({
   genres,
   directors,
+  countries,
   params,
   setParams,
 }: {
   genres: Genre[];
   directors: Director[];
+  countries: Country[];
   params: {
     title: string;
     genre: string[];
     director: string[];
+    country: string[];
   };
   setParams: (
     updates: Partial<{
       title: string | null;
       genre: string[] | null;
       director: string[] | null;
+      country: string[] | null;
     }>
   ) => void;
 }) {
@@ -57,6 +68,11 @@ function FiltersContent({
   // Get selected directors for display
   const selectedDirectors = directors.filter((d) =>
     params.director.includes(d.name)
+  );
+
+  // Get selected countries for display
+  const selectedCountries = countries.filter((c) =>
+    params.country.includes(c.code)
   );
 
   return (
@@ -167,22 +183,85 @@ function FiltersContent({
           </div>
         )}
       </div>
+
+      {/* Country Filter */}
+      <div className="flex items-center gap-4 flex-wrap">
+        <FilterCombobox
+          options={countries.map((c) => ({
+            value: c.code,
+            label: c.name,
+          }))}
+          selected={params.country}
+          onChange={(values) => {
+            setParams({ country: values });
+          }}
+          placeholder="Buscar países..."
+          emptyMessage="No se encontraron países."
+          groupLabel="Filtrar por países"
+          icon={<Film className="h-4 w-4" />}
+        />
+
+        {/* Selected Countries */}
+        {selectedCountries.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            {selectedCountries.map((country) => (
+              <Badge
+                key={country.code}
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
+                <ReactCountryFlag
+                  countryCode={country.code}
+                  svg
+                  className="rounded-[2px] shadow-sm"
+                  style={{
+                    width: '1rem',
+                    height: '0.75rem',
+                  }}
+                  aria-label={country.name}
+                />
+                <span className="text-xs">{country.name}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-auto p-0 ml-1"
+                  onClick={() => {
+                    setParams({
+                      country: params.country.filter((c) => c !== country.code),
+                    });
+                  }}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </Badge>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export function ListMovieFilters({ genres, directors }: ListMovieFiltersProps) {
+export function ListMovieFilters({
+  genres,
+  directors,
+  countries,
+}: ListMovieFiltersProps) {
   const { params, setParams } = useListMoviesParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Count active filters for badge
   const activeFiltersCount =
-    (params.title ? 1 : 0) + params.genre.length + params.director.length;
+    (params.title ? 1 : 0) +
+    params.genre.length +
+    params.director.length +
+    params.country.length;
 
   const filtersContent = (
     <FiltersContent
       genres={genres}
       directors={directors}
+      countries={countries}
       params={params}
       setParams={setParams}
     />
@@ -270,6 +349,20 @@ export function ListMovieFilters({ genres, directors }: ListMovieFiltersProps) {
               emptyMessage="No se encontraron directores."
               groupLabel="Filtrar por directores"
               icon={<User className="h-4 w-4" />}
+            />
+            <FilterCombobox
+              options={countries.map((c) => ({
+                value: c.code,
+                label: c.name,
+              }))}
+              selected={params.country}
+              onChange={(values) => {
+                setParams({ country: values });
+              }}
+              placeholder="Países..."
+              emptyMessage="No se encontraron países."
+              groupLabel="Filtrar por países"
+              icon={<Film className="h-4 w-4" />}
             />
           </div>
         </div>

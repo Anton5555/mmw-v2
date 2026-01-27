@@ -60,6 +60,10 @@ export const DirectorScalarFieldEnumSchema = z.enum(['id','name','tmdbId']);
 
 export const MovieDirectorScalarFieldEnumSchema = z.enum(['id','movieId','directorId']);
 
+export const CountryScalarFieldEnumSchema = z.enum(['id','code','name']);
+
+export const MovieCountryScalarFieldEnumSchema = z.enum(['id','movieId','countryId']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -457,3 +461,27 @@ export const MovieDirectorSchema = z.object({
 })
 
 export type MovieDirector = z.infer<typeof MovieDirectorSchema>
+
+/////////////////////////////////////////
+// COUNTRY SCHEMA
+/////////////////////////////////////////
+
+export const CountrySchema = z.object({
+  id: z.number().int(),
+  code: z.string(),
+  name: z.string(),
+})
+
+export type Country = z.infer<typeof CountrySchema>
+
+/////////////////////////////////////////
+// MOVIE COUNTRY SCHEMA
+/////////////////////////////////////////
+
+export const MovieCountrySchema = z.object({
+  id: z.number().int(),
+  movieId: z.number().int(),
+  countryId: z.number().int(),
+})
+
+export type MovieCountry = z.infer<typeof MovieCountrySchema>

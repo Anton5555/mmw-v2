@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { getListById } from '@/lib/api/lists';
-import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
+import { getAllGenres, getAllDirectors, getAllCountries } from '@/lib/api/movies';
 import { ListMovieGrid } from '@/components/list-movie-grid';
 import { ListMovieGridWrapper } from '@/components/list-movie-grid-wrapper';
 import { ListMovieFilters } from '@/components/list-movie-filters';
@@ -35,11 +35,15 @@ export default async function ListPage({ params, searchParams }: PageProps) {
   const director = parseAsArrayOf(parseAsString)
     .withDefault([])
     .parseServerSide(resolvedSearchParams.director);
+  const country = parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .parseServerSide(resolvedSearchParams.country);
 
-  // Fetch genres and directors
-  const [genresList, directorsList] = await Promise.all([
+  // Fetch genres, directors and countries
+  const [genresList, directorsList, countriesList] = await Promise.all([
     getAllGenres(),
     getAllDirectors(),
+    getAllCountries(),
   ]);
 
   // Create a stable key for Suspense based on search params
@@ -47,6 +51,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
     title,
     genre,
     director,
+    country,
   });
 
   return (
@@ -112,7 +117,11 @@ export default async function ListPage({ params, searchParams }: PageProps) {
       {/* Movie Grid Section */}
       <section className="container mx-auto -mt-8 px-4 pb-20 md:px-8">
         {/* Filters */}
-        <ListMovieFilters genres={genresList} directors={directorsList} />
+        <ListMovieFilters
+          genres={genresList}
+          directors={directorsList}
+          countries={countriesList}
+        />
 
         {/* Movie Grid with client-side loading state and Suspense */}
         <ListMovieGridWrapper
@@ -120,6 +129,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
             title,
             genre,
             director,
+            country,
           }}
         >
           <Suspense
@@ -140,6 +150,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
               title={title || undefined}
               genre={genre.length > 0 ? genre.join(',') : undefined}
               director={director.length > 0 ? director.join(',') : undefined}
+              country={country.length > 0 ? country.join(',') : undefined}
             />
           </Suspense>
         </ListMovieGridWrapper>
