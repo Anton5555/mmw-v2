@@ -28,13 +28,20 @@ export async function getMovieById(imdbId: string) {
     );
 
     if (!response.ok) {
-      throw new Error('Error al buscar la película en TMDB');
+      console.error(
+        `TMDB API error while fetching IMDb ID ${imdbId}: ${response.status} ${response.statusText}`
+      );
+      return null;
     }
 
     const result = (await response.json()) as TMDBMovieResponse;
 
     if (!movieValidator(result)) {
-      throw new Error('Datos de película inválidos recibidos de TMDB API');
+      console.error(
+        `Invalid movie data received from TMDB for IMDb ID ${imdbId}`,
+        result
+      );
+      return null;
     }
 
     const movieData = result.movie_results[0];
