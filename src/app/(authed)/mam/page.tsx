@@ -15,6 +15,7 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
 import { ParticipantNav } from '@/components/mam/participant-nav';
+import { Film } from 'lucide-react';
 
 interface MamPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -61,41 +62,38 @@ export default async function MamPage({ searchParams }: MamPageProps) {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="container mx-auto px-4 pb-8 pt-8">
-        {/* Header */}
-        <div className="relative mb-12 pt-8 text-center md:text-left">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
+        {/* Header: Identity & Navigation */}
+        <div className="relative mb-10 pt-8">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div className="space-y-2 text-center md:text-left">
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
                 Míralas Antes de Morir
               </h1>
-              <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                La selección definitiva del séptimo arte. Una colección curada
-                por la comunidad para ser vista, al menos, una vez en la vida.
+              <p className="text-zinc-400 max-w-xl text-lg leading-snug mx-auto md:mx-0">
+                La selección definitiva del séptimo arte. Curada por la comunidad.
               </p>
             </div>
-            <div className="flex flex-wrap gap-4">
+
+            {/* Navigation tier */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+              {/* Participant explorer (command palette) */}
               <ParticipantNav participants={participantsList} />
+
+              {/* Special mentions */}
               <Button
                 asChild
-                className="relative overflow-hidden group rounded-full bg-white/10 text-white hover:bg-white/20 px-8 h-12 border border-white/20"
+                variant="outline"
+                className="rounded-full border-white/10 bg-white/5 hover:bg-white/10 h-11 px-5"
               >
-                <Link href="/mam/special-mentions">
-                  <span className="relative z-10 font-bold tracking-tight">
-                    Menciones Especiales
-                  </span>
-                </Link>
+                <Link href="/mam/special-mentions">Menciones Especiales</Link>
               </Button>
+
+              {/* My personal list */}
               {hasUserPicks && (
-                <Button
-                  asChild
-                  className="relative overflow-hidden group rounded-full bg-white text-black hover:bg-white px-8 h-12"
-                >
-                  <Link href="/mam/my-list">
-                    <span className="relative z-10 font-bold tracking-tight group-hover:text-white transition-colors duration-300">
-                      Mi Lista Personal
-                    </span>
-                    {/* Animated background on hover */}
-                    <div className="absolute inset-0 bg-linear-to-r from-yellow-400 to-orange-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <Button className="rounded-full bg-white text-black hover:bg-yellow-500 transition-all font-bold h-11 px-6 shadow-xl" asChild>
+                  <Link href="/mam/my-list" className="flex items-center gap-2">
+                    <Film className="h-4 w-4" />
+                    <span>Mi Lista Personal</span>
                   </Link>
                 </Button>
               )}

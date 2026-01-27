@@ -13,7 +13,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Search, Film, User, X, SlidersHorizontal } from 'lucide-react';
+import { Search, Film, User, X, SlidersHorizontal, Globe2 } from 'lucide-react';
 import { useListMoviesParams } from '@/lib/hooks/useListMoviesParams';
 
 interface Genre {
@@ -75,48 +75,102 @@ function FiltersContent({
     params.country.includes(c.code)
   );
 
+  const hasAnyFilters =
+    selectedGenres.length > 0 ||
+    selectedDirectors.length > 0 ||
+    selectedCountries.length > 0;
+
   return (
-    <div className="space-y-4">
-      {/* Search Input */}
-      <div className="grid grid-cols-1 gap-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500 h-4 w-4" />
+    <div className="space-y-8 pb-10">
+      {/* Section: Text Search */}
+      <div className="space-y-3">
+        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+          Búsqueda directa
+        </label>
+        <div className="grid grid-cols-1 gap-2">
           <Input
-            placeholder="Buscar por título..."
+            placeholder="Título"
+            className="bg-zinc-800/50 border-0 rounded-xl h-12 text-sm"
             value={params.title}
-            onChange={(e) => {
-              setParams({ title: e.target.value });
-            }}
-            className="pl-10 bg-zinc-800/50 border-zinc-700/50 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
+            onChange={(e) => setParams({ title: e.target.value })}
           />
         </div>
       </div>
 
-      {/* Genre Filter */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <FilterCombobox
-          options={genres.map((g) => ({
-            value: g.name,
-            label: g.name,
-          }))}
-          selected={params.genre}
-          onChange={(values) => {
-            setParams({ genre: values });
-          }}
-          placeholder="Buscar géneros..."
-          emptyMessage="No se encontraron géneros."
-          groupLabel="Filtrar por géneros"
-          icon={<Film className="h-4 w-4" />}
-        />
+      {/* Section: Selectors in a Grid */}
+      <div className="space-y-4">
+        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+          Categorías y créditos
+        </label>
+        <div className="flex flex-col gap-3">
+          {/* Géneros */}
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+            <FilterCombobox
+              options={genres.map((g) => ({
+                value: g.name,
+                label: g.name,
+              }))}
+              selected={params.genre}
+              onChange={(values) => {
+                setParams({ genre: values });
+              }}
+              placeholder="Buscar géneros..."
+              emptyMessage="No se encontraron géneros."
+              groupLabel="Géneros"
+              icon={<Film className="h-4 w-4" />}
+              className="w-full justify-start h-12 border-0"
+            />
+          </div>
 
-        {/* Selected Genres */}
-        {selectedGenres.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
+          {/* Directores */}
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+            <FilterCombobox
+              options={directors.map((d) => ({
+                value: d.name,
+                label: d.name,
+              }))}
+              selected={params.director}
+              onChange={(values) => {
+                setParams({ director: values });
+              }}
+              placeholder="Buscar directores..."
+              emptyMessage="No se encontraron directores."
+              groupLabel="Directores"
+              icon={<User className="h-4 w-4" />}
+              className="w-full justify-start h-12 border-0"
+            />
+          </div>
+
+          {/* Países */}
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+            <FilterCombobox
+              options={countries.map((c) => ({
+                value: c.code,
+                label: c.name,
+              }))}
+              selected={params.country}
+              onChange={(values) => {
+                setParams({ country: values });
+              }}
+              placeholder="Buscar países..."
+              emptyMessage="No se encontraron países."
+              groupLabel="Países"
+              icon={<Globe2 className="h-4 w-4" />}
+              className="w-full justify-start h-12 border-0"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Active Badges Summary */}
+      {hasAnyFilters && (
+        <div className="pt-4 border-t border-white/5">
+          <div className="flex flex-wrap gap-2">
             {selectedGenres.map((genre) => (
               <Badge
                 key={genre.id}
                 variant="secondary"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 bg-white/5 text-zinc-400"
               >
                 <span className="text-xs">{genre.name}</span>
                 <Button
@@ -133,35 +187,12 @@ function FiltersContent({
                 </Button>
               </Badge>
             ))}
-          </div>
-        )}
-      </div>
 
-      {/* Director Filter */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <FilterCombobox
-          options={directors.map((d) => ({
-            value: d.name,
-            label: d.name,
-          }))}
-          selected={params.director}
-          onChange={(values) => {
-            setParams({ director: values });
-          }}
-          placeholder="Buscar directores..."
-          emptyMessage="No se encontraron directores."
-          groupLabel="Filtrar por directores"
-          icon={<User className="h-4 w-4" />}
-        />
-
-        {/* Selected Directors */}
-        {selectedDirectors.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
             {selectedDirectors.map((director) => (
               <Badge
                 key={director.id}
                 variant="secondary"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 bg-white/5 text-zinc-400"
               >
                 <span className="text-xs">{director.name}</span>
                 <Button
@@ -180,35 +211,12 @@ function FiltersContent({
                 </Button>
               </Badge>
             ))}
-          </div>
-        )}
-      </div>
 
-      {/* Country Filter */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <FilterCombobox
-          options={countries.map((c) => ({
-            value: c.code,
-            label: c.name,
-          }))}
-          selected={params.country}
-          onChange={(values) => {
-            setParams({ country: values });
-          }}
-          placeholder="Buscar países..."
-          emptyMessage="No se encontraron países."
-          groupLabel="Filtrar por países"
-          icon={<Film className="h-4 w-4" />}
-        />
-
-        {/* Selected Countries */}
-        {selectedCountries.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
             {selectedCountries.map((country) => (
               <Badge
                 key={country.code}
                 variant="secondary"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 bg-white/5 text-zinc-400"
               >
                 <ReactCountryFlag
                   countryCode={country.code}
@@ -236,8 +244,8 @@ function FiltersContent({
               </Badge>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -295,33 +303,24 @@ export function ListMovieFilters({
         </Drawer>
       </div>
 
-      {/* Desktop: Floating Glassmorphism Filter Bar */}
-      <div className="sticky top-4 z-50 mb-12 hidden md:block">
-        <div className="p-2 bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-4 px-6">
-          <Search className="w-5 h-5 text-muted-foreground shrink-0" />
-          <div className="flex-1 flex items-center gap-4">
-            <Input
-              placeholder="Buscar por título..."
-              value={params.title}
-              onChange={(e) => {
-                setParams({ title: e.target.value });
-              }}
-              className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-500 h-8"
-            />
-            {activeFiltersCount > 0 && (
-              <>
-                <div className="h-6 w-px bg-white/10" />
-                <Badge
-                  variant="secondary"
-                  className="px-2 py-0.5 text-xs shrink-0"
-                >
-                  {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''}
-                </Badge>
-              </>
-            )}
-          </div>
-          <div className="h-6 w-px bg-white/10" />
-          <div className="shrink-0 flex items-center gap-2">
+      {/* Desktop: Multi-Select Command Bar */}
+      <div className="sticky top-6 z-50 mb-12 hidden md:block">
+        <div className="p-2 bg-zinc-900/60 backdrop-blur-2xl rounded-full border border-white/10 shadow-2xl flex items-center gap-3 px-6">
+          <Search className="w-5 h-5 text-zinc-500 shrink-0" />
+          {/* Main Search Input */}
+          <Input
+            placeholder="Buscar por título..."
+            value={params.title}
+            onChange={(e) => {
+              setParams({ title: e.target.value });
+            }}
+            className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-600 w-48 text-sm h-8"
+          />
+
+          <div className="h-6 w-px bg-white/10 mx-2" />
+
+          {/* The Filter Grid - Only icons/labels until clicked */}
+          <div className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar">
             <FilterCombobox
               options={genres.map((g) => ({
                 value: g.name,
@@ -331,11 +330,13 @@ export function ListMovieFilters({
               onChange={(values) => {
                 setParams({ genre: values });
               }}
-              placeholder="Géneros..."
+              placeholder="Géneros"
               emptyMessage="No se encontraron géneros."
-              groupLabel="Filtrar por géneros"
-              icon={<Film className="h-4 w-4" />}
+              groupLabel="Géneros"
+              icon={<Film className="h-3.5 w-3.5" />}
+              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
             />
+
             <FilterCombobox
               options={directors.map((d) => ({
                 value: d.name,
@@ -345,11 +346,13 @@ export function ListMovieFilters({
               onChange={(values) => {
                 setParams({ director: values });
               }}
-              placeholder="Directores..."
+              placeholder="Directores"
               emptyMessage="No se encontraron directores."
-              groupLabel="Filtrar por directores"
-              icon={<User className="h-4 w-4" />}
+              groupLabel="Directores"
+              icon={<User className="h-3.5 w-3.5" />}
+              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
             />
+
             <FilterCombobox
               options={countries.map((c) => ({
                 value: c.code,
@@ -359,12 +362,31 @@ export function ListMovieFilters({
               onChange={(values) => {
                 setParams({ country: values });
               }}
-              placeholder="Países..."
+              placeholder="Países"
               emptyMessage="No se encontraron países."
-              groupLabel="Filtrar por países"
-              icon={<Film className="h-4 w-4" />}
+              groupLabel="Países"
+              icon={<Globe2 className="h-3.5 w-3.5" />}
+              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
             />
           </div>
+
+          {/* Clear All Button (Only shows if activeFilters > 0) */}
+          {activeFiltersCount > 0 && (
+            <Button
+              variant="ghost"
+              onClick={() =>
+                setParams({
+                  title: '',
+                  genre: [],
+                  director: [],
+                  country: [],
+                })
+              }
+              className="h-8 w-8 p-0 rounded-full hover:bg-red-500/10 hover:text-red-500 ml-2"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
     </>
