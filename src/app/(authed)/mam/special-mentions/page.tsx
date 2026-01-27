@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getMamParticipants } from '@/lib/api/mam';
+import { getMamCountriesWithMovieCounts, getMamParticipants } from '@/lib/api/mam';
 import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
@@ -20,10 +20,11 @@ export default async function SpecialMentionsPage({
   const params = await loadMamMoviesSearchParams(searchParams);
 
   // Fetch static data (participants list, genres, directors)
-  const [participantsList, genresList, directorsList] = await Promise.all([
+  const [participantsList, genresList, directorsList, countriesList] = await Promise.all([
     getMamParticipants(),
     getAllGenres(),
     getAllDirectors(),
+    getMamCountriesWithMovieCounts(),
   ]);
 
   // Create a stable key for Suspense based on search params
@@ -69,6 +70,7 @@ export default async function SpecialMentionsPage({
           participants={participantsList}
           genres={genresList}
           directors={directorsList}
+          countries={countriesList}
         />
 
         {/* Movie Grid with client-side loading state and Suspense */}
