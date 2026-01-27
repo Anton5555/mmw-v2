@@ -193,12 +193,11 @@ export async function createList({ data }: { data: CreateListFormValues }) {
   const newMovieIds = movieIds.filter((id) => !existingMovieIds.has(id));
 
   // Fetch data for new movies with rate limiting to avoid hitting TMDB API limits
-  // TMDB allows 40 requests per 10 seconds, so we'll use 3 requests per second to be safe
-  const API_BATCH_SIZE = 10; // Process 10 movies at a time to avoid overwhelming the API
-
+  // TMDB allows 40 requests per 10 seconds, so we'll use 4 requests per second
+  // Process all movies in parallel - rate limiter will queue requests appropriately
   const newMoviesData = await processInBatches(
     newMovieIds,
-    API_BATCH_SIZE,
+    1, // Not used anymore, but kept for API compatibility
     async (imdbId, rateLimiter) => {
       // Retry logic for API calls
       const maxRetries = 3;

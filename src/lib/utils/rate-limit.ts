@@ -10,7 +10,7 @@ export class RateLimiter {
 
   constructor(requestsPerSecond: number = 4) {
     // TMDB allows 40 requests per 10 seconds, so ~4 per second
-    // We'll be conservative and use 3 per second to avoid hitting limits
+    // Using 4 per second to maximize throughput while staying within limits
     this.requestsPerSecond = requestsPerSecond;
     this.delayBetweenRequests = 1000 / requestsPerSecond;
   }
@@ -66,15 +66,14 @@ export async function processInBatches<T, R>(
   processor: (item: T, rateLimiter: RateLimiter) => Promise<R>
 ): Promise<R[]> {
   const results: R[] = [];
-  const rateLimiter = new RateLimiter(3);
+  // Use 4 requests/second to maximize throughput (TMDB allows 40 per 10 seconds)
+  const rateLimiter = new RateLimiter(4);
 
-  for (let i = 0; i < items.length; i += batchSize) {
-    const batch = items.slice(i, i + batchSize);
-    const batchResults = await Promise.all(
-      batch.map((item) => processor(item, rateLimiter))
-    );
-    results.push(...batchResults);
-  }
+  // Process all items in parallel - the rate limiter will queue them appropriately
+  // This is more efficient than processing in sequential batches
+  const allResults = await Promise.all(
+    items.map((item) => processor(item, rateLimiter))
+  );
 
-  return results;
+  return allResults;
 }
