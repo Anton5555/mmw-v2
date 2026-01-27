@@ -5,6 +5,7 @@ import { Prisma } from '@prisma/client';
 import { getMovieById, getMovieDetailsFull } from '@/lib/tmdb';
 import { CreateListFormValues } from '@/lib/validations/lists';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
+import { processInBatches } from '@/lib/utils/rate-limit';
 
 export async function getLists(): Promise<List[]> {
   return await prisma.list.findMany({
@@ -191,22 +192,58 @@ export async function createList({ data }: { data: CreateListFormValues }) {
   const existingMovieIds = new Set(existingMovies.map((m) => m.imdbId));
   const newMovieIds = movieIds.filter((id) => !existingMovieIds.has(id));
 
-  // Fetch data for new movies
-  const newMoviesData = await Promise.all(
-    newMovieIds.map(async (imdbId) => {
-      const movieData = await getMovieById(imdbId);
-      if (!movieData) {
-        throw new Error(
-          `No se pudo obtener la información de la película ${imdbId}`
-        );
+  // Fetch data for new movies with rate limiting to avoid hitting TMDB API limits
+  // TMDB allows 40 requests per 10 seconds, so we'll use 3 requests per second to be safe
+  const API_BATCH_SIZE = 10; // Process 10 movies at a time to avoid overwhelming the API
+
+  const newMoviesData = await processInBatches(
+    newMovieIds,
+    API_BATCH_SIZE,
+    async (imdbId, rateLimiter) => {
+      // Retry logic for API calls
+      const maxRetries = 3;
+      let lastError: Error | null = null;
+
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const movieData = await rateLimiter.execute(() =>
+            getMovieById(imdbId)
+          );
+
+          if (!movieData) {
+            throw new Error(
+              `No se pudo obtener la información de la película ${imdbId}`
+            );
+          }
+
+          // Fetch full details including genres and directors
+          const details = await rateLimiter.execute(() =>
+            getMovieDetailsFull(movieData.id)
+          );
+
+          return {
+            ...movieData,
+            details: details || null,
+          };
+        } catch (error) {
+          lastError = error instanceof Error ? error : new Error(String(error));
+          
+          // If it's the last attempt, throw the error
+          if (attempt === maxRetries) {
+            throw new Error(
+              `No se pudo obtener la información de la película ${imdbId} después de ${maxRetries} intentos: ${lastError.message}`
+            );
+          }
+
+          // Wait before retrying (exponential backoff)
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
       }
-      // Fetch full details including genres and directors
-      const details = await getMovieDetailsFull(movieData.id);
-      return {
-        ...movieData,
-        details: details || null,
-      };
-    })
+
+      // This should never be reached, but TypeScript needs it
+      throw lastError || new Error(`Unknown error fetching movie ${imdbId}`);
+    }
   );
 
   // Now do all database operations in a transaction with increased timeout
@@ -528,8 +565,8 @@ export async function createList({ data }: { data: CreateListFormValues }) {
       return list;
     },
     {
-      timeout: 60000, // 60 seconds timeout for large lists
-      maxWait: 20000, // 20 seconds max wait
+      timeout: 120000, // 120 seconds timeout for large lists (increased for API rate limiting)
+      maxWait: 30000, // 30 seconds max wait (increased for large batches)
     }
   );
 }
