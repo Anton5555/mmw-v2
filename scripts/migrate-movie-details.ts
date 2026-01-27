@@ -1,12 +1,13 @@
 /**
  * Movie Details Migration Script
  *
- * Fetches TMDB details (genres, directors, TMDB ID) for all existing movies
- * and populates the Genre, Director, MovieGenre, and MovieDirector tables.
+ * Fetches TMDB details (genres, directors, countries, TMDB ID) for all existing movies
+ * and populates the Genre, Director, Country, MovieGenre, MovieDirector, and MovieCountry tables.
  *
  * Usage:
  *   npx tsx scripts/migrate-movie-details.ts
  *   npx tsx scripts/migrate-movie-details.ts --dry-run
+ *   npx tsx scripts/migrate-movie-details.ts --backfill-countries   # Only add countries to movies missing them
  */
 
 import { PrismaClient } from '../generated/prisma/client';
@@ -21,6 +22,13 @@ const pool = new Pool({
 const prisma = new PrismaClient({
   adapter: new PrismaPg(pool),
 });
+
+// Manual TMDB ID overrides for cases where the TMDB API
+// cannot resolve an IMDb ID via /find. Keys are IMDb IDs.
+const TMDB_ID_OVERRIDES: Record<string, number> = {
+  tt21386232: 1002164, // Olaf
+  tt28090350: 1440171, // Una quinta portuguesa
+};
 
 // TMDB API functions for script context
 async function getMovieById(imdbId: string): Promise<{
@@ -69,6 +77,7 @@ async function getMovieById(imdbId: string): Promise<{
 async function getMovieDetailsFull(tmdbId: number): Promise<{
   genres: Array<{ id: number; name: string }>;
   directors: Array<{ id?: number; name: string }>;
+  countries: Array<{ code: string; name: string }>;
   tmdbId: number;
 } | null> {
   const apiKey = process.env.TMDB_API_KEY;
@@ -92,6 +101,7 @@ async function getMovieDetailsFull(tmdbId: number): Promise<{
     const data = (await response.json()) as {
       id: number;
       genres: Array<{ id: number; name: string }>;
+      production_countries?: Array<{ iso_3166_1: string; name: string }>;
       credits?: {
         crew: Array<{ job: string; name: string; id?: number }>;
       };
@@ -105,9 +115,16 @@ async function getMovieDetailsFull(tmdbId: number): Promise<{
         name: person.name,
       })) || [];
 
+    const countries =
+      data.production_countries?.map((country) => ({
+        code: country.iso_3166_1,
+        name: country.name,
+      })) || [];
+
     return {
       genres: data.genres || [],
       directors,
+      countries,
       tmdbId: data.id,
     };
   } catch (error) {
@@ -121,9 +138,14 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function main() {
   const isDryRun = process.argv.includes('--dry-run');
+  const backfillCountriesOnly = process.argv.includes('--backfill-countries');
 
   if (isDryRun) {
     console.log('🔍 DRY RUN MODE - No changes will be made\n');
+  }
+
+  if (backfillCountriesOnly) {
+    console.log('🌍 BACKFILL COUNTRIES MODE - Only adding countries to movies missing them\n');
   }
 
   console.log('Starting movie details migration...\n');
@@ -152,12 +174,10 @@ async function main() {
     const movie = movies[i];
     processed++;
 
-    // Skip if already has TMDB ID and details
-    if (movie.tmdbId) {
-      const hasGenres = await prisma.movieGenre.findFirst({
-        where: { movieId: movie.id },
-      });
-      if (hasGenres) {
+    // Different skip logic depending on mode
+    if (backfillCountriesOnly) {
+      // In backfill-countries mode: skip movies that don't have tmdbId or already have countries
+      if (!movie.tmdbId) {
         skipped++;
         if (processed % 100 === 0) {
           process.stdout.write(
@@ -166,6 +186,34 @@ async function main() {
         }
         continue;
       }
+      const hasCountries = await prisma.movieCountry.findFirst({
+        where: { movieId: movie.id },
+      });
+      if (hasCountries) {
+        skipped++;
+        if (processed % 100 === 0) {
+          process.stdout.write(
+            `\rProgress: ${processed}/${movies.length} (${updated} updated, ${skipped} skipped, ${errors} errors)`
+          );
+        }
+        continue;
+      }
+    } else {
+      // Normal mode: skip if already has TMDB ID and genres
+      if (movie.tmdbId) {
+        const hasGenres = await prisma.movieGenre.findFirst({
+          where: { movieId: movie.id },
+        });
+        if (hasGenres) {
+          skipped++;
+          if (processed % 100 === 0) {
+            process.stdout.write(
+              `\rProgress: ${processed}/${movies.length} (${updated} updated, ${skipped} skipped, ${errors} errors)`
+            );
+          }
+          continue;
+        }
+      }
     }
 
     process.stdout.write(
@@ -173,8 +221,8 @@ async function main() {
     );
 
     try {
-      // Get TMDB ID if not already stored
-      let tmdbId = movie.tmdbId;
+      // Get TMDB ID if not already stored, using overrides first
+      let tmdbId = movie.tmdbId ?? TMDB_ID_OVERRIDES[movie.imdbId];
       if (!tmdbId) {
         const tmdbMovie = await getMovieById(movie.imdbId);
         if (!tmdbMovie) {
@@ -183,6 +231,11 @@ async function main() {
           continue;
         }
         tmdbId = tmdbMovie.id;
+      } else if (!movie.tmdbId && TMDB_ID_OVERRIDES[movie.imdbId]) {
+        // Log when an override is used and movie.tmdbId was previously null
+        console.log(
+          `\nℹ️ Using TMDB override ${tmdbId} for ${movie.title} (${movie.imdbId})`
+        );
       }
 
       // Fetch full details
@@ -194,88 +247,140 @@ async function main() {
       }
 
       if (!isDryRun) {
-        // Update movie with TMDB ID if needed
-        if (!movie.tmdbId) {
+        // Update movie with TMDB ID if needed (skip in backfill-countries mode)
+        if (!movie.tmdbId && !backfillCountriesOnly) {
           await prisma.movie.update({
             where: { id: movie.id },
             data: { tmdbId },
           });
         }
 
-        // Process genres
-        for (const genreData of details.genres) {
-          // Find or create genre
-          let genre = await prisma.genre.findUnique({
-            where: { name: genreData.name },
-          });
+        // Process genres (skip in backfill-countries mode)
+        if (!backfillCountriesOnly) {
+          for (const genreData of details.genres) {
+            // Find or create genre
+            let genre = await prisma.genre.findUnique({
+              where: { name: genreData.name },
+            });
 
-          if (!genre) {
-            genre = await prisma.genre.create({
-              data: {
-                name: genreData.name,
-                tmdbId: genreData.id,
+            if (!genre) {
+              genre = await prisma.genre.create({
+                data: {
+                  name: genreData.name,
+                  tmdbId: genreData.id,
+                },
+              });
+            } else if (!genre.tmdbId && genreData.id) {
+              // Update genre with TMDB ID if missing
+              await prisma.genre.update({
+                where: { id: genre.id },
+                data: { tmdbId: genreData.id },
+              });
+            }
+
+            // Link movie to genre (idempotent)
+            await prisma.movieGenre.upsert({
+              where: {
+                movieId_genreId: {
+                  movieId: movie.id,
+                  genreId: genre.id,
+                },
               },
-            });
-          } else if (!genre.tmdbId && genreData.id) {
-            // Update genre with TMDB ID if missing
-            await prisma.genre.update({
-              where: { id: genre.id },
-              data: { tmdbId: genreData.id },
-            });
-          }
-
-          // Link movie to genre (idempotent)
-          await prisma.movieGenre.upsert({
-            where: {
-              movieId_genreId: {
+              create: {
                 movieId: movie.id,
                 genreId: genre.id,
               },
-            },
-            create: {
-              movieId: movie.id,
-              genreId: genre.id,
-            },
-            update: {},
-          });
-        }
-
-        // Process directors
-        for (const directorData of details.directors) {
-          // Find or create director
-          let director = await prisma.director.findUnique({
-            where: { name: directorData.name },
-          });
-
-          if (!director) {
-            director = await prisma.director.create({
-              data: {
-                name: directorData.name,
-                tmdbId: directorData.id || undefined,
-              },
-            });
-          } else if (!director.tmdbId && directorData.id) {
-            // Update director with TMDB ID if missing
-            await prisma.director.update({
-              where: { id: director.id },
-              data: { tmdbId: directorData.id },
+              update: {},
             });
           }
+        }
 
-          // Link movie to director (idempotent)
-          await prisma.movieDirector.upsert({
-            where: {
-              movieId_directorId: {
+        // Process directors (skip in backfill-countries mode)
+        if (!backfillCountriesOnly) {
+          for (const directorData of details.directors) {
+            // Find or create director
+            let director = await prisma.director.findUnique({
+              where: { name: directorData.name },
+            });
+
+            if (!director) {
+              director = await prisma.director.create({
+                data: {
+                  name: directorData.name,
+                  tmdbId: directorData.id || undefined,
+                },
+              });
+            } else if (!director.tmdbId && directorData.id) {
+              // Update director with TMDB ID if missing
+              await prisma.director.update({
+                where: { id: director.id },
+                data: { tmdbId: directorData.id },
+              });
+            }
+
+            // Link movie to director (idempotent)
+            await prisma.movieDirector.upsert({
+              where: {
+                movieId_directorId: {
+                  movieId: movie.id,
+                  directorId: director.id,
+                },
+              },
+              create: {
                 movieId: movie.id,
                 directorId: director.id,
               },
-            },
-            create: {
-              movieId: movie.id,
-              directorId: director.id,
-            },
-            update: {},
-          });
+              update: {},
+            });
+          }
+        }
+
+        // Process countries
+        for (const countryData of details.countries) {
+          if (!countryData.code) {
+            continue;
+          }
+
+          const code = countryData.code.trim();
+          const name = countryData.name?.trim() || countryData.code;
+
+          if (!code) {
+            continue;
+          }
+
+          try {
+            let country = await prisma.country.findUnique({
+              where: { code },
+            });
+
+            if (!country) {
+              country = await prisma.country.create({
+                data: {
+                  code,
+                  name,
+                },
+              });
+            }
+
+            await prisma.movieCountry.upsert({
+              where: {
+                movieId_countryId: {
+                  movieId: movie.id,
+                  countryId: country.id,
+                },
+              },
+              create: {
+                movieId: movie.id,
+                countryId: country.id,
+              },
+              update: {},
+            });
+          } catch (countryError: any) {
+            console.log(
+              ` ❌ Error processing country ${code} for movie ${movie.title}: ${countryError.message}`
+            );
+            errors++;
+          }
         }
       }
 

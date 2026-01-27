@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ReactCountryFlag from 'react-country-flag';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +13,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Search, Users, X, SlidersHorizontal, Film, User } from 'lucide-react';
+import {
+  Search,
+  Users,
+  X,
+  SlidersHorizontal,
+  Film,
+  User,
+  Globe2,
+} from 'lucide-react';
 import {
   ParticipantAvatar,
   getParticipantDisplayName,
@@ -40,28 +49,37 @@ interface Director {
   name: string;
 }
 
+interface Country {
+  code: string;
+  name: string;
+}
+
 interface MamMovieFiltersProps {
   participants: Participant[];
   genres: Genre[];
   directors: Director[];
+  countries: Country[];
 }
 
 function FiltersContent({
   participants,
   genres,
   directors,
+  countries,
   params,
   setParams,
 }: {
   participants: Participant[];
   genres: Genre[];
   directors: Director[];
+  countries: Country[];
   params: {
     title: string;
     imdb: string;
     participants: string[];
     genre: string[];
     director: string[];
+    country: string[];
     page: number;
     limit: number;
   };
@@ -72,6 +90,7 @@ function FiltersContent({
       participants: string[] | null;
       genre: string[] | null;
       director: string[] | null;
+      country: string[] | null;
       page: number;
       limit: number;
     }>
@@ -88,6 +107,11 @@ function FiltersContent({
   // Get selected directors for display
   const selectedDirectors = directors.filter((d) =>
     params.director.includes(d.name)
+  );
+
+  // Get selected countries for display
+  const selectedCountries = countries.filter((c) =>
+    params.country.includes(c.code)
   );
 
   return (
@@ -262,6 +286,62 @@ function FiltersContent({
           </div>
         )}
       </div>
+
+      {/* Country Filter */}
+      <div className="flex items-center gap-4 flex-wrap">
+        <FilterCombobox
+          options={countries.map((c) => ({
+            value: c.code,
+            label: c.name,
+          }))}
+          selected={params.country}
+          onChange={(values) => {
+            setParams({ country: values, page: 1 });
+          }}
+          placeholder="Buscar países..."
+          emptyMessage="No se encontraron países."
+          groupLabel="Filtrar por países"
+          icon={<Globe2 className="h-4 w-4" />}
+        />
+
+        {/* Selected Countries */}
+        {selectedCountries.length > 0 && (
+          <div className="flex items-center gap-2 flex-wrap">
+            {selectedCountries.map((country) => (
+              <Badge
+                key={country.code}
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
+                <ReactCountryFlag
+                  countryCode={country.code}
+                  svg
+                  className="rounded-[2px] shadow-sm"
+                  style={{
+                    width: '1rem',
+                    height: '0.75rem',
+                  }}
+                  aria-label={country.name}
+                />
+                <span className="text-xs">{country.name}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-auto p-0 ml-1"
+                  onClick={() => {
+                    setParams({
+                      country: params.country.filter((c) => c !== country.code),
+                      page: 1,
+                    });
+                  }}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </Badge>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -270,6 +350,7 @@ export function MamMovieFilters({
   participants,
   genres,
   directors,
+  countries,
 }: MamMovieFiltersProps) {
   const { params, setParams } = useMamMoviesParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -280,13 +361,15 @@ export function MamMovieFilters({
     (params.imdb ? 1 : 0) +
     params.participants.length +
     params.genre.length +
-    params.director.length;
+    params.director.length +
+    params.country.length;
 
   const filtersContent = (
     <FiltersContent
       participants={participants}
       genres={genres}
       directors={directors}
+      countries={countries}
       params={params}
       setParams={setParams}
     />
@@ -388,6 +471,20 @@ export function MamMovieFilters({
               emptyMessage="No se encontraron directores."
               groupLabel="Filtrar por directores"
               icon={<User className="h-4 w-4" />}
+            />
+            <FilterCombobox
+              options={countries.map((c) => ({
+                value: c.code,
+                label: c.name,
+              }))}
+              selected={params.country}
+              onChange={(values) => {
+                setParams({ country: values, page: 1 });
+              }}
+              placeholder="Países..."
+              emptyMessage="No se encontraron países."
+              groupLabel="Filtrar por países"
+              icon={<Globe2 className="h-4 w-4" />}
             />
           </div>
         </div>

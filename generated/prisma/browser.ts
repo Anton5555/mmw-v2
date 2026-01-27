@@ -137,3 +137,13 @@ export type Director = Prisma.DirectorModel
  * 
  */
 export type MovieDirector = Prisma.MovieDirectorModel
+/**
+ * Model Country
+ * 
+ */
+export type Country = Prisma.CountryModel
+/**
+ * Model MovieCountry
+ * 
+ */
+export type MovieCountry = Prisma.MovieCountryModel

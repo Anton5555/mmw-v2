@@ -74,7 +74,9 @@ export const ModelName = {
   Genre: 'Genre',
   MovieGenre: 'MovieGenre',
   Director: 'Director',
-  MovieDirector: 'MovieDirector'
+  MovieDirector: 'MovieDirector',
+  Country: 'Country',
+  MovieCountry: 'MovieCountry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -395,6 +397,24 @@ export const MovieDirectorScalarFieldEnum = {
 } as const
 
 export type MovieDirectorScalarFieldEnum = (typeof MovieDirectorScalarFieldEnum)[keyof typeof MovieDirectorScalarFieldEnum]
+
+
+export const CountryScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
+
+
+export const MovieCountryScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  countryId: 'countryId'
+} as const
+
+export type MovieCountryScalarFieldEnum = (typeof MovieCountryScalarFieldEnum)[keyof typeof MovieCountryScalarFieldEnum]
 
 
 export const SortOrder = {

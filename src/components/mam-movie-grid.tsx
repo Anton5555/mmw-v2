@@ -2,6 +2,7 @@ import { getMamMovies } from '@/lib/api/mam';
 import { MamMovieCard } from '@/components/mam-movie-card';
 import { MamPagination } from '@/components/mam-pagination';
 import { Film } from 'lucide-react';
+import { MamRandomMovieButton } from '@/components/mam/mam-random-movie-button';
 
 interface MovieGridProps {
   searchParams: {
@@ -10,6 +11,7 @@ interface MovieGridProps {
     participants: string[];
     genre: string[];
     director: string[];
+    country: string[];
     page: number;
     limit: number;
   };
@@ -29,6 +31,10 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
     searchParams.director.length > 0
       ? searchParams.director.join(',')
       : undefined;
+  const countryString =
+    searchParams.country.length > 0
+      ? searchParams.country.join(',')
+      : undefined;
 
   const { movies, pagination } = await getMamMovies({
     title: searchParams.title || undefined,
@@ -36,6 +42,7 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
     participants: participantsString,
     genre: genreString,
     director: directorString,
+    country: countryString,
     page: searchParams.page,
     limit: searchParams.limit,
   });
@@ -56,11 +63,12 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
 
   return (
     <>
-      {/* Results Count */}
-      <div className="mb-6">
+      {/* Results Count & Random Pick */}
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground text-sm">
           Mostrando {movies.length} de {pagination.totalCount} películas
         </p>
+        <MamRandomMovieButton movies={movies} />
       </div>
 
       {/* Movie Grid */}

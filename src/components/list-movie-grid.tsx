@@ -7,6 +7,7 @@ interface ListMovieGridProps {
   title?: string;
   genre?: string;
   director?: string;
+  country?: string;
 }
 
 const ITEMS_PER_PAGE = 20;
@@ -16,6 +17,7 @@ export async function ListMovieGrid({
   title,
   genre,
   director,
+  country,
 }: ListMovieGridProps) {
   const { movies, totalMovies, hasMore } = await getListMovies({
     listId,
@@ -24,6 +26,7 @@ export async function ListMovieGrid({
     title,
     genre,
     director,
+    country,
   });
 
   if (movies.length === 0) {

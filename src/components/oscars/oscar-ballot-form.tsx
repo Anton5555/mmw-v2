@@ -10,6 +10,7 @@ import { submitBallotAction } from '@/lib/actions/oscars/submit-ballot';
 import { toast } from 'sonner';
 import type { OscarCategory } from '@/lib/validations/oscars';
 import Image from 'next/image';
+import { intervalToDuration } from 'date-fns';
 
 interface OscarBallotFormProps {
   categories: OscarCategory[];
@@ -54,19 +55,42 @@ export function OscarBallotForm({
       } else {
         // Form is available (more than 3 hours before ceremony)
         setIsFormAvailable(true);
-        // Calculate time until form is blocked
-        const diff = cutoffTime.getTime() - now.getTime();
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        // Calculate time until form is blocked using date-fns
+        const duration = intervalToDuration({
+          start: now,
+          end: cutoffTime,
+        });
+
+        // Build a human-readable string (show up to 3 most significant parts)
+        const parts: string[] = [];
         
-        // Format: "Xd Xh Xm" or "Xh Xm" if no days, or "Xm" if less than an hour
-        if (days > 0) {
-          setTimeUntilBlocked(`${days}d ${hours}h ${minutes}m`);
-        } else if (hours > 0) {
-          setTimeUntilBlocked(`${hours}h ${minutes}m`);
+        if (duration.years && duration.years > 0 && parts.length < 3) {
+          parts.push(`${duration.years} ${duration.years === 1 ? 'año' : 'años'}`);
+        }
+        if (duration.months && duration.months > 0 && parts.length < 3) {
+          parts.push(`${duration.months} ${duration.months === 1 ? 'mes' : 'meses'}`);
+        }
+        if (duration.weeks && duration.weeks > 0 && parts.length < 3) {
+          parts.push(`${duration.weeks} ${duration.weeks === 1 ? 'semana' : 'semanas'}`);
+        }
+        if (duration.days && duration.days > 0 && parts.length < 3) {
+          parts.push(`${duration.days} ${duration.days === 1 ? 'día' : 'días'}`);
+        }
+        if (duration.hours && duration.hours > 0 && parts.length < 3) {
+          parts.push(`${duration.hours} ${duration.hours === 1 ? 'hora' : 'horas'}`);
+        }
+        if (duration.minutes && duration.minutes > 0 && parts.length < 3) {
+          parts.push(`${duration.minutes} ${duration.minutes === 1 ? 'minuto' : 'minutos'}`);
+        }
+
+        // Format with commas and "y" for the last item
+        if (parts.length === 0) {
+          setTimeUntilBlocked('menos de un minuto');
+        } else if (parts.length === 1) {
+          setTimeUntilBlocked(parts[0]);
         } else {
-          setTimeUntilBlocked(`${minutes}m`);
+          const lastPart = parts.pop();
+          setTimeUntilBlocked(`${parts.join(', ')} y ${lastPart}`);
         }
       }
     };

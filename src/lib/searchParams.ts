@@ -14,6 +14,7 @@ export const mamMoviesSearchParams = {
   participants: parseAsArrayOf(parseAsString).withDefault([]), // array of participant slugs
   genre: parseAsArrayOf(parseAsString).withDefault([]), // array of genre names
   director: parseAsArrayOf(parseAsString).withDefault([]), // array of director names
+  country: parseAsArrayOf(parseAsString).withDefault([]), // array of country codes
   page: parseAsInteger.withDefault(1),
   limit: parseAsInteger.withDefault(30),
 };

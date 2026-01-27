@@ -407,7 +407,9 @@ export const ModelName = {
   Genre: 'Genre',
   MovieGenre: 'MovieGenre',
   Director: 'Director',
-  MovieDirector: 'MovieDirector'
+  MovieDirector: 'MovieDirector',
+  Country: 'Country',
+  MovieCountry: 'MovieCountry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -423,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats" | "oscarEdition" | "oscarCategory" | "oscarNominee" | "oscarBallot" | "oscarPick" | "genre" | "movieGenre" | "director" | "movieDirector"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats" | "oscarEdition" | "oscarCategory" | "oscarNominee" | "oscarBallot" | "oscarPick" | "genre" | "movieGenre" | "director" | "movieDirector" | "country" | "movieCountry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2203,6 +2205,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Country: {
+      payload: Prisma.$CountryPayload<ExtArgs>
+      fields: Prisma.CountryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CountryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CountryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findFirst: {
+          args: Prisma.CountryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CountryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        findMany: {
+          args: Prisma.CountryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        create: {
+          args: Prisma.CountryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        createMany: {
+          args: Prisma.CountryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CountryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        delete: {
+          args: Prisma.CountryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        update: {
+          args: Prisma.CountryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        deleteMany: {
+          args: Prisma.CountryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CountryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CountryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>[]
+        }
+        upsert: {
+          args: Prisma.CountryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryPayload>
+        }
+        aggregate: {
+          args: Prisma.CountryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCountry>
+        }
+        groupBy: {
+          args: Prisma.CountryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CountryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryCountAggregateOutputType> | number
+        }
+      }
+    }
+    MovieCountry: {
+      payload: Prisma.$MovieCountryPayload<ExtArgs>
+      fields: Prisma.MovieCountryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MovieCountryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MovieCountryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        findFirst: {
+          args: Prisma.MovieCountryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MovieCountryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        findMany: {
+          args: Prisma.MovieCountryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>[]
+        }
+        create: {
+          args: Prisma.MovieCountryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        createMany: {
+          args: Prisma.MovieCountryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MovieCountryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>[]
+        }
+        delete: {
+          args: Prisma.MovieCountryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        update: {
+          args: Prisma.MovieCountryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        deleteMany: {
+          args: Prisma.MovieCountryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MovieCountryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MovieCountryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>[]
+        }
+        upsert: {
+          args: Prisma.MovieCountryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MovieCountryPayload>
+        }
+        aggregate: {
+          args: Prisma.MovieCountryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMovieCountry>
+        }
+        groupBy: {
+          args: Prisma.MovieCountryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovieCountryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MovieCountryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MovieCountryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2546,6 +2696,24 @@ export const MovieDirectorScalarFieldEnum = {
 export type MovieDirectorScalarFieldEnum = (typeof MovieDirectorScalarFieldEnum)[keyof typeof MovieDirectorScalarFieldEnum]
 
 
+export const CountryScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name'
+} as const
+
+export type CountryScalarFieldEnum = (typeof CountryScalarFieldEnum)[keyof typeof CountryScalarFieldEnum]
+
+
+export const MovieCountryScalarFieldEnum = {
+  id: 'id',
+  movieId: 'movieId',
+  countryId: 'countryId'
+} as const
+
+export type MovieCountryScalarFieldEnum = (typeof MovieCountryScalarFieldEnum)[keyof typeof MovieCountryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2785,6 +2953,8 @@ export type GlobalOmitConfig = {
   movieGenre?: Prisma.MovieGenreOmit
   director?: Prisma.DirectorOmit
   movieDirector?: Prisma.MovieDirectorOmit
+  country?: Prisma.CountryOmit
+  movieCountry?: Prisma.MovieCountryOmit
 }
 
 /* Types for Logging */

@@ -49,6 +49,7 @@ model Movie {
   oscarNominees        OscarNominee[]
   genres               MovieGenre[]
   directors            MovieDirector[]
+  countries            MovieCountry[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -360,20 +361,20 @@ model OscarPick {
 }
 
 model Genre {
-  id       Int          @id @default(autoincrement())
-  name     String       @unique
-  tmdbId   Int?
-  movies   MovieGenre[]
+  id     Int          @id @default(autoincrement())
+  name   String       @unique
+  tmdbId Int?
+  movies MovieGenre[]
 
   @@index([name])
 }
 
 model MovieGenre {
-  id       Int    @id @default(autoincrement())
+  id      Int   @id @default(autoincrement())
   movieId Int
   genreId Int
-  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
   @@unique([movieId, genreId])
   @@index([movieId])
@@ -381,22 +382,43 @@ model MovieGenre {
 }
 
 model Director {
-  id       Int            @id @default(autoincrement())
-  name     String         @unique
-  tmdbId   Int?
-  movies   MovieDirector[]
+  id     Int             @id @default(autoincrement())
+  name   String          @unique
+  tmdbId Int?
+  movies MovieDirector[]
 
   @@index([name])
 }
 
 model MovieDirector {
-  id          Int       @id @default(autoincrement())
-  movieId     Int
-  directorId  Int
-  movie       Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  director    Director  @relation(fields: [directorId], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  movieId    Int
+  directorId Int
+  movie      Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  director   Director @relation(fields: [directorId], references: [id], onDelete: Cascade)
 
   @@unique([movieId, directorId])
   @@index([movieId])
   @@index([directorId])
+}
+
+model Country {
+  id     Int            @id @default(autoincrement())
+  code   String         @unique
+  name   String
+  movies MovieCountry[]
+
+  @@index([name])
+}
+
+model MovieCountry {
+  id        Int     @id @default(autoincrement())
+  movieId   Int
+  countryId Int
+  movie     Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  country   Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, countryId])
+  @@index([movieId])
+  @@index([countryId])
 }

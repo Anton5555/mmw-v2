@@ -7,6 +7,24 @@ import {
 import { Prisma } from '@prisma/client';
 
 /**
+ * Get all countries that have at least one MAM movie, with movie counts.
+ * This is useful for building country filters in the UI.
+ */
+export async function getMamCountriesWithMovieCounts() {
+  'use cache';
+  return prisma.country.findMany({
+    orderBy: { name: 'asc' },
+    include: {
+      _count: {
+        select: {
+          movies: true,
+        },
+      },
+    },
+  });
+}
+
+/**
  * Get all MAM participants
  */
 export async function getMamParticipants() {
@@ -60,7 +78,8 @@ export async function getMamMovies(query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, participants, genre, director, page, limit } = validatedQuery;
+  const { title, imdb, participants, genre, director, country, page, limit } =
+    validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -91,6 +110,16 @@ export async function getMamMovies(query: MamMovieQuery) {
     ? director
         .split(',')
         .map((d) => d.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse country filter (country codes)
+  const countryCodes = Array.isArray(country)
+    ? country.filter(Boolean)
+    : country
+    ? country
+        .split(',')
+        .map((c) => c.trim().toUpperCase())
         .filter(Boolean)
     : [];
 
@@ -134,6 +163,17 @@ export async function getMamMovies(query: MamMovieQuery) {
           director: {
             name: {
               in: directorNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(countryCodes.length > 0 && {
+      countries: {
+        some: {
+          country: {
+            code: {
+              in: countryCodes,
             },
           },
         },
@@ -231,6 +271,11 @@ export async function getMamMovieById(movieId: number) {
         },
         orderBy: [{ score: 'desc' }, { createdAt: 'asc' }],
       },
+      countries: {
+        include: {
+          country: true,
+        },
+      },
     },
   });
 
@@ -238,9 +283,22 @@ export async function getMamMovieById(movieId: number) {
     return null;
   }
 
+  const countryNames = movie.countries
+    .map((mc) => mc.country.name)
+    .filter(Boolean)
+    .sort();
+
+  const countryCodes = movie.countries
+    .map((mc) => mc.country.code)
+    .filter(Boolean)
+    .map((code) => code.toUpperCase())
+    .sort();
+
   return {
     ...movie,
     picks: movie.mamPicks,
+    countries: countryNames,
+    countryCodes,
     averageScore: movie.mamAverageScore,
     totalPicks: movie.mamTotalPicks,
     totalPoints: movie.mamTotalPoints,
@@ -273,7 +331,7 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, genre, director, page, limit } = validatedQuery;
+  const { title, imdb, genre, director, country, page, limit } = validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -317,6 +375,16 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
         .filter(Boolean)
     : [];
 
+  // Parse country filter (country codes)
+  const countryCodes = Array.isArray(country)
+    ? country.filter(Boolean)
+    : country
+    ? country
+        .split(',')
+        .map((c) => c.trim().toUpperCase())
+        .filter(Boolean)
+    : [];
+
   // Build the where clause for movies that have picks from this participant
   // Exclude special mentions from user's personal list
   const whereClause: Prisma.MovieWhereInput = {
@@ -352,6 +420,17 @@ export async function getUserMamPicks(userId: string, query: MamMovieQuery) {
           director: {
             name: {
               in: directorNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(countryCodes.length > 0 && {
+      countries: {
+        some: {
+          country: {
+            code: {
+              in: countryCodes,
             },
           },
         },
@@ -463,7 +542,8 @@ export async function getSpecialMentions(query: MamMovieQuery) {
   // Validate the query parameters
   const validatedQuery = mamMovieQuerySchema.parse(query);
 
-  const { title, imdb, participants, genre, director, page, limit } = validatedQuery;
+  const { title, imdb, participants, genre, director, country, page, limit } =
+    validatedQuery;
 
   const skip = (page - 1) * limit;
 
@@ -494,6 +574,16 @@ export async function getSpecialMentions(query: MamMovieQuery) {
     ? director
         .split(',')
         .map((d) => d.trim())
+        .filter(Boolean)
+    : [];
+
+  // Parse country filter (country codes)
+  const countryCodes = Array.isArray(country)
+    ? country.filter(Boolean)
+    : country
+    ? country
+        .split(',')
+        .map((c) => c.trim().toUpperCase())
         .filter(Boolean)
     : [];
 
@@ -539,6 +629,17 @@ export async function getSpecialMentions(query: MamMovieQuery) {
           director: {
             name: {
               in: directorNames,
+            },
+          },
+        },
+      },
+    }),
+    ...(countryCodes.length > 0 && {
+      countries: {
+        some: {
+          country: {
+            code: {
+              in: countryCodes,
             },
           },
         },

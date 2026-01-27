@@ -31,3 +31,20 @@ export async function getAllDirectors() {
     },
   });
 }
+
+/**
+ * Get all countries for filter dropdowns
+ */
+export async function getAllCountries() {
+  'use cache';
+  return await prisma.country.findMany({
+    orderBy: {
+      name: 'asc',
+    },
+    select: {
+      id: true,
+      code: true,
+      name: true,
+    },
+  });
+}
