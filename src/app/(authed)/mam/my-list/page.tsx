@@ -1,4 +1,4 @@
-import { getUserMamPicks } from '@/lib/api/mam';
+import { getMamCountriesWithMovieCounts, getUserMamPicks } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { MamMovieCard } from '@/components/mam-movie-card';
@@ -36,9 +36,10 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
     director.length > 0 ? director.join(',') : undefined;
 
   // Fetch genres, directors, and user's picks in parallel
-  const [genresList, directorsList, moviesData] = await Promise.all([
+  const [genresList, directorsList, countriesList, moviesData] = await Promise.all([
     getAllGenres(),
     getAllDirectors(),
+    getMamCountriesWithMovieCounts(),
     getUserMamPicks(userId, {
       title,
       imdb,
@@ -66,7 +67,7 @@ export default async function MyListPage({ searchParams }: MyListPageProps) {
         <MamMovieFilters
           participants={[]}
           genres={genresList}
-          directors={directorsList}
+          directors={directorsList} countries={countriesList}
         />
       </div>
 
