@@ -368,6 +368,20 @@ export function ListMovieFilters({
               icon={<Globe2 className="h-3.5 w-3.5" />}
               className="border-0 bg-transparent hover:bg-white/5 rounded-full"
             />
+            <FilterCombobox
+              options={countries.map((c) => ({
+                value: c.code,
+                label: c.name,
+              }))}
+              selected={params.country}
+              onChange={(values) => {
+                setParams({ country: values });
+              }}
+              placeholder="Países..."
+              emptyMessage="No se encontraron países."
+              groupLabel="Filtrar por países"
+              icon={<Film className="h-4 w-4" />}
+            />
           </div>
 
           {/* Clear All Button (Only shows if activeFilters > 0) */}
