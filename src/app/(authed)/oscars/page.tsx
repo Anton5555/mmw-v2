@@ -1,11 +1,17 @@
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { getActiveEdition, getUserBallot, getOscarCategories } from '@/lib/api/oscars';
+import {
+  getActiveEdition,
+  getUserBallot,
+  getOscarCategories,
+} from '@/lib/api/oscars';
 import { OscarBallotForm } from '@/components/oscars/oscar-ballot-form';
 import { OscarSummary } from '@/components/oscars/oscar-summary';
 import { OscarSuccessDialog } from '@/components/oscars/oscar-success-dialog';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Suspense } from 'react';
 
 export default async function OscarsPage() {
@@ -24,7 +30,9 @@ export default async function OscarsPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-4">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black tracking-tighter">No hay edición activa</h1>
+          <h1 className="text-4xl font-black tracking-tighter">
+            No hay edición activa
+          </h1>
           <p className="text-muted-foreground">
             No hay ninguna edición de los Oscars disponible en este momento.
           </p>
@@ -48,8 +56,19 @@ export default async function OscarsPage() {
               Tus Apuestas
             </h1>
             <p className="text-zinc-500 mt-2">
-              Buena suerte, {session.user.name}. Los resultados se actualizarán en vivo (o quizás no, nadie sabe).
+              Buena suerte, {session.user.name}. Los resultados se actualizarán
+              en vivo (o quizás no, nadie sabe).
             </p>
+            <Link href="/oscars/results" className="mt-6 inline-block">
+              <Button
+                variant="outline"
+                className="rounded-full border-white/10 hover:bg-white/5"
+              >
+                {edition.resultsReleased
+                  ? 'Ver resultados'
+                  : 'Ver predicciones de otros'}
+              </Button>
+            </Link>
           </header>
           <OscarSummary ballot={userBallot} editionYear={edition.year} />
         </div>
@@ -71,8 +90,19 @@ export default async function OscarsPage() {
             LOS OSCALOS
           </h1>
           <p className="text-zinc-400 mt-4 text-lg">
-            Hace tus apuestas para la edición {edition.year} de los Premios de la Academia.
+            Hace tus apuestas para la edición {edition.year} de los Premios de
+            la Academia.
           </p>
+          <Link href="/oscars/results" className="mt-6 inline-block">
+            <Button
+              variant="outline"
+              className="rounded-full border-white/10 hover:bg-white/5"
+            >
+              {edition.resultsReleased
+                ? 'Ver resultados'
+                : 'Ver predicciones de otros'}
+            </Button>
+          </Link>
         </header>
 
         <OscarBallotForm

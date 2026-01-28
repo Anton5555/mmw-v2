@@ -1,12 +1,15 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { setWinnersSchema, type SetWinnersFormValues } from '@/lib/validations/oscars';
+import {
+  setSingleWinnerSchema,
+  type SetSingleWinnerFormValues,
+} from '@/lib/validations/oscars';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 
-export async function setWinnersAction(input: SetWinnersFormValues) {
+export async function setSingleWinnerAction(input: SetSingleWinnerFormValues) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -15,72 +18,64 @@ export async function setWinnersAction(input: SetWinnersFormValues) {
     throw new Error('No autorizado');
   }
 
-  // Check if user is admin
   if (session.user.role !== 'admin') {
     throw new Error('No tienes permisos para realizar esta acción');
   }
 
-  // Validate input
-  const validatedInput = setWinnersSchema.parse(input);
+  const { editionId, categoryId, nomineeId } =
+    setSingleWinnerSchema.parse(input);
 
-  // Check if edition exists
   const edition = await prisma.oscarEdition.findUnique({
-    where: {
-      id: validatedInput.editionId,
-    },
-    select: {
-      id: true,
-      ceremonyDate: true,
-    },
+    where: { id: editionId },
+    select: { id: true },
   });
 
   if (!edition) {
     throw new Error('Edición no encontrada');
   }
 
-
-  // Get all categories for this edition
-  const categories = await prisma.oscarCategory.findMany({
-    where: {
-      editionId: validatedInput.editionId,
-    },
-    select: {
-      id: true,
-    },
+  const category = await prisma.oscarCategory.findFirst({
+    where: { id: categoryId, editionId },
+    select: { id: true, winnerId: true },
   });
 
-  // Validate that all nominee IDs exist and belong to their categories
-  for (const [categoryIdStr, nomineeId] of Object.entries(validatedInput.winners)) {
-    const categoryId = parseInt(categoryIdStr, 10);
-    const nominee = await prisma.oscarNominee.findFirst({
-      where: {
-        id: nomineeId,
-        categoryId,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    if (!nominee) {
-      throw new Error(`El nominado ${nomineeId} no pertenece a la categoría ${categoryId}`);
-    }
+  if (!category) {
+    throw new Error('Categoría no encontrada');
   }
 
-  // Update winnerId for each category in a transaction
+  if (category.winnerId != null) {
+    throw new Error('Esta categoría ya tiene un ganador asignado');
+  }
+
+  const nominee = await prisma.oscarNominee.findFirst({
+    where: { id: nomineeId, categoryId },
+    select: { id: true },
+  });
+
+  if (!nominee) {
+    throw new Error('El nominado no pertenece a esta categoría');
+  }
+
   try {
-    await prisma.$transaction(
-      Object.entries(validatedInput.winners).map(([categoryIdStr, nomineeId]) =>
-        prisma.oscarCategory.update({
-          where: {
-            id: parseInt(categoryIdStr, 10),
-          },
-          data: {
-            winnerId: nomineeId,
-          },
-        })
-      )
-    );
+    await prisma.$transaction(async (tx) => {
+      await tx.oscarCategory.update({
+        where: { id: categoryId },
+        data: { winnerId: nomineeId },
+      });
+
+      await tx.$executeRaw`
+        UPDATE "OscarBallot" b
+        SET score = (
+          SELECT COUNT(*)::int
+          FROM "OscarPick" p
+          JOIN "OscarCategory" c ON p."categoryId" = c.id
+          WHERE p."ballotId" = b.id
+            AND c."winnerId" IS NOT NULL
+            AND p."nomineeId" = c."winnerId"
+        )
+        WHERE b."editionId" = ${editionId}
+      `;
+    });
 
     revalidatePath('/oscars');
     revalidatePath('/oscars/admin');
@@ -88,7 +83,7 @@ export async function setWinnersAction(input: SetWinnersFormValues) {
 
     return { success: true };
   } catch (error) {
-    console.error('Error setting winners:', error);
-    throw new Error('Error al guardar los ganadores');
+    console.error('Error setting winner:', error);
+    throw new Error('Error al guardar el ganador');
   }
 }

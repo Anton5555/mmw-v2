@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion } from 'motion/react';
-import { CheckCircle2, Save } from 'lucide-react';
-import { setWinnersAction } from '@/lib/actions/oscars/set-winners';
+import { CheckCircle2, Loader2, Send } from 'lucide-react';
+import { setSingleWinnerAction } from '@/lib/actions/oscars/set-winners';
 import { toast } from 'sonner';
 import type { OscarCategory } from '@/lib/validations/oscars';
 import {
@@ -27,81 +27,90 @@ export function OscarWinnersForm({
   editionId,
 }: OscarWinnersFormProps) {
   const router = useRouter();
-  const [winners, setWinners] = useState<Record<string, number>>(() => {
-    // Initialize with current winners
-    const initial: Record<string, number> = {};
-    categories.forEach((category) => {
-      if (category.winnerId) {
-        initial[category.id.toString()] = category.winnerId;
-      }
-    });
-    return initial;
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittingCategoryId, setSubmittingCategoryId] = useState<
+    number | null
+  >(null);
+  const [selectedNomineeByCategory, setSelectedNomineeByCategory] = useState<
+    Record<number, number>
+  >({});
+
+  const pending = categories
+    .filter((c) => c.winnerId == null)
+    .sort((a, b) => a.order - b.order);
+  const announced = categories
+    .filter((c) => c.winnerId != null)
+    .sort((a, b) => a.order - b.order);
 
   const handleWinnerChange = (categoryId: number, nomineeId: string) => {
     if (nomineeId === '') {
-      // Clear winner if empty string (placeholder selected)
-      setWinners((prev) => {
-        const updated = { ...prev };
-        delete updated[categoryId.toString()];
-        return updated;
+      setSelectedNomineeByCategory((prev) => {
+        const next = { ...prev };
+        delete next[categoryId];
+        return next;
       });
     } else {
-      setWinners((prev) => ({
+      setSelectedNomineeByCategory((prev) => ({
         ...prev,
-        [categoryId.toString()]: parseInt(nomineeId, 10),
+        [categoryId]: parseInt(nomineeId, 10),
       }));
     }
   };
 
-  const handleSubmit = async () => {
-    if (Object.keys(winners).length === 0) {
-      toast.error('Debes seleccionar al menos un ganador');
+  const handleSubmit = async (category: OscarCategory) => {
+    const nomineeId = selectedNomineeByCategory[category.id];
+    if (nomineeId == null) {
+      toast.error('Selecciona un ganador para esta categoría');
       return;
     }
 
-    setIsSubmitting(true);
+    setSubmittingCategoryId(category.id);
     try {
-      await setWinnersAction({
+      await setSingleWinnerAction({
         editionId,
-        winners,
+        categoryId: category.id,
+        nomineeId,
       });
-
-      toast.success('Ganadores guardados exitosamente');
+      toast.success(`Ganador de "${category.name}" guardado`);
+      setSelectedNomineeByCategory((prev) => {
+        const next = { ...prev };
+        delete next[category.id];
+        return next;
+      });
       router.refresh();
     } catch (error) {
-      console.error('Error setting winners:', error);
+      console.error('Error setting winner:', error);
       toast.error(
-        error instanceof Error ? error.message : 'Error al guardar los ganadores'
+        error instanceof Error ? error.message : 'Error al guardar el ganador',
       );
     } finally {
-      setIsSubmitting(false);
+      setSubmittingCategoryId(null);
     }
   };
 
-  const getSelectedNominee = (category: OscarCategory) => {
-    const winnerId = winners[category.id.toString()];
-    if (!winnerId) return null;
-    return category.nominees.find((n) => n.id === winnerId);
-  };
-
-  const hasWinner = (category: OscarCategory) => {
-    return !!winners[category.id.toString()];
+  const getWinnerNominee = (category: OscarCategory) => {
+    if (!category.winnerId) return null;
+    return category.nominees.find((n) => n.id === category.winnerId!);
   };
 
   return (
-    <div className="space-y-8">
-      <motion.div
+    <div className="space-y-10">
+      {/* Pendientes */}
+      <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6"
+        className="space-y-4"
       >
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+          Pendientes ({pending.length})
+        </h2>
         <div className="grid grid-cols-1 gap-4">
-          {categories.map((category) => {
-            const selectedNominee = getSelectedNominee(category);
-            const categoryHasWinner = hasWinner(category);
+          {pending.map((category) => {
+            const selectedId = selectedNomineeByCategory[category.id];
+            const selectedNominee = selectedId
+              ? category.nominees.find((n) => n.id === selectedId)
+              : null;
+            const isSubmitting = submittingCategoryId === category.id;
 
             return (
               <motion.div
@@ -109,79 +118,115 @@ export function OscarWinnersForm({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: category.order * 0.02 }}
-                className={cn(
-                  'p-6 rounded-xl border transition-all',
-                  categoryHasWinner
-                    ? 'bg-yellow-500/5 border-yellow-500/30'
-                    : 'bg-zinc-900/50 border-white/5'
-                )}
+                className="rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-all"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="text-xs text-yellow-500 font-mono tracking-widest uppercase">
-                        Categoría {category.order}
-                      </div>
-                      {categoryHasWinner && (
-                        <CheckCircle2 className="w-4 h-4 text-yellow-500" />
-                      )}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-2 text-xs font-mono uppercase tracking-widest text-yellow-500/70">
+                      Categoría {category.order}
                     </div>
-                    <h3 className="font-bold text-xl mb-4">{category.name}</h3>
-
+                    <h3 className="mb-4 font-bold text-xl">{category.name}</h3>
                     <Select
-                      value={
-                        selectedNominee
-                          ? selectedNominee.id.toString()
-                          : undefined
-                      }
+                      value={selectedId?.toString() ?? ''}
                       onValueChange={(value) =>
                         handleWinnerChange(category.id, value)
                       }
+                      disabled={isSubmitting}
                     >
-                      <SelectTrigger
-                        className={cn(
-                          'w-full bg-zinc-800/50 border-white/10 text-white hover:bg-zinc-800 hover:border-white/20',
-                          categoryHasWinner && 'border-yellow-500/50'
-                        )}
-                      >
+                      <SelectTrigger className="w-full border-white/10 bg-zinc-800/50 text-white hover:border-white/20 hover:bg-zinc-800 sm:max-w-md">
                         <SelectValue placeholder="Selecciona el ganador..." />
                       </SelectTrigger>
-                      <SelectContent className="bg-zinc-900 border-white/10">
+                      <SelectContent className="border-white/10 bg-zinc-900">
                         {category.nominees.map((nominee) => (
                           <SelectItem
                             key={nominee.id}
                             value={nominee.id.toString()}
-                            className="text-white focus:bg-zinc-800 focus:text-yellow-500"
+                            className="focus:bg-zinc-800 focus:text-yellow-500 text-white"
                           >
                             <div className="flex flex-col">
-                              <span className="font-semibold">{nominee.name}</span>
-                              {nominee.filmTitle && 
-                               nominee.filmTitle.trim() !== nominee.name.trim() && (
-                                <span className="text-xs text-zinc-400">
-                                  {nominee.filmTitle}
-                                </span>
-                              )}
+                              <span className="font-semibold">
+                                {nominee.name}
+                              </span>
+                              {nominee.filmTitle &&
+                                nominee.filmTitle.trim() !==
+                                  nominee.name.trim() && (
+                                  <span className="text-xs text-zinc-400">
+                                    {nominee.filmTitle}
+                                  </span>
+                                )}
                             </div>
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
+                  <Button
+                    onClick={() => handleSubmit(category)}
+                    disabled={!selectedNominee || isSubmitting}
+                    className="shrink-0 rounded-full bg-white px-6 text-black transition-all duration-200 hover:bg-yellow-500 hover:text-black select-none"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Enviar
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+        {pending.length === 0 && (
+          <p className="rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
+            No hay categorías pendientes. Todas tienen ganador asignado.
+          </p>
+        )}
+      </motion.section>
 
-                    {selectedNominee && (
-                      <div className="mt-3 text-sm text-zinc-400">
-                        <span className="text-yellow-500 font-semibold">
-                          Ganador seleccionado:
+      {/* Anunciados */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="space-y-4"
+      >
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+          Anunciados ({announced.length})
+        </h2>
+        <div className="grid grid-cols-1 gap-4">
+          {announced.map((category) => {
+            const winner = getWinnerNominee(category);
+            return (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: category.order * 0.02 }}
+                className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-6 transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-yellow-500" />
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 text-xs font-mono uppercase tracking-widest text-yellow-500/70">
+                      Categoría {category.order}
+                    </div>
+                    <h3 className="font-bold text-xl">{category.name}</h3>
+                    {winner && (
+                      <p className="mt-2 text-zinc-300">
+                        <span className="font-semibold text-yellow-500">
+                          Ganador:
                         </span>{' '}
-                        <span className="text-white">
-                          {selectedNominee.name}
-                          {selectedNominee.filmTitle && 
-                           selectedNominee.filmTitle.trim() !== selectedNominee.name.trim() && (
-                            <span className="text-zinc-500 ml-2">
-                              • {selectedNominee.filmTitle}
+                        {winner.name}
+                        {winner.filmTitle &&
+                          winner.filmTitle.trim() !== winner.name.trim() && (
+                            <span className="ml-2 text-zinc-500">
+                              • {winner.filmTitle}
                             </span>
                           )}
-                        </span>
-                      </div>
+                      </p>
                     )}
                   </div>
                 </div>
@@ -189,33 +234,20 @@ export function OscarWinnersForm({
             );
           })}
         </div>
-      </motion.div>
+        {announced.length === 0 && (
+          <p className="rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
+            Aún no se ha anunciado ningún ganador.
+          </p>
+        )}
+      </motion.section>
 
-      <div className="flex justify-center pt-8 border-t border-white/10">
-        <Button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className="bg-white text-black hover:bg-yellow-500 hover:text-black rounded-full px-8 select-none transition-all duration-200"
-        >
-          {isSubmitting ? (
-            'Guardando...'
-          ) : (
-            <>
-              <Save className="w-4 h-4 mr-2" />
-              Guardar Ganadores
-            </>
-          )}
-        </Button>
-      </div>
-
-      <div className="text-center text-sm text-zinc-500 pt-4">
+      <div className="border-t border-white/10 pt-6 text-center text-sm text-zinc-500">
         <p>
-          {Object.keys(winners).length} de {categories.length} categorías con
-          ganador seleccionado
+          {announced.length} de {categories.length} categorías con ganador
+          anunciado
         </p>
-        <p className="text-xs mt-1">
-          Puedes guardar parcialmente. Los ganadores se actualizarán en tiempo
-          real.
+        <p className="mt-1 text-xs">
+          Envía un ganador por categoría. No se puede editar una vez enviado.
         </p>
       </div>
     </div>
