@@ -6,8 +6,7 @@ import {
   getOscarLeaderboard,
   getOscarPredictionStats,
 } from '@/lib/api/oscars';
-import { OscarPredictionsView } from '@/components/oscars/oscar-predictions-view';
-import { OscarResultsView } from '@/components/oscars/oscar-results-view';
+import { OscarResultsPageClient } from '@/components/oscars/oscar-results-page-client';
 
 export default async function OscarsResultsPage() {
   const session = await auth.api.getSession({
@@ -35,44 +34,44 @@ export default async function OscarsResultsPage() {
     );
   }
 
-  const stats = await getOscarPredictionStats(edition.id);
+  const [leaderboard, stats] = await Promise.all([
+    getOscarLeaderboard(edition.id),
+    getOscarPredictionStats(edition.id),
+  ]);
 
-  if (edition.resultsReleased) {
-    const leaderboard = await getOscarLeaderboard(edition.id);
-    return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white">
-        <div className="container mx-auto max-w-6xl px-4 py-12">
-          <header className="mb-12 text-center">
-            <h1 className="text-5xl font-black tracking-tighter md:text-7xl bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
-              Resultados {edition.year}
-            </h1>
-            <p className="mt-4 text-lg text-zinc-400">
-              Clasificación y ganadores de Los Oscalos.
-            </p>
-          </header>
-          <OscarResultsView
-            stats={stats}
-            leaderboard={leaderboard}
-            edition={edition}
-          />
-        </div>
-      </div>
-    );
-  }
+  const ceremonyStarted =
+    edition.ceremonyDate && new Date(edition.ceremonyDate) <= new Date();
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <header className="mb-12 text-center">
           <h1 className="text-5xl font-black tracking-tighter md:text-7xl bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
-            Predicciones Globales
+            Resultados {edition.year}
           </h1>
           <p className="mt-4 text-lg text-zinc-400">
-            Lo que la comunidad apuesta en cada categoría. Los Oscalos{' '}
-            {edition.year}.
+            {ceremonyStarted
+              ? 'Clasificación y ganadores de Los Oscalos en vivo.'
+              : 'Los resultados se actualizarán en vivo cuando comience la ceremonia.'}
           </p>
+          {!ceremonyStarted && edition.ceremonyDate && (
+            <p className="mt-2 text-sm text-zinc-500">
+              Ceremonia:{' '}
+              {new Date(edition.ceremonyDate).toLocaleString('es-ES', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </p>
+          )}
         </header>
-        <OscarPredictionsView stats={stats} edition={edition} />
+        <OscarResultsPageClient
+          initialLeaderboard={leaderboard}
+          initialStats={stats}
+          edition={edition}
+        />
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export function BoardPageClient({
       });
     } else if (event.type === 'post-it:updated') {
       setPosts((prev) =>
-        prev.map((p) => (p.id === event.data.id ? event.data : p))
+        prev.map((p) => (p.id === event.data.id ? event.data : p)),
       );
     } else if (event.type === 'post-it:deleted') {
       setPosts((prev) => prev.filter((p) => p.id !== event.data.id));

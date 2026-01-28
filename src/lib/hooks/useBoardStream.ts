@@ -7,7 +7,7 @@ import type { BoardEvent, BoardPost } from '@/lib/types/board';
 
 export function useBoardStream(
   onEvent: (event: BoardEvent) => void,
-  enabled: boolean = true
+  enabled: boolean = true,
 ) {
   const [isConnected, setIsConnected] = useState(false);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
@@ -43,11 +43,12 @@ export function useBoardStream(
         },
         (payload) => {
           if (payload.eventType === 'INSERT') {
-            // Fetch all posts to get full data with relations
             fetch('/api/board')
               .then((res) => res.json())
               .then((posts: BoardPost[]) => {
-                const newPost = posts.find((p) => p.id === payload.new.id);
+                const newPost = posts.find(
+                  (p) => p.id === (payload.new as { id: string }).id,
+                );
                 if (newPost) {
                   onEventRef.current({
                     type: 'post-it:created',
@@ -59,11 +60,12 @@ export function useBoardStream(
                 console.error('[useBoardStream] Error fetching posts:', error);
               });
           } else if (payload.eventType === 'UPDATE') {
-            // Fetch all posts to get full data with relations
             fetch('/api/board')
               .then((res) => res.json())
               .then((posts: BoardPost[]) => {
-                const updatedPost = posts.find((p) => p.id === payload.new.id);
+                const updatedPost = posts.find(
+                  (p) => p.id === (payload.new as { id: string }).id,
+                );
                 if (updatedPost) {
                   onEventRef.current({
                     type: 'post-it:updated',
@@ -77,10 +79,10 @@ export function useBoardStream(
           } else if (payload.eventType === 'DELETE') {
             onEventRef.current({
               type: 'post-it:deleted',
-              data: { id: payload.old.id },
+              data: { id: (payload.old as { id: string }).id },
             });
           }
-        }
+        },
       )
       .subscribe((status, err) => {
         if (err) {

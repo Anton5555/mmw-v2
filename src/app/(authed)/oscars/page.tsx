@@ -62,14 +62,20 @@ export default async function OscarsPage() {
               en vivo (o quizás no, nadie sabe).
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/oscars/predictions">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-white/10 hover:bg-white/5"
+                >
+                  Ver predicciones
+                </Button>
+              </Link>
               <Link href="/oscars/results">
                 <Button
                   variant="outline"
                   className="rounded-full border-white/10 hover:bg-white/5"
                 >
-                  {edition.resultsReleased
-                    ? 'Ver resultados'
-                    : 'Ver predicciones de otros'}
+                  Ver resultados en vivo
                 </Button>
               </Link>
               {isAdmin && (
@@ -108,14 +114,20 @@ export default async function OscarsPage() {
             la Academia.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/oscars/predictions">
+              <Button
+                variant="outline"
+                className="rounded-full border-white/10 hover:bg-white/5"
+              >
+                Ver predicciones
+              </Button>
+            </Link>
             <Link href="/oscars/results">
               <Button
                 variant="outline"
                 className="rounded-full border-white/10 hover:bg-white/5"
               >
-                {edition.resultsReleased
-                  ? 'Ver resultados'
-                  : 'Ver predicciones de otros'}
+                Ver resultados en vivo
               </Button>
             </Link>
             {isAdmin && (
