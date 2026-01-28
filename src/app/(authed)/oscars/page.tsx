@@ -23,6 +23,8 @@ export default async function OscarsPage() {
     redirect('/sign-in');
   }
 
+  const isAdmin = session.user.role === 'admin';
+
   // Get active edition
   const edition = await getActiveEdition();
 
@@ -59,16 +61,28 @@ export default async function OscarsPage() {
               Buena suerte, {session.user.name}. Los resultados se actualizarán
               en vivo (o quizás no, nadie sabe).
             </p>
-            <Link href="/oscars/results" className="mt-6 inline-block">
-              <Button
-                variant="outline"
-                className="rounded-full border-white/10 hover:bg-white/5"
-              >
-                {edition.resultsReleased
-                  ? 'Ver resultados'
-                  : 'Ver predicciones de otros'}
-              </Button>
-            </Link>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/oscars/results">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-white/10 hover:bg-white/5"
+                >
+                  {edition.resultsReleased
+                    ? 'Ver resultados'
+                    : 'Ver predicciones de otros'}
+                </Button>
+              </Link>
+              {isAdmin && (
+                <Link href="/oscars/admin">
+                  <Button
+                    variant="outline"
+                    className="rounded-full border-yellow-500/30 hover:bg-yellow-500/10"
+                  >
+                    Administrar ganadores
+                  </Button>
+                </Link>
+              )}
+            </div>
           </header>
           <OscarSummary ballot={userBallot} editionYear={edition.year} />
         </div>
@@ -93,16 +107,28 @@ export default async function OscarsPage() {
             Hace tus apuestas para la edición {edition.year} de los Premios de
             la Academia.
           </p>
-          <Link href="/oscars/results" className="mt-6 inline-block">
-            <Button
-              variant="outline"
-              className="rounded-full border-white/10 hover:bg-white/5"
-            >
-              {edition.resultsReleased
-                ? 'Ver resultados'
-                : 'Ver predicciones de otros'}
-            </Button>
-          </Link>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/oscars/results">
+              <Button
+                variant="outline"
+                className="rounded-full border-white/10 hover:bg-white/5"
+              >
+                {edition.resultsReleased
+                  ? 'Ver resultados'
+                  : 'Ver predicciones de otros'}
+              </Button>
+            </Link>
+            {isAdmin && (
+              <Link href="/oscars/admin">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-yellow-500/30 hover:bg-yellow-500/10"
+                >
+                  Administrar ganadores
+                </Button>
+              </Link>
+            )}
+          </div>
         </header>
 
         <OscarBallotForm
