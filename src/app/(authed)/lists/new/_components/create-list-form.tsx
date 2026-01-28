@@ -28,6 +28,7 @@ import {
   Link as LinkIcon,
   Sparkles,
   CheckCircle2,
+  AlertCircle,
 } from 'lucide-react';
 import { createListAction } from '@/lib/actions/lists/create-list';
 import {
@@ -46,6 +47,7 @@ export function CreateListForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [moviePreviews, setMoviePreviews] = useState<MoviePreview[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<CreateListFormValues>({
     resolver: zodResolver(createListFormSchema),
@@ -65,6 +67,7 @@ export function CreateListForm() {
     if (!isValid) return;
 
     setIsLoading(true);
+    setError(null);
     try {
       const formData = form.getValues();
       const movieIds = formData.movies.split(',').map((id) => id.trim());
@@ -72,8 +75,13 @@ export function CreateListForm() {
       setMoviePreviews(previews);
       setIsPreview(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch {
-      toast.error('Error al obtener la vista previa');
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Error al obtener la vista previa';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -81,12 +89,16 @@ export function CreateListForm() {
 
   const onSubmit = async (data: CreateListFormValues) => {
     setIsSubmitting(true);
+    setError(null);
     try {
       await createListAction(data);
       toast.success('Lista cinematográfica creada');
       router.push('/lists');
-    } catch {
-      toast.error('Error al crear la lista');
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Error al crear la lista';
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -213,10 +225,25 @@ export function CreateListForm() {
           </div>
         </section>
 
+        {error && (
+          <div className="bg-red-950/50 border border-red-500/20 rounded-2xl p-6 space-y-2">
+            <div className="flex items-center gap-2 text-red-400">
+              <AlertCircle className="h-5 w-5" />
+              <h3 className="font-bold uppercase text-sm tracking-wider">
+                Error
+              </h3>
+            </div>
+            <p className="text-red-300 text-sm">{error}</p>
+          </div>
+        )}
+
         <footer className="sticky bottom-6 flex gap-4 bg-zinc-950/80 backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-2xl">
           <Button
             variant="ghost"
-            onClick={() => setIsPreview(false)}
+            onClick={() => {
+              setIsPreview(false);
+              setError(null);
+            }}
             disabled={isSubmitting}
             className="text-zinc-400 hover:text-white"
           >
@@ -252,13 +279,27 @@ export function CreateListForm() {
         }}
         className="max-w-4xl mx-auto space-y-12 pb-20"
       >
-        <div className="space-y-2">
-          <h2 className="text-4xl font-black italic uppercase tracking-tighter">
-            CREAR LISTA NUEVA
-          </h2>
-          <p className="text-zinc-500">
-            Ingresa los detalles de la lista y los IDs de IMDB de las películas.
-          </p>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter">
+              CREAR LISTA NUEVA
+            </h2>
+            <p className="text-zinc-500">
+              Ingresa los detalles de la lista y los IDs de IMDB de las
+              películas.
+            </p>
+          </div>
+          {error && (
+            <div className="bg-red-950/50 border border-red-500/20 rounded-2xl p-6 space-y-2">
+              <div className="flex items-center gap-2 text-red-400">
+                <AlertCircle className="h-5 w-5" />
+                <h3 className="font-bold uppercase text-sm tracking-wider">
+                  Error
+                </h3>
+              </div>
+              <p className="text-red-300 text-sm">{error}</p>
+            </div>
+          )}
         </div>
 
         {/* Section 1: Identity */}
