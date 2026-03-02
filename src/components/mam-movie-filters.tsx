@@ -93,12 +93,12 @@ function FiltersContent({
       country: string[] | null;
       page: number;
       limit: number;
-    }>
+    }>,
   ) => void;
 }) {
   // Get selected participants for display
   const selectedParticipants = participants.filter((p) =>
-    params.participants.includes(p.slug)
+    params.participants.includes(p.slug),
   );
 
   // Get selected genres for display
@@ -106,12 +106,12 @@ function FiltersContent({
 
   // Get selected directors for display
   const selectedDirectors = directors.filter((d) =>
-    params.director.includes(d.name)
+    params.director.includes(d.name),
   );
 
   // Get selected countries for display
   const selectedCountries = countries.filter((c) =>
-    params.country.includes(c.code)
+    params.country.includes(c.code),
   );
 
   const hasAnyFilters =
@@ -248,7 +248,7 @@ function FiltersContent({
                   onClick={() => {
                     setParams({
                       participants: params.participants.filter(
-                        (s) => s !== participant.slug
+                        (s) => s !== participant.slug,
                       ),
                       page: 1,
                     });
@@ -296,7 +296,7 @@ function FiltersContent({
                   onClick={() => {
                     setParams({
                       director: params.director.filter(
-                        (d) => d !== director.name
+                        (d) => d !== director.name,
                       ),
                       page: 1,
                     });
@@ -483,34 +483,6 @@ export function MamMovieFilters({
               groupLabel="Países"
               icon={<Globe2 className="h-3.5 w-3.5" />}
               className="border-0 bg-transparent hover:bg-white/5 rounded-full"
-            />
-            <FilterCombobox
-              options={countries.map((c) => ({
-                value: c.code,
-                label: c.name,
-              }))}
-              selected={params.country}
-              onChange={(values) => {
-                setParams({ country: values, page: 1 });
-              }}
-              placeholder="Países..."
-              emptyMessage="No se encontraron países."
-              groupLabel="Filtrar por países"
-              icon={<Globe2 className="h-4 w-4" />}
-            />
-            <FilterCombobox
-              options={countries.map((c) => ({
-                value: c.code,
-                label: c.name,
-              }))}
-              selected={params.country}
-              onChange={(values) => {
-                setParams({ country: values, page: 1 });
-              }}
-              placeholder="Países..."
-              emptyMessage="No se encontraron países."
-              groupLabel="Filtrar por países"
-              icon={<Globe2 className="h-4 w-4" />}
             />
           </div>
 

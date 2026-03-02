@@ -59,7 +59,7 @@ function FiltersContent({
       genre: string[] | null;
       director: string[] | null;
       country: string[] | null;
-    }>
+    }>,
   ) => void;
 }) {
   // Get selected genres for display
@@ -67,12 +67,12 @@ function FiltersContent({
 
   // Get selected directors for display
   const selectedDirectors = directors.filter((d) =>
-    params.director.includes(d.name)
+    params.director.includes(d.name),
   );
 
   // Get selected countries for display
   const selectedCountries = countries.filter((c) =>
-    params.country.includes(c.code)
+    params.country.includes(c.code),
   );
 
   const hasAnyFilters =
@@ -202,7 +202,7 @@ function FiltersContent({
                   onClick={() => {
                     setParams({
                       director: params.director.filter(
-                        (d) => d !== director.name
+                        (d) => d !== director.name,
                       ),
                     });
                   }}
@@ -367,34 +367,6 @@ export function ListMovieFilters({
               groupLabel="Países"
               icon={<Globe2 className="h-3.5 w-3.5" />}
               className="border-0 bg-transparent hover:bg-white/5 rounded-full"
-            />
-            <FilterCombobox
-              options={countries.map((c) => ({
-                value: c.code,
-                label: c.name,
-              }))}
-              selected={params.country}
-              onChange={(values) => {
-                setParams({ country: values });
-              }}
-              placeholder="Países..."
-              emptyMessage="No se encontraron países."
-              groupLabel="Filtrar por países"
-              icon={<Film className="h-4 w-4" />}
-            />
-            <FilterCombobox
-              options={countries.map((c) => ({
-                value: c.code,
-                label: c.name,
-              }))}
-              selected={params.country}
-              onChange={(values) => {
-                setParams({ country: values });
-              }}
-              placeholder="Países..."
-              emptyMessage="No se encontraron países."
-              groupLabel="Filtrar por países"
-              icon={<Film className="h-4 w-4" />}
             />
           </div>
 
