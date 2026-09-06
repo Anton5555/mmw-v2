@@ -276,6 +276,23 @@ export type EnumYearTopPickTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
 }
 
+export type EnumImdbLtaPhaseFilter<$PrismaModel = never> = {
+  equals?: $Enums.ImdbLtaPhase | Prisma.EnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  in?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel> | $Enums.ImdbLtaPhase
+}
+
+export type EnumImdbLtaPhaseWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ImdbLtaPhase | Prisma.EnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  in?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumImdbLtaPhaseWithAggregatesFilter<$PrismaModel> | $Enums.ImdbLtaPhase
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -538,6 +555,23 @@ export type NestedEnumYearTopPickTypeWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumYearTopPickTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumImdbLtaPhaseFilter<$PrismaModel = never> = {
+  equals?: $Enums.ImdbLtaPhase | Prisma.EnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  in?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel> | $Enums.ImdbLtaPhase
+}
+
+export type NestedEnumImdbLtaPhaseWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ImdbLtaPhase | Prisma.EnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  in?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ImdbLtaPhase[] | Prisma.ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumImdbLtaPhaseWithAggregatesFilter<$PrismaModel> | $Enums.ImdbLtaPhase
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumImdbLtaPhaseFilter<$PrismaModel>
 }
 
 

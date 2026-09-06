@@ -64,6 +64,14 @@ export const CountryScalarFieldEnumSchema = z.enum(['id','code','name']);
 
 export const MovieCountryScalarFieldEnumSchema = z.enum(['id','movieId','countryId']);
 
+export const ImdbLtaConfigScalarFieldEnumSchema = z.enum(['id','phase','updatedAt']);
+
+export const ImdbLtaNominationListScalarFieldEnumSchema = z.enum(['id','userId','submittedAt','createdAt','updatedAt']);
+
+export const ImdbLtaNominationScalarFieldEnumSchema = z.enum(['id','listId','userId','movieId','createdAt']);
+
+export const ImdbLtaRatingScalarFieldEnumSchema = z.enum(['id','userId','movieId','score','createdAt']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -81,6 +89,10 @@ export type EventTypeType = `${z.infer<typeof EventTypeSchema>}`
 export const YearTopPickTypeSchema = z.enum(['TOP_10','BEST_SEEN','WORST_3']);
 
 export type YearTopPickTypeType = `${z.infer<typeof YearTopPickTypeSchema>}`
+
+export const ImdbLtaPhaseSchema = z.enum(['NOMINATION_OPEN','NOMINATION_CLOSED','RATING_OPEN','RATING_CLOSED']);
+
+export type ImdbLtaPhaseType = `${z.infer<typeof ImdbLtaPhaseSchema>}`
 
 /////////////////////////////////////////
 // MODELS
@@ -485,3 +497,57 @@ export const MovieCountrySchema = z.object({
 })
 
 export type MovieCountry = z.infer<typeof MovieCountrySchema>
+
+/////////////////////////////////////////
+// IMDB LTA CONFIG SCHEMA
+/////////////////////////////////////////
+
+export const ImdbLtaConfigSchema = z.object({
+  phase: ImdbLtaPhaseSchema,
+  id: z.number().int(),
+  updatedAt: z.coerce.date(),
+})
+
+export type ImdbLtaConfig = z.infer<typeof ImdbLtaConfigSchema>
+
+/////////////////////////////////////////
+// IMDB LTA NOMINATION LIST SCHEMA
+/////////////////////////////////////////
+
+export const ImdbLtaNominationListSchema = z.object({
+  id: z.number().int(),
+  userId: z.string(),
+  submittedAt: z.coerce.date().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+})
+
+export type ImdbLtaNominationList = z.infer<typeof ImdbLtaNominationListSchema>
+
+/////////////////////////////////////////
+// IMDB LTA NOMINATION SCHEMA
+/////////////////////////////////////////
+
+export const ImdbLtaNominationSchema = z.object({
+  id: z.number().int(),
+  listId: z.number().int(),
+  userId: z.string(),
+  movieId: z.number().int(),
+  createdAt: z.coerce.date(),
+})
+
+export type ImdbLtaNomination = z.infer<typeof ImdbLtaNominationSchema>
+
+/////////////////////////////////////////
+// IMDB LTA RATING SCHEMA
+/////////////////////////////////////////
+
+export const ImdbLtaRatingSchema = z.object({
+  id: z.number().int(),
+  userId: z.string(),
+  movieId: z.number().int(),
+  score: z.number().int(),
+  createdAt: z.coerce.date(),
+})
+
+export type ImdbLtaRating = z.infer<typeof ImdbLtaRatingSchema>

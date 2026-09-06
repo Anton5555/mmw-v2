@@ -409,7 +409,11 @@ export const ModelName = {
   Director: 'Director',
   MovieDirector: 'MovieDirector',
   Country: 'Country',
-  MovieCountry: 'MovieCountry'
+  MovieCountry: 'MovieCountry',
+  ImdbLtaConfig: 'ImdbLtaConfig',
+  ImdbLtaNominationList: 'ImdbLtaNominationList',
+  ImdbLtaNomination: 'ImdbLtaNomination',
+  ImdbLtaRating: 'ImdbLtaRating'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -425,7 +429,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats" | "oscarEdition" | "oscarCategory" | "oscarNominee" | "oscarBallot" | "oscarPick" | "genre" | "movieGenre" | "director" | "movieDirector" | "country" | "movieCountry"
+    modelProps: "list" | "movie" | "movieList" | "user" | "session" | "account" | "verification" | "event" | "mamParticipant" | "mamPick" | "dailyRecommendation" | "boardPost" | "yearTopParticipant" | "yearTopPick" | "yearTopMovieStats" | "oscarEdition" | "oscarCategory" | "oscarNominee" | "oscarBallot" | "oscarPick" | "genre" | "movieGenre" | "director" | "movieDirector" | "country" | "movieCountry" | "imdbLtaConfig" | "imdbLtaNominationList" | "imdbLtaNomination" | "imdbLtaRating"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2353,6 +2357,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ImdbLtaConfig: {
+      payload: Prisma.$ImdbLtaConfigPayload<ExtArgs>
+      fields: Prisma.ImdbLtaConfigFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImdbLtaConfigFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImdbLtaConfigFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        findFirst: {
+          args: Prisma.ImdbLtaConfigFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImdbLtaConfigFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        findMany: {
+          args: Prisma.ImdbLtaConfigFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>[]
+        }
+        create: {
+          args: Prisma.ImdbLtaConfigCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        createMany: {
+          args: Prisma.ImdbLtaConfigCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImdbLtaConfigCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>[]
+        }
+        delete: {
+          args: Prisma.ImdbLtaConfigDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        update: {
+          args: Prisma.ImdbLtaConfigUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImdbLtaConfigDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImdbLtaConfigUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImdbLtaConfigUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImdbLtaConfigUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaConfigPayload>
+        }
+        aggregate: {
+          args: Prisma.ImdbLtaConfigAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImdbLtaConfig>
+        }
+        groupBy: {
+          args: Prisma.ImdbLtaConfigGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaConfigGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImdbLtaConfigCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaConfigCountAggregateOutputType> | number
+        }
+      }
+    }
+    ImdbLtaNominationList: {
+      payload: Prisma.$ImdbLtaNominationListPayload<ExtArgs>
+      fields: Prisma.ImdbLtaNominationListFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImdbLtaNominationListFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImdbLtaNominationListFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        findFirst: {
+          args: Prisma.ImdbLtaNominationListFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImdbLtaNominationListFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        findMany: {
+          args: Prisma.ImdbLtaNominationListFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>[]
+        }
+        create: {
+          args: Prisma.ImdbLtaNominationListCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        createMany: {
+          args: Prisma.ImdbLtaNominationListCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImdbLtaNominationListCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>[]
+        }
+        delete: {
+          args: Prisma.ImdbLtaNominationListDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        update: {
+          args: Prisma.ImdbLtaNominationListUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImdbLtaNominationListDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImdbLtaNominationListUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImdbLtaNominationListUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImdbLtaNominationListUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationListPayload>
+        }
+        aggregate: {
+          args: Prisma.ImdbLtaNominationListAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImdbLtaNominationList>
+        }
+        groupBy: {
+          args: Prisma.ImdbLtaNominationListGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaNominationListGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImdbLtaNominationListCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaNominationListCountAggregateOutputType> | number
+        }
+      }
+    }
+    ImdbLtaNomination: {
+      payload: Prisma.$ImdbLtaNominationPayload<ExtArgs>
+      fields: Prisma.ImdbLtaNominationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImdbLtaNominationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImdbLtaNominationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        findFirst: {
+          args: Prisma.ImdbLtaNominationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImdbLtaNominationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        findMany: {
+          args: Prisma.ImdbLtaNominationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>[]
+        }
+        create: {
+          args: Prisma.ImdbLtaNominationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        createMany: {
+          args: Prisma.ImdbLtaNominationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImdbLtaNominationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>[]
+        }
+        delete: {
+          args: Prisma.ImdbLtaNominationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        update: {
+          args: Prisma.ImdbLtaNominationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImdbLtaNominationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImdbLtaNominationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImdbLtaNominationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImdbLtaNominationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaNominationPayload>
+        }
+        aggregate: {
+          args: Prisma.ImdbLtaNominationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImdbLtaNomination>
+        }
+        groupBy: {
+          args: Prisma.ImdbLtaNominationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaNominationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImdbLtaNominationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaNominationCountAggregateOutputType> | number
+        }
+      }
+    }
+    ImdbLtaRating: {
+      payload: Prisma.$ImdbLtaRatingPayload<ExtArgs>
+      fields: Prisma.ImdbLtaRatingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImdbLtaRatingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImdbLtaRatingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        findFirst: {
+          args: Prisma.ImdbLtaRatingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImdbLtaRatingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        findMany: {
+          args: Prisma.ImdbLtaRatingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>[]
+        }
+        create: {
+          args: Prisma.ImdbLtaRatingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        createMany: {
+          args: Prisma.ImdbLtaRatingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImdbLtaRatingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>[]
+        }
+        delete: {
+          args: Prisma.ImdbLtaRatingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        update: {
+          args: Prisma.ImdbLtaRatingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImdbLtaRatingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImdbLtaRatingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImdbLtaRatingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImdbLtaRatingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImdbLtaRatingPayload>
+        }
+        aggregate: {
+          args: Prisma.ImdbLtaRatingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImdbLtaRating>
+        }
+        groupBy: {
+          args: Prisma.ImdbLtaRatingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaRatingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImdbLtaRatingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImdbLtaRatingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2714,6 +3014,48 @@ export const MovieCountryScalarFieldEnum = {
 export type MovieCountryScalarFieldEnum = (typeof MovieCountryScalarFieldEnum)[keyof typeof MovieCountryScalarFieldEnum]
 
 
+export const ImdbLtaConfigScalarFieldEnum = {
+  id: 'id',
+  phase: 'phase',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImdbLtaConfigScalarFieldEnum = (typeof ImdbLtaConfigScalarFieldEnum)[keyof typeof ImdbLtaConfigScalarFieldEnum]
+
+
+export const ImdbLtaNominationListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  submittedAt: 'submittedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImdbLtaNominationListScalarFieldEnum = (typeof ImdbLtaNominationListScalarFieldEnum)[keyof typeof ImdbLtaNominationListScalarFieldEnum]
+
+
+export const ImdbLtaNominationScalarFieldEnum = {
+  id: 'id',
+  listId: 'listId',
+  userId: 'userId',
+  movieId: 'movieId',
+  createdAt: 'createdAt'
+} as const
+
+export type ImdbLtaNominationScalarFieldEnum = (typeof ImdbLtaNominationScalarFieldEnum)[keyof typeof ImdbLtaNominationScalarFieldEnum]
+
+
+export const ImdbLtaRatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  movieId: 'movieId',
+  score: 'score',
+  createdAt: 'createdAt'
+} as const
+
+export type ImdbLtaRatingScalarFieldEnum = (typeof ImdbLtaRatingScalarFieldEnum)[keyof typeof ImdbLtaRatingScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2832,6 +3174,20 @@ export type EnumYearTopPickTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'YearTopPickType[]'
  */
 export type ListEnumYearTopPickTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'YearTopPickType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ImdbLtaPhase'
+ */
+export type EnumImdbLtaPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImdbLtaPhase'>
+    
+
+
+/**
+ * Reference to a field of type 'ImdbLtaPhase[]'
+ */
+export type ListEnumImdbLtaPhaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImdbLtaPhase[]'>
     
 
 /**
@@ -2955,6 +3311,10 @@ export type GlobalOmitConfig = {
   movieDirector?: Prisma.MovieDirectorOmit
   country?: Prisma.CountryOmit
   movieCountry?: Prisma.MovieCountryOmit
+  imdbLtaConfig?: Prisma.ImdbLtaConfigOmit
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListOmit
+  imdbLtaNomination?: Prisma.ImdbLtaNominationOmit
+  imdbLtaRating?: Prisma.ImdbLtaRatingOmit
 }
 
 /* Types for Logging */
