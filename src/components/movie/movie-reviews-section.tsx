@@ -41,8 +41,8 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
   return (
     <div className="space-y-10">
       <div>
-        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-zinc-500 mb-8">
-          Crítica de la Comunidad
+        <h2 className="text-sm font-medium text-zinc-400 mb-6">
+          Críticas de la comunidad
         </h2>
 
         <div className="space-y-6">
@@ -110,8 +110,8 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
       {/* Special Mentions Section */}
       {specialMentions.length > 0 && (
         <div className="pt-8 border-t border-white/10">
-          <h3 className="text-xl font-black uppercase tracking-widest text-white/40 mb-6">
-            Menciones Especiales
+          <h3 className="text-sm font-medium text-zinc-400 mb-6">
+            Menciones especiales
           </h3>
           <div className="space-y-6">
             {specialMentions.map((pick) => (

@@ -80,18 +80,21 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
     }
   };
 
+  const fieldClass =
+    'h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500';
+  const labelClass = 'text-sm text-zinc-400';
+  const messageClass = 'text-xs text-red-500';
+
   return (
-    <div className="border border-white/10 bg-zinc-900/40 backdrop-blur-xl rounded-[2rem] overflow-hidden shadow-2xl w-full">
-      <div className="p-8 pb-4 space-y-2">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-yellow-500 text-center">
-          Acceso VIP
-        </p>
-        <h1 className="text-3xl font-black italic uppercase tracking-tighter text-white text-center">
-          Crear Cuenta
+    <div className="w-full rounded-xl border border-white/10 bg-zinc-900 overflow-hidden">
+      <div className="p-8 pb-2 space-y-1 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-white">
+          Crear cuenta
         </h1>
+        <p className="text-sm text-zinc-400">Necesitás un código VIP</p>
       </div>
 
-      <div className="p-8 pt-4">
+      <div className="p-8 pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-4">
@@ -100,21 +103,19 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                   control={form.control}
                   name="firstName"
                   render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                        Nombre
-                      </FormLabel>
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className={labelClass}>Nombre</FormLabel>
                       <div className="relative group">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                         <FormControl>
                           <Input
                             placeholder="Max"
-                            className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                            className={fieldClass}
                             {...field}
                           />
                         </FormControl>
                       </div>
-                      <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                      <FormMessage className={messageClass} />
                     </FormItem>
                   )}
                 />
@@ -123,21 +124,19 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                        Apellido
-                      </FormLabel>
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className={labelClass}>Apellido</FormLabel>
                       <div className="relative group">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                         <FormControl>
                           <Input
                             placeholder="Robinson"
-                            className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                            className={fieldClass}
                             {...field}
                           />
                         </FormControl>
                       </div>
-                      <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                      <FormMessage className={messageClass} />
                     </FormItem>
                   )}
                 />
@@ -147,22 +146,20 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                      Email
-                    </FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className={labelClass}>Email</FormLabel>
                     <div className="relative group">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           placeholder="m@example.com"
                           type="email"
-                          className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          className={fieldClass}
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -171,22 +168,20 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                      Contraseña
-                    </FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className={labelClass}>Contraseña</FormLabel>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          className={fieldClass}
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -195,22 +190,22 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                 control={form.control}
                 name="passwordConfirmation"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                      Confirmar Contraseña
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className={labelClass}>
+                      Confirmar contraseña
                     </FormLabel>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          className={fieldClass}
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
@@ -219,45 +214,43 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                 control={form.control}
                 name="vipCode"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-yellow-500">
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-sm text-yellow-500">
                       Código VIP
                     </FormLabel>
-                    <div className="relative group bg-yellow-500/5 rounded-xl p-0.5 border-2 border-yellow-500/20">
-                      <KeyRound className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-yellow-500/70 group-focus-within:text-yellow-500 transition-colors" />
+                    <div className="relative group">
+                      <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-yellow-500/70 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="Ingresa el código VIP"
-                          className="h-12 pl-12 bg-white/5 border-yellow-500/30 rounded-lg focus-visible:ring-2 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          placeholder="Ingresá el código VIP"
+                          className="h-11 pl-10 bg-zinc-950 border-yellow-500/30 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className={messageClass} />
                   </FormItem>
                 )}
               />
 
               <Button
                 type="submit"
-                className="w-full h-14 bg-white hover:bg-yellow-500 text-black font-black uppercase tracking-[0.2em] transition-all duration-300 rounded-xl group"
+                className="w-full h-11 bg-white hover:bg-yellow-500 text-black font-semibold rounded-lg"
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting ? (
                   <Loader2 className="animate-spin h-5 w-5" />
                 ) : (
-                  <span className="group-hover:scale-105 transition-transform">
-                    Crear Cuenta
-                  </span>
+                  'Crear cuenta'
                 )}
               </Button>
 
-              <p className="text-center text-[10px] font-bold uppercase tracking-widest text-zinc-600 pt-4">
+              <p className="text-center text-sm text-zinc-500 pt-2">
                 ¿Ya tenés una cuenta?{' '}
                 <Link
                   href="/sign-in"
-                  className="text-white hover:text-yellow-500 underline decoration-white/20 underline-offset-4 transition-colors"
+                  className="text-white hover:text-yellow-500 transition-colors"
                 >
                   Iniciá sesión
                 </Link>

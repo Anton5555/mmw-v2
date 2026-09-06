@@ -124,7 +124,7 @@ function FiltersContent({
     <div className="space-y-8 pb-10">
       {/* Section: Text Search */}
       <div className="space-y-3">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+        <label className="text-sm text-zinc-400">
           Búsqueda directa
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -145,7 +145,7 @@ function FiltersContent({
 
       {/* Section: Selectors in a Grid */}
       <div className="space-y-4">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+        <label className="text-sm text-zinc-400">
           Categorías y créditos
         </label>
         <div className="flex flex-col gap-3">

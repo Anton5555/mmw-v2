@@ -10,7 +10,6 @@ import {
 import { OscarBallotForm } from '@/components/oscars/oscar-ballot-form';
 import { OscarSummary } from '@/components/oscars/oscar-summary';
 import { OscarSuccessDialog } from '@/components/oscars/oscar-success-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Suspense } from 'react';
 
@@ -54,18 +53,17 @@ export default async function OscarsPage() {
         </Suspense>
         <div className="container mx-auto px-4 py-12 max-w-6xl">
           <header className="mb-12 text-center">
-            <h1 className="text-4xl md:text-6xl font-black tracking-tighter">
-              Tus Apuestas
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+              Tus apuestas
             </h1>
-            <p className="text-zinc-500 mt-2">
-              Buena suerte, {session.user.name}. Los resultados se actualizarán
-              en vivo (o quizás no, nadie sabe).
+            <p className="text-zinc-400 mt-3">
+              Buena suerte, {session.user.name}.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link href="/oscars/predictions">
                 <Button
                   variant="outline"
-                  className="rounded-full border-white/10 hover:bg-white/5"
+                  className="rounded-lg border-white/10 hover:bg-zinc-900"
                 >
                   Ver predicciones
                 </Button>
@@ -73,16 +71,16 @@ export default async function OscarsPage() {
               <Link href="/oscars/results">
                 <Button
                   variant="outline"
-                  className="rounded-full border-white/10 hover:bg-white/5"
+                  className="rounded-lg border-white/10 hover:bg-zinc-900"
                 >
-                  Ver resultados en vivo
+                  Ver resultados
                 </Button>
               </Link>
               {isAdmin && (
                 <Link href="/oscars/admin">
                   <Button
                     variant="outline"
-                    className="rounded-full border-yellow-500/30 hover:bg-yellow-500/10"
+                    className="rounded-lg border-yellow-500/30 hover:bg-yellow-500/10"
                   >
                     Administrar ganadores
                   </Button>
@@ -103,21 +101,17 @@ export default async function OscarsPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <header className="mb-12 text-center">
-          <Badge className="mb-4 bg-yellow-500 text-black font-bold">
-            EVENTO ESPECIAL
-          </Badge>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
-            LOS OSCALOS
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Los Oscalos
           </h1>
-          <p className="text-zinc-400 mt-4 text-lg">
-            Hace tus apuestas para la edición {edition.year} de los Premios de
-            la Academia.
+          <p className="text-zinc-400 mt-3">
+            Apostá para la edición {edition.year}.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link href="/oscars/predictions">
               <Button
                 variant="outline"
-                className="rounded-full border-white/10 hover:bg-white/5"
+                className="rounded-lg border-white/10 hover:bg-zinc-900"
               >
                 Ver predicciones
               </Button>
@@ -125,16 +119,16 @@ export default async function OscarsPage() {
             <Link href="/oscars/results">
               <Button
                 variant="outline"
-                className="rounded-full border-white/10 hover:bg-white/5"
+                className="rounded-lg border-white/10 hover:bg-zinc-900"
               >
-                Ver resultados en vivo
+                Ver resultados
               </Button>
             </Link>
             {isAdmin && (
               <Link href="/oscars/admin">
                 <Button
                   variant="outline"
-                  className="rounded-full border-yellow-500/30 hover:bg-yellow-500/10"
+                  className="rounded-lg border-yellow-500/30 hover:bg-yellow-500/10"
                 >
                   Administrar ganadores
                 </Button>

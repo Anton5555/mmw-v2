@@ -66,34 +66,33 @@ export default async function MamPage({ searchParams }: MamPageProps) {
         <div className="relative mb-10 pt-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
             <div className="space-y-2 text-center md:text-left">
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
                 Míralas Antes de Morir
               </h1>
-              <p className="text-zinc-400 max-w-xl text-lg leading-snug mx-auto md:mx-0">
-                La selección definitiva del séptimo arte. Curada por la comunidad.
+              <p className="text-zinc-400 max-w-xl mx-auto md:mx-0">
+                Las películas que hay que ver antes de morir.
               </p>
             </div>
 
-            {/* Navigation tier */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              {/* Participant explorer (command palette) */}
               <ParticipantNav participants={participantsList} />
 
-              {/* Special mentions */}
               <Button
                 asChild
                 variant="outline"
-                className="rounded-full border-white/10 bg-white/5 hover:bg-white/10 h-11 px-5"
+                className="rounded-lg border-white/10 bg-zinc-900 hover:bg-zinc-800 h-10 px-4"
               >
-                <Link href="/mam/special-mentions">Menciones Especiales</Link>
+                <Link href="/mam/special-mentions">Menciones especiales</Link>
               </Button>
 
-              {/* My personal list */}
               {hasUserPicks && (
-                <Button className="rounded-full bg-white text-black hover:bg-yellow-500 transition-all font-bold h-11 px-6 shadow-xl" asChild>
+                <Button
+                  className="rounded-lg bg-white text-black hover:bg-yellow-500 font-medium h-10 px-4"
+                  asChild
+                >
                   <Link href="/mam/my-list" className="flex items-center gap-2">
                     <Film className="h-4 w-4" />
-                    <span>Mi Lista Personal</span>
+                    <span>Mi lista</span>
                   </Link>
                 </Button>
               )}

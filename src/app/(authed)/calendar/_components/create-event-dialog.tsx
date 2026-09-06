@@ -123,11 +123,11 @@ export function CreateEventSheet({
         <div className="flex h-full flex-col">
           {/* Premium Header */}
           <SheetHeader className="p-8 border-b border-white/5 space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-yellow-500">
-              Gestión de Agenda
+            <p className="text-sm text-zinc-400">
+              Agenda
             </p>
-            <SheetTitle className="text-3xl font-black italic tracking-tighter text-white uppercase">
-              Nuevo Evento
+            <SheetTitle className="text-xl font-semibold tracking-tight text-white">
+              Nuevo evento
             </SheetTitle>
           </SheetHeader>
 
@@ -142,7 +142,7 @@ export function CreateEventSheet({
                 name="title"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                    <FormLabel className="text-sm text-zinc-400">
                       Título del Evento
                     </FormLabel>
                     <FormControl>
@@ -152,7 +152,7 @@ export function CreateEventSheet({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                    <FormMessage className="text-xs text-red-500" />
                   </FormItem>
                 )}
               />
@@ -164,7 +164,7 @@ export function CreateEventSheet({
                   name="type"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
-                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      <FormLabel className="text-sm text-zinc-400">
                         Categoría
                       </FormLabel>
                       <Select
@@ -188,7 +188,7 @@ export function CreateEventSheet({
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                      <FormMessage className="text-xs text-red-500" />
                     </FormItem>
                   )}
                 />
@@ -199,7 +199,7 @@ export function CreateEventSheet({
                   name="day"
                   render={() => (
                     <FormItem className="space-y-1">
-                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      <FormLabel className="text-sm text-zinc-400">
                         Cronograma
                       </FormLabel>
                       <FormControl>
@@ -211,7 +211,7 @@ export function CreateEventSheet({
                           className="bg-white/5 border-none h-11 focus:ring-1 focus:ring-yellow-500"
                         />
                       </FormControl>
-                      <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                      <FormMessage className="text-xs text-red-500" />
                     </FormItem>
                   )}
                 />
@@ -223,7 +223,7 @@ export function CreateEventSheet({
                 name="description"
                 render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                    <FormLabel className="text-sm text-zinc-400">
                       Detalles Adicionales
                     </FormLabel>
                     <FormControl>
@@ -233,7 +233,7 @@ export function CreateEventSheet({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                    <FormMessage className="text-xs text-red-500" />
                   </FormItem>
                 )}
               />
@@ -244,14 +244,14 @@ export function CreateEventSheet({
                   type="button"
                   variant="ghost"
                   onClick={handleSheetClose}
-                  className="flex-1 h-12 text-[10px] font-black uppercase tracking-[.2em] hover:bg-white/5"
+                  className="flex-1 hover:bg-white/5"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-[2] h-12 bg-white hover:bg-yellow-500 text-black font-black uppercase tracking-[.2em] transition-all"
+                  className="flex-[2] bg-white hover:bg-yellow-500 text-black font-medium"
                 >
                   {isSubmitting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

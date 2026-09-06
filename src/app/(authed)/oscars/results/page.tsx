@@ -46,13 +46,13 @@ export default async function OscarsResultsPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <header className="mb-12 text-center">
-          <h1 className="text-5xl font-black tracking-tighter md:text-7xl bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
             Resultados {edition.year}
           </h1>
-          <p className="mt-4 text-lg text-zinc-400">
+          <p className="mt-3 text-zinc-400">
             {ceremonyStarted
-              ? 'Clasificación y ganadores de Los Oscalos en vivo.'
-              : 'Los resultados se actualizarán en vivo cuando comience la ceremonia.'}
+              ? 'Clasificación y ganadores de Los Oscalos.'
+              : 'Los resultados se actualizan cuando empieza la ceremonia.'}
           </p>
           {!ceremonyStarted && edition.ceremonyDate && (
             <p className="mt-2 text-sm text-zinc-500">

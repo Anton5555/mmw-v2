@@ -50,11 +50,8 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
 
   if (events.length === 0) {
     return (
-      <div className="flex h-[200px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.02]">
-        <p className="text-xs font-black uppercase tracking-widest text-zinc-600 italic">
-          Silence on set
-        </p>
-        <p className="text-[10px] text-zinc-500">No hay próximos eventos</p>
+      <div className="flex h-[200px] flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-zinc-900/50">
+        <p className="text-sm text-zinc-500">No hay próximos eventos</p>
       </div>
     );
   }
@@ -64,10 +61,10 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
       <div className="relative space-y-8">
         {showTitle && (
           <div className="flex items-center justify-between px-2">
-            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-yellow-500/80">
-              Próximos Estrenos
+            <h2 className="text-sm font-medium text-zinc-400">
+              Próximos eventos
             </h2>
-            <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/20 to-transparent ml-4" />
+            <div className="h-px flex-1 bg-white/10 ml-4" />
           </div>
         )}
 

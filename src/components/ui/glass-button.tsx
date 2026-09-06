@@ -26,8 +26,8 @@ export const GlassButton = React.forwardRef<HTMLAnchorElement, GlassButtonProps>
     ref
   ) => {
     const baseClasses =
-      'group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-widest transition-all hover:bg-white/20 hover:backdrop-blur-md';
-    const compactClasses = 'px-4 py-2';
+      'group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 hover:border-white/20';
+    const compactClasses = 'px-3 py-1.5 text-xs';
 
     return (
       <Link
@@ -43,7 +43,7 @@ export const GlassButton = React.forwardRef<HTMLAnchorElement, GlassButtonProps>
       >
         {children}
         {showExternalIcon && (
-          <ExternalLink className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+          <ExternalLink className="h-3 w-3" />
         )}
       </Link>
     );

@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { LampContainer } from '@/components/shared/lamp-background';
-import { SpotlightCursor } from '@/components/shared/spotlight-cursor';
 
 export default function AuthLayout({
   children,
@@ -10,23 +8,27 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <LampContainer className="p-4">
-      <SpotlightCursor />
-      <div className="relative z-50 flex flex-col items-center w-full">
-        <div className="w-full max-w-[450px] mb-8 flex justify-center">
+    <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950 flex flex-col items-center justify-center p-4">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+        }}
+      />
+      <div className="relative z-10 flex flex-col items-center w-full max-w-[450px]">
+        <div className="w-full mb-8 flex justify-center">
           <Image
             src="/logo.png"
             alt="Míralos Morir"
             width={890}
             height={167}
-            className="w-full h-auto drop-shadow-[0_0_30px_rgba(234,179,8,0.3)] transition-transform duration-700 hover:scale-105"
+            className="w-full h-auto"
             priority
           />
         </div>
-        <div className="w-full animate-fade-in-up" style={{ animationDuration: '1s' }}>
-          {children}
-        </div>
+        {children}
       </div>
-    </LampContainer>
+    </div>
   );
 }
