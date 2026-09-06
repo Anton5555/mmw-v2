@@ -116,7 +116,7 @@ const DayContent = ({
             />
           ))}
           {events.length > 3 && (
-            <p className="text-[10px] font-black text-zinc-600 uppercase tracking-tighter lg:text-[11px] mt-0.5">
+            <p className="text-xs text-zinc-500 mt-0.5">
               + {events.length - 3} más
             </p>
           )}
@@ -153,9 +153,9 @@ const EventPopoverContent = ({
     <>
       <div className="flex flex-col overflow-hidden rounded-xl shadow-2xl">
         {/* Premium Header */}
-        <div className="bg-white/5 p-4 border-b border-white/10">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-yellow-500">
-            Agenda del Día
+        <div className="bg-zinc-900 p-4 border-b border-white/10">
+          <h3 className="text-sm font-medium text-zinc-400">
+            Agenda del día
           </h3>
         </div>
 
@@ -177,7 +177,7 @@ const EventPopoverContent = ({
                         getColorClass(EVENT_COLORS[event.type])
                       )}
                     />
-                    <h4 className="font-bold text-sm text-zinc-100 italic uppercase tracking-tighter flex-1">
+                    <h4 className="font-semibold text-sm text-zinc-100 tracking-tight flex-1">
                       {event.title}
                     </h4>
                   </div>
@@ -236,10 +236,10 @@ const EventPopoverContent = ({
         {/* Add Event Button */}
         <button
           onClick={onCreateEvent}
-          className="flex items-center justify-center gap-2 bg-white p-4 text-[10px] font-black uppercase tracking-widest text-black transition-colors hover:bg-yellow-500"
+          className="flex items-center justify-center gap-2 bg-white p-3 text-sm font-semibold text-black transition-colors hover:bg-yellow-500"
         >
-          <Plus className="h-4 w-4 stroke-[3px]" />
-          Agregar Evento
+          <Plus className="h-4 w-4" />
+          Agregar evento
         </button>
       </div>
 
@@ -328,7 +328,7 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="relative min-h-[600px] overflow-hidden rounded-4xl border border-white/5 bg-zinc-950/50 p-4 backdrop-blur-xl lg:p-8 shadow-2xl">
+    <div className="relative min-h-[600px] overflow-hidden rounded-xl border border-white/10 bg-zinc-900 p-4 lg:p-6">
       {/* Header Section */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
@@ -447,17 +447,17 @@ export function EventsCalendar({
           month_grid: 'w-full border-collapse',
           weekdays: 'flex justify-between mb-4 border-b border-white/5 pb-2',
           weekday:
-            'text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 w-full text-center',
+            'text-xs font-medium text-zinc-500 w-full text-center',
           week: 'flex w-full justify-between gap-2 mt-2',
-          day: 'h-16 w-full lg:h-32 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-hidden rounded-xl transition-all duration-300',
+          day: 'h-16 w-full lg:h-32 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-hidden rounded-lg transition-colors',
           day_button: cn(
             buttonVariants({ variant: 'ghost' }),
             'h-full w-full p-0 font-normal aria-selected:opacity-100'
           ),
           selected:
-            'bg-white text-black font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)]',
+            'bg-white text-black font-semibold',
           today:
-            'bg-yellow-500/10 text-yellow-500 font-bold ring-1 ring-inset ring-yellow-500/20',
+            'bg-yellow-500/10 text-yellow-500 font-semibold ring-1 ring-inset ring-yellow-500/30',
           outside: 'opacity-20 grayscale pointer-events-none',
           disabled: 'text-zinc-600 opacity-50',
           hidden: 'invisible',

@@ -17,7 +17,6 @@ type NextEventsProps = {
   showTitle?: boolean;
 };
 
-// Color map for inline styles (since Tailwind doesn't support dynamic classes)
 const getColorClass = (color: string): string => {
   const colorMap: Record<string, string> = {
     'blue-500': 'bg-blue-500',
@@ -58,7 +57,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
 
   return (
     <>
-      <div className="relative space-y-8">
+      <div className="relative space-y-6">
         {showTitle && (
           <div className="flex items-center justify-between px-2">
             <h2 className="text-sm font-medium text-zinc-400">
@@ -68,10 +67,8 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
           </div>
         )}
 
-        {/* The Timeline Feed */}
-        <div className="relative space-y-6 pl-4">
-          {/* Vertical Line Connector */}
-          <div className="absolute left-[21px] top-2 bottom-2 w-px bg-gradient-to-b from-zinc-800 via-zinc-800 to-transparent" />
+        <div className="relative space-y-4 pl-4">
+          <div className="absolute left-[21px] top-2 bottom-2 w-px bg-zinc-800" />
 
           {events.map((event) => {
             const Icon = EVENT_ICONS[event.type];
@@ -82,20 +79,18 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
             return (
               <div
                 key={event.id}
-                className="group relative flex items-start gap-6 transition-all duration-500"
+                className="group relative flex items-start gap-4"
               >
-                {/* Date Badge / Timeline Node */}
-                <div className="relative z-10 flex flex-col items-center justify-center rounded-xl bg-zinc-950 border border-white/10 p-2 min-w-[44px] shadow-xl group-hover:border-yellow-500/50 transition-colors">
-                  <span className="text-[10px] font-black uppercase text-zinc-500 leading-none">
+                <div className="relative z-10 flex flex-col items-center justify-center rounded-lg bg-zinc-950 border border-white/10 p-2 min-w-[44px]">
+                  <span className="text-[10px] font-medium uppercase text-zinc-500 leading-none">
                     {format(eventDate, 'MMM', { locale: es })}
                   </span>
-                  <span className="text-lg font-black text-white leading-tight">
+                  <span className="text-lg font-semibold text-white leading-tight">
                     {format(eventDate, 'dd')}
                   </span>
                 </div>
 
-                {/* Event Content Card */}
-                <div className="flex-1 space-y-2 rounded-2xl bg-white/[0.03] p-4 border border-white/5 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/[0.07] group-hover:translate-x-1">
+                <div className="flex-1 space-y-2 rounded-xl bg-zinc-900 p-4 border border-white/10 transition-colors group-hover:border-white/20">
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -105,18 +100,18 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
                             getColorClass(EVENT_COLORS[event.type])
                           )}
                         />
-                        <h3 className="text-xs font-black uppercase italic tracking-tighter text-white">
+                        <h3 className="text-sm font-semibold tracking-tight text-white">
                           {event.title}
                         </h3>
                       </div>
 
                       {event.time && (
-                        <p className="text-[10px] font-mono text-yellow-500/70 uppercase tracking-widest">
+                        <p className="text-xs font-mono text-yellow-500/80">
                           {event.time.toLocaleTimeString('es', {
                             hour: '2-digit',
                             minute: '2-digit',
                           })}{' '}
-                          HS
+                          hs
                         </p>
                       )}
                     </div>
@@ -130,8 +125,8 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
                   </div>
 
                   {event.description && (
-                    <p className="text-xs leading-relaxed text-zinc-400 line-clamp-2 italic font-medium">
-                      "{event.description}"
+                    <p className="text-xs leading-relaxed text-zinc-400 line-clamp-2">
+                      {event.description}
                     </p>
                   )}
 
@@ -142,7 +137,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
                           setEditingEvent(event);
                           setIsEditOpen(true);
                         }}
-                        className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors flex items-center gap-1"
+                        className="text-xs text-zinc-500 hover:text-white transition-colors flex items-center gap-1"
                       >
                         <Pencil className="w-3 h-3" /> Editar
                       </button>
@@ -151,7 +146,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
                           setDeletingEvent(event);
                           setIsDeleteOpen(true);
                         }}
-                        className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-red-500 transition-colors flex items-center gap-1"
+                        className="text-xs text-zinc-500 hover:text-red-500 transition-colors flex items-center gap-1"
                       >
                         <Trash2 className="w-3 h-3" /> Eliminar
                       </button>

@@ -115,7 +115,7 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
           </div>
         </div>
         <div className="text-center md:text-right">
-          <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">
+          <div className="text-xs uppercase tracking-wide text-zinc-500 mb-1">
             Puntuación Actual
           </div>
           <div className="text-3xl font-black text-white">
@@ -153,7 +153,7 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
 
               <div className="relative flex flex-col h-full space-y-3">
                 <div className="flex justify-between items-start">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-yellow-500/70">
+                  <span className="text-xs font-medium uppercase tracking-wide text-yellow-500/80">
                     {pick.category.name}
                   </span>
                   <CheckCircle2 className="h-4 w-4 text-yellow-500 opacity-50 shrink-0" />

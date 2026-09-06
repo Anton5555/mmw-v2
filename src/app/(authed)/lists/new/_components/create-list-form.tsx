@@ -26,7 +26,6 @@ import {
   Film,
   Tag,
   Link as LinkIcon,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
 } from 'lucide-react';
@@ -107,43 +106,36 @@ export function CreateListForm() {
   // --- PREVIEW STATE ---
   if (isPreview) {
     return (
-      <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <header className="flex items-center gap-4">
-          <div className="h-10 w-1 bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.4)] rounded-full" />
-          <div>
-            <h2 className="text-3xl font-black italic uppercase tracking-tighter">
-              Vista Previa de Producción
-            </h2>
-            <p className="text-zinc-500 text-sm">
-              Revisa el montaje final antes de publicar.
-            </p>
-          </div>
+      <div className="space-y-10">
+        <header>
+          <h2 className="text-2xl font-semibold tracking-tight text-white">
+            Vista previa
+          </h2>
+          <p className="text-zinc-500 text-sm mt-1">
+            Revisá la lista antes de publicar.
+          </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Hero Card */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl">
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
               <Image
                 src={form.getValues('imgUrl')}
                 alt="List preview"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
-                <Badge className="mb-3 bg-yellow-500 text-black font-black hover:bg-yellow-400">
-                  ESTRENO
-                </Badge>
-                <h1 className="text-4xl font-black text-white uppercase tracking-tighter italic leading-none">
+                <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white leading-tight">
                   {form.getValues('name')}
                 </h1>
               </div>
             </div>
 
-            <div className="bg-zinc-900/50 border border-white/5 rounded-2xl p-6 space-y-4">
-              <p className="text-zinc-300 leading-relaxed italic">
-                "{form.getValues('description')}"
+            <div className="bg-zinc-900 border border-white/10 rounded-xl p-6 space-y-4">
+              <p className="text-zinc-300 leading-relaxed">
+                {form.getValues('description')}
               </p>
               <div className="flex flex-wrap gap-2">
                 {form
@@ -164,25 +156,21 @@ export function CreateListForm() {
 
           {/* Sidebar Info */}
           <div className="space-y-6">
-            <div className="bg-zinc-900/80 border border-white/5 rounded-2xl p-6 shadow-xl">
-              <h3 className="text-xs font-black uppercase tracking-widest text-zinc-500 mb-4">
+            <div className="bg-zinc-900 border border-white/10 rounded-xl p-6">
+              <h3 className="text-sm font-medium text-zinc-400 mb-4">
                 Créditos
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-[10px] uppercase text-zinc-600 font-bold">
-                    Dirección / Pedido por
-                  </p>
+                  <p className="text-xs text-zinc-500">Pedido por</p>
                   <p className="text-white font-medium">
                     {form.getValues('createdBy')}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
                 <div>
-                  <p className="text-[10px] uppercase text-zinc-600 font-bold">
-                    Referencia Externa
-                  </p>
-                  <p className="text-yellow-500 text-xs truncate underline underline-offset-4 decoration-yellow-500/30 italic">
+                  <p className="text-xs text-zinc-500">Referencia</p>
+                  <p className="text-yellow-500 text-xs truncate underline underline-offset-4 decoration-yellow-500/30">
                     {form.getValues('letterboxdUrl')}
                   </p>
                 </div>
@@ -194,26 +182,25 @@ export function CreateListForm() {
         {/* Movie Reel Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold uppercase tracking-tight flex items-center gap-2">
+            <h3 className="text-lg font-semibold tracking-tight flex items-center gap-2">
               <Film className="w-5 h-5 text-yellow-500" />
-              Elenco de Películas ({moviePreviews.length})
+              Películas ({moviePreviews.length})
             </h3>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 italic">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
             {moviePreviews.map((movie) => (
               <div key={movie.imdbId} className="group relative space-y-2">
-                <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-white/10 shadow-lg">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-white/10">
                   <Image
                     src={movie.posterUrl}
                     alt={movie.title}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="object-cover"
                     unoptimized
                   />
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-zinc-100 truncate uppercase leading-tight">
+                  <p className="text-xs font-medium text-zinc-100 truncate leading-tight">
                     {movie.title}
                   </p>
                   <p className="text-[10px] text-zinc-500 truncate">
@@ -226,18 +213,16 @@ export function CreateListForm() {
         </section>
 
         {error && (
-          <div className="bg-red-950/50 border border-red-500/20 rounded-2xl p-6 space-y-2">
+          <div className="bg-red-950/50 border border-red-500/20 rounded-xl p-5 space-y-2">
             <div className="flex items-center gap-2 text-red-400">
               <AlertCircle className="h-5 w-5" />
-              <h3 className="font-bold uppercase text-sm tracking-wider">
-                Error
-              </h3>
+              <h3 className="font-medium text-sm">Error</h3>
             </div>
             <p className="text-red-300 text-sm">{error}</p>
           </div>
         )}
 
-        <footer className="sticky bottom-6 flex gap-4 bg-zinc-950/80 backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-2xl">
+        <footer className="sticky bottom-6 flex gap-4 bg-zinc-950 p-4 rounded-xl border border-white/10">
           <Button
             variant="ghost"
             onClick={() => {
@@ -248,10 +233,10 @@ export function CreateListForm() {
             className="text-zinc-400 hover:text-white"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Corregir Guión
+            Volver a editar
           </Button>
           <Button
-            className="flex-1 bg-white text-black hover:bg-yellow-500 hover:text-black font-black uppercase italic shadow-xl"
+            className="flex-1 bg-white text-black hover:bg-yellow-500 font-semibold"
             onClick={form.handleSubmit(onSubmit)}
             disabled={isSubmitting}
           >
@@ -259,7 +244,7 @@ export function CreateListForm() {
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
               <>
-                Publicar Lista
+                Publicar lista
                 <CheckCircle2 className="ml-2 h-4 w-4" />
               </>
             )}
@@ -281,37 +266,33 @@ export function CreateListForm() {
       >
         <div className="space-y-4">
           <div className="space-y-2">
-            <h2 className="text-4xl font-black italic uppercase tracking-tighter">
-              CREAR LISTA NUEVA
+            <h2 className="text-3xl font-semibold tracking-tight text-white">
+              Crear lista
             </h2>
-            <p className="text-zinc-500">
-              Ingresa los detalles de la lista y los IDs de IMDB de las
-              películas.
+            <p className="text-zinc-500 text-sm">
+              Ingresá los detalles y los IDs de IMDB de las películas.
             </p>
           </div>
           {error && (
-            <div className="bg-red-950/50 border border-red-500/20 rounded-2xl p-6 space-y-2">
+            <div className="bg-red-950/50 border border-red-500/20 rounded-xl p-5 space-y-2">
               <div className="flex items-center gap-2 text-red-400">
                 <AlertCircle className="h-5 w-5" />
-                <h3 className="font-bold uppercase text-sm tracking-wider">
-                  Error
-                </h3>
+                <h3 className="font-medium text-sm">Error</h3>
               </div>
               <p className="text-red-300 text-sm">{error}</p>
             </div>
           )}
         </div>
 
-        {/* Section 1: Identity */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900/30 p-8 rounded-3xl border border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900 p-6 md:p-8 rounded-xl border border-white/10">
           <div className="space-y-6">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-                    Título de la Lista
+                  <FormLabel className="text-sm text-zinc-400">
+                    Título de la lista
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -330,8 +311,8 @@ export function CreateListForm() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-                    Sinopsis / Descripción
+                  <FormLabel className="text-sm text-zinc-400">
+                    Descripción
                   </FormLabel>
                   <FormControl>
                     <Textarea
@@ -352,9 +333,8 @@ export function CreateListForm() {
               name="imgUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
-                    <Sparkles className="w-3 h-3 text-yellow-500" /> Poster
-                    Principal (URL)
+                  <FormLabel className="text-sm text-zinc-400">
+                    Poster principal (URL)
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -376,7 +356,7 @@ export function CreateListForm() {
               name="createdBy"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500">
+                  <FormLabel className="text-sm text-zinc-400">
                     Solicitado por
                   </FormLabel>
                   <FormControl>
@@ -394,14 +374,14 @@ export function CreateListForm() {
         </div>
 
         {/* Section 2: Metadata & Movies */}
-        <div className="space-y-8 p-8 rounded-3xl border border-white/5 bg-zinc-900/30">
+        <div className="space-y-8 p-6 md:p-8 rounded-xl border border-white/10 bg-zinc-900">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                  <FormLabel className="text-sm text-zinc-400 flex items-center gap-2">
                     <Tag className="w-3 h-3" /> Etiquetas
                   </FormLabel>
                   <FormControl>
@@ -421,7 +401,7 @@ export function CreateListForm() {
               name="letterboxdUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                  <FormLabel className="text-sm text-zinc-400 flex items-center gap-2">
                     <LinkIcon className="w-3 h-3" /> Letterboxd Reference
                   </FormLabel>
                   <FormControl>
@@ -442,8 +422,8 @@ export function CreateListForm() {
             name="movies"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-bold uppercase tracking-widest text-zinc-500">
-                  IDs de IMDB (Elenco)
+                <FormLabel className="text-sm text-zinc-400">
+                  IDs de IMDB
                 </FormLabel>
                 <FormControl>
                   <Textarea
@@ -468,19 +448,19 @@ export function CreateListForm() {
             className="text-zinc-500 hover:text-white"
             onClick={() => router.push('/lists')}
           >
-            Descartar Borrador
+            Descartar
           </Button>
           <Button
             type="submit"
-            className="bg-yellow-500 text-black font-black uppercase italic px-10 h-14 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:bg-yellow-400 transition-all"
+            className="bg-yellow-500 text-black font-semibold px-8 h-11 hover:bg-yellow-400"
             disabled={isLoading}
           >
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin text-black" />
             ) : (
               <>
-                Generar Vista Previa
-                <ArrowRight className="ml-2 h-5 w-5" />
+                Vista previa
+                <ArrowRight className="ml-2 h-4 w-4" />
               </>
             )}
           </Button>
