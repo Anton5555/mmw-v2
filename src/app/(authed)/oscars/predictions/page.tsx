@@ -36,12 +36,11 @@ export default async function OscarsPredictionsPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <header className="mb-12 text-center">
-          <h1 className="text-5xl font-black tracking-tighter md:text-7xl bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent">
-            Predicciones Globales
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Predicciones
           </h1>
-          <p className="mt-4 text-lg text-zinc-400">
-            Lo que la comunidad apuesta en cada categoría. Los Oscalos{' '}
-            {edition.year}.
+          <p className="mt-3 text-zinc-400">
+            Lo que la comunidad apuesta en cada categoría. Oscalos {edition.year}.
           </p>
         </header>
         <OscarPredictionsView stats={stats} edition={edition} />

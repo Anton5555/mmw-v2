@@ -77,19 +77,19 @@ export function MamMovieCard({
     <div className="relative group">
       <div
         className={cn(
-          'relative overflow-hidden border-0 bg-transparent transition-all duration-500 ease-out',
-          'group-hover:z-30 group-hover:-translate-y-2 group-hover:scale-[1.05]'
+          'relative overflow-hidden border-0 bg-transparent transition-all duration-300 ease-out',
+          'group-hover:z-10'
         )}
       >
         {/* The Poster Layer */}
         <Link href={`/mam/movie/${movie.id}`} onClick={handleMovieClick} className="block">
-          <div className="aspect-[2/3] relative rounded-xl overflow-hidden shadow-2xl">
+          <div className="aspect-[2/3] relative rounded-lg overflow-hidden shadow-lg">
             {movie.posterUrl ? (
               <Image
                 src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
                 alt={displayTitle}
                 fill
-                className="object-cover transition-all duration-700 group-hover:brightness-50 group-hover:scale-110"
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             ) : (
@@ -111,23 +111,25 @@ export function MamMovieCard({
               </div>
             )}
 
-            {/* Hover Overlay: Reveal metadata */}
-            <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                {(movie.totalPoints ?? 0) > 0 && (
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="bg-white/10 backdrop-blur-md border-white/20 text-white"
-                    >
-                      <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
-                      {movie.totalPoints} pts
-                    </Badge>
-                  </div>
-                )}
-                <p className="text-[10px] text-zinc-300 line-clamp-3 leading-tight italic">
-                  &quot;{movie.picks[0]?.review || 'Sin reseña destacada'}&quot;
-                </p>
+            {/* Hover overlay: scrim keeps review readable over busy posters */}
+            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="bg-gradient-to-t from-black via-black/80 to-transparent px-4 pb-4 pt-16">
+                <div className="space-y-2">
+                  {(movie.totalPoints ?? 0) > 0 && (
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className="bg-black/40 border-white/20 text-white"
+                      >
+                        <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+                        {movie.totalPoints} pts
+                      </Badge>
+                    </div>
+                  )}
+                  <p className="text-xs text-white/90 line-clamp-3 leading-snug">
+                    &quot;{movie.picks[0]?.review || 'Sin reseña destacada'}&quot;
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -183,16 +185,6 @@ export function MamMovieCard({
           </div>
         </div>
       </div>
-
-      {/* Background Glow Effect */}
-      <div
-        className={cn(
-          'absolute inset-0 -z-10 bg-gradient-to-br opacity-0',
-          'group-hover:opacity-15 blur-2xl transition-opacity duration-500 rounded-full',
-          rankConfig.color,
-          rankConfig.shadow
-        )}
-      />
 
       {/* Review Dialog */}
       {showReview && userPick?.review && (

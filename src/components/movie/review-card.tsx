@@ -39,12 +39,11 @@ export function ReviewCard({
     <GlassCard
       variant="review"
       className={cn(
-        isTopChoice && 'border-yellow-500/20 bg-yellow-500/[0.02]',
-        isSpecialMention &&
-          'border-purple-500/30 bg-gradient-to-br from-purple-500/[0.05] to-blue-500/[0.05]'
+        isTopChoice && 'border-yellow-500/30',
+        isSpecialMention && 'border-yellow-500/20'
       )}
     >
-      <div className="p-6">
+      <div className="p-5">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href={`/mam?participants=${pick.participant.slug}`}>
@@ -55,47 +54,47 @@ export function ReviewCard({
                 href={`/mam?participants=${pick.participant.slug}`}
                 className="hover:underline"
               >
-                <p className="font-black text-sm uppercase tracking-wider">
+                <p className="font-medium text-sm text-white">
                   {getParticipantDisplayName(pick.participant)}
                 </p>
               </Link>
               {isTopChoice && (
-                <span className="text-[10px] font-bold text-yellow-500 uppercase tracking-widest">
+                <span className="text-xs text-yellow-500">
                   Favorito de la lista
                 </span>
               )}
               {isSpecialMention && (
-                <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest">
-                  ⭐ Mención Especial
+                <span className="text-xs text-zinc-400">
+                  Mención especial
                 </span>
               )}
             </div>
           </div>
           <div
             className={cn(
-              'rounded-lg px-3 py-1 text-sm font-black',
+              'rounded-md px-2.5 py-1 text-sm font-medium',
               isTopChoice
                 ? 'bg-yellow-500 text-black'
                 : isSpecialMention
-                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                  : 'bg-white/10 text-white'
+                  ? 'bg-zinc-800 text-zinc-300 border border-white/10'
+                  : 'bg-zinc-800 text-white'
             )}
           >
             {isSpecialMention ? (
-              'ESPECIAL'
+              'Especial'
             ) : (
               <>
-                {pick.score} PT{pick.score > 1 ? 'S' : ''}
+                {pick.score} pt{pick.score > 1 ? 's' : ''}
               </>
             )}
           </div>
         </div>
 
         {pick.review && (
-          <div className="mt-4 space-y-3 border-t border-white/5 pt-4">
+          <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
             <p
               className={cn(
-                'text-gray-300 leading-relaxed',
+                'text-zinc-300 leading-relaxed text-sm',
                 !isExpanded && 'line-clamp-2'
               )}
             >
@@ -103,7 +102,7 @@ export function ReviewCard({
             </p>
             <button
               onClick={toggle}
-              className="text-xs font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+              className="text-xs text-zinc-500 hover:text-white transition-colors"
             >
               {isExpanded ? 'Ver menos' : 'Leer reseña completa'}
             </button>

@@ -42,26 +42,27 @@ export function ListCard({ list }: ListCardProps) {
         {/* Gradient Overlay - Darker at bottom for text, lighter at top */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
 
-        {/* Content */}
+        {/* Title sits on the requester; hover opens room for the description */}
         <div className="absolute inset-0 flex flex-col justify-end p-5">
-          <div className="translate-y-4 transition-transform duration-300 group-hover:translate-y-0">
-            <h3 className="text-xl font-black leading-tight text-white line-clamp-1 uppercase tracking-wide">
-              {list.name}
-            </h3>
+          <h3 className="text-xl font-black leading-tight text-white line-clamp-1 uppercase tracking-wide">
+            {list.name}
+          </h3>
 
-            {/* Description - Hidden or collapsed initially, expands on hover if you prefer */}
-            <p className="mt-2 line-clamp-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              {list.description}
-            </p>
-
-            <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-3">
-              <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-white/60">
-                <User className="mr-1 h-3 w-3" />
-                Pedido por:{' '}
-                <span className="ml-1 text-white">
-                  {list.createdBy}
-                </span>
+          {list.description ? (
+            <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] motion-reduce:transition-none">
+              <div className="min-h-0 overflow-hidden">
+                <p className="mt-2 line-clamp-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+                  {list.description}
+                </p>
               </div>
+            </div>
+          ) : null}
+
+          <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3">
+            <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-white/60">
+              <User className="mr-1 h-3 w-3" />
+              Pedido por:{' '}
+              <span className="ml-1 text-white">{list.createdBy}</span>
             </div>
           </div>
         </div>

@@ -51,7 +51,7 @@ function FiltersContent({
     <div className="space-y-8 pb-10">
       {/* Year Selector - Film Strip */}
       <div className="flex flex-col space-y-2">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+        <label className="text-sm text-zinc-400">
           Año
         </label>
         <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
@@ -76,7 +76,7 @@ function FiltersContent({
 
       {/* Section: Text Search */}
       <div className="space-y-3">
-        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+        <label className="text-sm text-zinc-400">
           Búsqueda directa
         </label>
         <div className="grid grid-cols-2 gap-2">

@@ -62,17 +62,15 @@ export default function SignIn() {
   };
 
   return (
-    <div className="border border-white/10 bg-zinc-900/40 backdrop-blur-xl rounded-[2rem] overflow-hidden shadow-2xl w-full">
-      <div className="p-8 pb-4 space-y-2">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-yellow-500 text-center">
-          Acceso Exclusivo
-        </p>
-        <h1 className="text-3xl font-black italic uppercase tracking-tighter text-white text-center">
+    <div className="w-full rounded-xl border border-white/10 bg-zinc-900 overflow-hidden">
+      <div className="p-8 pb-2 space-y-1 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight text-white">
           Bienvenido
         </h1>
+        <p className="text-sm text-zinc-400">Iniciá sesión para continuar</p>
       </div>
 
-      <div className="p-8 pt-4">
+      <div className="p-8 pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-4">
@@ -80,21 +78,19 @@ export default function SignIn() {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                      Email
-                    </FormLabel>
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-sm text-zinc-400">Email</FormLabel>
                     <div className="relative group">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           placeholder="m@example.com"
-                          className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          className="h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className="text-xs text-red-500" />
                   </FormItem>
                 )}
               />
@@ -103,30 +99,30 @@ export default function SignIn() {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      <FormLabel className="text-sm text-zinc-400">
                         Contraseña
                       </FormLabel>
                       <Link
                         href="/forgot-password"
-                        className="text-[10px] font-black uppercase text-zinc-600 hover:text-white transition-colors"
+                        className="text-xs text-zinc-500 hover:text-white transition-colors"
                       >
                         ¿Olvidaste?
                       </Link>
                     </div>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-600 group-focus-within:text-yellow-500 transition-colors" />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-yellow-500 transition-colors" />
                       <FormControl>
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="h-12 pl-12 bg-white/5 border-white/5 rounded-xl focus-visible:ring-1 focus-visible:ring-yellow-500 transition-all placeholder:text-zinc-700"
+                          className="h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>
                     </div>
-                    <FormMessage className="text-[10px] font-bold text-red-500 uppercase" />
+                    <FormMessage className="text-xs text-red-500" />
                   </FormItem>
                 )}
               />
@@ -135,7 +131,7 @@ export default function SignIn() {
                 control={form.control}
                 name="rememberMe"
                 render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2 space-y-0 py-2">
+                  <FormItem className="flex items-center space-x-2 space-y-0 py-1">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -143,7 +139,7 @@ export default function SignIn() {
                         className="border-white/20 data-[state=checked]:bg-yellow-500 data-[state=checked]:text-black"
                       />
                     </FormControl>
-                    <Label className="text-[11px] font-bold uppercase tracking-tighter text-zinc-500 cursor-pointer">
+                    <Label className="text-sm text-zinc-400 cursor-pointer">
                       Recordame en esta sesión
                     </Label>
                   </FormItem>
@@ -153,23 +149,21 @@ export default function SignIn() {
 
             <Button
               type="submit"
-              className="w-full h-14 bg-white hover:bg-yellow-500 text-black font-black uppercase tracking-[0.2em] transition-all duration-300 rounded-xl group"
+              className="w-full h-11 bg-white hover:bg-yellow-500 text-black font-semibold rounded-lg"
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (
                 <Loader2 className="animate-spin h-5 w-5" />
               ) : (
-                <span className="group-hover:scale-105 transition-transform">
-                  Entrar
-                </span>
+                'Entrar'
               )}
             </Button>
 
-            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-zinc-600 pt-4">
+            <p className="text-center text-sm text-zinc-500 pt-2">
               ¿No tenés cuenta?{' '}
               <Link
                 href="/sign-up"
-                className="text-white hover:text-yellow-500 underline decoration-white/20 underline-offset-4 transition-colors"
+                className="text-white hover:text-yellow-500 transition-colors"
               >
                 Creala ahora
               </Link>

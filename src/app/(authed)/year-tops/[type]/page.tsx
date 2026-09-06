@@ -104,10 +104,10 @@ export default async function YearTopTypePage({
         <div className="relative mb-12 pt-8 text-center md:text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
                 {typeConfig.title}
               </h1>
-              <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
+              <p className="mt-2 text-zinc-400 max-w-2xl">
                 {typeConfig.description.replace('{year}', validatedParams.year.toString())}
               </p>
             </div>

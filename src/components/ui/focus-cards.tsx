@@ -23,11 +23,8 @@ export const Card = ({
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        'group relative aspect-[2/3] overflow-hidden rounded-xl transition-all duration-500 ease-out',
-        // Softening the blur effect to be more subtle
-        hovered !== null &&
-          hovered !== index &&
-          'scale-[0.97] opacity-40 blur-[2px]',
+        'group relative aspect-[2/3] overflow-hidden rounded-xl transition-opacity duration-300 ease-out',
+        hovered !== null && hovered !== index && 'opacity-50',
         card.href && 'cursor-pointer',
         className
       )}
@@ -37,12 +34,11 @@ export const Card = ({
           src={card.src}
           alt={card.title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           unoptimized
         />
 
-        {/* Hover Overlay: Darkens and adds info */}
         <div
           className={cn(
             'absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-300',
@@ -50,21 +46,17 @@ export const Card = ({
           )}
         />
 
-        {/* Title Tooltip-style (Bottom aligned) */}
         <div
           className={cn(
-            'absolute inset-x-0 bottom-0 p-4 transition-all duration-300',
-            hovered === index
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-4 opacity-0'
+            'absolute inset-x-0 bottom-0 p-4 transition-opacity duration-300',
+            hovered === index ? 'opacity-100' : 'opacity-0'
           )}
         >
-          <p className="text-sm font-black uppercase tracking-wider text-white line-clamp-2">
+          <p className="text-sm font-semibold tracking-tight text-white line-clamp-2">
             {card.title}
           </p>
         </div>
 
-        {/* Subtle Inner Glow Border */}
         <div className="pointer-events-none absolute inset-0 rounded-xl border border-white/10 group-hover:border-white/30" />
       </div>
     </div>

@@ -45,22 +45,20 @@ export default async function SpecialMentionsPage({
         <div className="relative mb-12 pt-8 text-center md:text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tighter bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
-                Menciones Especiales
+              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+                Menciones especiales
               </h1>
-              <p className="mt-3 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-                Selecciones especiales de los participantes que merecen un
-                reconocimiento particular.
+              <p className="mt-2 text-zinc-400 max-w-2xl">
+                Selecciones de los participantes que merecen un reconocimiento
+                aparte.
               </p>
             </div>
             <Button
               asChild
               variant="outline"
-              className="rounded-full border-white/20 bg-white/10 text-white hover:bg-white/20 px-8 h-12"
+              className="rounded-lg border-white/10 bg-zinc-900 hover:bg-zinc-800 px-5 h-10"
             >
-              <Link href="/mam">
-                <span className="font-bold tracking-tight">Volver a MAM</span>
-              </Link>
+              <Link href="/mam">Volver a MAM</Link>
             </Button>
           </div>
         </div>

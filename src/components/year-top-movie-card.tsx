@@ -41,8 +41,8 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
     <div className="relative group">
       <div
         className={cn(
-          'relative overflow-hidden border-0 bg-transparent transition-all duration-500 ease-out',
-          'group-hover:z-30 group-hover:-translate-y-2 group-hover:scale-[1.05]'
+          'relative overflow-hidden border-0 bg-transparent transition-all duration-300 ease-out',
+          'group-hover:z-10'
         )}
       >
         {/* The Poster Layer */}
@@ -51,13 +51,13 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
           onClick={handleMovieClick}
           className="block"
         >
-          <div className="aspect-[2/3] relative rounded-xl overflow-hidden shadow-2xl">
+          <div className="aspect-[2/3] relative rounded-lg overflow-hidden shadow-lg">
             {movie.posterUrl ? (
               <Image
                 src={movie.posterUrl.startsWith('http') ? movie.posterUrl : `https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
                 alt={displayTitle}
                 fill
-                className="object-cover transition-all duration-700 group-hover:brightness-50 group-hover:scale-110"
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             ) : (
@@ -66,14 +66,14 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
               </div>
             )}
 
-            {/* Hover Overlay: Reveal metadata */}
-            <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="space-y-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            {/* Hover overlay: scrim keeps text readable over busy posters */}
+            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="bg-gradient-to-t from-black via-black/80 to-transparent px-4 pb-4 pt-16">
                 {(totalPoints ?? 0) > 0 && (
                   <div className="flex items-center gap-2">
                     <Badge
                       variant="outline"
-                      className="bg-white/10 backdrop-blur-md border-white/20 text-white"
+                      className="bg-black/40 border-white/20 text-white"
                     >
                       <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
                       {totalPoints} pts
@@ -179,16 +179,6 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
           </div>
         </div>
       </div>
-
-      {/* Background Glow Effect */}
-      <div
-        className={cn(
-          'absolute inset-0 -z-10 bg-gradient-to-br opacity-0',
-          'group-hover:opacity-15 blur-2xl transition-opacity duration-500 rounded-full',
-          'from-zinc-700 to-zinc-900',
-          'shadow-black/20'
-        )}
-      />
     </div>
   );
 }
