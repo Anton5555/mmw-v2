@@ -99,6 +99,7 @@ export function NominationBuilder({
   const [pendingMovieId, setPendingMovieId] = useState<number | null>(null);
   const searchReqId = useRef(0);
   const blurCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
 
   const count = movies.length;
@@ -157,6 +158,13 @@ export function NominationBuilder({
   const closeSuggestions = () => {
     setIsSuggestionsOpen(false);
     setHighlightIndex(-1);
+  };
+
+  const focusSearchInput = () => {
+    // Defer past React commit + toast focus so the user can keep typing.
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 0);
   };
 
   const handleLookup = () => {
@@ -268,10 +276,14 @@ export function NominationBuilder({
       setPickerMovies(null);
       setQuery('');
       toast.success(`Agregada: ${movie.title}`);
+      if (movies.length + 1 < IMDB_LTA_MAX_NOMINATIONS) {
+        focusSearchInput();
+      }
     } catch (error) {
       const msg =
         error instanceof Error ? error.message : 'Error al agregar la película';
       toast.error(msg);
+      focusSearchInput();
     } finally {
       setPendingMovieId(null);
     }
@@ -407,6 +419,7 @@ export function NominationBuilder({
               <div className="relative min-w-0 flex-1">
                 <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                 <Input
+                  ref={searchInputRef}
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
