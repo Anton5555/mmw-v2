@@ -33,3 +33,12 @@ export const yearTopSearchParams = {
 };
 
 export const loadYearTopSearchParams = createLoader(yearTopSearchParams);
+
+// IMDB LTA rating page filters
+export const imdbLtaRateSearchParams = {
+  filter: parseAsString.withDefault('unrated'),
+  page: parseAsInteger.withDefault(1),
+  limit: parseAsInteger.withDefault(30),
+};
+
+export const loadImdbLtaRateSearchParams = createLoader(imdbLtaRateSearchParams);

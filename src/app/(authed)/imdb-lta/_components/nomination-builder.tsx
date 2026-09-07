@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useEffect, useId, useRef, useState, useTransition } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import {
@@ -25,10 +25,12 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { lookupMovieAction } from '@/lib/actions/imdb-lta/lookup-movie';
+import { searchNominationsAction } from '@/lib/actions/imdb-lta/search-nominations';
 import { addNominationAction } from '@/lib/actions/imdb-lta/add-nomination';
 import { removeNominationAction } from '@/lib/actions/imdb-lta/remove-nomination';
 import { submitNominationsAction } from '@/lib/actions/imdb-lta/submit-nominations';
 import {
+  IMDB_ID_REGEX,
   IMDB_LTA_MAX_NOMINATIONS,
   IMDB_LTA_MIN_NOMINATIONS,
 } from '@/lib/validations/imdb-lta';
@@ -88,15 +90,82 @@ export function NominationBuilder({
   const [pickerMovies, setPickerMovies] = useState<MovieCardData[] | null>(
     null
   );
+  const [suggestions, setSuggestions] = useState<MovieCardData[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(-1);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const [isLookingUp, startLookup] = useTransition();
   const [isSaving, startSave] = useTransition();
   const [pendingMovieId, setPendingMovieId] = useState<number | null>(null);
+  const searchReqId = useRef(0);
+  const blurCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const listboxId = useId();
 
   const count = movies.length;
   const state = progressState(count);
   const canSubmit = count >= IMDB_LTA_MIN_NOMINATIONS && isNominationOpen;
   const isSaved =
     Boolean(submittedAt) && count >= IMDB_LTA_MIN_NOMINATIONS;
+  const trimmedQuery = query.trim();
+  const isImdbIdQuery = IMDB_ID_REGEX.test(trimmedQuery);
+  const showSuggestionsPanel =
+    isSuggestionsOpen &&
+    isNominationOpen &&
+    trimmedQuery.length >= 2 &&
+    count < IMDB_LTA_MAX_NOMINATIONS;
+
+  useEffect(() => {
+    const q = query.trim();
+    setHighlightIndex(-1);
+
+    if (q.length < 2 || !isNominationOpen || count >= IMDB_LTA_MAX_NOMINATIONS) {
+      setSuggestions([]);
+      setIsSearching(false);
+      setIsSuggestionsOpen(false);
+      return;
+    }
+
+    const id = ++searchReqId.current;
+    const t = setTimeout(async () => {
+      setIsSearching(true);
+      setIsSuggestionsOpen(true);
+      try {
+        const results = await searchNominationsAction(q);
+        if (searchReqId.current === id) {
+          setSuggestions(results);
+        }
+      } catch {
+        if (searchReqId.current === id) {
+          setSuggestions([]);
+        }
+      } finally {
+        if (searchReqId.current === id) {
+          setIsSearching(false);
+        }
+      }
+    }, 250);
+
+    return () => clearTimeout(t);
+  }, [query, isNominationOpen, count]);
+
+  useEffect(() => {
+    return () => {
+      if (blurCloseTimer.current) clearTimeout(blurCloseTimer.current);
+    };
+  }, []);
+
+  const closeSuggestions = () => {
+    setIsSuggestionsOpen(false);
+    setHighlightIndex(-1);
+  };
+
+  const focusSearchInput = () => {
+    // Defer past React commit + toast focus so the user can keep typing.
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 0);
+  };
 
   const handleLookup = () => {
     const trimmed = query.trim();
@@ -106,6 +175,7 @@ export function NominationBuilder({
       return;
     }
 
+    closeSuggestions();
     setMessage(null);
     startLookup(async () => {
       try {
@@ -133,6 +203,50 @@ export function NominationBuilder({
     });
   };
 
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeSuggestions();
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      if (!showSuggestionsPanel || suggestions.length === 0) return;
+      e.preventDefault();
+      setIsSuggestionsOpen(true);
+      setHighlightIndex((prev) =>
+        prev < suggestions.length - 1 ? prev + 1 : 0
+      );
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      if (!showSuggestionsPanel || suggestions.length === 0) return;
+      e.preventDefault();
+      setIsSuggestionsOpen(true);
+      setHighlightIndex((prev) =>
+        prev <= 0 ? suggestions.length - 1 : prev - 1
+      );
+      return;
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (
+        showSuggestionsPanel &&
+        highlightIndex >= 0 &&
+        suggestions[highlightIndex]
+      ) {
+        const movie = suggestions[highlightIndex]!;
+        if (!movies.some((m) => m.id === movie.id)) {
+          void addMovie(movie);
+        }
+        return;
+      }
+      handleLookup();
+    }
+  };
+
   const addMovie = async (movie: MovieCardData) => {
     if (movies.some((m) => m.id === movie.id)) {
       toast.error('Esta película ya está en tu lista');
@@ -147,6 +261,7 @@ export function NominationBuilder({
     }
 
     setPendingMovieId(movie.id);
+    closeSuggestions();
     try {
       const result = await addNominationAction(movie.id);
       setMovies((prev) => [
@@ -161,10 +276,14 @@ export function NominationBuilder({
       setPickerMovies(null);
       setQuery('');
       toast.success(`Agregada: ${movie.title}`);
+      if (movies.length + 1 < IMDB_LTA_MAX_NOMINATIONS) {
+        focusSearchInput();
+      }
     } catch (error) {
       const msg =
         error instanceof Error ? error.message : 'Error al agregar la película';
       toast.error(msg);
+      focusSearchInput();
     } finally {
       setPendingMovieId(null);
     }
@@ -298,21 +417,140 @@ export function NominationBuilder({
           {isNominationOpen && (
             <div className="flex min-w-0 flex-1 gap-2">
               <div className="relative min-w-0 flex-1">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                 <Input
+                  ref={searchInputRef}
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleLookup();
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    if (e.target.value.trim().length >= 2) {
+                      setIsSuggestionsOpen(true);
                     }
+                  }}
+                  onKeyDown={handleSearchKeyDown}
+                  onFocus={() => {
+                    if (blurCloseTimer.current) {
+                      clearTimeout(blurCloseTimer.current);
+                      blurCloseTimer.current = null;
+                    }
+                    if (trimmedQuery.length >= 2) {
+                      setIsSuggestionsOpen(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    blurCloseTimer.current = setTimeout(() => {
+                      closeSuggestions();
+                    }, 150);
                   }}
                   placeholder="Nombre o ID de IMDb (tt0068646)"
                   disabled={isLookingUp || count >= IMDB_LTA_MAX_NOMINATIONS}
                   aria-label="Buscar película"
+                  aria-autocomplete="list"
+                  aria-expanded={showSuggestionsPanel}
+                  aria-controls={listboxId}
+                  aria-activedescendant={
+                    highlightIndex >= 0
+                      ? `${listboxId}-option-${highlightIndex}`
+                      : undefined
+                  }
+                  role="combobox"
                   className="bg-zinc-950 border-white/10 pl-10 font-mono text-sm"
                 />
+
+                {showSuggestionsPanel && (
+                  <div
+                    id={listboxId}
+                    role="listbox"
+                    aria-label="Sugerencias de películas"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 max-h-80 overflow-y-auto rounded-xl border border-white/10 bg-zinc-950/95 p-1.5 shadow-2xl backdrop-blur-xl"
+                  >
+                    {isSearching && suggestions.length === 0 ? (
+                      <div className="flex items-center gap-2 px-3 py-3 text-sm text-zinc-400">
+                        <Loader2 className="h-4 w-4 animate-spin text-yellow-500" />
+                        Buscando…
+                      </div>
+                    ) : suggestions.length > 0 ? (
+                      suggestions.map((movie, index) => {
+                        const year = releaseYear(movie.releaseDate);
+                        const src = posterSrc(movie.posterUrl);
+                        const alreadyAdded = movies.some(
+                          (m) => m.id === movie.id
+                        );
+                        const isPending = pendingMovieId === movie.id;
+                        const isHighlighted = highlightIndex === index;
+
+                        return (
+                          <button
+                            key={movie.id}
+                            id={`${listboxId}-option-${index}`}
+                            type="button"
+                            role="option"
+                            aria-selected={isHighlighted}
+                            disabled={alreadyAdded || isPending}
+                            onMouseDown={(e) => e.preventDefault()}
+                            onMouseEnter={() => setHighlightIndex(index)}
+                            onClick={() => {
+                              if (!alreadyAdded) void addMovie(movie);
+                            }}
+                            className={cn(
+                              'flex w-full items-center gap-3 rounded-lg border border-transparent p-2.5 text-left transition',
+                              isHighlighted &&
+                                'border-yellow-500/40 bg-zinc-900',
+                              !isHighlighted && 'hover:bg-zinc-900/80',
+                              alreadyAdded && 'opacity-50'
+                            )}
+                          >
+                            <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md bg-zinc-800">
+                              {src ? (
+                                <Image
+                                  src={src}
+                                  alt={movie.title}
+                                  fill
+                                  className="object-cover"
+                                  sizes="40px"
+                                  unoptimized
+                                />
+                              ) : (
+                                <Film className="m-auto mt-3.5 h-4 w-4 text-zinc-600" />
+                              )}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-sm font-bold uppercase">
+                                {movie.title}
+                              </p>
+                              <p className="truncate text-xs text-zinc-500">
+                                {movie.originalTitle}
+                                {year ? ` · ${year}` : ''}
+                              </p>
+                              <p className="font-mono text-[10px] text-zinc-600">
+                                {movie.imdbId}
+                              </p>
+                            </div>
+                            {alreadyAdded ? (
+                              <Badge
+                                variant="outline"
+                                className="text-[10px] shrink-0"
+                              >
+                                En lista
+                              </Badge>
+                            ) : isPending ? (
+                              <Loader2 className="h-4 w-4 shrink-0 animate-spin text-yellow-500" />
+                            ) : null}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="flex items-start gap-2 px-3 py-3 text-sm text-zinc-400">
+                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                        <p>
+                          {isImdbIdQuery
+                            ? 'No la tenemos todavía, apretá Enter para traerla de IMDb'
+                            : 'No la encontramos. Pegá el ID de IMDb (tt0068646) para agregarla.'}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
               <Button
                 onClick={handleLookup}

@@ -20,6 +20,8 @@ const PATH_TRANSLATIONS: Record<string, string> = {
   calendar: 'Calendario',
   mam: 'Miralas Antes de Morir',
   'imdb-lta': 'IMDB LTA',
+  rate: 'Puntuar',
+  ranking: 'Ranking',
   padlet: 'Padlet',
   about: 'Sobre la app',
 };
