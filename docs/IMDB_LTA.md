@@ -71,7 +71,9 @@ All transitions are **manual admin actions**. Nothing auto-closes because “eve
 | `RATING_OPEN` | Frozen. Mutations rejected server-side. | Score eligible films 0–10 | Live/provisional for qualified movies |
 | `RATING_CLOSED` | Frozen | No new ratings. Personal scores view-only. | **Official / final** IMDB LTA ranking |
 
-Admin phase UI is **not built**. Flip via Prisma Studio or `updateImdbLtaPhase` / `updateImdbLtaPhaseAction` (admin session). A small switcher is a follow-up, not a blocker.
+Admin phase UI: switcher on `/imdb-lta` (visible only when `session.user.role === 'admin'`). Calls `updateImdbLtaPhaseAction` (server re-checks admin). Prisma Studio remains a fallback.
+
+Admins also get a collapsible **Nominaciones del grupo** panel on the same page: all nomination rows (including drafts without Guardar), per-user counts/submitted status, and movies sorted by nomination count with nominator names.
 
 ### Nomination closure (manual)
 
@@ -95,12 +97,14 @@ Nomination count never becomes ranking points. A movie nominated by 1 user and o
 
 Authenticated users build a personal list of 25–50 films at `/imdb-lta`.
 
-### Lookup on Enter
+### Lookup on Enter / live typeahead
+
+While the user types (2+ characters), a dropdown shows matching movies from the **internal DB only** (title / originalTitle contains, or exact IMDb ID). Click or Arrow+Enter adds from the list. No TMDB name search.
 
 | Input | First look | If miss | If several hits |
 | --- | --- | --- | --- |
-| IMDb ID (`tt` + 7–8 digits) | Internal movie by `imdbId` | TMDB find + persist, then add | N/A |
-| Title text | Internal title / originalTitle contains | Ask for IMDb ID. **No TMDB name search.** | In-app picker of internal hits only |
+| IMDb ID (`tt` + 7–8 digits) | Internal movie by `imdbId` | Typeahead: “apretá Enter para traerla”; Enter → TMDB find + persist, then add | N/A |
+| Title text | Live dropdown of internal hits | Typeahead: ask for IMDb ID. **No TMDB name search.** Enter asks for ID. | Enter may open in-app picker of internal hits; or pick from dropdown |
 
 **SUBMITTED ≠ LOCKED.** `submittedAt` is “last Guardar with a valid 25–50 list.” Locking is only `phase !== NOMINATION_OPEN`.
 
@@ -288,15 +292,15 @@ Example shape:
 
 ---
 
-## Implementation order (next Cursor task — not started)
+## Implementation order — done
 
 1. Eligibility helper + rating Zod + `submitRating` + phase gate
 2. `listRateableCandidates` (filters including `qualified`) + `listHighlightUnrated`
 3. `/imdb-lta/rate` UI (Destacadas + filters + 0–10 + fewest-ratings-first)
 4. Phase-aware hub on `/imdb-lta`
 5. Ranking query (avg, ≥5, tie-breakers) + `/imdb-lta/ranking` with live vs final copy
-6. Optional Movie denormalized LTA fields only if needed
-7. Verify: shared Godfather rate; solo lock; filters; Destacadas; under-5 stay rateable; ranking threshold and tie-breakers
+6. Optional Movie denormalized LTA fields — skipped (not needed)
+7. Verify: shared unlock; solo lock; filters; Destacadas; under-5 stay rateable; ranking threshold and tie-breakers
 
 ---
 
@@ -306,7 +310,7 @@ Example shape:
 - Editable / deletable ratings
 - Emails / notifications
 - TMDB name search
-- Full admin phase-management console
+- Full admin console beyond the hub phase switcher
 - Statistical ranking formulas beyond simple average + tie-breakers
 - Automated tests (unless the project adds a suite later)
 
@@ -322,17 +326,17 @@ Example shape:
 - [x] `/imdb-lta` page; sidebar + breadcrumb
 - [x] Closed-phase nomination rejection
 
-**Phases 2–3 — not started**
+**Phases 2–3 — done**
 
-- [ ] `canUserRateMovie` (shared unlock) + `submitRating` 0–10 + `assertRatingPhaseOpen`
-- [ ] Filters (`unrated`, `no_scores`, `low`, `close`, `qualified`, `mine_done`) + Destacadas
-- [ ] `/imdb-lta/rate` UI; coverage-first sort
-- [ ] Phase-aware hub; nominations read-only during rating
-- [ ] Ranking: AVG + ≥5 + tie-breakers; live vs final copy on `/imdb-lta/ranking`
-- [ ] Verify shared unlock, solo lock, filters, discovery, under-5 candidates, ranking
+- [x] `canUserRateMovie` (shared unlock) + `submitRating` 0–10 + `assertRatingPhaseOpen`
+- [x] Filters (`unrated`, `no_scores`, `low`, `close`, `qualified`, `mine_done`) + Destacadas
+- [x] `/imdb-lta/rate` UI; coverage-first sort
+- [x] Phase-aware hub; nominations read-only during rating
+- [x] Ranking: AVG + ≥5 + tie-breakers; live vs final copy on `/imdb-lta/ranking`
+- [x] Verify shared unlock, solo lock, filters, discovery, under-5 candidates, ranking
 
 ---
 
 ## Remaining unresolved product decisions
 
-None that block Phase 2/3 implementation. Scale (0–10), shared unlock, manual phase transitions, qualification (5), average + tie-breakers, and discovery-as-UX-only are finalized.
+None that block Phase 2/3. Scale (0–10), shared unlock, manual phase transitions, qualification (5), average + tie-breakers, and discovery-as-UX-only are finalized.

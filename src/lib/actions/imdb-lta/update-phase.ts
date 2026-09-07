@@ -8,7 +8,7 @@ import { updateImdbLtaPhaseSchema } from '@/lib/validations/imdb-lta';
 import type { ImdbLtaPhaseValue } from '@/lib/validations/imdb-lta';
 
 /**
- * Admin-only. No UI in Phase 1 — available for verification / future admin page.
+ * Admin-only phase flip. UI: ImdbLtaAdminPhaseSwitcher on /imdb-lta.
  */
 export async function updateImdbLtaPhaseAction(phase: ImdbLtaPhaseValue) {
   const session = await auth.api.getSession({
@@ -23,5 +23,7 @@ export async function updateImdbLtaPhaseAction(phase: ImdbLtaPhaseValue) {
   const result = await updateImdbLtaPhase(validated.phase);
 
   revalidatePath('/imdb-lta');
+  revalidatePath('/imdb-lta/rate');
+  revalidatePath('/imdb-lta/ranking');
   return result;
 }
