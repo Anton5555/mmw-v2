@@ -95,6 +95,8 @@ export function NominationBuilder({
   const count = movies.length;
   const state = progressState(count);
   const canSubmit = count >= IMDB_LTA_MIN_NOMINATIONS && isNominationOpen;
+  const isSaved =
+    Boolean(submittedAt) && count >= IMDB_LTA_MIN_NOMINATIONS;
 
   const handleLookup = () => {
     const trimmed = query.trim();
@@ -174,8 +176,13 @@ export function NominationBuilder({
     setPendingMovieId(movieId);
     startLookup(async () => {
       try {
-        await removeNominationAction(movieId);
+        const result = await removeNominationAction(movieId);
         setMovies((prev) => prev.filter((m) => m.id !== movieId));
+        setSubmittedAt(
+          result.submittedAt
+            ? new Date(result.submittedAt).toISOString()
+            : null
+        );
         toast.success('Película eliminada de tu lista');
       } catch (error) {
         const msg =
@@ -241,7 +248,7 @@ export function NominationBuilder({
             </p>
           </div>
         </div>
-      ) : submittedAt ? (
+      ) : isSaved ? (
         <div className="flex items-start gap-3 rounded-2xl border border-emerald-500/20 bg-emerald-950/40 p-4">
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
           <div className="space-y-1">
@@ -415,7 +422,7 @@ export function NominationBuilder({
       {isNominationOpen && (
         <footer className="sticky bottom-6 flex gap-4 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 shadow-2xl backdrop-blur-xl">
           <div className="hidden flex-1 self-center text-xs text-zinc-500 sm:block">
-            {submittedAt
+            {isSaved
               ? 'Podés seguir editando y guardar de nuevo.'
               : count < IMDB_LTA_MIN_NOMINATIONS
                 ? `Agregá al menos ${IMDB_LTA_MIN_NOMINATIONS - count} más para poder guardar.`

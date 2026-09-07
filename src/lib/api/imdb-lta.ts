@@ -95,9 +95,15 @@ export async function getMyNominationList(
     nominatedAt: n.createdAt,
   }));
 
+  const submittedAt = await unsubmitIfBelowMinimum(
+    list.id,
+    movies.length,
+    list.submittedAt
+  );
+
   return {
     id: list.id,
-    submittedAt: list.submittedAt,
+    submittedAt,
     movies,
     count: movies.length,
   };
@@ -109,6 +115,24 @@ async function ensureNominationList(userId: string) {
     create: { userId },
     update: {},
   });
+}
+
+/** Guardar is only valid while the list still has 25–50 films. */
+async function unsubmitIfBelowMinimum(
+  listId: number,
+  count: number,
+  submittedAt: Date | null
+) {
+  if (!submittedAt || count >= IMDB_LTA_MIN_NOMINATIONS) {
+    return submittedAt;
+  }
+
+  await prisma.imdbLtaNominationList.update({
+    where: { id: listId },
+    data: { submittedAt: null },
+  });
+
+  return null;
 }
 
 /**
@@ -244,11 +268,21 @@ export async function removeNomination(userId: string, movieId: number) {
     where: { id: nomination.id },
   });
 
-  const count = await prisma.imdbLtaNomination.count({
-    where: { userId },
-  });
+  const [count, list] = await Promise.all([
+    prisma.imdbLtaNomination.count({
+      where: { userId },
+    }),
+    prisma.imdbLtaNominationList.findUnique({
+      where: { userId },
+      select: { id: true, submittedAt: true },
+    }),
+  ]);
 
-  return { count };
+  const submittedAt = list
+    ? await unsubmitIfBelowMinimum(list.id, count, list.submittedAt)
+    : null;
+
+  return { count, submittedAt };
 }
 
 export async function submitNominations(userId: string) {
