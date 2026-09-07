@@ -76,7 +76,11 @@ export const ModelName = {
   Director: 'Director',
   MovieDirector: 'MovieDirector',
   Country: 'Country',
-  MovieCountry: 'MovieCountry'
+  MovieCountry: 'MovieCountry',
+  ImdbLtaConfig: 'ImdbLtaConfig',
+  ImdbLtaNominationList: 'ImdbLtaNominationList',
+  ImdbLtaNomination: 'ImdbLtaNomination',
+  ImdbLtaRating: 'ImdbLtaRating'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,6 +419,48 @@ export const MovieCountryScalarFieldEnum = {
 } as const
 
 export type MovieCountryScalarFieldEnum = (typeof MovieCountryScalarFieldEnum)[keyof typeof MovieCountryScalarFieldEnum]
+
+
+export const ImdbLtaConfigScalarFieldEnum = {
+  id: 'id',
+  phase: 'phase',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImdbLtaConfigScalarFieldEnum = (typeof ImdbLtaConfigScalarFieldEnum)[keyof typeof ImdbLtaConfigScalarFieldEnum]
+
+
+export const ImdbLtaNominationListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  submittedAt: 'submittedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImdbLtaNominationListScalarFieldEnum = (typeof ImdbLtaNominationListScalarFieldEnum)[keyof typeof ImdbLtaNominationListScalarFieldEnum]
+
+
+export const ImdbLtaNominationScalarFieldEnum = {
+  id: 'id',
+  listId: 'listId',
+  userId: 'userId',
+  movieId: 'movieId',
+  createdAt: 'createdAt'
+} as const
+
+export type ImdbLtaNominationScalarFieldEnum = (typeof ImdbLtaNominationScalarFieldEnum)[keyof typeof ImdbLtaNominationScalarFieldEnum]
+
+
+export const ImdbLtaRatingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  movieId: 'movieId',
+  score: 'score',
+  createdAt: 'createdAt'
+} as const
+
+export type ImdbLtaRatingScalarFieldEnum = (typeof ImdbLtaRatingScalarFieldEnum)[keyof typeof ImdbLtaRatingScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -50,6 +50,8 @@ model Movie {
   genres               MovieGenre[]
   directors            MovieDirector[]
   countries            MovieCountry[]
+  imdbLtaNominations   ImdbLtaNomination[]
+  imdbLtaRatings       ImdbLtaRating[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -95,8 +97,11 @@ model User {
   Event               Event[]
   MamParticipant      MamParticipant?
   BoardPost           BoardPost[]
-  yearTopParticipants YearTopParticipant[]
-  oscarBallots        OscarBallot[]
+  yearTopParticipants     YearTopParticipant[]
+  oscarBallots            OscarBallot[]
+  imdbLtaNominationList   ImdbLtaNominationList?
+  imdbLtaNominations      ImdbLtaNomination[]
+  imdbLtaRatings          ImdbLtaRating[]
 
   @@map("user")
 }
@@ -421,4 +426,57 @@ model MovieCountry {
   @@unique([movieId, countryId])
   @@index([movieId])
   @@index([countryId])
+}
+
+enum ImdbLtaPhase {
+  NOMINATION_OPEN
+  NOMINATION_CLOSED
+  RATING_OPEN
+  RATING_CLOSED
+}
+
+model ImdbLtaConfig {
+  id        Int          @id @default(1)
+  phase     ImdbLtaPhase @default(NOMINATION_OPEN)
+  updatedAt DateTime     @updatedAt
+}
+
+model ImdbLtaNominationList {
+  id          Int                 @id @default(autoincrement())
+  userId      String              @unique
+  submittedAt DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nominations ImdbLtaNomination[]
+}
+
+model ImdbLtaNomination {
+  id        Int                   @id @default(autoincrement())
+  listId    Int
+  userId    String
+  movieId   Int
+  createdAt DateTime              @default(now())
+  list      ImdbLtaNominationList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie                 @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@index([movieId])
+  @@index([listId])
+  @@index([userId])
+}
+
+model ImdbLtaRating {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  movieId   Int
+  score     Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@index([movieId])
+  @@index([userId])
 }

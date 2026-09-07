@@ -169,3 +169,23 @@ export type Country = Prisma.CountryModel
  * 
  */
 export type MovieCountry = Prisma.MovieCountryModel
+/**
+ * Model ImdbLtaConfig
+ * 
+ */
+export type ImdbLtaConfig = Prisma.ImdbLtaConfigModel
+/**
+ * Model ImdbLtaNominationList
+ * 
+ */
+export type ImdbLtaNominationList = Prisma.ImdbLtaNominationListModel
+/**
+ * Model ImdbLtaNomination
+ * 
+ */
+export type ImdbLtaNomination = Prisma.ImdbLtaNominationModel
+/**
+ * Model ImdbLtaRating
+ * 
+ */
+export type ImdbLtaRating = Prisma.ImdbLtaRatingModel

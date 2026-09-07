@@ -35,3 +35,13 @@ export const YearTopPickType = {
 } as const
 
 export type YearTopPickType = (typeof YearTopPickType)[keyof typeof YearTopPickType]
+
+
+export const ImdbLtaPhase = {
+  NOMINATION_OPEN: 'NOMINATION_OPEN',
+  NOMINATION_CLOSED: 'NOMINATION_CLOSED',
+  RATING_OPEN: 'RATING_OPEN',
+  RATING_CLOSED: 'RATING_CLOSED'
+} as const
+
+export type ImdbLtaPhase = (typeof ImdbLtaPhase)[keyof typeof ImdbLtaPhase]

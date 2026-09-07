@@ -237,6 +237,9 @@ export type UserWhereInput = {
   BoardPost?: Prisma.BoardPostListRelationFilter
   yearTopParticipants?: Prisma.YearTopParticipantListRelationFilter
   oscarBallots?: Prisma.OscarBallotListRelationFilter
+  imdbLtaNominationList?: Prisma.XOR<Prisma.ImdbLtaNominationListNullableScalarRelationFilter, Prisma.ImdbLtaNominationListWhereInput> | null
+  imdbLtaNominations?: Prisma.ImdbLtaNominationListRelationFilter
+  imdbLtaRatings?: Prisma.ImdbLtaRatingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -258,6 +261,9 @@ export type UserOrderByWithRelationInput = {
   BoardPost?: Prisma.BoardPostOrderByRelationAggregateInput
   yearTopParticipants?: Prisma.YearTopParticipantOrderByRelationAggregateInput
   oscarBallots?: Prisma.OscarBallotOrderByRelationAggregateInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListOrderByWithRelationInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationOrderByRelationAggregateInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -282,6 +288,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   BoardPost?: Prisma.BoardPostListRelationFilter
   yearTopParticipants?: Prisma.YearTopParticipantListRelationFilter
   oscarBallots?: Prisma.OscarBallotListRelationFilter
+  imdbLtaNominationList?: Prisma.XOR<Prisma.ImdbLtaNominationListNullableScalarRelationFilter, Prisma.ImdbLtaNominationListWhereInput> | null
+  imdbLtaNominations?: Prisma.ImdbLtaNominationListRelationFilter
+  imdbLtaRatings?: Prisma.ImdbLtaRatingListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -337,6 +346,9 @@ export type UserCreateInput = {
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -358,6 +370,9 @@ export type UserUncheckedCreateInput = {
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -379,6 +394,9 @@ export type UserUpdateInput = {
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -400,6 +418,9 @@ export type UserUncheckedUpdateInput = {
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -614,6 +635,48 @@ export type UserUpdateOneRequiredWithoutOscarBallotsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOscarBallotsInput, Prisma.UserUpdateWithoutOscarBallotsInput>, Prisma.UserUncheckedUpdateWithoutOscarBallotsInput>
 }
 
+export type UserCreateNestedOneWithoutImdbLtaNominationListInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationListInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaNominationListInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutImdbLtaNominationListNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationListInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaNominationListInput
+  upsert?: Prisma.UserUpsertWithoutImdbLtaNominationListInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutImdbLtaNominationListInput, Prisma.UserUpdateWithoutImdbLtaNominationListInput>, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationListInput>
+}
+
+export type UserCreateNestedOneWithoutImdbLtaNominationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaNominationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutImdbLtaNominationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaNominationsInput
+  upsert?: Prisma.UserUpsertWithoutImdbLtaNominationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutImdbLtaNominationsInput, Prisma.UserUpdateWithoutImdbLtaNominationsInput>, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationsInput>
+}
+
+export type UserCreateNestedOneWithoutImdbLtaRatingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedCreateWithoutImdbLtaRatingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaRatingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutImdbLtaRatingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedCreateWithoutImdbLtaRatingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutImdbLtaRatingsInput
+  upsert?: Prisma.UserUpsertWithoutImdbLtaRatingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutImdbLtaRatingsInput, Prisma.UserUpdateWithoutImdbLtaRatingsInput>, Prisma.UserUncheckedUpdateWithoutImdbLtaRatingsInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   name: string
@@ -632,6 +695,9 @@ export type UserCreateWithoutSessionsInput = {
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -652,6 +718,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -688,6 +757,9 @@ export type UserUpdateWithoutSessionsInput = {
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -708,6 +780,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -728,6 +803,9 @@ export type UserCreateWithoutAccountsInput = {
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -748,6 +826,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -784,6 +865,9 @@ export type UserUpdateWithoutAccountsInput = {
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -804,6 +888,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEventInput = {
@@ -824,6 +911,9 @@ export type UserCreateWithoutEventInput = {
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEventInput = {
@@ -844,6 +934,9 @@ export type UserUncheckedCreateWithoutEventInput = {
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEventInput = {
@@ -880,6 +973,9 @@ export type UserUpdateWithoutEventInput = {
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventInput = {
@@ -900,6 +996,9 @@ export type UserUncheckedUpdateWithoutEventInput = {
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMamParticipantInput = {
@@ -920,6 +1019,9 @@ export type UserCreateWithoutMamParticipantInput = {
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMamParticipantInput = {
@@ -940,6 +1042,9 @@ export type UserUncheckedCreateWithoutMamParticipantInput = {
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMamParticipantInput = {
@@ -976,6 +1081,9 @@ export type UserUpdateWithoutMamParticipantInput = {
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMamParticipantInput = {
@@ -996,6 +1104,9 @@ export type UserUncheckedUpdateWithoutMamParticipantInput = {
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBoardPostInput = {
@@ -1016,6 +1127,9 @@ export type UserCreateWithoutBoardPostInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBoardPostInput = {
@@ -1036,6 +1150,9 @@ export type UserUncheckedCreateWithoutBoardPostInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBoardPostInput = {
@@ -1072,6 +1189,9 @@ export type UserUpdateWithoutBoardPostInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBoardPostInput = {
@@ -1092,6 +1212,9 @@ export type UserUncheckedUpdateWithoutBoardPostInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutYearTopParticipantsInput = {
@@ -1112,6 +1235,9 @@ export type UserCreateWithoutYearTopParticipantsInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutYearTopParticipantsInput = {
@@ -1132,6 +1258,9 @@ export type UserUncheckedCreateWithoutYearTopParticipantsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutYearTopParticipantsInput = {
@@ -1168,6 +1297,9 @@ export type UserUpdateWithoutYearTopParticipantsInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutYearTopParticipantsInput = {
@@ -1188,6 +1320,9 @@ export type UserUncheckedUpdateWithoutYearTopParticipantsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOscarBallotsInput = {
@@ -1208,6 +1343,9 @@ export type UserCreateWithoutOscarBallotsInput = {
   MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOscarBallotsInput = {
@@ -1228,6 +1366,9 @@ export type UserUncheckedCreateWithoutOscarBallotsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
   BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOscarBallotsInput = {
@@ -1264,6 +1405,9 @@ export type UserUpdateWithoutOscarBallotsInput = {
   MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOscarBallotsInput = {
@@ -1284,6 +1428,333 @@ export type UserUncheckedUpdateWithoutOscarBallotsInput = {
   MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
   BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
   yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutImdbLtaNominationListInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutImdbLtaNominationListInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutImdbLtaNominationListInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationListInput>
+}
+
+export type UserUpsertWithoutImdbLtaNominationListInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationListInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationListInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutImdbLtaNominationListInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaNominationListInput, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationListInput>
+}
+
+export type UserUpdateWithoutImdbLtaNominationListInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutImdbLtaNominationListInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutImdbLtaNominationsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutImdbLtaNominationsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutImdbLtaNominationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationsInput>
+}
+
+export type UserUpsertWithoutImdbLtaNominationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedCreateWithoutImdbLtaNominationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutImdbLtaNominationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaNominationsInput, Prisma.UserUncheckedUpdateWithoutImdbLtaNominationsInput>
+}
+
+export type UserUpdateWithoutImdbLtaNominationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutImdbLtaNominationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaRatings?: Prisma.ImdbLtaRatingUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutImdbLtaRatingsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutImdbLtaRatingsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Event?: Prisma.EventUncheckedCreateNestedManyWithoutCreatedByUserInput
+  MamParticipant?: Prisma.MamParticipantUncheckedCreateNestedOneWithoutUserInput
+  BoardPost?: Prisma.BoardPostUncheckedCreateNestedManyWithoutCreatedByUserInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedCreateNestedManyWithoutUserInput
+  oscarBallots?: Prisma.OscarBallotUncheckedCreateNestedManyWithoutUserInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedCreateNestedOneWithoutUserInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutImdbLtaRatingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedCreateWithoutImdbLtaRatingsInput>
+}
+
+export type UserUpsertWithoutImdbLtaRatingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedUpdateWithoutImdbLtaRatingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedCreateWithoutImdbLtaRatingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutImdbLtaRatingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutImdbLtaRatingsInput, Prisma.UserUncheckedUpdateWithoutImdbLtaRatingsInput>
+}
+
+export type UserUpdateWithoutImdbLtaRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutImdbLtaRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Event?: Prisma.EventUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  MamParticipant?: Prisma.MamParticipantUncheckedUpdateOneWithoutUserNestedInput
+  BoardPost?: Prisma.BoardPostUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  yearTopParticipants?: Prisma.YearTopParticipantUncheckedUpdateManyWithoutUserNestedInput
+  oscarBallots?: Prisma.OscarBallotUncheckedUpdateManyWithoutUserNestedInput
+  imdbLtaNominationList?: Prisma.ImdbLtaNominationListUncheckedUpdateOneWithoutUserNestedInput
+  imdbLtaNominations?: Prisma.ImdbLtaNominationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1298,6 +1769,8 @@ export type UserCountOutputType = {
   BoardPost: number
   yearTopParticipants: number
   oscarBallots: number
+  imdbLtaNominations: number
+  imdbLtaRatings: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1307,6 +1780,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   BoardPost?: boolean | UserCountOutputTypeCountBoardPostArgs
   yearTopParticipants?: boolean | UserCountOutputTypeCountYearTopParticipantsArgs
   oscarBallots?: boolean | UserCountOutputTypeCountOscarBallotsArgs
+  imdbLtaNominations?: boolean | UserCountOutputTypeCountImdbLtaNominationsArgs
+  imdbLtaRatings?: boolean | UserCountOutputTypeCountImdbLtaRatingsArgs
 }
 
 /**
@@ -1361,6 +1836,20 @@ export type UserCountOutputTypeCountOscarBallotsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.OscarBallotWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountImdbLtaNominationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImdbLtaNominationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountImdbLtaRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImdbLtaRatingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1381,6 +1870,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   BoardPost?: boolean | Prisma.User$BoardPostArgs<ExtArgs>
   yearTopParticipants?: boolean | Prisma.User$yearTopParticipantsArgs<ExtArgs>
   oscarBallots?: boolean | Prisma.User$oscarBallotsArgs<ExtArgs>
+  imdbLtaNominationList?: boolean | Prisma.User$imdbLtaNominationListArgs<ExtArgs>
+  imdbLtaNominations?: boolean | Prisma.User$imdbLtaNominationsArgs<ExtArgs>
+  imdbLtaRatings?: boolean | Prisma.User$imdbLtaRatingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1435,6 +1927,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   BoardPost?: boolean | Prisma.User$BoardPostArgs<ExtArgs>
   yearTopParticipants?: boolean | Prisma.User$yearTopParticipantsArgs<ExtArgs>
   oscarBallots?: boolean | Prisma.User$oscarBallotsArgs<ExtArgs>
+  imdbLtaNominationList?: boolean | Prisma.User$imdbLtaNominationListArgs<ExtArgs>
+  imdbLtaNominations?: boolean | Prisma.User$imdbLtaNominationsArgs<ExtArgs>
+  imdbLtaRatings?: boolean | Prisma.User$imdbLtaRatingsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1450,6 +1945,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     BoardPost: Prisma.$BoardPostPayload<ExtArgs>[]
     yearTopParticipants: Prisma.$YearTopParticipantPayload<ExtArgs>[]
     oscarBallots: Prisma.$OscarBallotPayload<ExtArgs>[]
+    imdbLtaNominationList: Prisma.$ImdbLtaNominationListPayload<ExtArgs> | null
+    imdbLtaNominations: Prisma.$ImdbLtaNominationPayload<ExtArgs>[]
+    imdbLtaRatings: Prisma.$ImdbLtaRatingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1864,6 +2362,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   BoardPost<T extends Prisma.User$BoardPostArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$BoardPostArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BoardPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   yearTopParticipants<T extends Prisma.User$yearTopParticipantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$yearTopParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$YearTopParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   oscarBallots<T extends Prisma.User$oscarBallotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$oscarBallotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OscarBallotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  imdbLtaNominationList<T extends Prisma.User$imdbLtaNominationListArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$imdbLtaNominationListArgs<ExtArgs>>): Prisma.Prisma__ImdbLtaNominationListClient<runtime.Types.Result.GetResult<Prisma.$ImdbLtaNominationListPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  imdbLtaNominations<T extends Prisma.User$imdbLtaNominationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$imdbLtaNominationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImdbLtaNominationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  imdbLtaRatings<T extends Prisma.User$imdbLtaRatingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$imdbLtaRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImdbLtaRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2452,6 +2953,73 @@ export type User$oscarBallotsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.OscarBallotScalarFieldEnum | Prisma.OscarBallotScalarFieldEnum[]
+}
+
+/**
+ * User.imdbLtaNominationList
+ */
+export type User$imdbLtaNominationListArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImdbLtaNominationList
+   */
+  select?: Prisma.ImdbLtaNominationListSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImdbLtaNominationList
+   */
+  omit?: Prisma.ImdbLtaNominationListOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImdbLtaNominationListInclude<ExtArgs> | null
+  where?: Prisma.ImdbLtaNominationListWhereInput
+}
+
+/**
+ * User.imdbLtaNominations
+ */
+export type User$imdbLtaNominationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImdbLtaNomination
+   */
+  select?: Prisma.ImdbLtaNominationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImdbLtaNomination
+   */
+  omit?: Prisma.ImdbLtaNominationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImdbLtaNominationInclude<ExtArgs> | null
+  where?: Prisma.ImdbLtaNominationWhereInput
+  orderBy?: Prisma.ImdbLtaNominationOrderByWithRelationInput | Prisma.ImdbLtaNominationOrderByWithRelationInput[]
+  cursor?: Prisma.ImdbLtaNominationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImdbLtaNominationScalarFieldEnum | Prisma.ImdbLtaNominationScalarFieldEnum[]
+}
+
+/**
+ * User.imdbLtaRatings
+ */
+export type User$imdbLtaRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImdbLtaRating
+   */
+  select?: Prisma.ImdbLtaRatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImdbLtaRating
+   */
+  omit?: Prisma.ImdbLtaRatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImdbLtaRatingInclude<ExtArgs> | null
+  where?: Prisma.ImdbLtaRatingWhereInput
+  orderBy?: Prisma.ImdbLtaRatingOrderByWithRelationInput | Prisma.ImdbLtaRatingOrderByWithRelationInput[]
+  cursor?: Prisma.ImdbLtaRatingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImdbLtaRatingScalarFieldEnum | Prisma.ImdbLtaRatingScalarFieldEnum[]
 }
 
 /**

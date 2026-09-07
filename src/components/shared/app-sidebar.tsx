@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar, ClipboardList, Film, Info, NotebookTabs, Trophy } from 'lucide-react';
+import { Calendar, Clapperboard, ClipboardList, Film, Info, NotebookTabs, Trophy } from 'lucide-react';
 import { OscarIcon } from '@/components/icons/oscar-icon';
 
 import {
@@ -41,6 +41,11 @@ const navItems = [
     title: 'MAM',
     url: '/mam',
     icon: Film,
+  },
+  {
+    title: 'IMDB LTA',
+    url: '/imdb-lta',
+    icon: Clapperboard,
   },
   {
     title: 'Top del Año',
