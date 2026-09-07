@@ -1,16 +1,57 @@
-# IMDB LTA — process and rules (team review)
+# IMDB LTA — product, process, and implementation plan
 
-Community ranking of IMDb films, next to MAM. Three steps: **nominate → score → rank by average**.
+Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 
-Use this doc to confirm the rules before Phase 2 is built. Nomination count is **never** ranking points.
+**NOMINATE → SCORE → RANK**
 
 | Piece | Status | Route |
 | --- | --- | --- |
-| Nominations | Shipped | `/imdb-lta` |
-| Ratings | Planned | `/imdb-lta/rate` |
-| Ranking | Planned | `/imdb-lta/ranking` |
+| Nominations (Phase 1) | Shipped | `/imdb-lta` |
+| Ratings (Phase 2) | Planned — do not implement until a dedicated task | `/imdb-lta/rate` |
+| Ranking (Phase 3) | Planned — do not implement until a dedicated task | `/imdb-lta/ranking` |
 
-UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI hides controls when a phase is closed; the real lock is inside each server action.
+UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI reflects closed states; **server-side phase guards are the real protection**.
+
+This document is the product/process source of truth and the implementation-ready plan for Phases 2 and 3. Phase 1 code already matches the shipped sections below.
+
+---
+
+## Product principles (v1)
+
+| Principle | Meaning |
+| --- | --- |
+| Nominations define the universe | Phase 1 decides which movies are candidates |
+| Ratings define quality | Score comes only from user ratings (integers 0–10) |
+| Rating count defines qualification | A movie needs ≥5 ratings from **distinct users** to enter the official ranking |
+| Average defines rank | Among qualified movies, primary sort is average score DESC |
+| Nomination count never matters for ranking | 1 nominator or 30: still one candidate; zero ranking points from nominations |
+| Rating count does not directly matter for ranking | Extra ratings do not add points. Count is only: (1) qualification threshold, (2) tie-breaker when averages are equal |
+| Discovery does not influence ranking | Sort/filter/featured order is UX-only. Showing a movie more often never gives ranking points |
+
+Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, editable ratings, rating deletion, emails/notifications, TMDB name search, full admin console, or an automated test suite (the repo has none).
+
+---
+
+## Terminology
+
+Keep these distinct in code, UI, and docs:
+
+| Term | Definition |
+| --- | --- |
+| **Candidate** | A movie that appears in at least one nomination after `NOMINATION_CLOSED`. Frozen universe for the whole rating phase. |
+| **Eligible to rate** | A candidate the current user is allowed to score under the shared-unlock rule, and has not already rated, while `RATING_OPEN`. |
+| **Qualified for ranking** | A candidate with ≥5 ratings from distinct users. Prefer “Qualified” over “ranked” for the 5+ filter — 5 ratings unlock eligibility to appear in the ranking, they do not set position. |
+| **Officially ranked** | Position on `/imdb-lta/ranking` among qualified movies, sorted by average (then tie-breakers). Final/official only after `RATING_CLOSED`; during `RATING_OPEN` the same page may show **live/provisional** results. |
+
+Also keep separate from domain models:
+
+| Concept | What it is | Status |
+| --- | --- | --- |
+| **Movie** | Catalog row. Unique on `imdbId`. No LTA score columns required for Phase 2. | Exists |
+| **Nomination** | User ↔ movie. Unique `(userId, movieId)`. Count is not a ranking input. | Exists |
+| **Rating** | Independent user ↔ movie integer score 0–10. Unique `(userId, movieId)`. | Schema stub ready; API/UI are Phase 2 |
+
+Do not mix with MAM (nomination-as-points), Oscars (one-shot ballot), or Create List (bulk IMDb textarea).
 
 ---
 
@@ -18,160 +59,256 @@ UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), no
 
 ```
 NOMINATION_OPEN  →  NOMINATION_CLOSED  →  RATING_OPEN  →  RATING_CLOSED
-   (live now)          lists freeze         Phase 2          Phase 3 ranking
+   Phase 1 live        freeze candidates      Phase 2         Phase 3 final
 ```
+
+All transitions are **manual admin actions**. Nothing auto-closes because “everyone submitted,” “enough ratings,” or any heuristic.
 
 | Phase | Nominations | Ratings | Ranking page |
 | --- | --- | --- | --- |
-| `NOMINATION_OPEN` (now) | Add, remove, Guardar. Editable after save. | Closed | Not built |
-| `NOMINATION_CLOSED` | Read-only list | Closed | Not built |
-| `RATING_OPEN` | Frozen | Score eligible films 0–10 | Can show live averages |
-| `RATING_CLOSED` | Frozen | Read-only personal scores | Durable official list |
+| `NOMINATION_OPEN` | Add, remove, Guardar. Editable after save. | Closed | N/A |
+| `NOMINATION_CLOSED` | Read-only. Candidate universe frozen. | Closed | N/A |
+| `RATING_OPEN` | Frozen. Mutations rejected server-side. | Score eligible films 0–10 | Live/provisional for qualified movies |
+| `RATING_CLOSED` | Frozen | No new ratings. Personal scores view-only. | **Official / final** IMDB LTA ranking |
 
-Admin close UI is **not built**. Flip phase in Prisma Studio or via `updateImdbLtaPhase` (admin session). A small admin switcher can be a follow-up.
+Admin phase UI is **not built**. Flip via Prisma Studio or `updateImdbLtaPhase` / `updateImdbLtaPhaseAction` (admin session). A small switcher is a follow-up, not a blocker.
 
----
+### Nomination closure (manual)
 
-## Three concepts, kept separate
+`NOMINATION_OPEN → NOMINATION_CLOSED` is explicit. Until closed:
 
-| Concept | What it is | Status |
-| --- | --- | --- |
-| **Movie** | Catalog row. Unique on IMDb ID. No LTA score columns in Phase 1. | Exists |
-| **Nomination** | User ↔ movie eligibility. Count of nominators is not a ranking input. Unique per (user, movie). | Exists |
-| **Rating** | Independent user ↔ movie score 0–10. | Schema stub ready; API/UI are Phase 2 |
+- users may still edit lists (add/remove/save again)
+- latest valid state remains editable
 
-Do not mix with:
+Once `NOMINATION_CLOSED`:
 
-- **MAM** — nomination count must never become ranking points
-- **Oscars** — submit is not one-shot; saved ≠ locked until the phase closes
-- **Create list** — reuse visual language and TMDB persist, not the bulk-textarea flow
-- **TMDB search by name** — exists in the client, unused, and forbidden for LTA lookup
+- candidate universe is frozen: `DISTINCT movieId` from all nomination rows
+- no nomination mutations (server rejects)
+- Phase 2 operates only on that frozen set
+- **no new candidates** during rating
+
+Nomination count never becomes ranking points. A movie nominated by 1 user and one nominated by 30 users are each simply one candidate.
 
 ---
 
 ## Phase 1 — Nominations (shipped)
 
-Authenticated users (same as MAM) build a personal list of 25–50 films.
+Authenticated users build a personal list of 25–50 films at `/imdb-lta`.
 
 ### Lookup on Enter
 
 | Input | First look | If miss | If several hits |
 | --- | --- | --- | --- |
-| IMDb ID (`tt` + 7–8 digits) | Internal movie by `imdbId` | TMDB find + persist, then add | N/A (unique ID) |
-| Title text | Internal title / originalTitle contains | Ask for IMDb ID. **No TMDB name search.** | In-app picker of internal hits only. Never auto-pick. |
+| IMDb ID (`tt` + 7–8 digits) | Internal movie by `imdbId` | TMDB find + persist, then add | N/A |
+| Title text | Internal title / originalTitle contains | Ask for IMDb ID. **No TMDB name search.** | In-app picker of internal hits only |
 
-Successful TMDB lookups persist the Movie even before add, so the next person hits the internal DB. Duplicate add → toast. 51st add rejected.
+**SUBMITTED ≠ LOCKED.** `submittedAt` is “last Guardar with a valid 25–50 list.” Locking is only `phase !== NOMINATION_OPEN`.
 
-### Page behavior
-
-- Progress: `{n} / 25–50 películas` (incomplete under 25, valid 25–49, max 50)
-- Review grid always visible from 0. Poster cards + Remove while open
-- **Guardar lista** enabled at ≥25. Does **not** freeze the list
-- After save: banner that the list is saved and still editable until nominations close
-- When closed: same grid, no input / remove / save
-
-**SUBMITTED ≠ LOCKED.** `submittedAt` is “last time this list was valid (25–50) and the user clicked Guardar.” If they later drop below 25, `submittedAt` is cleared until they Guardar again. Locking is only `phase !== NOMINATION_OPEN`.
-
-Add/remove write immediately (no local-only drafts). Every mutation starts with `assertNominationPhaseOpen()`. Submit re-counts DB rows and never trusts the client array. Two users nominating the same film = two nomination rows, one Movie.
+Every mutation calls `assertNominationPhaseOpen()`. Add/remove persist immediately.
 
 ---
 
 ## Phase 2 — Ratings (planned)
 
-`/imdb-lta/rate` when phase is `RATING_OPEN`. No schema change — `ImdbLtaRating` was stubbed in Phase 1. Nomination lists stay read-only.
+Route: `/imdb-lta/rate`. Extend [`src/lib/api/imdb-lta.ts`](src/lib/api/imdb-lta.ts), validations in [`src/lib/validations/imdb-lta.ts`](src/lib/validations/imdb-lta.ts), actions under `src/lib/actions/imdb-lta/`. No schema change required — `ImdbLtaRating` already exists.
 
-### Who can rate a movie?
+### 2.1 Rating scale
 
-All four must be true. Enforced in `submitRating` / `canUserRateMovie`, not only in the UI.
+- Integers **0 through 10** only
+- No decimals, no half points
+- `0` is valid; `10` is maximum
+- Stored value is the integer score
+- UI must make the 0–10 scale obvious; stars only if they map 1:1 to that integer (optional visual)
+
+Suggested meaning for users (copy guidance, not separate schema):
+
+| Score | Meaning |
+| --- | --- |
+| 0 | Mala / no recomendable |
+| 5 | Promedio |
+| 7 | Buena |
+| 8 | Muy buena |
+| 9 | Excelente |
+| 10 | Obra maestra |
+
+### 2.2 Who can rate (shared unlock)
+
+All must hold. Enforce in `canUserRateMovie` / `submitRating` (server), not only UI:
 
 1. Phase is `RATING_OPEN`
-2. Movie is a candidate (at least one nomination exists)
-3. This user has not already rated it
-4. **Either** they did **not** nominate it, **or** they did **and** at least one other user nominated it too
+2. Movie is in the frozen candidate universe
+3. User has not already rated that movie
+4. **Either** the user did **not** nominate it, **or** they nominated it **and** `COUNT(nominations for movieId) >= 2`
 
-A user **cannot** rate a movie that only they nominated.
-
-**This replaces the Phase 1 sketch** (“never rate your own nominations”). If everyone nominates The Godfather, the old rule would leave it unrateable. With this rule, all nominators can score it.
-
-| Situation | Can they rate? |
+| Situation | Can rate? |
 | --- | --- |
-| Did not nominate it, someone else did | Yes |
-| Nominated it, and so did someone else | Yes (shared unlock) |
-| Only they nominated it | No (solo lock) |
-| Already submitted a score | No (one rating per user/movie) |
-| Phase is not `RATING_OPEN` | No |
+| Did not nominate; someone else did | Yes |
+| Nominated; at least one other also nominated | Yes (shared unlock) |
+| Only they nominated it | **No** (solo lock) |
+| Already rated | No |
+| Phase ≠ `RATING_OPEN` | No |
 
-Integer scores **0–10** only; no decimals. Ratings are **immutable in v1** (review later, no edit).
+Rationale: if everyone nominates The Godfather, a “never rate your nominations” rule would leave it unrateable.
 
-Default sort for the main grid: fewest ratings first, then title — so votes spread instead of piling onto the same ten films.
+### 2.3 One rating per user/movie (v1 immutable)
 
-### Filters
+- Unique `(userId, movieId)`
+- No edit, no delete in v1
+- Unrated lists must not include already-rated movies
+- `mine_done` may show past scores as view-only
 
-| Key | Meaning |
-| --- | --- |
-| `unrated` | Sin tu puntaje — eligible and not yet scored by you |
-| `no_scores` | 0 ratings globally, still eligible for you |
-| `low` | 0–2 ratings |
-| `close` | 3–4 ratings (one or two away from ranking) |
-| `ranked` | 5+ ratings (already qualifies) |
-| `mine_done` | You already rated — view only, no edit in v1 |
+### 2.4 Rating phase closure (manual)
 
-### Discovery strip
+`RATING_OPEN → RATING_CLOSED` is admin-only. Do not auto-close.
 
-**Destacadas sin tu puntaje** — about 8–12 films you can still rate, that already have at least one score, ordered by current average then rating count. Same 0–10 control as the grid. Promotional, not a replacement for filters.
+When `RATING_CLOSED`:
+
+- reject new ratings server-side
+- ranking uses the completed dataset as **official/final**
+
+### 2.5 Discovery / main list UX
+
+Goal: distribute ratings across the candidate universe (“help **complete** the ranking”), not concentrate on famous titles. Discovery/sort is **UX-only** and must never affect ranking scores.
+
+**Main grid default sort:**
+
+1. Eligible unrated movies with the **fewest** global ratings first
+2. Then title ASC
+
+Avoid repeatedly pushing the same movie to the same user when other eligible unrated movies remain.
+
+**Rating page flow:** discover eligible movie → poster/title → score 0–10 → submit → move efficiently to another unrated movie.
+
+### 2.6 Filters
+
+| Key | UI label guidance | Meaning |
+| --- | --- | --- |
+| `unrated` | Sin tu puntaje | Eligible for current user; not yet rated by them |
+| `no_scores` | Sin puntajes | 0 global ratings; still eligible for user |
+| `low` | Pocas puntuaciones | 0–2 global ratings |
+| `close` | Cerca de calificar | 3–4 global ratings |
+| `qualified` | Calificadas | ≥5 global ratings (**not** “ranked” — qualification only) |
+| `mine_done` | Ya puntuadas | Current user already rated — view-only |
+
+Prefer filter key `qualified` over `ranked`.
+
+### 2.7 Featured discovery strip
+
+**Destacadas sin tu puntaje** (~8–12 movies):
+
+- eligible for current user, not yet rated by them
+- at least one global rating
+- order: average score DESC, then rating count DESC
+
+Does **not** replace filters. Does **not** affect ranking. Same 0–10 control as the grid.
+
+### 2.8 Movies below the 5-rating threshold
+
+Movies with fewer than 5 ratings:
+
+- remain candidates
+- remain rateable while `RATING_OPEN` (if user-eligible)
+- remain visible via filters / discovery
+- are **not** on the official ranking list until they reach 5
+
+They must not disappear solely because they are under the threshold.
+
+### 2.9 API surface (implementation checklist)
+
+- `assertRatingPhaseOpen()`
+- `canUserRateMovie(userId, movieId)`
+- `listRateableCandidates(userId, { filter, page, limit })` — eligibility + filter + fewest-ratings-first
+- `listHighlightUnrated(userId, limit)` — Destacadas strip
+- `submitRating(userId, movieId, score)` — Zod `z.number().int().min(0).max(10)` + eligibility
+- Live aggregates via SQL/`_count`/`_avg` initially
+
+Optional later (not Phase 2 requirement): denormalize `ltaRatingCount`, `ltaAverageScore`, `ltaRank` on `Movie`.
+
+### 2.10 UI checklist
+
+- `/imdb-lta/rate` with filters (nuqs), Destacadas strip, 0–10 picker, toast on submit
+- Hub `/imdb-lta` phase-aware links: Nominaciones | Puntuar | Ranking
+- Nominations stay read-only when phase ≠ `NOMINATION_OPEN`
+- When `RATING_CLOSED`: no submit; personal scores / averages view-only as appropriate
 
 ---
 
-## Phase 3 — Ranking (planned)
+## Phase 3 — Official ranking (planned)
 
-`/imdb-lta/ranking`: poster, title, average, rating count, rank. Sidebar stays “IMDB LTA” as a hub, with Nominaciones | Puntuar | Ranking shown by phase. After `RATING_CLOSED`, this page is the durable view.
+Route: `/imdb-lta/ranking`.
 
-### Official ranking formula
+### 3.1 Qualification
 
-| Input | Effect on ranking |
+A movie is **qualified** when it has **≥5 ratings from different users**.
+
+- 4 ratings → not qualified
+- 5, 10, 100 ratings → all qualified
+- Rating count is a **reliability threshold only**, not points
+
+### 3.2 Ranking score
+
+```
+score = AVG(all valid integer ratings 0–10)
+```
+
+Transparent. No nomination bonuses, rating-count bonuses, Bayesian/Wilson, reputation, recency, or popularity weighting.
+
+Example: averages 8.6 vs 9.0 → 9.0 ranks higher regardless of which had more nominations.
+
+### 3.3 Sort and tie-breakers (deterministic)
+
+1. Average score **DESC**
+2. Rating count **DESC** (tie-breaker only — not points)
+3. Movie title **ASC**
+
+### 3.4 Live vs final
+
+| Phase | Ranking page presentation |
 | --- | --- |
-| Average of integer 0–10 scores | This is the sort key |
-| Rating count ≥ 5 | Qualification only. Extra ratings do not add points |
-| Nomination count | No effect. One nominator or thirty: still one candidate |
-| Your own nomination | Does not boost the film |
+| `RATING_OPEN` | Live/provisional averages and positions for qualified movies. Copy must not imply “final.” |
+| `RATING_CLOSED` | Official / final IMDB LTA ranking |
 
-Candidates after nominations close = distinct `movieId` from nominations. One catalog row whether 1 or 30 people nominated it.
+### 3.5 Ranking page UI
 
-Optional later (performance, not product): denormalize `ltaRatingCount` / `ltaAverageScore` / `ltaRank` on Movie, same idea as MAM caches. Phase 2 can start with live SQL aggregates.
+For each qualified movie, show at least:
 
----
+- rank
+- poster
+- title
+- average as a clear 0–10 average (decimal display precision is a UI choice; calculation uses the true mean of integers)
+- rating count
 
-## Rules to confirm or change
+Example shape:
 
-Mark each row **Keep / Discuss / Change**. Phase 1 is already shipped — changing those is a product patch. Phase 2–3 rules are cheaper to change now than after `/imdb-lta/rate` ships.
-
-| # | Rule | Planned | Why | Cost to change | Keep / Discuss / Change |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Nomination size | 25–50 movies per person | Enough to be a real list, capped so nobody dumps the catalog | Constants + validation + copy. Cheap if we decide before Phase 2 | |
-| 2 | Save is not a lock | Guardar stamps `submittedAt`. Lists stay editable until the phase closes | Opposite of Oscars. People can fix mistakes until nominations close | If we lock on save, freeze add/remove after first Guardar | |
-| 3 | Add/remove writes immediately | No local-only drafts. Refresh keeps the list | Survives a closed tab | Drafts would need client state + a later persist step | |
-| 4 | Movie lookup | Internal DB first. TMDB only by IMDb ID. No TMDB name search | Avoids picking the wrong Godfather. Unknown titles need an IMDb ID | TMDB-by-name exists but is forbidden here on purpose | |
-| 5 | Shared-nomination unlock | You may rate a film you nominated if at least one other person nominated it too | Old sketch would leave The Godfather unrateable if everyone nominated it | This is the Phase 2 eligibility rule | |
-| 6 | Solo nominator lock | If only you nominated a movie, you cannot rate it | Stops a one-person film from being scored only by its nominator | Dropping this lets every nominator rate everything they put on their list | |
-| 7 | Score scale | Integer 0–10. One rating per user/movie. No decimals | Simple, matches the stubbed column | Decimals or 1–5 need schema + Zod + UI | |
-| 8 | Ratings immutable in v1 | Submit once. Review later, no edit | Keeps ranking stable while people are still scoring | Edit-after-submit is an explicit non-goal of the first Phase 2 cut | |
-| 9 | Ranking threshold | Official ranking only with 5+ ratings | Average of 1–2 scores is noise. 5 is the bar, not extra points | One constant. Changing it after people have rated is a product call | |
-| 10 | Score is average only | Rank = `AVG(score)`. Nomination count and rating count do not add points | Nominations are eligibility, not votes | Mixing nomination count into the score would blur LTA with MAM | |
-| 11 | Discovery strip | Destacadas sin tu puntaje (~8–12 eligible unrated titles with some scores) | Nudges people toward well-liked films they have not scored | Can ship filters without this strip | |
-| 12 | Admin phase UI | No admin page yet. Studio / existing action | Architecture is the singleton config row | A small switcher is a follow-up, not a blocker | |
-
-**Biggest product call:** #5 and #6 (shared unlock + solo lock). Confirm those before building the rate page.
+```
+#1  The Godfather
+    9.24 / 10
+    137 ratings
+```
 
 ---
 
-## Out of scope for the first Phase 2–3 delivery
+## Implementation order (next Cursor task — not started)
 
-- Changing Phase 1 nomination UX (unless a rule above is marked Change)
-- Edit ratings after submit
+1. Eligibility helper + rating Zod + `submitRating` + phase gate
+2. `listRateableCandidates` (filters including `qualified`) + `listHighlightUnrated`
+3. `/imdb-lta/rate` UI (Destacadas + filters + 0–10 + fewest-ratings-first)
+4. Phase-aware hub on `/imdb-lta`
+5. Ranking query (avg, ≥5, tie-breakers) + `/imdb-lta/ranking` with live vs final copy
+6. Optional Movie denormalized LTA fields only if needed
+7. Verify: shared Godfather rate; solo lock; filters; Destacadas; under-5 stay rateable; ranking threshold and tie-breakers
+
+---
+
+## Out of scope (v1 Phase 2–3)
+
+- Changing Phase 1 nomination UX
+- Editable / deletable ratings
 - Emails / notifications
 - TMDB name search
-- Full admin phase console
-- Automated tests (the repo has none; verification is browser + Studio)
+- Full admin phase-management console
+- Statistical ranking formulas beyond simple average + tie-breakers
+- Automated tests (unless the project adds a suite later)
 
 ---
 
@@ -182,15 +319,20 @@ Mark each row **Keep / Discuss / Change**. Phase 1 is already shipped — changi
 - [x] Schema, migration, seed config row
 - [x] Internal-first lookup; TMDB only by IMDb ID
 - [x] Add / remove / Guardar with phase gate, unique, 25–50
-- [x] `/imdb-lta` page
-- [x] Sidebar + breadcrumb
-- [x] Closed-phase rejection
+- [x] `/imdb-lta` page; sidebar + breadcrumb
+- [x] Closed-phase nomination rejection
 
 **Phases 2–3 — not started**
 
-- [ ] `canUserRateMovie` + `submitRating` 0–10 + phase gate
-- [ ] Filters + Destacadas sin tu puntaje query
-- [ ] `/imdb-lta/rate` UI
-- [ ] Phase-aware hub links; nominations stay read-only
-- [ ] AVG + 5+ threshold + `/imdb-lta/ranking`
-- [ ] Verify Godfather shared rate, solo lock, filters, discovery, threshold
+- [ ] `canUserRateMovie` (shared unlock) + `submitRating` 0–10 + `assertRatingPhaseOpen`
+- [ ] Filters (`unrated`, `no_scores`, `low`, `close`, `qualified`, `mine_done`) + Destacadas
+- [ ] `/imdb-lta/rate` UI; coverage-first sort
+- [ ] Phase-aware hub; nominations read-only during rating
+- [ ] Ranking: AVG + ≥5 + tie-breakers; live vs final copy on `/imdb-lta/ranking`
+- [ ] Verify shared unlock, solo lock, filters, discovery, under-5 candidates, ranking
+
+---
+
+## Remaining unresolved product decisions
+
+None that block Phase 2/3 implementation. Scale (0–10), shared unlock, manual phase transitions, qualification (5), average + tie-breakers, and discovery-as-UX-only are finalized.
