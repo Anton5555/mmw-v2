@@ -80,7 +80,7 @@ export async function getMyNominationList(
             },
           },
         },
-        orderBy: { createdAt: 'asc' },
+        orderBy: { createdAt: 'desc' },
       },
     },
   });

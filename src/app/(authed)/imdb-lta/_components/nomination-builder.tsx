@@ -148,12 +148,12 @@ export function NominationBuilder({
     try {
       const result = await addNominationAction(movie.id);
       setMovies((prev) => [
-        ...prev,
         {
           ...result.movie,
           releaseDate: new Date(result.movie.releaseDate).toISOString(),
           nominatedAt: new Date(result.movie.nominatedAt).toISOString(),
         },
+        ...prev,
       ]);
       setMessage(null);
       setPickerMovies(null);
