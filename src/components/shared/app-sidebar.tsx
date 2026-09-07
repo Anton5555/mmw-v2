@@ -107,9 +107,7 @@ export function AppSidebar({
       >
         {open && (
           <div className="mb-4 px-2">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
-              Navegación
-            </p>
+            <p className="text-xs text-zinc-500">Navegación</p>
           </div>
         )}
         <NavMain items={navItems} onNavigate={() => setOpenMobile(false)} />

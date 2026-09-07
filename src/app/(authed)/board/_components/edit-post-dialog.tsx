@@ -95,37 +95,32 @@ export function EditPostDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[540px] border-white/10 bg-zinc-950/95 backdrop-blur-2xl">
+      <DialogContent className="sm:max-w-[540px] border-white/10 bg-zinc-950">
         <DialogHeader>
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-yellow-500">
-            Post-It del Tablero
-          </p>
-          <DialogTitle className="text-3xl font-black italic tracking-tighter text-white uppercase">
-            Editar Post-It
+          <DialogTitle className="text-xl font-semibold tracking-tight text-white">
+            Editar post-it
           </DialogTitle>
           <DialogDescription className="text-zinc-400">
-            Actualiza el contenido de tu post-it.
+            Actualizá el contenido de tu post-it.
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                    Título
-                  </FormLabel>
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="text-sm text-zinc-400">Título</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="TÍTULO DEL POST-IT..."
-                      className="h-12 border-none bg-white/5 text-lg font-bold tracking-tight focus-visible:ring-1 focus-visible:ring-yellow-500 placeholder:text-zinc-700"
+                      placeholder="Título del post-it..."
+                      className="h-11 border-white/10 bg-zinc-900 focus-visible:ring-1 focus-visible:ring-yellow-500"
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                  <FormMessage className="text-xs text-red-500" />
                 </FormItem>
               )}
             />
@@ -134,41 +129,41 @@ export function EditPostDialog({
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="space-y-1">
-                  <FormLabel className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                <FormItem className="space-y-1.5">
+                  <FormLabel className="text-sm text-zinc-400">
                     Descripción
                   </FormLabel>
                   <FormControl>
                     <LexicalEditor
                       value={field.value}
                       onChange={field.onChange}
-                      placeholder="Ingresa la descripción..."
-                      className="min-h-[120px] bg-white/5 border-none focus-visible:ring-1 focus-visible:ring-yellow-500"
+                      placeholder="Ingresá la descripción..."
+                      className="min-h-[120px] bg-zinc-900 border-white/10 focus-visible:ring-1 focus-visible:ring-yellow-500"
                     />
                   </FormControl>
-                  <FormMessage className="text-[10px] uppercase font-bold text-red-500" />
+                  <FormMessage className="text-xs text-red-500" />
                 </FormItem>
               )}
             />
 
-            <DialogFooter className="pt-4">
+            <DialogFooter className="pt-2">
               <Button
                 type="button"
                 variant="ghost"
                 onClick={() => onOpenChange(false)}
-                className="h-12 text-[10px] font-black uppercase tracking-[.2em] hover:bg-white/5"
+                className="hover:bg-white/5"
               >
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-12 bg-white hover:bg-yellow-500 text-black font-black uppercase tracking-[.2em] transition-all"
+                className="bg-white hover:bg-yellow-500 text-black font-medium"
               >
                 {isSubmitting ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  'Actualizar Post-It'
+                  'Actualizar post-it'
                 )}
               </Button>
             </DialogFooter>

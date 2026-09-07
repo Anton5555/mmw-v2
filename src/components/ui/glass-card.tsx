@@ -8,11 +8,10 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
   ({ className, variant = 'default', children, ...props }, ref) => {
     const variants = {
-      default:
-        'rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md',
-      stats: 'rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6',
+      default: 'rounded-xl border border-white/10 bg-zinc-900',
+      stats: 'rounded-xl border border-white/10 bg-zinc-900 p-6',
       review:
-        'group rounded-2xl border border-white/5 bg-white/[0.03] transition-all hover:border-white/10',
+        'group rounded-xl border border-white/10 bg-zinc-900 transition-colors hover:border-white/20',
     };
 
     return (

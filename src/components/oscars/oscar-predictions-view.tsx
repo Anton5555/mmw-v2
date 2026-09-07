@@ -34,7 +34,7 @@ export function OscarPredictionsView({
               className="group relative overflow-hidden rounded-xl border border-white/5 bg-zinc-900/30 p-5 transition-all hover:border-white/20"
             >
               <div className="relative flex flex-col space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-widest text-yellow-500/70">
+                <span className="text-xs font-medium uppercase tracking-wide text-yellow-500/80">
                   {category.name}
                 </span>
 

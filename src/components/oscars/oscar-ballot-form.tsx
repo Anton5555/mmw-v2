@@ -278,7 +278,7 @@ export function OscarBallotForm({
             className={cn('space-y-6', !isFormAvailable && 'opacity-50 pointer-events-none')}
           >
             <div className="space-y-2">
-              <span className="text-yellow-500 font-mono text-sm tracking-widest uppercase">
+              <span className="text-yellow-500 font-mono text-sm tracking-wide font-medium uppercase">
                 Revisión Final
               </span>
               <h2 className="text-3xl font-bold">Revisa tus selecciones</h2>
@@ -298,7 +298,7 @@ export function OscarBallotForm({
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
-                        <div className="text-xs text-yellow-500 font-mono tracking-widest uppercase mb-1">
+                        <div className="text-xs text-yellow-500 font-mono tracking-wide font-medium uppercase mb-1">
                           Categoría {index + 1}
                         </div>
                         <div className="font-bold text-lg group-hover:text-yellow-500 transition-colors">
@@ -336,7 +336,7 @@ export function OscarBallotForm({
             className={cn('space-y-6', !isFormAvailable && 'opacity-50 pointer-events-none')}
           >
           <div className="space-y-2">
-            <span className="text-yellow-500 font-mono text-sm tracking-widest uppercase">
+            <span className="text-yellow-500 font-mono text-sm tracking-wide font-medium uppercase">
               Categoría {currentStep + 1} de {categories.length}
             </span>
             <h2 className="text-3xl font-bold">{currentCategory.name}</h2>

@@ -7,8 +7,8 @@ Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 | Piece | Status | Route |
 | --- | --- | --- |
 | Nominations (Phase 1) | Shipped | `/imdb-lta` |
-| Ratings (Phase 2) | Planned — do not implement until a dedicated task | `/imdb-lta/rate` |
-| Ranking (Phase 3) | Planned — do not implement until a dedicated task | `/imdb-lta/ranking` |
+| Ratings (Phase 2) | Shipped | `/imdb-lta/rate` |
+| Ranking (Phase 3) | Shipped | `/imdb-lta/ranking` |
 
 UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI reflects closed states; **server-side phase guards are the real protection**.
 

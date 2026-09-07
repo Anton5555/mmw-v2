@@ -33,10 +33,7 @@ export const ListsCarousel = ({
       setCurrent(api.selectedScrollSnap());
     };
 
-    // Set initial state
     updateCurrent();
-
-    // Subscribe to changes
     api.on('select', updateCurrent);
 
     return () => {
@@ -59,7 +56,7 @@ export const ListsCarousel = ({
         opts={{
           align: 'center',
           loop: true,
-          duration: 40, // Smoother glide
+          duration: 40,
         }}
         className="w-full"
       >
@@ -71,36 +68,32 @@ export const ListsCarousel = ({
               style={{ opacity: current === index ? 1 : 0.4 }}
             >
               <div className="relative h-[60vh] min-h-[450px] w-full lg:h-[75vh]">
-                {/* Image with subtle zoom effect */}
                 <Image
                   src={list.imgUrl}
                   alt={list.name}
-                  className="h-full w-full object-cover transition-transform duration-[10s] ease-linear group-hover:scale-105"
+                  className="h-full w-full object-cover"
                   fill
                   priority={index === 0}
                 />
 
-                {/* Sophisticated Cinematic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/80 via-transparent to-transparent hidden md:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/70 via-transparent to-transparent hidden md:block" />
 
-                {/* Content Alignment */}
                 <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-6 md:items-start md:px-20 lg:pb-24">
-                  <div className="space-y-4 max-w-2xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
-                    <span className="inline-block px-3 py-1 rounded-full bg-yellow-500 text-[10px] font-black uppercase tracking-widest text-black italic">
-                      Destacado
-                    </span>
-                    <h2 className="text-4xl font-black italic uppercase tracking-tighter text-white drop-shadow-2xl md:text-6xl lg:text-7xl">
+                  <div className="space-y-5 max-w-2xl">
+                    <h2 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg md:text-5xl lg:text-6xl">
                       {list.name}
                     </h2>
                     <div className="flex flex-wrap items-center gap-4">
                       <Button
                         size="lg"
-                        onClick={() => triggerSlate(list.name, `/lists/${list.id}`)}
-                        className="h-14 bg-white px-8 text-black hover:bg-yellow-500 hover:text-black font-bold uppercase italic shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                        onClick={() =>
+                          triggerSlate(list.name, `/lists/${list.id}`)
+                        }
+                        className="h-12 bg-white px-6 text-black hover:bg-yellow-500 hover:text-black font-semibold"
                       >
-                        <Play className="mr-2 h-5 w-5 fill-current" />
-                        Ver Lista
+                        <Play className="mr-2 h-4 w-4 fill-current" />
+                        Ver lista
                       </Button>
                     </div>
                   </div>
@@ -111,16 +104,16 @@ export const ListsCarousel = ({
         </CarouselContent>
       </Carousel>
 
-      {/* Progress Indicators (The dots at the bottom) */}
       <div className="absolute bottom-6 right-0 left-0 flex justify-center gap-2 md:justify-start md:left-20">
         {lists.map((_, i) => (
           <button
             key={i}
             onClick={() => api?.scrollTo(i)}
+            aria-label={`Ir a lista ${i + 1}`}
             className={cn(
               'h-1 rounded-full transition-all duration-300',
               current === i
-                ? 'w-8 bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]'
+                ? 'w-8 bg-yellow-500'
                 : 'w-2 bg-white/20 hover:bg-white/40'
             )}
           />

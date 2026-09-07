@@ -78,18 +78,15 @@ export default async function ListPage({ params, searchParams }: PageProps) {
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-3xl space-y-4">
                 <div className="space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
-                    Colección Curada
-                  </span>
-                  <h1 className="text-4xl font-black uppercase tracking-tighter md:text-6xl lg:text-7xl">
+                  <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
                     {list.name}
                   </h1>
-                  <p className="text-lg font-medium italic text-white/60">
-                    by <span className="text-white">{list.createdBy}</span>
+                  <p className="text-base text-zinc-400">
+                    por <span className="text-white">{list.createdBy}</span>
                   </p>
                 </div>
 
-                <p className="max-w-2xl text-lg leading-relaxed text-gray-300 drop-shadow-md">
+                <p className="max-w-2xl text-base leading-relaxed text-zinc-300">
                   {list.description}
                 </p>
               </div>

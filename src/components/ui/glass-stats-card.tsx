@@ -17,14 +17,12 @@ export function GlassStatsCard({
 }: GlassStatsCardProps) {
   return (
     <GlassCard variant="stats" className={className}>
-      <h3 className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-white/40">
-        {title}
-      </h3>
+      <h3 className="mb-3 text-sm text-zinc-400">{title}</h3>
       <div>
-        <p className="text-3xl font-black">{value}</p>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-          {label}
+        <p className="text-2xl font-semibold tracking-tight text-white">
+          {value}
         </p>
+        <p className="text-xs text-zinc-500 mt-1">{label}</p>
       </div>
     </GlassCard>
   );
