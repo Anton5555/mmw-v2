@@ -11,6 +11,7 @@ import {
   IMDB_LTA_MAX_NOMINATIONS,
   IMDB_LTA_MIN_NOMINATIONS,
   IMDB_LTA_MIN_RATINGS_TO_QUALIFY,
+  isImdbLtaNominationDeadlinePassed,
   type ImdbLtaPhaseValue,
   type ImdbLtaRatingFilter,
 } from '@/lib/validations/imdb-lta';
@@ -57,6 +58,11 @@ export async function assertNominationPhaseOpen(): Promise<void> {
   if (phase !== ImdbLtaPhase.NOMINATION_OPEN) {
     throw new Error(
       'Las nominaciones están cerradas. Ya no podés modificar tu lista.'
+    );
+  }
+  if (isImdbLtaNominationDeadlinePassed()) {
+    throw new Error(
+      'El plazo de nominaciones terminó el 21 de octubre. Ya no podés modificar tu lista.'
     );
   }
 }

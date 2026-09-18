@@ -18,6 +18,7 @@ import {
 } from './_components/imdb-lta-admin-nominations-overview';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { isImdbLtaNominationDeadlinePassed } from '@/lib/validations/imdb-lta';
 
 export const maxDuration = 60;
 
@@ -38,7 +39,9 @@ export default async function ImdbLtaPage() {
     isAdmin ? listAdminNominationSnapshot() : Promise.resolve(null),
   ]);
 
-  const isNominationOpen = phase === ImdbLtaPhase.NOMINATION_OPEN;
+  const isNominationOpen =
+    phase === ImdbLtaPhase.NOMINATION_OPEN &&
+    !isImdbLtaNominationDeadlinePassed();
   const banner = phaseBannerCopy(phase);
 
   return (

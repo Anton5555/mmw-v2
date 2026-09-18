@@ -3,6 +3,44 @@ import { z } from 'zod';
 export const IMDB_LTA_MIN_NOMINATIONS = 25;
 export const IMDB_LTA_MAX_NOMINATIONS = 50;
 
+/** Last writable calendar day for nominations (inclusive), Argentina time. */
+export const IMDB_LTA_NOMINATION_DEADLINE = '2026-10-21';
+export const IMDB_LTA_NOMINATION_DEADLINE_TZ =
+  'America/Argentina/Buenos_Aires';
+
+export type ImdbLtaNominationDeadlineTone =
+  | 'default'
+  | 'warning'
+  | 'urgent'
+  | 'passed';
+
+const ART_DATE_FORMATTER = new Intl.DateTimeFormat('en-CA', {
+  timeZone: IMDB_LTA_NOMINATION_DEADLINE_TZ,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+function artCalendarDate(now: Date): string {
+  return ART_DATE_FORMATTER.format(now);
+}
+
+export function isImdbLtaNominationDeadlinePassed(
+  now: Date = new Date()
+): boolean {
+  return artCalendarDate(now) > IMDB_LTA_NOMINATION_DEADLINE;
+}
+
+export function getImdbLtaNominationDeadlineTone(
+  now: Date = new Date()
+): ImdbLtaNominationDeadlineTone {
+  const today = artCalendarDate(now);
+  if (today > IMDB_LTA_NOMINATION_DEADLINE) return 'passed';
+  if (today >= '2026-10-14') return 'urgent';
+  if (today >= '2026-10-07') return 'warning';
+  return 'default';
+}
+
 export const IMDB_ID_REGEX = /^tt\d{7,8}$/;
 
 export const lookupMovieQuerySchema = z.object({

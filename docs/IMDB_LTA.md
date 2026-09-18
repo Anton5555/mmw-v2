@@ -10,7 +10,9 @@ Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 | Ratings (Phase 2) | Shipped | `/imdb-lta/rate` |
 | Ranking (Phase 3) | Shipped | `/imdb-lta/ranking` |
 
-UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI reflects closed states; **server-side phase guards are the real protection**.
+UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI reflects closed states; **server-side phase and deadline guards are the real protection**.
+
+Phase transitions are always **manual admin actions**. Nomination **writes** also stop after **21 October 2026** (end of day, `America/Argentina/Buenos_Aires`) even if the phase is still `NOMINATION_OPEN`. That date freeze does **not** auto-flip the phase — an admin must still move to `NOMINATION_CLOSED` to freeze the candidate universe for rating.
 
 This document is the product/process source of truth and the implementation-ready plan for Phases 2 and 3. Phase 1 code already matches the shipped sections below.
 
@@ -62,11 +64,11 @@ NOMINATION_OPEN  →  NOMINATION_CLOSED  →  RATING_OPEN  →  RATING_CLOSED
    Phase 1 live        freeze candidates      Phase 2         Phase 3 final
 ```
 
-All transitions are **manual admin actions**. Nothing auto-closes because “everyone submitted,” “enough ratings,” or any heuristic.
+All **phase** transitions are **manual admin actions**. Nothing auto-closes because “everyone submitted,” “enough ratings,” or any heuristic. Nomination writes also stop after the fixed deadline (21 Oct 2026 ART) without changing the phase.
 
 | Phase | Nominations | Ratings | Ranking page |
 | --- | --- | --- | --- |
-| `NOMINATION_OPEN` | Add, remove, Guardar. Editable after save. | Closed | N/A |
+| `NOMINATION_OPEN` | Add, remove, Guardar until **21 Oct 2026 ART** (inclusive). After that date: read-only until admin closes. Editable after save while still writable. | Closed | N/A |
 | `NOMINATION_CLOSED` | Read-only. Candidate universe frozen. | Closed | N/A |
 | `RATING_OPEN` | Frozen. Mutations rejected server-side. | Score eligible films 0–10 | Live/provisional for qualified movies |
 | `RATING_CLOSED` | Frozen | No new ratings. Personal scores view-only. | **Official / final** IMDB LTA ranking |
@@ -77,10 +79,16 @@ Admins also get a collapsible **Nominaciones del grupo** panel on the same page:
 
 ### Nomination closure (manual)
 
-`NOMINATION_OPEN → NOMINATION_CLOSED` is explicit. Until closed:
+`NOMINATION_OPEN → NOMINATION_CLOSED` is explicit. Until closed **and** while on/before the nomination deadline (21 Oct 2026 ART):
 
 - users may still edit lists (add/remove/save again)
 - latest valid state remains editable
+
+After the deadline, while phase is still `NOMINATION_OPEN`:
+
+- add/remove/Guardar are rejected server-side (`assertNominationPhaseOpen`)
+- UI shows a “Plazo vencido” banner; lists are read-only
+- admin must still flip to `NOMINATION_CLOSED` to freeze candidates for rating
 
 Once `NOMINATION_CLOSED`:
 
@@ -106,9 +114,11 @@ While the user types (2+ characters), a dropdown shows matching movies from the 
 | IMDb ID (`tt` + 7–8 digits) | Internal movie by `imdbId` | Typeahead: “apretá Enter para traerla”; Enter → TMDB find + persist, then add | N/A |
 | Title text | Live dropdown of internal hits | Typeahead: ask for IMDb ID. **No TMDB name search.** Enter asks for ID. | Enter may open in-app picker of internal hits; or pick from dropdown |
 
-**SUBMITTED ≠ LOCKED.** `submittedAt` is “last Guardar with a valid 25–50 list.” Locking is only `phase !== NOMINATION_OPEN`.
+**SUBMITTED ≠ LOCKED.** `submittedAt` is “last Guardar with a valid 25–50 list.” Locking is `phase !== NOMINATION_OPEN` **or** the nomination deadline has passed (after 21 Oct 2026 ART).
 
-Every mutation calls `assertNominationPhaseOpen()`. Add/remove persist immediately.
+Every mutation calls `assertNominationPhaseOpen()` (rejects closed phase **or** passed deadline). Add/remove persist immediately.
+
+While nominations are writable, the sticky progress bar shows `Cierra el 21 de octubre` (zinc → amber from 7 Oct → red from 14 Oct, ART calendar dates).
 
 ---
 

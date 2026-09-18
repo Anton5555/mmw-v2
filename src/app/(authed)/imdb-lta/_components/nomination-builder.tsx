@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import {
   AlertCircle,
   CheckCircle2,
+  Clock,
   Film,
   Loader2,
   Lock,
@@ -33,6 +34,7 @@ import {
   IMDB_ID_REGEX,
   IMDB_LTA_MAX_NOMINATIONS,
   IMDB_LTA_MIN_NOMINATIONS,
+  getImdbLtaNominationDeadlineTone,
 } from '@/lib/validations/imdb-lta';
 import type { MovieCardData } from '@/lib/api/movies';
 
@@ -107,6 +109,7 @@ export function NominationBuilder({
   const canSubmit = count >= IMDB_LTA_MIN_NOMINATIONS && isNominationOpen;
   const isSaved =
     Boolean(submittedAt) && count >= IMDB_LTA_MIN_NOMINATIONS;
+  const deadlineTone = getImdbLtaNominationDeadlineTone();
   const trimmedQuery = query.trim();
   const isImdbIdQuery = IMDB_ID_REGEX.test(trimmedQuery);
   const showSuggestionsPanel =
@@ -356,15 +359,29 @@ export function NominationBuilder({
         <div className="flex items-start gap-3 rounded-2xl border border-amber-500/20 bg-amber-950/40 p-4">
           <Lock className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
           <div className="space-y-1">
-            <p className="text-sm font-bold uppercase tracking-wider text-amber-300">
-              Nominaciones cerradas
-            </p>
-            <p className="text-sm text-amber-200/80">
-              Ya no podés modificar tu lista. Podés revisarla abajo.
-              {phase !== 'NOMINATION_CLOSED' && (
-                <span className="ml-1 opacity-70">(fase: {phase})</span>
-              )}
-            </p>
+            {phase === 'NOMINATION_OPEN' ? (
+              <>
+                <p className="text-sm font-bold uppercase tracking-wider text-amber-300">
+                  Plazo vencido
+                </p>
+                <p className="text-sm text-amber-200/80">
+                  El plazo terminó el 21 de octubre. Tu lista quedó congelada. Un
+                  admin cerrará la fase.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-bold uppercase tracking-wider text-amber-300">
+                  Nominaciones cerradas
+                </p>
+                <p className="text-sm text-amber-200/80">
+                  Ya no podés modificar tu lista. Podés revisarla abajo.
+                  {phase !== 'NOMINATION_CLOSED' && (
+                    <span className="ml-1 opacity-70">(fase: {phase})</span>
+                  )}
+                </p>
+              </>
+            )}
           </div>
         </div>
       ) : isSaved ? (
@@ -392,7 +409,7 @@ export function NominationBuilder({
         )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
             <p className="text-lg font-black italic tracking-tight sm:text-xl">
               {count}{' '}
               <span className="text-sm font-bold text-zinc-400">
@@ -412,6 +429,19 @@ export function NominationBuilder({
               {state === 'valid' && 'Válida'}
               {state === 'max' && 'Máximo alcanzado'}
             </Badge>
+            {isNominationOpen && (
+              <span
+                className={cn(
+                  'inline-flex items-center gap-1.5 text-xs font-bold',
+                  deadlineTone === 'default' && 'text-zinc-400',
+                  deadlineTone === 'warning' && 'text-amber-400',
+                  deadlineTone === 'urgent' && 'text-red-400'
+                )}
+              >
+                <Clock className="h-3.5 w-3.5 shrink-0" />
+                Cierra el 21 de octubre
+              </span>
+            )}
           </div>
 
           {isNominationOpen && (
