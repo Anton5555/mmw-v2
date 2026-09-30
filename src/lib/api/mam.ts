@@ -4,7 +4,7 @@ import {
   type MamMovieQuery,
   type MamMovieWithPicks,
 } from '@/lib/validations/mam';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@generated/prisma/client';
 
 /**
  * Get all countries that have at least one MAM movie, with movie counts.

@@ -2,7 +2,7 @@ import { getYearTopMovies } from '@/lib/api/year-top';
 import { YearTopMovieCard } from '@/components/year-top-movie-card';
 import { YearTopPagination } from '@/components/year-top-pagination';
 import { Film } from 'lucide-react';
-import { YearTopPickType } from '@prisma/client';
+import { YearTopPickType } from '@generated/prisma/client';
 
 interface YearTopMovieGridProps {
   searchParams: {

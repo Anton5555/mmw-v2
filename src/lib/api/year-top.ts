@@ -4,7 +4,7 @@ import {
   type YearTopMovieQuery,
   type YearTopMovieWithPicks,
 } from '@/lib/validations/year-top';
-import { Prisma, YearTopPickType } from '@prisma/client';
+import { Prisma, YearTopPickType } from '@generated/prisma/client';
 
 /**
  * Get all YearTop participants for a specific year

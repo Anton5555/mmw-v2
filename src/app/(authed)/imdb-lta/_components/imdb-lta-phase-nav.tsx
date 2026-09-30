@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import { cn } from '@/lib/utils';
 
 const TABS = [

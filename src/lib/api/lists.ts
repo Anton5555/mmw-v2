@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/db';
-import type { List } from '@prisma/client';
+import type { List } from '@generated/prisma/client';
 import { z } from 'zod';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@generated/prisma/client';
 import { getMovieById, getMovieDetailsFull } from '@/lib/tmdb';
 import { CreateListFormValues } from '@/lib/validations/lists';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';

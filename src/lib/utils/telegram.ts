@@ -1,5 +1,5 @@
 import { env } from '@/env';
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 
 export async function sendTelegramMessage(message: string) {
   const url = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`;

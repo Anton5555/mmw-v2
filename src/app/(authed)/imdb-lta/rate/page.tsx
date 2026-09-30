@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   getImdbLtaPhase,
   listHighlightUnrated,

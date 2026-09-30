@@ -10,7 +10,7 @@ import { YearTopSkeletonGrid } from '@/components/year-top-skeleton-grid';
 import { YearTopParticipantNav } from '@/components/year-tops/participant-nav';
 import { YearTopParticipantHeader } from '@/components/year-tops/participant-header';
 import { prisma } from '@/lib/db';
-import { YearTopPickType } from '@prisma/client';
+import { YearTopPickType } from '@generated/prisma/client';
 import { cn } from '@/lib/utils';
 
 interface YearTopTypePageProps {
