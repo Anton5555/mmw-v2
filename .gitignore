@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma generate output (created by postinstall)
+/generated/prisma
+/src/lib/validations/generated
