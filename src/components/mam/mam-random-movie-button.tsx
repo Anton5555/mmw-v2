@@ -2,7 +2,7 @@
 
 import { Dices } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useFilmStrip } from '@/lib/contexts/film-strip-context';
+import { useOpenMovieSheet } from '@/components/movie/movie-sheet-host';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
 interface MamRandomMovieButtonProps {
@@ -10,7 +10,7 @@ interface MamRandomMovieButtonProps {
 }
 
 export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
-  const { triggerStrip } = useFilmStrip();
+  const openMovie = useOpenMovieSheet();
 
   const handleClick = () => {
     if (!movies || movies.length === 0) return;
@@ -20,10 +20,7 @@ export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
 
     if (!movie) return;
 
-    const title =
-      movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
-
-    triggerStrip(title || 'Película sorpresa', `/mam/movie/${movie.id}`);
+    openMovie(movie.id);
   };
 
   return (

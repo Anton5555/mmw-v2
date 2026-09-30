@@ -1,9 +1,6 @@
-import { getMamMovieById } from '@/lib/api/mam';
-import { getYearTopStatsForMovie } from '@/lib/api/year-top';
-import { getListsContainingMovie } from '@/lib/api/lists';
+import { getYearTopMovieDetailData } from '@/lib/api/movie-detail';
 import { MovieDetail } from '@/components/movie';
 import { notFound } from 'next/navigation';
-import { getMovieById, getMovieDetails } from '@/lib/tmdb';
 
 interface YearTopMoviePageProps {
   params: Promise<{ movieId: string }>;
@@ -18,33 +15,13 @@ export default async function YearTopMoviePage({
     notFound();
   }
 
-  // Fetch MAM movie data (for the main detail view)
-  const movie = await getMamMovieById(movieId);
+  const data = await getYearTopMovieDetailData(movieId);
 
-  if (!movie) {
+  if (!data) {
     notFound();
   }
 
-  // Fetch year-top stats for this movie
-  const yearTopSummary = await getYearTopStatsForMovie(movieId);
-
-  // Fetch lists containing this movie
-  const otherLists = await getListsContainingMovie(movieId);
-
-  // Fetch director and genre from TMDB
-  let director: string | undefined;
-  let genre: string | undefined;
-
-  if (movie.imdbId) {
-    // First get TMDB ID from IMDB ID
-    const tmdbMovie = await getMovieById(movie.imdbId);
-    if (tmdbMovie?.id) {
-      // Then get full movie details including director and genre
-      const details = await getMovieDetails(tmdbMovie.id);
-      director = details?.director;
-      genre = details?.genre;
-    }
-  }
+  const { movie, otherLists, yearTopSummary, director, genre } = data;
 
   return (
     <MovieDetail

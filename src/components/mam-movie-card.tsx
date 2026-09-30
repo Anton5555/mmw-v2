@@ -16,7 +16,6 @@ import { InfoPopover } from '@/components/ui/info-popover';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
-import { useFilmStrip } from '@/lib/contexts/film-strip-context';
 
 interface MamMovieCardProps {
   movie: MamMovieWithPicks;
@@ -35,15 +34,9 @@ export function MamMovieCard({
   showReview = false,
 }: MamMovieCardProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { triggerStrip } = useFilmStrip();
 
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
-
-  const handleMovieClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    triggerStrip(displayTitle, `/mam/movie/${movie.id}`);
-  };
 
   const rankConfig = rank
     ? {
@@ -82,7 +75,7 @@ export function MamMovieCard({
         )}
       >
         {/* The Poster Layer */}
-        <Link href={`/mam/movie/${movie.id}`} onClick={handleMovieClick} className="block">
+        <Link href={`/mam/movie/${movie.id}`} className="block">
           <div className="aspect-[2/3] relative rounded-lg overflow-hidden shadow-lg">
             {movie.posterUrl ? (
               <Image
@@ -137,7 +130,7 @@ export function MamMovieCard({
 
         {/* Title Layer - Outside the poster for readability */}
         <div className="mt-3 px-1">
-          <Link href={`/mam/movie/${movie.id}`} onClick={handleMovieClick}>
+          <Link href={`/mam/movie/${movie.id}`}>
             <h3 className="font-bold text-sm leading-snug tracking-tight line-clamp-2 text-balance group-hover:text-primary transition-colors">
               {displayTitle}
             </h3>

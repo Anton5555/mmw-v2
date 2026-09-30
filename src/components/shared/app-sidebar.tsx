@@ -95,7 +95,7 @@ export function AppSidebar({
       className="border-r border-white/5"
       {...props}
     >
-      <SidebarHeader className="h-16 flex items-center justify-center border-b border-white/5 bg-zinc-950/50">
+      <SidebarHeader className="h-[calc(3.5rem+1px)] flex items-center justify-center border-b border-white/5 bg-zinc-950/50">
         <Link
           href="/home"
           className="transition-transform duration-300 hover:scale-105"

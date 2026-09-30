@@ -8,6 +8,7 @@ import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { getCurrentSession } from '@/lib/get-session';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
+import { MovieSheetHost } from '@/components/movie/movie-sheet-host';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 // Separate component to fetch user data (wrapped in Suspense)
@@ -42,6 +43,7 @@ async function AuthenticatedLayoutContent({
               <FilmStripWrapper />
               <BreadcrumbsNav />
               {children}
+              <MovieSheetHost />
             </FilmStripProvider>
           </FilmSlateProvider>
         </BreadcrumbProvider>

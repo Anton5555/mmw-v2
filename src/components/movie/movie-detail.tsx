@@ -15,6 +15,8 @@ interface MovieDetailProps {
   genre?: string;
   otherLists?: ListType[];
   yearTopSummary?: YearTopSummaryItem[];
+  /** Compact layout for the details sheet. */
+  compact?: boolean;
 }
 
 export function MovieDetail({
@@ -24,34 +26,54 @@ export function MovieDetail({
   genre,
   otherLists = [],
   yearTopSummary = [],
+  compact = false,
 }: MovieDetailProps) {
   const hasPicks = movie.picks && movie.picks.length > 0;
 
-  return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
-      <MovieHero movie={movie} rank={rank} director={director} genre={genre} />
+  const sidebar = (
+    <MovieSidebar
+      totalPoints={movie.totalPoints}
+      totalPicks={movie.totalPicks}
+      yearTopSummary={yearTopSummary}
+      otherLists={otherLists}
+      compact={compact}
+    />
+  );
 
-      <section className="container mx-auto px-4 py-12 md:px-8">
+  return (
+    <div
+      className={cn('bg-[#0a0a0a] text-white', !compact && 'min-h-svh')}
+    >
+      <MovieHero
+        movie={movie}
+        rank={rank}
+        director={director}
+        genre={genre}
+        compact={compact}
+      />
+
+      <section
+        className={cn(
+          compact ? 'px-4 py-8' : 'container mx-auto px-4 py-12 md:px-8'
+        )}
+      >
         <div
           className={cn(
             'grid gap-12',
-            hasPicks
-              ? 'lg:grid-cols-[1fr_380px]'
-              : 'max-w-3xl mx-auto'
+            compact
+              ? 'gap-8'
+              : hasPicks
+                ? 'lg:grid-cols-[1fr_380px]'
+                : 'max-w-3xl mx-auto'
           )}
         >
+          {compact && sidebar}
           {/* Main Content: Reviews & Votes */}
           {hasPicks && (
             <MovieReviewsSection picks={movie.picks} />
           )}
 
-          {/* Sidebar: Stats, Tops, and Lists */}
-          <MovieSidebar
-            totalPoints={movie.totalPoints}
-            totalPicks={movie.totalPicks}
-            yearTopSummary={yearTopSummary}
-            otherLists={otherLists}
-          />
+          {!compact && sidebar}
         </div>
       </section>
     </div>
