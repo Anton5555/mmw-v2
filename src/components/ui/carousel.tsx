@@ -59,14 +59,14 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
-  const onSelect = (api: CarouselApi) => {
+  const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) {
       return;
     }
 
     setCanScrollPrev(api.canScrollPrev());
     setCanScrollNext(api.canScrollNext());
-  };
+  }, []);
 
   const scrollPrev = () => {
     api?.scrollPrev();
@@ -99,6 +99,8 @@ function Carousel({
       return;
     }
 
+    // Initial sync from the external Embla API; later updates arrive via its events.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     onSelect(api);
     api.on('reInit', onSelect);
     api.on('select', onSelect);

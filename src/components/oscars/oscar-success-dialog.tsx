@@ -18,9 +18,9 @@ export function OscarSuccessDialog() {
   const searchParams = useSearchParams();
   const submitted = searchParams.get('submitted') === 'true';
   const [isOpen, setIsOpen] = useState(submitted);
-
-  // Open whenever the submitted param appears
   const [prevSubmitted, setPrevSubmitted] = useState(submitted);
+
+  // Open whenever the submitted param appears in the URL.
   if (submitted !== prevSubmitted) {
     setPrevSubmitted(submitted);
     if (submitted) setIsOpen(true);

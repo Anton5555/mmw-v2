@@ -68,7 +68,7 @@ async function main() {
 
     // Filter out empty values
     const entries = Object.entries(userMapping).filter(
-      ([_, userId]) => userId && userId.trim() !== ''
+      ([, userId]) => userId && userId.trim() !== ''
     );
     userMapping = Object.fromEntries(entries);
 

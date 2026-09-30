@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -21,53 +21,49 @@ interface OscarBallotFormProps {
 // Hours before ceremony when form is blocked (3 hours before)
 const HOURS_BEFORE_CEREMONY = 3;
 
-function getAvailability(ceremonyDate: Date | string | null | undefined, now: Date) {
-  if (!ceremonyDate) return { isFormAvailable: true, timeUntilBlocked: '' };
+// How often the countdown / cutoff is re-evaluated.
+const CLOCK_TICK_MS = 10_000;
 
-  const ceremony = new Date(ceremonyDate);
-  const cutoffTime = new Date(
-    ceremony.getTime() - HOURS_BEFORE_CEREMONY * 60 * 60 * 1000
+function subscribeToClock(onTick: () => void) {
+  const interval = setInterval(onTick, CLOCK_TICK_MS);
+  return () => clearInterval(interval);
+}
+
+// Snapshots are floored so repeated reads within a tick return the same value.
+const getClockSnapshot = () =>
+  Math.floor(Date.now() / CLOCK_TICK_MS) * CLOCK_TICK_MS;
+// `null` on the server keeps the first render identical to hydration.
+const getServerClockSnapshot = () => null;
+
+function useClock(): number | null {
+  return useSyncExternalStore(
+    subscribeToClock,
+    getClockSnapshot,
+    getServerClockSnapshot,
   );
+}
 
-  // Form is blocked (within 3 hours of ceremony)
-  if (now >= cutoffTime) return { isFormAvailable: false, timeUntilBlocked: '' };
+/** Human-readable time until the cutoff (up to the 3 most significant parts). */
+function formatTimeUntil(nowMs: number, cutoffMs: number): string {
+  const duration = intervalToDuration({ start: nowMs, end: cutoffMs });
+  const units: Array<[number | undefined, string, string]> = [
+    [duration.years, 'año', 'años'],
+    [duration.months, 'mes', 'meses'],
+    [duration.weeks, 'semana', 'semanas'],
+    [duration.days, 'día', 'días'],
+    [duration.hours, 'hora', 'horas'],
+    [duration.minutes, 'minuto', 'minutos'],
+  ];
 
-  // Calculate time until form is blocked using date-fns
-  const duration = intervalToDuration({ start: now, end: cutoffTime });
+  const parts = units
+    .filter(([value]) => value && value > 0)
+    .slice(0, 3)
+    .map(([value, singular, plural]) => `${value} ${value === 1 ? singular : plural}`);
 
-    // Build a human-readable string (show up to 3 most significant parts)
-    const parts: string[] = [];
-    
-    if (duration.years && duration.years > 0 && parts.length < 3) {
-      parts.push(`${duration.years} ${duration.years === 1 ? 'año' : 'años'}`);
-    }
-    if (duration.months && duration.months > 0 && parts.length < 3) {
-      parts.push(`${duration.months} ${duration.months === 1 ? 'mes' : 'meses'}`);
-    }
-    if (duration.weeks && duration.weeks > 0 && parts.length < 3) {
-      parts.push(`${duration.weeks} ${duration.weeks === 1 ? 'semana' : 'semanas'}`);
-    }
-    if (duration.days && duration.days > 0 && parts.length < 3) {
-      parts.push(`${duration.days} ${duration.days === 1 ? 'día' : 'días'}`);
-    }
-    if (duration.hours && duration.hours > 0 && parts.length < 3) {
-      parts.push(`${duration.hours} ${duration.hours === 1 ? 'hora' : 'horas'}`);
-    }
-    if (duration.minutes && duration.minutes > 0 && parts.length < 3) {
-      parts.push(`${duration.minutes} ${duration.minutes === 1 ? 'minuto' : 'minutos'}`);
-    }
-
-  // Format with commas and "y" for the last item
-  let timeUntilBlocked: string;
-  if (parts.length === 0) {
-    timeUntilBlocked = 'menos de un minuto';
-  } else if (parts.length === 1) {
-    timeUntilBlocked = parts[0];
-  } else {
-    const lastPart = parts.pop();
-    timeUntilBlocked = `${parts.join(', ')} y ${lastPart}`;
-  }
-  return { isFormAvailable: true, timeUntilBlocked };
+  if (parts.length === 0) return 'menos de un minuto';
+  if (parts.length === 1) return parts[0];
+  const lastPart = parts.pop();
+  return `${parts.join(', ')} y ${lastPart}`;
 }
 
 export function OscarBallotForm({
@@ -81,13 +77,17 @@ export function OscarBallotForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasReachedReview, setHasReachedReview] = useState(false);
 
-  // Form is available from now until 3 hours before ceremony; re-evaluated every minute
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-  const { isFormAvailable, timeUntilBlocked } = getAvailability(ceremonyDate, now);
+  // Form is available from now until 3 hours before the ceremony.
+  const now = useClock();
+  const cutoffTime = ceremonyDate
+    ? new Date(ceremonyDate).getTime() - HOURS_BEFORE_CEREMONY * 60 * 60 * 1000
+    : null;
+  const isFormAvailable =
+    cutoffTime === null || now === null || now < cutoffTime;
+  const timeUntilBlocked =
+    cutoffTime !== null && now !== null && now < cutoffTime
+      ? formatTimeUntil(now, cutoffTime)
+      : '';
 
   const allCategoriesSelected = Object.keys(selections).length === categories.length;
   const isPreviewStep = allCategoriesSelected && currentStep >= categories.length;

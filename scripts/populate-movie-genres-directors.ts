@@ -408,8 +408,8 @@ async function main() {
           `\rProgress: ${processed}/${moviesToProcess.length} (${updated} updated, ${skipped} skipped, ${errors} errors)`
         );
       }
-    } catch (error: any) {
-      console.log(` ❌ Error: ${error.message}`);
+    } catch (error) {
+      console.log(` ❌ Error: ${error instanceof Error ? error.message : String(error)}`);
       errors++;
     }
 

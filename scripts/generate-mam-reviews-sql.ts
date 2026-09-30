@@ -113,10 +113,6 @@ function escapeSqlString(str: string): string {
   return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
 }
 
-function stripLeadingAt(text: string): string {
-  return text.replace(/^@+/, '').trim();
-}
-
 function readCsvFile(filePath: string): CsvReviewRow[] {
   const content = fs.readFileSync(filePath, 'utf8');
   const records = parseCsv(content, {
