@@ -347,7 +347,8 @@ export async function getOscarLeaderboard(
       userImage: b.user.image ?? null,
       score: s,
       submittedAt: b.submittedAt,
-      isWinner: maxScore >= 0 && s === maxScore,
+      // A top score of 0 means nobody has scored yet, so there is no winner.
+      isWinner: maxScore > 0 && s === maxScore,
     });
   }
 
