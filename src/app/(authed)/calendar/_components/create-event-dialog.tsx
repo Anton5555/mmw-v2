@@ -27,7 +27,7 @@ import {
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { createEventAction } from '@/lib/actions/events/create-event';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { EventTypeSchema } from '@/lib/validations/generated';
 import { DateTimePicker } from '@/components/datetime-picker';
 import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -44,7 +44,6 @@ export function CreateEventSheet({
   onOpenChange,
   open,
 }: CreateEventSheetProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<CreateEventFormValues>({
     resolver: zodResolver(createEventSchema),
@@ -57,6 +56,7 @@ export function CreateEventSheet({
       time: selectedDate,
     },
   });
+  const { isSubmitting } = form.formState;
 
   const eventType = useWatch({ control: form.control, name: 'type' });
   const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(eventType);
@@ -82,7 +82,6 @@ export function CreateEventSheet({
   }, [selectedDate, form, isDateOnlyEvent, open]);
 
   const onSubmit = async (data: CreateEventFormValues) => {
-    setIsSubmitting(true);
     try {
       await createEventAction(data);
       toast.success('Evento creado correctamente');
@@ -92,8 +91,6 @@ export function CreateEventSheet({
       toast.error(
         error instanceof Error ? error.message : 'Error al crear el evento'
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

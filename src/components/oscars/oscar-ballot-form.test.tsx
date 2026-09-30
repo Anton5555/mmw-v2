@@ -237,7 +237,10 @@ describe('OscarBallotForm — submitting', () => {
 
     expect(mocks.toastError).toHaveBeenCalledWith('Ya enviaste tus apuestas');
     expect(mocks.push).not.toHaveBeenCalled();
-    expect(screen.getByRole('button', { name: /Enviar Los Oscalos/ })).toBeEnabled();
+    // The transition's pending state clears a tick after the error is handled.
+    expect(
+      await screen.findByRole('button', { name: /Enviar Los Oscalos/ }),
+    ).toBeEnabled();
   });
 
   it('falls back to a generic message for non-Error rejections', async () => {
