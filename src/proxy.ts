@@ -1,9 +1,6 @@
-import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { betterFetch } from '@better-fetch/fetch';
-
-type Session = typeof auth.$Infer.Session;
+import { getSessionCookie } from 'better-auth/cookies';
 
 // Add routes that don't require authentication
 const publicRoutes = [
@@ -30,16 +27,9 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  // Get session for all routes (we need this to handle root path)
-  const { data: session } = await betterFetch<Session>(
-    '/api/auth/get-session',
-    {
-      baseURL: request.nextUrl.origin,
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
-    }
-  );
+  // Optimistic check only: the cookie's presence is not proof of a valid
+  // session. Pages and actions must still validate with auth.api.getSession.
+  const session = getSessionCookie(request);
 
   // Handle root path
   if (pathname === '/') {

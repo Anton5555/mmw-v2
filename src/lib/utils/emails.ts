@@ -3,6 +3,22 @@ import { env } from '@/env';
 
 const resend = new Resend(env.RESEND_API_KEY);
 
+const escapeHtml = (value: string) =>
+  value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+
+// Resend returns failures as { error } instead of throwing
+const sendEmail = async (payload: Parameters<typeof resend.emails.send>[0]) => {
+  const { error } = await resend.emails.send(payload);
+  if (error) {
+    throw new Error(`Failed to send email: ${error.message}`);
+  }
+};
+
 type SendEmailProps = {
   to: string;
   url: string;
@@ -77,7 +93,7 @@ const emailTemplate = (
 `;
 
 export const sendVerificationEmail = async ({ to, url }: SendEmailProps) => {
-  await resend.emails.send({
+  await sendEmail({
     from: 'El Vip de MM <onboarding@elvipdemm.com>',
     to: to,
     subject: 'Verifica tu cuenta de El Vip de MM',
@@ -91,7 +107,7 @@ export const sendVerificationEmail = async ({ to, url }: SendEmailProps) => {
 };
 
 export const sendForgotPasswordEmail = async ({ to, url }: SendEmailProps) => {
-  await resend.emails.send({
+  await sendEmail({
     from: 'El Vip de MM <onboarding@elvipdemm.com>',
     to: to,
     subject: 'Recupera tu cuenta de El Vip de MM',
@@ -215,7 +231,7 @@ const ballotEmailTemplate = (
       <h1>Los Oscalos ${editionYear}</h1>
       <p class="subtitle">Tus predicciones</p>
       
-      <p class="greeting">Hola ${userName},</p>
+      <p class="greeting">Hola ${escapeHtml(userName)},</p>
       <p style="color: #4b5563; margin-bottom: 24px; font-size: 14px;">
         Aquí están tus predicciones para Los Oscalos ${editionYear}. Guárdalas para compararlas con los resultados.
       </p>
@@ -225,12 +241,12 @@ const ballotEmailTemplate = (
           .map(
             (pick) => `
           <div class="pick-item">
-            <div class="category-name">${pick.category.name}</div>
-            <div class="nominee-name">${pick.nominee.name}</div>
+            <div class="category-name">${escapeHtml(pick.category.name)}</div>
+            <div class="nominee-name">${escapeHtml(pick.nominee.name)}</div>
             ${
               pick.nominee.filmTitle &&
               pick.nominee.filmTitle.trim() !== pick.nominee.name.trim()
-                ? `<div class="film-title">${pick.nominee.filmTitle}</div>`
+                ? `<div class="film-title">${escapeHtml(pick.nominee.filmTitle)}</div>`
                 : ''
             }
           </div>
@@ -255,7 +271,7 @@ export const sendBallotEmail = async ({
   editionYear,
   picks,
 }: SendBallotEmailProps) => {
-  await resend.emails.send({
+  await sendEmail({
     from: 'El Vip de MM <onboarding@elvipdemm.com>',
     to: to,
     subject: `Los Oscalos ${editionYear} - Tus predicciones`,

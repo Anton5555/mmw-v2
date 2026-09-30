@@ -2,7 +2,7 @@
 
 import { auth } from '@/lib/auth';
 import { UpdateEventFormValues } from '@/lib/validations/events';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 
@@ -46,7 +46,7 @@ export async function updateEventAction(
     },
   });
 
-  revalidateTag('events', 'max');
+  updateTag('events');
 
   return { success: true, event: updatedEvent };
 }

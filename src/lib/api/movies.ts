@@ -1,3 +1,4 @@
+import { cacheLife } from 'next/cache';
 import { prisma } from '@/lib/db';
 import { getMovieById, getMovieDetailsFull } from '@/lib/tmdb';
 
@@ -6,6 +7,7 @@ import { getMovieById, getMovieDetailsFull } from '@/lib/tmdb';
  */
 export async function getAllGenres() {
   'use cache';
+  cacheLife('hours');
   return await prisma.genre.findMany({
     orderBy: {
       name: 'asc',
@@ -22,6 +24,7 @@ export async function getAllGenres() {
  */
 export async function getAllDirectors() {
   'use cache';
+  cacheLife('hours');
   return await prisma.director.findMany({
     orderBy: {
       name: 'asc',
@@ -38,6 +41,7 @@ export async function getAllDirectors() {
  */
 export async function getAllCountries() {
   'use cache';
+  cacheLife('hours');
   return await prisma.country.findMany({
     orderBy: {
       name: 'asc',
