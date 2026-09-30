@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ParticipantAvatar, getParticipantDisplayName } from '@/components/participant-avatar';
 import { useYearTopParams } from '@/lib/hooks/useYearTopParams';
@@ -42,15 +43,14 @@ export function YearTopParticipantHeader({
 
   return (
     <div className="mb-8">
-      <div className="flex items-center gap-4 mb-4">
-        <Button
-          variant="outline"
-          onClick={() => setParams({ participants: [], page: 1 })}
-          className="rounded-full border-white/20 bg-white/10 text-white hover:bg-white/20"
-        >
-          <span className="font-bold tracking-tight">← Volver a todos</span>
-        </Button>
-      </div>
+      <Button
+        variant="ghost"
+        onClick={() => setParams({ participants: [], page: 1 })}
+        className="-ml-3 h-8 gap-1.5 px-3 text-zinc-400 hover:bg-white/5 hover:text-white mb-4"
+      >
+        <ArrowLeft />
+        Todos
+      </Button>
       <div className="flex items-center gap-4">
         <ParticipantAvatar
           participant={{

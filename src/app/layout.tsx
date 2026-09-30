@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';
@@ -16,6 +16,17 @@ export const metadata: Metadata = {
   description: 'El VIP de MM',
 };
 
+// The app is always dark: match the browser chrome/status bar to the header,
+// and let the page paint under the notch (content pads back out via env()).
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
+  themeColor: '#09090b',
+  colorScheme: 'dark',
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -24,13 +35,13 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <NextTopLoader />
+        <NextTopLoader color="#eab308" height={2} showSpinner={false} />
 
         <main className="flex-1">
           <NuqsAdapter>{children}</NuqsAdapter>
         </main>
 
-        <Toaster />
+        <Toaster theme="dark" />
       </body>
     </html>
   );

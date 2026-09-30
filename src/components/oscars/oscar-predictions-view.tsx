@@ -30,7 +30,7 @@ export function OscarPredictionsView({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: i * 0.02 }}
-              className="group relative overflow-hidden rounded-xl border border-white/5 bg-zinc-900/30 p-5 transition-all hover:border-white/20"
+              className="group relative overflow-hidden rounded-xl border border-white/5 bg-zinc-900/30 p-5 transition-colors hover:border-white/20"
             >
               <div className="relative flex flex-col space-y-4">
                 <span className="text-xs font-medium uppercase tracking-wide text-yellow-500/80">
@@ -66,7 +66,7 @@ export function OscarPredictionsView({
                       >
                         <div
                           className={cn(
-                            'h-full rounded-full bg-yellow-500/60 transition-all',
+                            'h-full rounded-full bg-yellow-500/60 transition-[width] duration-500 ease-out',
                             idx === 0 && 'bg-yellow-500/80',
                           )}
                           style={{ width: `${pick.percentage}%` }}

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
   getActiveEdition,
@@ -8,7 +7,11 @@ import {
 import { OscarBallotForm } from '@/components/oscars/oscar-ballot-form';
 import { OscarSummary } from '@/components/oscars/oscar-summary';
 import { OscarSuccessDialog } from '@/components/oscars/oscar-success-dialog';
-import { Button } from '@/components/ui/button';
+import { BarChart3, Settings2, Trophy } from 'lucide-react';
+import {
+  SectionNav,
+  SectionNavLink,
+} from '@/components/shared/section-nav';
 import { Suspense } from 'react';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
@@ -35,7 +38,7 @@ async function OscarsPageContent() {
 
   if (!edition) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center p-4">
+      <div className="min-h-svh bg-[#0a0a0a] text-white flex items-center justify-center p-4">
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-black tracking-tighter">
             No hay edición activa
@@ -53,46 +56,38 @@ async function OscarsPageContent() {
 
   if (userBallot) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="min-h-svh bg-[#0a0a0a] text-white">
         <Suspense fallback={null}>
           <OscarSuccessDialog />
         </Suspense>
         <div className="container mx-auto px-4 py-12 max-w-6xl">
           <header className="mb-12 text-center">
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
               Tus apuestas
             </h1>
             <p className="text-zinc-400 mt-3">
               Buena suerte, {session.user.name}.
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/oscars/predictions">
-                <Button
-                  variant="outline"
-                  className="rounded-lg border-white/10 hover:bg-zinc-900"
-                >
-                  Ver predicciones
-                </Button>
-              </Link>
-              <Link href="/oscars/results">
-                <Button
-                  variant="outline"
-                  className="rounded-lg border-white/10 hover:bg-zinc-900"
-                >
-                  Ver resultados
-                </Button>
-              </Link>
+            <SectionNav
+              aria-label="Secciones de los Oscalos"
+              items={isAdmin ? 3 : 2}
+              className="mt-6"
+            >
+              <SectionNavLink href="/oscars/predictions">
+                <BarChart3 className="text-zinc-400" />
+                <span>Predicciones</span>
+              </SectionNavLink>
+              <SectionNavLink href="/oscars/results">
+                <Trophy className="text-yellow-500" />
+                <span>Resultados</span>
+              </SectionNavLink>
               {isAdmin && (
-                <Link href="/oscars/admin">
-                  <Button
-                    variant="outline"
-                    className="rounded-lg border-yellow-500/30 hover:bg-yellow-500/10"
-                  >
-                    Administrar ganadores
-                  </Button>
-                </Link>
+                <SectionNavLink href="/oscars/admin">
+                  <Settings2 className="text-zinc-400" />
+                  <span>Administrar</span>
+                </SectionNavLink>
               )}
-            </div>
+            </SectionNav>
           </header>
           <OscarSummary ballot={userBallot} editionYear={edition.year} />
         </div>
@@ -104,43 +99,35 @@ async function OscarsPageContent() {
   const categories = await getOscarCategories(edition.id);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <header className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
             Los Oscalos
           </h1>
           <p className="text-zinc-400 mt-3">
             Apostá para la edición {edition.year}.
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/oscars/predictions">
-              <Button
-                variant="outline"
-                className="rounded-lg border-white/10 hover:bg-zinc-900"
-              >
-                Ver predicciones
-              </Button>
-            </Link>
-            <Link href="/oscars/results">
-              <Button
-                variant="outline"
-                className="rounded-lg border-white/10 hover:bg-zinc-900"
-              >
-                Ver resultados
-              </Button>
-            </Link>
+          <SectionNav
+            aria-label="Secciones de los Oscalos"
+            items={isAdmin ? 3 : 2}
+            className="mt-6"
+          >
+            <SectionNavLink href="/oscars/predictions">
+              <BarChart3 className="text-zinc-400" />
+              <span>Predicciones</span>
+            </SectionNavLink>
+            <SectionNavLink href="/oscars/results">
+              <Trophy className="text-yellow-500" />
+              <span>Resultados</span>
+            </SectionNavLink>
             {isAdmin && (
-              <Link href="/oscars/admin">
-                <Button
-                  variant="outline"
-                  className="rounded-lg border-yellow-500/30 hover:bg-yellow-500/10"
-                >
-                  Administrar ganadores
-                </Button>
-              </Link>
+              <SectionNavLink href="/oscars/admin">
+                <Settings2 className="text-zinc-400" />
+                <span>Administrar</span>
+              </SectionNavLink>
             )}
-          </div>
+          </SectionNav>
         </header>
 
         <OscarBallotForm

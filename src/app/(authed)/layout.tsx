@@ -34,7 +34,7 @@ async function AuthenticatedLayoutContent({
         }}
       />
 
-      <SidebarInset className="mb-8">
+      <SidebarInset className="mb-8 min-w-0">
         <BreadcrumbProvider>
           <FilmSlateProvider>
             <FilmStripProvider>

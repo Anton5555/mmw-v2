@@ -10,10 +10,13 @@ import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamMovieGrid } from '@/components/mam-movie-grid';
 import { MamMovieGridWrapper } from '@/components/mam-movie-grid-wrapper';
 import { MamSkeletonGrid } from '@/components/mam-skeleton-grid';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import {
+  SectionNav,
+  SectionNavLink,
+  sectionNavItemClassName,
+} from '@/components/shared/section-nav';
 import { ParticipantNav } from '@/components/mam/participant-nav';
-import { Film } from 'lucide-react';
+import { Award, Film } from 'lucide-react';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
@@ -66,45 +69,37 @@ async function MamPageContent({ searchParams }: MamPageProps) {
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
-      <div className="container mx-auto px-4 pb-8 pt-8">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
+      <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header: Identity & Navigation */}
-        <div className="relative mb-10 pt-8">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="space-y-2 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
-                Míralas Antes de Morir
-              </h1>
-              <p className="text-zinc-400 max-w-xl mx-auto md:mx-0">
-                Las películas que hay que ver antes de morir.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <ParticipantNav participants={participantsList} />
-
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-lg border-white/10 bg-zinc-900 hover:bg-zinc-800 h-10 px-4"
-              >
-                <Link href="/mam/special-mentions">Menciones especiales</Link>
-              </Button>
-
-              {hasUserPicks && (
-                <Button
-                  className="rounded-lg bg-white text-black hover:bg-yellow-500 font-medium h-10 px-4"
-                  asChild
-                >
-                  <Link href="/mam/my-list" className="flex items-center gap-2">
-                    <Film className="h-4 w-4" />
-                    <span>Mi lista</span>
-                  </Link>
-                </Button>
-              )}
-            </div>
+        <header className="mb-8 flex flex-col gap-6 pt-4 md:pt-8 xl:flex-row xl:items-end xl:justify-between">
+          <div className="space-y-2">
+            <h1 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+              Míralas Antes de Morir
+            </h1>
+            <p className="max-w-xl text-pretty text-zinc-400">
+              Las películas que hay que ver antes de morir.
+            </p>
           </div>
-        </div>
+
+          {/* One grouped control instead of three competing buttons */}
+          <SectionNav aria-label="Secciones de MAM" items={hasUserPicks ? 3 : 2}>
+            <ParticipantNav
+              participants={participantsList}
+              className={sectionNavItemClassName}
+            />
+            <SectionNavLink href="/mam/special-mentions">
+              <Award className="text-zinc-400" />
+              <span>Menciones</span>
+            </SectionNavLink>
+            {hasUserPicks && (
+              <SectionNavLink href="/mam/my-list">
+                <Film className="text-zinc-400" />
+                <span>Mi lista</span>
+              </SectionNavLink>
+            )}
+          </SectionNav>
+        </header>
 
         {/* Filters */}
         <MamMovieFilters

@@ -28,7 +28,7 @@ export function MovieDetail({
   const hasPicks = movie.picks && movie.picks.length > 0;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
       <MovieHero movie={movie} rank={rank} director={director} genre={genre} />
 
       <section className="container mx-auto px-4 py-12 md:px-8">

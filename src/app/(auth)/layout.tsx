@@ -8,7 +8,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950 flex flex-col items-center justify-center p-4">
+    <div className="relative min-h-svh w-full overflow-hidden bg-zinc-950 flex flex-col items-center justify-center p-4">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{

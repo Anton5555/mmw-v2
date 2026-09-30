@@ -655,7 +655,7 @@ export function NominationBuilder({
                         src={src}
                         alt={movie.title}
                         fill
-                        className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                        className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
                         unoptimized
                       />
@@ -671,7 +671,7 @@ export function NominationBuilder({
                         type="button"
                         onClick={() => handleRemove(movie.id)}
                         disabled={isPending}
-                        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white opacity-100 transition hover:bg-red-600 sm:opacity-0 sm:group-hover:opacity-100"
+                        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white transition-[opacity,background-color] hover:bg-red-600 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100 focus-visible:opacity-100"
                         aria-label={`Eliminar ${movie.title}`}
                       >
                         {isPending ? (
@@ -699,7 +699,7 @@ export function NominationBuilder({
 
       {/* Sticky save footer */}
       {isNominationOpen && (
-        <footer className="sticky bottom-6 flex gap-4 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 shadow-2xl backdrop-blur-xl">
+        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 shadow-2xl backdrop-blur-xl">
           <div className="hidden flex-1 self-center text-xs text-zinc-500 sm:block">
             {isSaved
               ? 'Podés seguir editando y guardar de nuevo.'
@@ -727,7 +727,7 @@ export function NominationBuilder({
           if (!open) setPickerMovies(null);
         }}
       >
-        <DialogContent className="max-h-[80vh] overflow-y-auto border-white/10 bg-zinc-950 sm:max-w-lg">
+        <DialogContent className="max-h-[85dvh] overflow-y-auto border-white/10 bg-zinc-950 sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="uppercase italic tracking-tight">
               Varias coincidencias

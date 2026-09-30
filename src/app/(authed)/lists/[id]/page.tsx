@@ -55,11 +55,11 @@ export default async function ListPage({ params, searchParams }: PageProps) {
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
       <ListBreadcrumbUpdater listName={list.name} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] w-full overflow-hidden md:h-[70vh]">
+      <section className="relative h-[60svh] w-full overflow-hidden md:h-[70svh]">
         <Image
           src={list.imgUrl}
           alt={list.name}
@@ -78,7 +78,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-3xl space-y-4">
                 <div className="space-y-1">
-                  <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
+                  <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl xl:text-6xl">
                     {list.name}
                   </h1>
                   <p className="text-base text-zinc-400">
@@ -103,7 +103,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
                   alt="Letterboxd"
                   width={32}
                   height={32}
-                  className="h-6 w-6 brightness-110 grayscale transition-all group-hover:grayscale-0"
+                  className="h-6 w-6 brightness-110 grayscale transition-[filter] group-hover:grayscale-0"
                 />
               </GlassButton>
             </div>
@@ -132,7 +132,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
           <Suspense
             key={suspenseKey}
             fallback={
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-4">
                 {Array.from({ length: 12 }).map((_, i) => (
                   <div
                     key={i}

@@ -264,17 +264,59 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Controls fire on tap without the double-tap-zoom wait, and a long-press
+     doesn't select their label. Content text stays selectable. */
+  button,
+  [role='button'],
+  [role='tab'],
+  [role='menuitem'],
+  [role='option'] {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  a {
+    touch-action: manipulation;
+  }
+}
+
+/* iOS zooms into inputs under 16px and never zooms back out. Unlayered on
+   purpose so it wins over text-sm/text-xs utilities on touch devices only. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 /* The card's outer glow on hover */
-.card-glow-1:hover {
-  box-shadow: 0 0 30px -5px rgba(var(--cinema-gold), 0.3);
+@media (hover: hover) and (pointer: fine) {
+  .card-glow-1:hover {
+    box-shadow: 0 0 30px -5px rgba(var(--cinema-gold), 0.3);
+  }
 }
 
 /* Ultra-thin glass border */
 .glass-border {
   border: 1px solid rgba(255, 255, 255, 0.08);
   background-clip: padding-box;
+}
+
+/* Horizontal chip/filter rows scroll by touch; the bar itself is noise */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Custom scrollbar for calendar popover */

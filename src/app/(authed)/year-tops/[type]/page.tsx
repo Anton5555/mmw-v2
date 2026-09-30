@@ -98,13 +98,13 @@ export default async function YearTopTypePage({
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
       <div className="container mx-auto px-4 pb-8 pt-8">
         {/* Header */}
         <div className="relative mb-12 pt-8 text-center md:text-left">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+              <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
                 {typeConfig.title}
               </h1>
               <p className="mt-2 text-zinc-400 max-w-2xl">
