@@ -30,7 +30,7 @@ This document is the product/process source of truth and the implementation-read
 | Rating count does not directly matter for ranking | Extra ratings do not add points. Count is only: (1) qualification threshold, (2) tie-breaker when averages are equal |
 | Discovery does not influence ranking | Sort/filter/featured order is UX-only. Showing a movie more often never gives ranking points |
 
-Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, editable ratings, rating deletion, emails/notifications, TMDB name search, full admin console, or an automated test suite (the repo has none).
+Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, editable ratings, rating deletion, emails/notifications, TMDB name search, full admin console, or a dedicated E2E suite (unit tests live in `src/**/*.test.ts`; see README).
 
 ---
 

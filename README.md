@@ -35,6 +35,21 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+## Testing and CI
+
+```bash
+pnpm test            # run unit tests once (vitest)
+pnpm test:watch      # watch mode
+pnpm test:coverage   # with coverage report in ./coverage
+pnpm typecheck       # tsc --noEmit
+pnpm lint            # eslint
+```
+
+- Tests are colocated as `*.test.ts(x)` next to the code they cover. No database or network is needed: `@/lib/db`, `@/lib/auth` and `fetch` are mocked per test.
+- `vitest.setup.ts` loads dummy env vars from `tests/env.ts` so `@/env` validates, and stubs `next/cache`.
+- Component tests opt into jsdom with a `// @vitest-environment jsdom` comment at the top of the file.
+- GitHub Actions (`.github/workflows/ci.yml`) runs typecheck + lint, unit tests, and `next build` on every PR and push to `master`.
+
 ## Database Setup and Migrations
 
 To work with the database, follow these steps in order:

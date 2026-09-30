@@ -78,7 +78,7 @@ async function main() {
 
   let totalPicksUpdated = 0;
   let totalParticipantsDeleted = 0;
-  let errors: Array<{ group: string; error: string }> = [];
+  const errors: Array<{ group: string; error: string }> = [];
 
   // Process each group
   for (const group of allGroups) {
@@ -117,7 +117,7 @@ async function main() {
 
             let moved = 0;
             let deleted = 0;
-            let skipped = 0;
+            const skipped = 0;
 
             // Move picks one by one, handling duplicates
             for (const pick of picksToMove) {

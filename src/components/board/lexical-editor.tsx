@@ -206,7 +206,7 @@ function ToolbarPlugin({ readOnly }: { readOnly?: boolean }) {
         } else {
           // If no selection, format the current paragraph
           const anchorNode = selection.anchor.getNode();
-          let targetNode = $isTextNode(anchorNode) ? anchorNode.getParent() : anchorNode;
+          const targetNode = $isTextNode(anchorNode) ? anchorNode.getParent() : anchorNode;
           
           if ($isParagraphNode(targetNode)) {
             const text = targetNode.getTextContent();
