@@ -6,6 +6,10 @@ const base = { title: 'Cine', month: 3, day: 5 };
 describe('createEventSchema', () => {
   it('accepts a recurring birthday without year or time', () => {
     expect(createEventSchema.safeParse({ ...base, type: 'BIRTHDAY' }).success).toBe(true);
+    expect(
+      createEventSchema.safeParse({ ...base, type: 'ANNIVERSARY', year: undefined, time: undefined })
+        .success
+    ).toBe(true);
   });
 
   it('rejects a year or time on birthdays and anniversaries', () => {

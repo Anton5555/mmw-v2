@@ -20,8 +20,8 @@ export const createEventSchema = z
     z.discriminatedUnion('type', [
       z.object({
         type: z.enum(['BIRTHDAY', 'ANNIVERSARY']),
-        year: z.undefined(),
-        time: z.undefined(),
+        year: z.undefined().optional(),
+        time: z.undefined().optional(),
       }),
       z.object({
         type: z.enum(['DISCORD', 'IN_PERSON', 'OTHER']),
