@@ -27,7 +27,7 @@ import {
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { updateEventAction } from '@/lib/actions/events/update-event';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { EventTypeSchema } from '@/lib/validations/generated';
 import { DateTimePicker } from '@/components/datetime-picker';
 import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -45,7 +45,6 @@ export function EditEventSheet({
   onOpenChange,
   open,
 }: EditEventSheetProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Create a Date object for the event date/time
   const getEventDate = () => {
@@ -93,6 +92,7 @@ export function EditEventSheet({
     resolver: zodResolver(updateEventSchema),
     defaultValues: getDefaultValues(),
   });
+  const { isSubmitting } = form.formState;
 
   const eventType = useWatch({ control: form.control, name: 'type' });
   const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(eventType);
@@ -129,7 +129,6 @@ export function EditEventSheet({
   }, [open, event, form]);
 
   const onSubmit = async (data: UpdateEventFormValues) => {
-    setIsSubmitting(true);
     try {
       await updateEventAction(event.id, data);
       toast.success('Evento actualizado correctamente');
@@ -139,8 +138,6 @@ export function EditEventSheet({
       toast.error(
         error instanceof Error ? error.message : 'Error al actualizar el evento'
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

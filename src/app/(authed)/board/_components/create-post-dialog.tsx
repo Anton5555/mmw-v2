@@ -26,7 +26,7 @@ import {
 } from '@/lib/validations/board';
 import { LexicalEditor } from '@/components/board/lexical-editor';
 import { Loader2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { createBoardPostAction } from '@/lib/actions/board/create-board-post';
 
@@ -41,7 +41,6 @@ export function CreatePostDialog({
   onOpenChange,
   onSuccess,
 }: CreatePostDialogProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<CreateBoardPostFormValues>({
     resolver: zodResolver(createBoardPostSchema),
@@ -50,6 +49,7 @@ export function CreatePostDialog({
       description: '',
     },
   });
+  const { isSubmitting } = form.formState;
 
   // Reset form when dialog closes
   useEffect(() => {
@@ -62,7 +62,6 @@ export function CreatePostDialog({
   }, [open, form]);
 
   const onSubmit = async (data: CreateBoardPostFormValues) => {
-    setIsSubmitting(true);
     try {
       await createBoardPostAction(data);
       toast.success('Post-It creado exitosamente');
@@ -74,8 +73,6 @@ export function CreatePostDialog({
       toast.error(
         error instanceof Error ? error.message : 'Error al crear el post-it'
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

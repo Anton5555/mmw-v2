@@ -44,7 +44,6 @@ export function CreateListForm() {
   const router = useRouter();
   const [isPreview, setIsPreview] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [moviePreviews, setMoviePreviews] = useState<MoviePreview[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,6 +59,7 @@ export function CreateListForm() {
       movies: '',
     },
   });
+  const { isSubmitting } = form.formState;
 
   const handlePreview = async () => {
     const isValid = await form.trigger();
@@ -87,7 +87,6 @@ export function CreateListForm() {
   };
 
   const onSubmit = async (data: CreateListFormValues) => {
-    setIsSubmitting(true);
     setError(null);
     try {
       await createListAction(data);
@@ -98,8 +97,6 @@ export function CreateListForm() {
         error instanceof Error ? error.message : 'Error al crear la lista';
       setError(errorMessage);
       toast.error(errorMessage);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

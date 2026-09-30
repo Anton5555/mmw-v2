@@ -26,7 +26,7 @@ import {
 } from '@/lib/validations/board';
 import { LexicalEditor } from '@/components/board/lexical-editor';
 import { Loader2 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import type { BoardPost } from '@/lib/types/board';
 import { updateBoardPostAction } from '@/lib/actions/board/update-board-post';
@@ -44,7 +44,6 @@ export function EditPostDialog({
   onOpenChange,
   onSuccess,
 }: EditPostDialogProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<UpdateBoardPostFormValues>({
     resolver: zodResolver(updateBoardPostSchema),
@@ -54,6 +53,7 @@ export function EditPostDialog({
       description: '',
     },
   });
+  const { isSubmitting } = form.formState;
 
   useEffect(() => {
     if (post && open) {
@@ -75,7 +75,6 @@ export function EditPostDialog({
   const onSubmit = async (data: UpdateBoardPostFormValues) => {
     if (!post) return;
 
-    setIsSubmitting(true);
     try {
       await updateBoardPostAction(data);
       toast.success('Post-It actualizado exitosamente');
@@ -86,8 +85,6 @@ export function EditPostDialog({
       toast.error(
         error instanceof Error ? error.message : 'Error al actualizar el post-it'
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

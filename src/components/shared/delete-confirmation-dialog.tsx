@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useTransition } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -35,21 +35,20 @@ export function DeleteConfirmationDialog({
   errorMessage,
   loadingText = 'Eliminando...',
 }: DeleteConfirmationDialogProps) {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting, startDelete] = useTransition();
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!title) return;
-    setIsDeleting(true);
-    try {
-      await onDelete();
-      toast.success(successMessage);
-      onOpenChange(false);
-      onDeleted?.();
-    } catch {
-      toast.error(errorMessage);
-    } finally {
-      setIsDeleting(false);
-    }
+    startDelete(async () => {
+      try {
+        await onDelete();
+        toast.success(successMessage);
+        onOpenChange(false);
+        onDeleted?.();
+      } catch {
+        toast.error(errorMessage);
+      }
+    });
   };
 
   return (

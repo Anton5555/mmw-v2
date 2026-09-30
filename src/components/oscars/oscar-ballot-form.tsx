@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useSyncExternalStore } from 'react';
+import { useState, useSyncExternalStore, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -74,7 +74,7 @@ export function OscarBallotForm({
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [selections, setSelections] = useState<Record<string, number>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, startSubmit] = useTransition();
   const [hasReachedReview, setHasReachedReview] = useState(false);
 
   // Form is available from now until 3 hours before the ceremony.
@@ -136,7 +136,7 @@ export function OscarBallotForm({
     setCurrentStep(categoryIndex);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!isFormAvailable) {
       toast.error('El formulario está bloqueado. Se bloquea 3 horas antes de la ceremonia.');
       return;
@@ -147,30 +147,29 @@ export function OscarBallotForm({
       return;
     }
 
-    setIsSubmitting(true);
-    try {
-      // Convert selections to the format expected by the action
-      const formattedSelections: Record<string, number> = {};
-      for (const [categoryId, nomineeId] of Object.entries(selections)) {
-        formattedSelections[categoryId] = nomineeId;
+    startSubmit(async () => {
+      try {
+        // Convert selections to the format expected by the action
+        const formattedSelections: Record<string, number> = {};
+        for (const [categoryId, nomineeId] of Object.entries(selections)) {
+          formattedSelections[categoryId] = nomineeId;
+        }
+
+        await submitBallotAction({
+          editionId,
+          selections: formattedSelections,
+        });
+
+        // Redirect with search param to trigger success dialog on the summary page
+        router.push('/oscars?submitted=true');
+        router.refresh();
+      } catch (error) {
+        console.error('Error submitting ballot:', error);
+        toast.error(
+          error instanceof Error ? error.message : 'Error al enviar Los Oscalos'
+        );
       }
-
-      await submitBallotAction({
-        editionId,
-        selections: formattedSelections,
-      });
-
-      // Redirect with search param to trigger success dialog on the summary page
-      router.push('/oscars?submitted=true');
-      router.refresh();
-    } catch (error) {
-      console.error('Error submitting ballot:', error);
-      toast.error(
-        error instanceof Error ? error.message : 'Error al enviar Los Oscalos'
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
 
   const selectedNomineeId = currentCategory ? selections[currentCategory.id.toString()] : undefined;
