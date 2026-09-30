@@ -1,13 +1,20 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { getActiveEdition, getOscarCategories } from '@/lib/api/oscars';
 import { OscarWinnersForm } from '@/components/oscars/oscar-winners-form';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
-export default async function OscarsAdminPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function OscarsAdminPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <OscarsAdminPageContent />
+    </Suspense>
+  );
+}
+
+async function OscarsAdminPageContent() {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');

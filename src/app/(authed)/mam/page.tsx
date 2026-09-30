@@ -11,24 +11,30 @@ import { MamMovieGrid } from '@/components/mam-movie-grid';
 import { MamMovieGridWrapper } from '@/components/mam-movie-grid-wrapper';
 import { MamSkeletonGrid } from '@/components/mam-skeleton-grid';
 import Link from 'next/link';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
 import { ParticipantNav } from '@/components/mam/participant-nav';
 import { Film } from 'lucide-react';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 interface MamPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function MamPage({ searchParams }: MamPageProps) {
+export default function MamPage({ searchParams }: MamPageProps) {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <MamPageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function MamPageContent({ searchParams }: MamPageProps) {
   // Load and validate search parameters using nuqs
   const params = await loadMamMoviesSearchParams(searchParams);
 
   // Get current user session
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getCurrentSession();
 
   // Fetch static data (participants list, genres, directors, countries, and user info) - these don't depend on search params
   const [

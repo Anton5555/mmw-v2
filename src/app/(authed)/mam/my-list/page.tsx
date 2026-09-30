@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { getMamCountriesWithMovieCounts, getUserMamPicks } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
@@ -5,19 +6,25 @@ import { MamMovieCard } from '@/components/mam-movie-card';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { Film } from 'lucide-react';
 import Link from 'next/link';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 interface MyListPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function MyListPage({ searchParams }: MyListPageProps) {
+export default function MyListPage({ searchParams }: MyListPageProps) {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <MyListPageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function MyListPageContent({ searchParams }: MyListPageProps) {
   // Get current user session
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     return redirect('/sign-in');

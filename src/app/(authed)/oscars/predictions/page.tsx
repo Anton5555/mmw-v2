@@ -1,13 +1,20 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { getActiveEdition, getOscarPredictionStats } from '@/lib/api/oscars';
 import { OscarPredictionsView } from '@/components/oscars/oscar-predictions-view';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
-export default async function OscarsPredictionsPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function OscarsPredictionsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <OscarsPredictionsPageContent />
+    </Suspense>
+  );
+}
+
+async function OscarsPredictionsPageContent() {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');

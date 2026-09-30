@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import { connection } from 'next/server';
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
@@ -7,8 +6,7 @@ import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
 import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
 import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
+import { getCurrentSession } from '@/lib/get-session';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
@@ -18,10 +16,7 @@ async function AuthenticatedLayoutContent({
 }: {
   children: React.ReactNode;
 }) {
-  await connection();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     // This shouldn't happen due to proxy, but handle it gracefully
