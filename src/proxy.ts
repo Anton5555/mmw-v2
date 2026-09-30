@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { betterFetch } from '@better-fetch/fetch';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 type Session = typeof auth.$Infer.Session;
 
@@ -25,9 +26,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Board is disabled
+  if (
+    !BOARD_ENABLED &&
+    (pathname === '/board' || pathname.startsWith('/board/'))
+  ) {
+    return NextResponse.redirect(new URL('/home', request.url));
+  }
+
   // Check if the route is public
   const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   );
 
   // Get session for all routes (we need this to handle root path)
@@ -38,7 +47,7 @@ export async function proxy(request: NextRequest) {
       headers: {
         cookie: request.headers.get('cookie') || '',
       },
-    }
+    },
   );
 
   // Handle root path
