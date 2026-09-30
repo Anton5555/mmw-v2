@@ -86,17 +86,6 @@ interface TMDBMovieByIdResponse {
   imdb_id?: string;
 }
 
-interface TMDBMovieResponse {
-  movie_results: Array<{
-    id: number;
-    title: string;
-    release_date: string;
-    original_language: string;
-    original_title: string;
-    poster_path: string | null;
-  }>;
-}
-
 function parseArgs(argv: string[]) {
   let processedPath: string | undefined = undefined;
   let unmatchedPath: string | undefined = undefined;

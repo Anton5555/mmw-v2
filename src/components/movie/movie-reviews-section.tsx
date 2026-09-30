@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
-import { GlassCard } from '../ui/glass-card';
 import { ChevronDown } from 'lucide-react';
 import { ReviewCard } from './review-card';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';

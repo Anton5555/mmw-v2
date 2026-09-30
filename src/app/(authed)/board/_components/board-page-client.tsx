@@ -23,6 +23,7 @@ export function BoardPageClient({
 }: BoardPageClientProps) {
   const router = useRouter();
   const [posts, setPosts] = useState<BoardPost[]>(initialPosts);
+  const [prevInitialPosts, setPrevInitialPosts] = useState(initialPosts);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<BoardPost | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -50,9 +51,11 @@ export function BoardPageClient({
 
   useBoardStream(handleBoardEvent, true);
 
-  useEffect(() => {
+  // Reset local state when the server sends new posts (e.g. after router.refresh()).
+  if (initialPosts !== prevInitialPosts) {
+    setPrevInitialPosts(initialPosts);
     setPosts(initialPosts);
-  }, [initialPosts]);
+  }
 
   const handleCreateSuccess = () => {
     router.refresh();

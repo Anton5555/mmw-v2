@@ -50,7 +50,7 @@ export async function getYearTopParticipants(year: number) {
  * Returns null if participant not found
  * Note: year parameter is kept for backward compatibility but is ignored
  */
-export async function getUserYearTopParticipant(userId: string, year?: number) {
+export async function getUserYearTopParticipant(userId: string, _year?: number) {
   return await prisma.yearTopParticipant.findUnique({
     where: {
       userId,

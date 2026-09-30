@@ -120,12 +120,8 @@ export function NominationBuilder({
 
   useEffect(() => {
     const q = query.trim();
-    setHighlightIndex(-1);
 
     if (q.length < 2 || !isNominationOpen || count >= IMDB_LTA_MAX_NOMINATIONS) {
-      setSuggestions([]);
-      setIsSearching(false);
-      setIsSuggestionsOpen(false);
       return;
     }
 
@@ -163,6 +159,14 @@ export function NominationBuilder({
     setHighlightIndex(-1);
   };
 
+  const clearSearch = () => {
+    searchReqId.current += 1; // drop any in-flight response
+    setQuery('');
+    setSuggestions([]);
+    setIsSearching(false);
+    closeSuggestions();
+  };
+
   const focusSearchInput = () => {
     // Defer past React commit + toast focus so the user can keep typing.
     setTimeout(() => {
@@ -186,7 +190,7 @@ export function NominationBuilder({
 
         if (result.status === 'found') {
           await addMovie(result.movie);
-          setQuery('');
+          clearSearch();
           return;
         }
 
@@ -277,7 +281,7 @@ export function NominationBuilder({
       ]);
       setMessage(null);
       setPickerMovies(null);
-      setQuery('');
+      clearSearch();
       toast.success(`Agregada: ${movie.title}`);
       if (movies.length + 1 < IMDB_LTA_MAX_NOMINATIONS) {
         focusSearchInput();
@@ -452,9 +456,16 @@ export function NominationBuilder({
                   ref={searchInputRef}
                   value={query}
                   onChange={(e) => {
-                    setQuery(e.target.value);
-                    if (e.target.value.trim().length >= 2) {
+                    const value = e.target.value;
+                    setQuery(value);
+                    setHighlightIndex(-1);
+                    if (value.trim().length >= 2) {
                       setIsSuggestionsOpen(true);
+                    } else {
+                      searchReqId.current += 1; // drop any in-flight response
+                      setSuggestions([]);
+                      setIsSearching(false);
+                      setIsSuggestionsOpen(false);
                     }
                   }}
                   onKeyDown={handleSearchKeyDown}

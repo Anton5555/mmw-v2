@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Dialog,
@@ -16,14 +16,15 @@ import { CheckCircle2 } from 'lucide-react';
 export function OscarSuccessDialog() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isOpen, setIsOpen] = useState(false);
+  const submitted = searchParams.get('submitted') === 'true';
+  const [isOpen, setIsOpen] = useState(submitted);
+  const [prevSubmitted, setPrevSubmitted] = useState(submitted);
 
-  useEffect(() => {
-    // Check if the submitted param is present
-    if (searchParams.get('submitted') === 'true') {
-      setIsOpen(true);
-    }
-  }, [searchParams]);
+  // Open whenever the submitted param appears in the URL.
+  if (submitted !== prevSubmitted) {
+    setPrevSubmitted(submitted);
+    if (submitted) setIsOpen(true);
+  }
 
   const handleClose = () => {
     setIsOpen(false);

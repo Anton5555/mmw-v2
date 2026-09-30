@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "node_modules/**"],
+    ignores: [".next/**", "node_modules/**", "coverage/**"],
   },
   ...tseslint.configs.recommended,
   {
@@ -21,10 +21,11 @@ export default tseslint.config(
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       ...hooksPlugin.configs.recommended.rules,
-      // Pre-existing debt: kept visible as warnings so CI can gate on new errors.
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "react-hooks/set-state-in-effect": "warn",
+      // `_`-prefixed names are intentionally unused (e.g. kept for API compatibility).
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" },
+      ],
     },
     settings: {
       react: {

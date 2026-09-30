@@ -21,20 +21,6 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
   const totalCategories = ballot.picks.length;
   const currentScore = ballot.score ?? null;
 
-  // Determine if a category is technical (for styling)
-  const isTechnicalCategory = (slug: string) => {
-    return (
-      slug.includes('cinematography') ||
-      slug.includes('editing') ||
-      slug.includes('sound') ||
-      slug.includes('visual-effects') ||
-      slug.includes('production-design') ||
-      slug.includes('costume') ||
-      slug.includes('makeup') ||
-      slug.includes('casting')
-    );
-  };
-
   // Determine if a category should show poster (film categories)
   const shouldShowPoster = (slug: string) => {
     return (
@@ -128,7 +114,6 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {ballot.picks.map((pick, i) => {
           const showPoster = shouldShowPoster(pick.category.slug);
-          const isTechnical = isTechnicalCategory(pick.category.slug);
           const movieTitle = pick.nominee.filmTitle || pick.nominee.movie?.title || '';
 
           return (
