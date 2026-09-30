@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   findMovieByImdbId,
   findOrCreateMovieByImdbId,

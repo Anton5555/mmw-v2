@@ -1,6 +1,6 @@
 'use client';
 
-import { List } from '@prisma/client';
+import { List } from '@generated/prisma/client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {

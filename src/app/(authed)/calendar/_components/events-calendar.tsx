@@ -26,7 +26,7 @@ import { CreateEventSheet } from './create-event-dialog';
 import { EditEventSheet } from './edit-event-dialog';
 import { DeleteEventDialog } from './delete-event-dialog';
 import { MonthYearPicker } from '@/components/month-year-picker';
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 import { EVENT_COLORS } from '@/lib/utils/constants';
 import {
   Popover,

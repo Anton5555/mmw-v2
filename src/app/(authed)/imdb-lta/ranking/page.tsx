@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import { Film, Star, Trophy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import { getImdbLtaPhase, listOfficialRanking } from '@/lib/api/imdb-lta';
 import { redirect } from 'next/navigation';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';

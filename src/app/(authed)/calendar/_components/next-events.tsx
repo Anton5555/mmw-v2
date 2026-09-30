@@ -7,7 +7,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 
 import { EVENT_COLORS, EVENT_ICONS } from '@/lib/utils/constants';
 import { cn } from '@/lib/utils';
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 import { useSession } from '@/lib/auth-client';
 import { EditEventSheet } from './edit-event-dialog';
 import { DeleteEventDialog } from './delete-event-dialog';

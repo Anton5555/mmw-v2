@@ -2,7 +2,7 @@
 
 import { DeleteConfirmationDialog } from '@/components/shared/delete-confirmation-dialog';
 import { deleteEventAction } from '@/lib/actions/events/delete-event';
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 
 type DeleteEventDialogProps = {
   event: Event | null;

@@ -6,7 +6,7 @@ import {
   listAdminNominationSnapshot,
 } from '@/lib/api/imdb-lta';
 import { NominationBuilder } from './_components/nomination-builder';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   ImdbLtaPhaseNav,
   phaseBannerCopy,
