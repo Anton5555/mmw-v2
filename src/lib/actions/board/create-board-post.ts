@@ -5,8 +5,13 @@ import { CreateBoardPostFormValues } from '@/lib/validations/board';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 export async function createBoardPostAction(input: CreateBoardPostFormValues) {
+  if (!BOARD_ENABLED) {
+    throw new Error('Tablero deshabilitado');
+  }
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });

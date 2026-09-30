@@ -1,7 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar, Clapperboard, ClipboardList, Film, Info, NotebookTabs, Trophy } from 'lucide-react';
+import {
+  Calendar,
+  Clapperboard,
+  ClipboardList,
+  Film,
+  Info,
+  NotebookTabs,
+  Trophy,
+} from 'lucide-react';
 import { OscarIcon } from '@/components/icons/oscar-icon';
 
 import {
@@ -19,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { NavUser } from './nav-user';
 import { NavMain } from './nav-main';
 import { User } from 'better-auth';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 // This is sample data.
 const navItems = [
@@ -32,11 +41,15 @@ const navItems = [
     url: '/calendar',
     icon: Calendar,
   },
-  {
-    title: 'Tablero',
-    url: '/board',
-    icon: ClipboardList,
-  },
+  ...(BOARD_ENABLED
+    ? [
+        {
+          title: 'Tablero',
+          url: '/board',
+          icon: ClipboardList,
+        },
+      ]
+    : []),
   {
     title: 'MAM',
     url: '/mam',
@@ -116,7 +129,7 @@ export function AppSidebar({
       <SidebarFooter
         className={cn(
           'border-t border-white/5 bg-zinc-950/80',
-          open ? 'p-4' : 'p-2'
+          open ? 'p-4' : 'p-2',
         )}
       >
         <NavUser user={user} />

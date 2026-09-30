@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 export async function GET() {
+  if (!BOARD_ENABLED) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
