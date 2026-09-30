@@ -206,7 +206,7 @@ export type BoardPostGroupByOutputType = {
   _max: BoardPostMaxAggregateOutputType | null
 }
 
-type GetBoardPostGroupByPayload<T extends BoardPostGroupByArgs> = Prisma.PrismaPromise<
+export type GetBoardPostGroupByPayload<T extends BoardPostGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BoardPostGroupByOutputType, T['by']> &
       {
@@ -1236,6 +1236,11 @@ export type BoardPostFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` BoardPosts.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of BoardPosts.
+   */
   distinct?: Prisma.BoardPostScalarFieldEnum | Prisma.BoardPostScalarFieldEnum[]
 }
 

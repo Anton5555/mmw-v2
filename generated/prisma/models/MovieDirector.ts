@@ -186,7 +186,7 @@ export type MovieDirectorGroupByOutputType = {
   _max: MovieDirectorMaxAggregateOutputType | null
 }
 
-type GetMovieDirectorGroupByPayload<T extends MovieDirectorGroupByArgs> = Prisma.PrismaPromise<
+export type GetMovieDirectorGroupByPayload<T extends MovieDirectorGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MovieDirectorGroupByOutputType, T['by']> &
       {
@@ -1216,6 +1216,11 @@ export type MovieDirectorFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` MovieDirectors.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MovieDirectors.
+   */
   distinct?: Prisma.MovieDirectorScalarFieldEnum | Prisma.MovieDirectorScalarFieldEnum[]
 }
 

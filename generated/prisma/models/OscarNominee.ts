@@ -214,7 +214,7 @@ export type OscarNomineeGroupByOutputType = {
   _max: OscarNomineeMaxAggregateOutputType | null
 }
 
-type GetOscarNomineeGroupByPayload<T extends OscarNomineeGroupByArgs> = Prisma.PrismaPromise<
+export type GetOscarNomineeGroupByPayload<T extends OscarNomineeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OscarNomineeGroupByOutputType, T['by']> &
       {
@@ -1496,6 +1496,11 @@ export type OscarNomineeFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` OscarNominees.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of OscarNominees.
+   */
   distinct?: Prisma.OscarNomineeScalarFieldEnum | Prisma.OscarNomineeScalarFieldEnum[]
 }
 

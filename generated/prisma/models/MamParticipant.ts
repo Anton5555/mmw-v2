@@ -192,7 +192,7 @@ export type MamParticipantGroupByOutputType = {
   _max: MamParticipantMaxAggregateOutputType | null
 }
 
-type GetMamParticipantGroupByPayload<T extends MamParticipantGroupByArgs> = Prisma.PrismaPromise<
+export type GetMamParticipantGroupByPayload<T extends MamParticipantGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MamParticipantGroupByOutputType, T['by']> &
       {
@@ -1316,6 +1316,11 @@ export type MamParticipantFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` MamParticipants.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MamParticipants.
+   */
   distinct?: Prisma.MamParticipantScalarFieldEnum | Prisma.MamParticipantScalarFieldEnum[]
 }
 
