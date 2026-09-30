@@ -25,14 +25,14 @@ export function ListCard({ list }: ListCardProps) {
       onClick={handleClick}
       className="group relative"
     >
-      <Card className="relative aspect-video w-full overflow-hidden border-none bg-muted shadow-lg transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20">
+      <Card className="relative aspect-video w-full overflow-hidden border-none bg-muted shadow-lg transition-[transform,box-shadow] duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20">
         {/* Background Image */}
         {list.imgUrl ? (
           <Image
             src={list.imgUrl}
             alt={list.name}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (

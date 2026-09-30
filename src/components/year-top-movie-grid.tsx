@@ -2,6 +2,7 @@ import { getYearTopMovies } from '@/lib/api/year-top';
 import { YearTopMovieCard } from '@/components/year-top-movie-card';
 import { YearTopPagination } from '@/components/year-top-pagination';
 import { Film } from 'lucide-react';
+import { staggerDelay } from '@/lib/utils';
 import { YearTopPickType } from '@generated/prisma/client';
 
 interface YearTopMovieGridProps {
@@ -81,7 +82,7 @@ export async function YearTopMovieGrid({ searchParams }: YearTopMovieGridProps) 
           <div
             key={movie.id}
             className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 50}ms` }}
+            style={staggerDelay(index)}
           >
             <YearTopMovieCard
               movie={movie}

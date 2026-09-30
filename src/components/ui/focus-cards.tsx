@@ -23,7 +23,7 @@ export const Card = ({
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        'group relative aspect-[2/3] overflow-hidden rounded-xl transition-opacity duration-300 ease-out',
+        'group relative aspect-[2/3] overflow-hidden rounded-xl transition-opacity duration-200 ease-out',
         hovered !== null && hovered !== index && 'opacity-50',
         card.href && 'cursor-pointer',
         className
@@ -34,7 +34,10 @@ export const Card = ({
           src={card.src}
           alt={card.title}
           fill
-          className="object-cover"
+          className={cn(
+            'object-cover transition-transform duration-500 ease-out',
+            hovered === index && '[@media(hover:hover)_and_(pointer:fine)]:scale-105'
+          )}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           unoptimized
         />
@@ -48,8 +51,10 @@ export const Card = ({
 
         <div
           className={cn(
-            'absolute inset-x-0 bottom-0 p-4 transition-opacity duration-300',
-            hovered === index ? 'opacity-100' : 'opacity-0'
+            'absolute inset-x-0 bottom-0 p-4 transition-[opacity,transform] duration-200 ease-out',
+            hovered === index
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-2'
           )}
         >
           <p className="text-sm font-semibold tracking-tight text-white line-clamp-2">
@@ -57,7 +62,7 @@ export const Card = ({
           </p>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 rounded-xl border border-white/10 group-hover:border-white/30" />
+        <div className="pointer-events-none absolute inset-0 rounded-xl border border-white/10 transition-colors duration-200 group-hover:border-white/30" />
       </div>
     </div>
   );
