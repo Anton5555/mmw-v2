@@ -67,7 +67,7 @@ export function MovieHero({
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className={cn('relative', !compact && 'hidden md:block')}
+              className={cn('relative', compact ? 'self-start' : 'hidden md:block')}
             >
               <div className="aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50 ring-1 ring-white/10">
                 <Image
