@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const db = vi.hoisted(() => ({
-  imdbLtaConfig: { findUnique: vi.fn(), create: vi.fn(), update: vi.fn() },
+  imdbLtaConfig: { upsert: vi.fn(), update: vi.fn() },
   imdbLtaNominationList: {
     findUnique: vi.fn(),
     upsert: vi.fn(),
@@ -46,7 +46,7 @@ import {
 } from './imdb-lta';
 
 const setPhase = (phase: string) =>
-  db.imdbLtaConfig.findUnique.mockResolvedValue({ id: 1, phase });
+  db.imdbLtaConfig.upsert.mockResolvedValue({ id: 1, phase });
 
 const uniqueViolation = () => Object.assign(new Error('unique'), { code: 'P2002' });
 
@@ -91,12 +91,13 @@ describe('assertNominationPhaseOpen', () => {
     await expect(assertNominationPhaseOpen()).rejects.toThrow(/plazo de nominaciones terminó/);
   });
 
-  it('creates the singleton config as NOMINATION_OPEN when missing', async () => {
-    db.imdbLtaConfig.findUnique.mockResolvedValue(null);
-    db.imdbLtaConfig.create.mockResolvedValue({ id: 1, phase: 'NOMINATION_OPEN' });
+  it('upserts the singleton config, defaulting to NOMINATION_OPEN and never overwriting an existing row', async () => {
+    db.imdbLtaConfig.upsert.mockResolvedValue({ id: 1, phase: 'NOMINATION_OPEN' });
     await assertNominationPhaseOpen();
-    expect(db.imdbLtaConfig.create).toHaveBeenCalledWith({
-      data: { id: 1, phase: 'NOMINATION_OPEN' },
+    expect(db.imdbLtaConfig.upsert).toHaveBeenCalledWith({
+      where: { id: 1 },
+      create: { id: 1, phase: 'NOMINATION_OPEN' },
+      update: {},
     });
   });
 });

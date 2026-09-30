@@ -37,14 +37,11 @@ export type LookupMovieResult =
   | { status: 'not_found'; message: string };
 
 async function getOrCreateConfig() {
-  const existing = await prisma.imdbLtaConfig.findUnique({
+  // Atomic upsert: two concurrent first requests must not both try to insert the row.
+  return prisma.imdbLtaConfig.upsert({
     where: { id: CONFIG_ID },
-  });
-  if (existing) {
-    return existing;
-  }
-  return prisma.imdbLtaConfig.create({
-    data: { id: CONFIG_ID, phase: ImdbLtaPhase.NOMINATION_OPEN },
+    create: { id: CONFIG_ID, phase: ImdbLtaPhase.NOMINATION_OPEN },
+    update: {},
   });
 }
 
