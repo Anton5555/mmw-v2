@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 
@@ -33,7 +33,7 @@ export async function deleteEventAction(eventId: string) {
     where: { id: eventId },
   });
 
-  revalidateTag('events', 'max');
+  updateTag('events');
 
   return { success: true };
 }

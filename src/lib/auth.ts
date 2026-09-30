@@ -5,15 +5,6 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { sendForgotPasswordEmail, sendVerificationEmail } from './utils/emails';
 import { admin } from 'better-auth/plugins';
 
-export type AuthUser = {
-  id: string;
-  email: string;
-
-  name: string;
-  image?: string | null;
-  emailVerified?: Date | null;
-};
-
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
@@ -33,9 +24,9 @@ export const auth = betterAuth({
       await sendForgotPasswordEmail({ to: user.email, url });
     },
   },
-  jwt: {
-    secret: env.JWT_SECRET,
-    expiresIn: '30d',
+  session: {
+    // Serve session reads from a signed cookie for 5 minutes instead of the DB
+    cookieCache: { enabled: true, maxAge: 5 * 60 },
   },
   baseURL: env.NEXT_PUBLIC_APP_URL,
   plugins: [admin()],

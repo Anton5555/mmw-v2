@@ -2,7 +2,7 @@
 
 import { auth } from '@/lib/auth';
 import { CreateEventFormValues } from '@/lib/validations/events';
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 import { randomUUID } from 'crypto';
@@ -30,7 +30,7 @@ export async function createEventAction(input: CreateEventFormValues) {
     },
   });
 
-  revalidateTag('events', 'max');
+  updateTag('events');
 
   return { success: true, event };
 }

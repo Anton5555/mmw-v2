@@ -1,17 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
+import { env } from '@/env';
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error('DATABASE_URL environment variable is not set');
-}
+const pool = new Pool({ connectionString: env.DATABASE_URL });
 
-const pool = new Pool({ connectionString });
+// An idle client erroring (e.g. the pooler dropping it) must not crash the process
+pool.on('error', (error) => {
+  console.error('[db] Unexpected error on idle pg client:', error);
+});
+
 const adapter = new PrismaPg(pool);
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
