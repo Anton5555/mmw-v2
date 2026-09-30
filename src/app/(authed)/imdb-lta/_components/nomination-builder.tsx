@@ -120,12 +120,10 @@ export function NominationBuilder({
 
   useEffect(() => {
     const q = query.trim();
-    setHighlightIndex(-1);
 
+    // Stale suggestions are cleared in the input's onChange; the panel itself
+    // is already gated by showSuggestionsPanel.
     if (q.length < 2 || !isNominationOpen || count >= IMDB_LTA_MAX_NOMINATIONS) {
-      setSuggestions([]);
-      setIsSearching(false);
-      setIsSuggestionsOpen(false);
       return;
     }
 
@@ -453,8 +451,13 @@ export function NominationBuilder({
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
+                    setHighlightIndex(-1);
                     if (e.target.value.trim().length >= 2) {
                       setIsSuggestionsOpen(true);
+                    } else {
+                      setSuggestions([]);
+                      setIsSearching(false);
+                      setIsSuggestionsOpen(false);
                     }
                   }}
                   onKeyDown={handleSearchKeyDown}

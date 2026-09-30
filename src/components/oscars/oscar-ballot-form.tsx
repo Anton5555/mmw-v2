@@ -21,6 +21,55 @@ interface OscarBallotFormProps {
 // Hours before ceremony when form is blocked (3 hours before)
 const HOURS_BEFORE_CEREMONY = 3;
 
+function getAvailability(ceremonyDate: Date | string | null | undefined, now: Date) {
+  if (!ceremonyDate) return { isFormAvailable: true, timeUntilBlocked: '' };
+
+  const ceremony = new Date(ceremonyDate);
+  const cutoffTime = new Date(
+    ceremony.getTime() - HOURS_BEFORE_CEREMONY * 60 * 60 * 1000
+  );
+
+  // Form is blocked (within 3 hours of ceremony)
+  if (now >= cutoffTime) return { isFormAvailable: false, timeUntilBlocked: '' };
+
+  // Calculate time until form is blocked using date-fns
+  const duration = intervalToDuration({ start: now, end: cutoffTime });
+
+    // Build a human-readable string (show up to 3 most significant parts)
+    const parts: string[] = [];
+    
+    if (duration.years && duration.years > 0 && parts.length < 3) {
+      parts.push(`${duration.years} ${duration.years === 1 ? 'año' : 'años'}`);
+    }
+    if (duration.months && duration.months > 0 && parts.length < 3) {
+      parts.push(`${duration.months} ${duration.months === 1 ? 'mes' : 'meses'}`);
+    }
+    if (duration.weeks && duration.weeks > 0 && parts.length < 3) {
+      parts.push(`${duration.weeks} ${duration.weeks === 1 ? 'semana' : 'semanas'}`);
+    }
+    if (duration.days && duration.days > 0 && parts.length < 3) {
+      parts.push(`${duration.days} ${duration.days === 1 ? 'día' : 'días'}`);
+    }
+    if (duration.hours && duration.hours > 0 && parts.length < 3) {
+      parts.push(`${duration.hours} ${duration.hours === 1 ? 'hora' : 'horas'}`);
+    }
+    if (duration.minutes && duration.minutes > 0 && parts.length < 3) {
+      parts.push(`${duration.minutes} ${duration.minutes === 1 ? 'minuto' : 'minutos'}`);
+    }
+
+  // Format with commas and "y" for the last item
+  let timeUntilBlocked: string;
+  if (parts.length === 0) {
+    timeUntilBlocked = 'menos de un minuto';
+  } else if (parts.length === 1) {
+    timeUntilBlocked = parts[0];
+  } else {
+    const lastPart = parts.pop();
+    timeUntilBlocked = `${parts.join(', ')} y ${lastPart}`;
+  }
+  return { isFormAvailable: true, timeUntilBlocked };
+}
+
 export function OscarBallotForm({
   categories,
   editionId,
@@ -31,76 +80,14 @@ export function OscarBallotForm({
   const [selections, setSelections] = useState<Record<string, number>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasReachedReview, setHasReachedReview] = useState(false);
-  const [isFormAvailable, setIsFormAvailable] = useState(true);
-  const [timeUntilBlocked, setTimeUntilBlocked] = useState<string>('');
 
-  // Check if form should be available based on ceremony date
-  // Form is available from now until 3 hours before ceremony
+  // Form is available from now until 3 hours before ceremony; re-evaluated every minute
+  const [now, setNow] = useState(() => new Date());
   useEffect(() => {
-    if (!ceremonyDate) {
-      setIsFormAvailable(true);
-      return;
-    }
-
-    const checkAvailability = () => {
-      const now = new Date();
-      const ceremony = new Date(ceremonyDate);
-      const hoursBefore = HOURS_BEFORE_CEREMONY;
-      const cutoffTime = new Date(ceremony.getTime() - hoursBefore * 60 * 60 * 1000);
-
-      if (now >= cutoffTime) {
-        // Form is blocked (within 3 hours of ceremony)
-        setIsFormAvailable(false);
-        setTimeUntilBlocked('');
-      } else {
-        // Form is available (more than 3 hours before ceremony)
-        setIsFormAvailable(true);
-        // Calculate time until form is blocked using date-fns
-        const duration = intervalToDuration({
-          start: now,
-          end: cutoffTime,
-        });
-
-        // Build a human-readable string (show up to 3 most significant parts)
-        const parts: string[] = [];
-        
-        if (duration.years && duration.years > 0 && parts.length < 3) {
-          parts.push(`${duration.years} ${duration.years === 1 ? 'año' : 'años'}`);
-        }
-        if (duration.months && duration.months > 0 && parts.length < 3) {
-          parts.push(`${duration.months} ${duration.months === 1 ? 'mes' : 'meses'}`);
-        }
-        if (duration.weeks && duration.weeks > 0 && parts.length < 3) {
-          parts.push(`${duration.weeks} ${duration.weeks === 1 ? 'semana' : 'semanas'}`);
-        }
-        if (duration.days && duration.days > 0 && parts.length < 3) {
-          parts.push(`${duration.days} ${duration.days === 1 ? 'día' : 'días'}`);
-        }
-        if (duration.hours && duration.hours > 0 && parts.length < 3) {
-          parts.push(`${duration.hours} ${duration.hours === 1 ? 'hora' : 'horas'}`);
-        }
-        if (duration.minutes && duration.minutes > 0 && parts.length < 3) {
-          parts.push(`${duration.minutes} ${duration.minutes === 1 ? 'minuto' : 'minutos'}`);
-        }
-
-        // Format with commas and "y" for the last item
-        if (parts.length === 0) {
-          setTimeUntilBlocked('menos de un minuto');
-        } else if (parts.length === 1) {
-          setTimeUntilBlocked(parts[0]);
-        } else {
-          const lastPart = parts.pop();
-          setTimeUntilBlocked(`${parts.join(', ')} y ${lastPart}`);
-        }
-      }
-    };
-
-    checkAvailability();
-    // Update every minute
-    const interval = setInterval(checkAvailability, 60000);
-
+    const interval = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(interval);
-  }, [ceremonyDate]);
+  }, []);
+  const { isFormAvailable, timeUntilBlocked } = getAvailability(ceremonyDate, now);
 
   const allCategoriesSelected = Object.keys(selections).length === categories.length;
   const isPreviewStep = allCategoriesSelected && currentStep >= categories.length;

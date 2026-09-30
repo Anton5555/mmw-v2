@@ -50,9 +50,12 @@ export function BoardPageClient({
 
   useBoardStream(handleBoardEvent, true);
 
-  useEffect(() => {
+  // Sync with fresh server data (e.g. after router.refresh()) during render
+  const [prevInitialPosts, setPrevInitialPosts] = useState(initialPosts);
+  if (initialPosts !== prevInitialPosts) {
+    setPrevInitialPosts(initialPosts);
     setPosts(initialPosts);
-  }, [initialPosts]);
+  }
 
   const handleCreateSuccess = () => {
     router.refresh();

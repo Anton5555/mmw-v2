@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { MamSkeletonGrid } from './mam-skeleton-grid';
 import { useMamMoviesParams } from '@/lib/hooks/useMamMoviesParams';
 import { startTransition } from 'react';
@@ -41,15 +41,12 @@ export function MamMovieGridWrapper({
   }, [initialParams, renderedParams]);
 
   // Check if client params differ from rendered params (user is typing)
-  const paramsDiffer = useMemo(() => {
-    return (
-      clientParams.title !== renderedParams.title ||
-      clientParams.imdb !== renderedParams.imdb ||
-      JSON.stringify(clientParams.participants) !==
-        JSON.stringify(renderedParams.participants) ||
-      clientParams.page !== renderedParams.page
-    );
-  }, [clientParams, renderedParams]);
+  const paramsDiffer =
+    clientParams.title !== renderedParams.title ||
+    clientParams.imdb !== renderedParams.imdb ||
+    JSON.stringify(clientParams.participants) !==
+      JSON.stringify(renderedParams.participants) ||
+    clientParams.page !== renderedParams.page;
 
   // Show skeleton immediately when client params differ (user is typing, URL hasn't updated yet)
   if (paramsDiffer) {

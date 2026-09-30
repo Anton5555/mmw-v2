@@ -335,100 +335,91 @@ interface TimePickerInputProps
   onLeftFocus?: () => void;
 }
 
-const TimePickerInput = React.forwardRef<
-  HTMLInputElement,
-  TimePickerInputProps
->(
-  (
-    {
-      className,
-      type = 'tel',
-      value,
-      id,
-      name,
-      date = new Date(new Date().setHours(0, 0, 0, 0)),
-      onDateChange,
-      onChange,
-      onKeyDown,
-      picker,
-      onLeftFocus,
-      onRightFocus,
-      ...props
-    },
-    ref
-  ) => {
-    const [flag, setFlag] = React.useState<boolean>(false);
+function TimePickerInput({
+  className,
+  type = 'tel',
+  value,
+  id,
+  name,
+  date = new Date(new Date().setHours(0, 0, 0, 0)),
+  onDateChange,
+  onChange,
+  onKeyDown,
+  picker,
+  onLeftFocus,
+  onRightFocus,
+  ref,
+  ...props
+}: TimePickerInputProps & { ref?: React.Ref<HTMLInputElement> }) {
+  const [flag, setFlag] = React.useState<boolean>(false);
 
-    /**
-     * allow the user to enter the second digit within 2 seconds
-     * otherwise start again with entering first digit
-     */
-    React.useEffect(() => {
-      if (flag) {
-        const timer = setTimeout(() => {
-          setFlag(false);
-        }, 2000);
+  /**
+   * allow the user to enter the second digit within 2 seconds
+   * otherwise start again with entering first digit
+   */
+  React.useEffect(() => {
+    if (flag) {
+      const timer = setTimeout(() => {
+        setFlag(false);
+      }, 2000);
 
-        return () => clearTimeout(timer);
-      }
-    }, [flag]);
+      return () => clearTimeout(timer);
+    }
+  }, [flag]);
 
-    const calculatedValue = getDateByType(date, picker);
+  const calculatedValue = getDateByType(date, picker);
 
-    const calculateNewValue = (key: string) =>
-      !flag ? `0${key}` : calculatedValue.slice(1, 2) + key;
+  const calculateNewValue = (key: string) =>
+    !flag ? `0${key}` : calculatedValue.slice(1, 2) + key;
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Tab') return;
-      e.preventDefault();
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Tab') return;
+    e.preventDefault();
 
-      if (e.key === 'ArrowRight') onRightFocus?.();
-      if (e.key === 'ArrowLeft') onLeftFocus?.();
+    if (e.key === 'ArrowRight') onRightFocus?.();
+    if (e.key === 'ArrowLeft') onLeftFocus?.();
 
-      if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
-        const step = e.key === 'ArrowUp' ? 1 : -1;
-        const newValue = getArrowByType(calculatedValue, step, picker);
-        if (flag) setFlag(false);
-        const tempDate = date ? new Date(date) : new Date();
-        onDateChange?.(setDateByType(tempDate, newValue, picker));
-      }
+    if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+      const step = e.key === 'ArrowUp' ? 1 : -1;
+      const newValue = getArrowByType(calculatedValue, step, picker);
+      if (flag) setFlag(false);
+      const tempDate = date ? new Date(date) : new Date();
+      onDateChange?.(setDateByType(tempDate, newValue, picker));
+    }
 
-      if (e.key >= '0' && e.key <= '9') {
-        const newValue = calculateNewValue(e.key);
-        if (flag) onRightFocus?.();
-        setFlag((prev) => !prev);
-        const tempDate = date ? new Date(date) : new Date();
-        onDateChange?.(setDateByType(tempDate, newValue, picker));
-      }
-    };
+    if (e.key >= '0' && e.key <= '9') {
+      const newValue = calculateNewValue(e.key);
+      if (flag) onRightFocus?.();
+      setFlag((prev) => !prev);
+      const tempDate = date ? new Date(date) : new Date();
+      onDateChange?.(setDateByType(tempDate, newValue, picker));
+    }
+  };
 
-    return (
-      <Input
-        ref={ref}
-        id={id || picker}
-        name={name || picker}
-        className={cn(
-          'w-[48px] text-center font-mono text-base tabular-nums caret-transparent focus:bg-accent focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none',
-          className
-        )}
-        value={value || calculatedValue}
-        onChange={(e) => {
-          e.preventDefault();
-          onChange?.(e);
-        }}
-        type={type}
-        inputMode="decimal"
-        onKeyDown={(e) => {
-          onKeyDown?.(e);
-          handleKeyDown(e);
-        }}
-        {...props}
-      />
-    );
-  }
-);
-
-TimePickerInput.displayName = 'TimePickerInput';
+  return (
+    <Input
+      ref={ref}
+      id={id || picker}
+      name={name || picker}
+      className={cn(
+        'w-[48px] text-center font-mono text-base tabular-nums caret-transparent focus:bg-accent focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none',
+        className
+      )}
+      value={value || calculatedValue}
+      onChange={(e) => {
+        e.preventDefault();
+        onChange?.(e);
+      }}
+      type={type}
+      inputMode="decimal"
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        handleKeyDown(e);
+      }}
+      {...props}
+    />
+  );
+}
 
 interface TimePickerProps {
   date?: Date | null;
@@ -440,46 +431,47 @@ interface TimePickerRef {
   hourRef: HTMLInputElement | null;
 }
 
-const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
-  ({ date, onChange }, ref) => {
-    const minuteRef = React.useRef<HTMLInputElement>(null);
-    const hourRef = React.useRef<HTMLInputElement>(null);
+function TimePicker({
+  date,
+  onChange,
+  ref,
+}: TimePickerProps & { ref?: React.Ref<TimePickerRef> }) {
+  const minuteRef = React.useRef<HTMLInputElement>(null);
+  const hourRef = React.useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        minuteRef: minuteRef.current,
-        hourRef: hourRef.current,
-      }),
-      [minuteRef, hourRef]
-    );
-    return (
-      <div className="flex items-center justify-center gap-2">
-        <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
-          <Clock className="mr-2 h-4 w-4" />
-        </label>
+  useImperativeHandle(
+    ref,
+    () => ({
+      minuteRef: minuteRef.current,
+      hourRef: hourRef.current,
+    }),
+    [minuteRef, hourRef]
+  );
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
+        <Clock className="mr-2 h-4 w-4" />
+      </label>
 
-        <TimePickerInput
-          picker={'hours'}
-          date={date}
-          id="datetime-picker-hour-input"
-          onDateChange={onChange}
-          ref={hourRef}
-          onRightFocus={() => minuteRef?.current?.focus()}
-        />
+      <TimePickerInput
+        picker={'hours'}
+        date={date}
+        id="datetime-picker-hour-input"
+        onDateChange={onChange}
+        ref={hourRef}
+        onRightFocus={() => minuteRef?.current?.focus()}
+      />
 
-        <TimePickerInput
-          picker="minutes"
-          date={date}
-          onDateChange={onChange}
-          ref={minuteRef}
-          onLeftFocus={() => hourRef?.current?.focus()}
-        />
-      </div>
-    );
-  }
-);
-TimePicker.displayName = 'TimePicker';
+      <TimePickerInput
+        picker="minutes"
+        date={date}
+        onDateChange={onChange}
+        ref={minuteRef}
+        onLeftFocus={() => hourRef?.current?.focus()}
+      />
+    </div>
+  );
+}
 
 type DateTimePickerProps = {
   value?: Date;
@@ -511,154 +503,145 @@ type DateTimePickerRef = {
   value?: Date;
 } & Omit<HTMLButtonElement, 'value'>;
 
-const DateTimePicker = React.forwardRef<
-  Partial<DateTimePickerRef>,
-  DateTimePickerProps
->(
-  (
-    {
-      locale = es,
-      defaultPopupValue = new Date(new Date().setHours(0, 0, 0, 0)),
-      value,
-      onChange,
-      yearRange = 50,
-      disabled = false,
-      placeholder = 'Selecciona una fecha',
-      className,
-      displayTime = true,
-      ...props
-    },
-    ref
-  ) => {
-    const [month, setMonth] = React.useState<Date>(value ?? defaultPopupValue);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const [displayDate, setDisplayDate] = React.useState<Date | undefined>(
-      value ?? undefined
-    );
-    /**
-     * carry over the current time when a user clicks a new day
-     * instead of resetting to 00:00
-     */
-    const handleSelect = (newDay: Date | undefined) => {
-      if (!newDay) return;
+function DateTimePicker({
+  locale = es,
+  defaultPopupValue = new Date(new Date().setHours(0, 0, 0, 0)),
+  value,
+  onChange,
+  yearRange = 50,
+  disabled = false,
+  placeholder = 'Selecciona una fecha',
+  className,
+  displayTime = true,
+  ref,
+  ...props
+}: DateTimePickerProps & { ref?: React.Ref<Partial<DateTimePickerRef>> }) {
+  const [month, setMonth] = React.useState<Date>(value ?? defaultPopupValue);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [displayDate, setDisplayDate] = React.useState<Date | undefined>(
+    value ?? undefined
+  );
+  /**
+   * carry over the current time when a user clicks a new day
+   * instead of resetting to 00:00
+   */
+  const handleSelect = (newDay: Date | undefined) => {
+    if (!newDay) return;
 
-      if (!defaultPopupValue) {
-        newDay.setHours(month?.getHours() ?? 0, month?.getMinutes() ?? 0);
-
-        onChange?.(newDay);
-        setMonth(newDay);
-        return;
-      }
-
-      const diff = newDay.getTime() - defaultPopupValue.getTime();
-      const diffInDays = diff / (1000 * 60 * 60 * 24);
-
-      const newDateFull = add(defaultPopupValue, {
-        days: Math.ceil(diffInDays),
-      });
-
-      newDateFull.setHours(month?.getHours() ?? 0, month?.getMinutes() ?? 0);
-
-      onChange?.(newDateFull);
-      setMonth(newDateFull);
-    };
-
-    const onSelect = (newDay?: Date) => {
-      if (!newDay) return;
+    if (!defaultPopupValue) {
+      newDay.setHours(month?.getHours() ?? 0, month?.getMinutes() ?? 0);
 
       onChange?.(newDay);
       setMonth(newDay);
-      setDisplayDate(newDay);
-    };
-
-    useImperativeHandle(
-      ref,
-      () => ({
-        ...buttonRef.current,
-        value: displayDate,
-      }),
-      [displayDate]
-    );
-
-    const initHourFormat = displayTime ? 'PPP HH:mm' : "dd 'de' MMMM";
-
-    let loc = es;
-    const { options, localize, formatLong } = locale;
-    if (options && localize && formatLong) {
-      loc = {
-        ...es,
-        options,
-        localize,
-        formatLong,
-      };
+      return;
     }
 
-    return (
-      <Popover>
-        <PopoverTrigger asChild disabled={disabled}>
-          <Button
-            variant="outline"
-            className={cn(
-              'w-full justify-start text-left font-normal min-w-0',
-              !displayDate && 'text-muted-foreground',
-              className
-            )}
-            ref={buttonRef}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
-            {displayDate ? (
-              <span className="truncate">
-                {format(displayDate, initHourFormat, {
-                  locale: loc,
-                })}
-              </span>
-            ) : (
-              <span className="truncate">{placeholder}</span>
-            )}
-          </Button>
-        </PopoverTrigger>
+    const diff = newDay.getTime() - defaultPopupValue.getTime();
+    const diffInDays = diff / (1000 * 60 * 60 * 24);
 
-        <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={displayDate}
-            month={month}
-            onSelect={(newDate) => {
-              if (newDate) {
-                newDate.setHours(
-                  month?.getHours() ?? 0,
-                  month?.getMinutes() ?? 0
-                );
+    const newDateFull = add(defaultPopupValue, {
+      days: Math.ceil(diffInDays),
+    });
 
-                onSelect(newDate);
-              }
-            }}
-            onMonthChange={handleSelect}
-            yearRange={yearRange}
-            locale={locale}
-            {...props}
-          />
-          {displayTime && (
-            <div className="border-t border-border p-3">
-              <TimePicker
-                onChange={(value) => {
-                  onChange?.(value);
-                  setDisplayDate(value);
-                  if (value) {
-                    setMonth(value);
-                  }
-                }}
-                date={month}
-              />
-            </div>
-          )}
-        </PopoverContent>
-      </Popover>
-    );
+    newDateFull.setHours(month?.getHours() ?? 0, month?.getMinutes() ?? 0);
+
+    onChange?.(newDateFull);
+    setMonth(newDateFull);
+  };
+
+  const onSelect = (newDay?: Date) => {
+    if (!newDay) return;
+
+    onChange?.(newDay);
+    setMonth(newDay);
+    setDisplayDate(newDay);
+  };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      ...buttonRef.current,
+      value: displayDate,
+    }),
+    [displayDate]
+  );
+
+  const initHourFormat = displayTime ? 'PPP HH:mm' : "dd 'de' MMMM";
+
+  let loc = es;
+  const { options, localize, formatLong } = locale;
+  if (options && localize && formatLong) {
+    loc = {
+      ...es,
+      options,
+      localize,
+      formatLong,
+    };
   }
-);
 
-DateTimePicker.displayName = 'DateTimePicker';
+  return (
+    <Popover>
+      <PopoverTrigger asChild disabled={disabled}>
+        <Button
+          variant="outline"
+          className={cn(
+            'w-full justify-start text-left font-normal min-w-0',
+            !displayDate && 'text-muted-foreground',
+            className
+          )}
+          ref={buttonRef}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+          {displayDate ? (
+            <span className="truncate">
+              {format(displayDate, initHourFormat, {
+                locale: loc,
+              })}
+            </span>
+          ) : (
+            <span className="truncate">{placeholder}</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={displayDate}
+          month={month}
+          onSelect={(newDate) => {
+            if (newDate) {
+              newDate.setHours(
+                month?.getHours() ?? 0,
+                month?.getMinutes() ?? 0
+              );
+
+              onSelect(newDate);
+            }
+          }}
+          onMonthChange={handleSelect}
+          yearRange={yearRange}
+          locale={locale}
+          {...props}
+        />
+        {displayTime && (
+          <div className="border-t border-border p-3">
+            <TimePicker
+              onChange={(value) => {
+                onChange?.(value);
+                setDisplayDate(value);
+                if (value) {
+                  setMonth(value);
+                }
+              }}
+              date={month}
+            />
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export { DateTimePicker, TimePickerInput, TimePicker };
 export type { TimePickerType, DateTimePickerProps, DateTimePickerRef };

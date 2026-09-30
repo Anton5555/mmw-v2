@@ -274,10 +274,7 @@ export function EventsCalendar({
     shallow: false,
   });
 
-  const currentMonthDate = React.useMemo(
-    () => new Date(params.year, params.month - 1),
-    [params.month, params.year]
-  );
+  const currentMonthDate = new Date(params.year, params.month - 1);
 
   const monthDate = new TZDate(currentMonthDate, timezone);
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false);

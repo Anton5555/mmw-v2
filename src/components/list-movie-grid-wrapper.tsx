@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, ReactNode } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { startTransition } from 'react';
 import { useListMoviesParams } from '@/lib/hooks/useListMoviesParams';
 
@@ -41,17 +41,14 @@ export function ListMovieGridWrapper({
   }, [initialParams, renderedParams]);
 
   // Check if client params differ from rendered params (user is typing/filtering)
-  const paramsDiffer = useMemo(() => {
-    return (
-      clientParams.title !== renderedParams.title ||
-      JSON.stringify(clientParams.genre) !==
-        JSON.stringify(renderedParams.genre) ||
-      JSON.stringify(clientParams.director) !==
-        JSON.stringify(renderedParams.director) ||
-      JSON.stringify(clientParams.country) !==
-        JSON.stringify(renderedParams.country)
-    );
-  }, [clientParams, renderedParams]);
+  const paramsDiffer =
+    clientParams.title !== renderedParams.title ||
+    JSON.stringify(clientParams.genre) !==
+      JSON.stringify(renderedParams.genre) ||
+    JSON.stringify(clientParams.director) !==
+      JSON.stringify(renderedParams.director) ||
+    JSON.stringify(clientParams.country) !==
+      JSON.stringify(renderedParams.country);
 
   // Show loading state immediately when client params differ (user is filtering, URL hasn't updated yet)
   if (paramsDiffer) {

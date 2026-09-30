@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useOscarResultsStream } from '@/lib/hooks/useOscarResultsStream';
 import type {
   CategoryPredictionStats,
@@ -45,10 +45,18 @@ export function OscarResultsPageClient({
   );
 
   // Update state when initial props change (e.g., on navigation)
-  useEffect(() => {
+  const [prevInitial, setPrevInitial] = useState({
+    initialLeaderboard,
+    initialStats,
+  });
+  if (
+    prevInitial.initialLeaderboard !== initialLeaderboard ||
+    prevInitial.initialStats !== initialStats
+  ) {
+    setPrevInitial({ initialLeaderboard, initialStats });
     setLeaderboard(initialLeaderboard);
     setStats(initialStats);
-  }, [initialLeaderboard, initialStats]);
+  }
 
   return (
     <OscarResultsView
