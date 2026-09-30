@@ -1,15 +1,22 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { getLists } from '@/lib/api/lists';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { ListCard } from '@/components/list-card';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
-export default async function ListsPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function ListsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ListsPageContent />
+    </Suspense>
+  );
+}
+
+async function ListsPageContent() {
+  const session = await getCurrentSession();
 
   const isAdmin = session?.user.role === 'admin';
   const lists = await getLists();
