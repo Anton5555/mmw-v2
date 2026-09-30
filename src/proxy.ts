@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getSessionCookie } from 'better-auth/cookies';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 // Add routes that don't require authentication
 const publicRoutes = [
@@ -22,9 +23,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Board is disabled
+  if (
+    !BOARD_ENABLED &&
+    (pathname === '/board' || pathname.startsWith('/board/'))
+  ) {
+    return NextResponse.redirect(new URL('/home', request.url));
+  }
+
   // Check if the route is public
   const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   );
 
   // Optimistic check only: the cookie's presence is not proof of a valid

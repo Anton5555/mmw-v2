@@ -1,5 +1,4 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { ImdbLtaPhase } from '@prisma/client';
 import {
@@ -14,6 +13,8 @@ import {
 } from '@/lib/validations/imdb-lta';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
 import { RatingPageClient } from './_components/rating-page-client';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 interface RatePageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -39,10 +40,16 @@ function serializeMovie(
   };
 }
 
-export default async function ImdbLtaRatePage({ searchParams }: RatePageProps) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function ImdbLtaRatePage({ searchParams }: RatePageProps) {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ImdbLtaRatePageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');

@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # `prisma generate` (postinstall) reads prisma.config.ts, which needs DIRECT_URL.
+  DIRECT_URL: postgresql://test:test@localhost:5432/test
+  DATABASE_URL: postgresql://test:test@localhost:5432/test
+
+jobs:
+  checks:
+    name: Typecheck & lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:coverage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: ignore
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      TMDB_API_KEY: ci-dummy
+      RESEND_API_KEY: ci-dummy
+      APP_URL: http://localhost:3000
+      JWT_SECRET: ci-dummy
+      VIP_CODE: ci-dummy
+      STORAGE_ENDPOINT: http://localhost:9000
+      REGION: us-east-1
+      STORAGE_ACCESS_KEY: ci-dummy
+      STORAGE_SECRET_KEY: ci-dummy
+      STORAGE_PUBLIC_URL: http://localhost:9000/public
+      TELEGRAM_BOT_TOKEN: ci-dummy
+      TELEGRAM_CHAT_ID: ci-dummy
+      CRON_SECRET: ci-dummy
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_SUPABASE_URL: http://localhost:54321
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-dummy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build

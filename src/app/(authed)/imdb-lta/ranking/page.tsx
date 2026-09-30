@@ -1,12 +1,13 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import { Film, Star, Trophy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ImdbLtaPhase } from '@prisma/client';
 import { getImdbLtaPhase, listOfficialRanking } from '@/lib/api/imdb-lta';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 function posterSrc(posterUrl: string) {
   if (!posterUrl) return '';
@@ -15,10 +16,16 @@ function posterSrc(posterUrl: string) {
     : `https://image.tmdb.org/t/p/w500${posterUrl}`;
 }
 
-export default async function ImdbLtaRankingPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function ImdbLtaRankingPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ImdbLtaRankingPageContent />
+    </Suspense>
+  );
+}
+
+async function ImdbLtaRankingPageContent() {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');

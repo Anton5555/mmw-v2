@@ -1,13 +1,20 @@
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
+import { Suspense } from 'react';
 import { prisma } from '@/lib/db';
 import { BoardPageClient } from './_components/board-page-client';
 import { redirect } from 'next/navigation';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
-export default async function BoardPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function BoardPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <BoardPageContent />
+    </Suspense>
+  );
+}
+
+async function BoardPageContent() {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');

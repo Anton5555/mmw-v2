@@ -1,11 +1,21 @@
+import { Suspense } from 'react';
+import { connection } from 'next/server';
 import { prisma } from '@/lib/db';
-import { headers } from 'next/headers';
 import { YearTopsHero } from '@/components/year-tops-hero';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
-export default async function YearTopsPage() {
-  // Access headers first to make route dynamic, allowing use of new Date()
-  await headers();
-  
+export default function YearTopsPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <YearTopsPageContent />
+    </Suspense>
+  );
+}
+
+async function YearTopsPageContent() {
+  // Opt into per-request rendering so new Date() usage downstream stays legal
+  await connection();
+
   // Get available years from picks (since year was removed from YearTopParticipant)
   const years = await prisma.yearTopPick.findMany({
     select: {

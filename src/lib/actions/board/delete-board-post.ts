@@ -4,8 +4,13 @@ import { auth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/db';
+import { BOARD_ENABLED } from '@/lib/config/features';
 
 export async function deleteBoardPostAction(postId: string) {
+  if (!BOARD_ENABLED) {
+    throw new Error('Tablero deshabilitado');
+  }
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });

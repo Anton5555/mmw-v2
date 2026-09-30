@@ -1,5 +1,4 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import {
   getImdbLtaPhase,
@@ -19,13 +18,21 @@ import {
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { isImdbLtaNominationDeadlinePassed } from '@/lib/validations/imdb-lta';
+import { getCurrentSession } from '@/lib/get-session';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 export const maxDuration = 60;
 
-export default async function ImdbLtaPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function ImdbLtaPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ImdbLtaPageContent />
+    </Suspense>
+  );
+}
+
+async function ImdbLtaPageContent() {
+  const session = await getCurrentSession();
 
   if (!session?.user) {
     redirect('/sign-in');
