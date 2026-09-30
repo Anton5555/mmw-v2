@@ -196,7 +196,7 @@ export type OscarBallotGroupByOutputType = {
   _max: OscarBallotMaxAggregateOutputType | null
 }
 
-type GetOscarBallotGroupByPayload<T extends OscarBallotGroupByArgs> = Prisma.PrismaPromise<
+export type GetOscarBallotGroupByPayload<T extends OscarBallotGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OscarBallotGroupByOutputType, T['by']> &
       {
@@ -1415,6 +1415,11 @@ export type OscarBallotFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` OscarBallots.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of OscarBallots.
+   */
   distinct?: Prisma.OscarBallotScalarFieldEnum | Prisma.OscarBallotScalarFieldEnum[]
 }
 

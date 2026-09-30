@@ -192,7 +192,7 @@ export type YearTopParticipantGroupByOutputType = {
   _max: YearTopParticipantMaxAggregateOutputType | null
 }
 
-type GetYearTopParticipantGroupByPayload<T extends YearTopParticipantGroupByArgs> = Prisma.PrismaPromise<
+export type GetYearTopParticipantGroupByPayload<T extends YearTopParticipantGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<YearTopParticipantGroupByOutputType, T['by']> &
       {
@@ -1272,6 +1272,11 @@ export type YearTopParticipantFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Skip the first `n` YearTopParticipants.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of YearTopParticipants.
+   */
   distinct?: Prisma.YearTopParticipantScalarFieldEnum | Prisma.YearTopParticipantScalarFieldEnum[]
 }
 

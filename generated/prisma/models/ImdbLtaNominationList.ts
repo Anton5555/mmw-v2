@@ -192,7 +192,7 @@ export type ImdbLtaNominationListGroupByOutputType = {
   _max: ImdbLtaNominationListMaxAggregateOutputType | null
 }
 
-type GetImdbLtaNominationListGroupByPayload<T extends ImdbLtaNominationListGroupByArgs> = Prisma.PrismaPromise<
+export type GetImdbLtaNominationListGroupByPayload<T extends ImdbLtaNominationListGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ImdbLtaNominationListGroupByOutputType, T['by']> &
       {
@@ -1222,6 +1222,11 @@ export type ImdbLtaNominationListFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Skip the first `n` ImdbLtaNominationLists.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ImdbLtaNominationLists.
+   */
   distinct?: Prisma.ImdbLtaNominationListScalarFieldEnum | Prisma.ImdbLtaNominationListScalarFieldEnum[]
 }
 

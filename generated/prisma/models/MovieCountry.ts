@@ -186,7 +186,7 @@ export type MovieCountryGroupByOutputType = {
   _max: MovieCountryMaxAggregateOutputType | null
 }
 
-type GetMovieCountryGroupByPayload<T extends MovieCountryGroupByArgs> = Prisma.PrismaPromise<
+export type GetMovieCountryGroupByPayload<T extends MovieCountryGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MovieCountryGroupByOutputType, T['by']> &
       {
@@ -1216,6 +1216,11 @@ export type MovieCountryFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` MovieCountries.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MovieCountries.
+   */
   distinct?: Prisma.MovieCountryScalarFieldEnum | Prisma.MovieCountryScalarFieldEnum[]
 }
 

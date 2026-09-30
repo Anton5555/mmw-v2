@@ -211,7 +211,7 @@ export type OscarCategoryGroupByOutputType = {
   _max: OscarCategoryMaxAggregateOutputType | null
 }
 
-type GetOscarCategoryGroupByPayload<T extends OscarCategoryGroupByArgs> = Prisma.PrismaPromise<
+export type GetOscarCategoryGroupByPayload<T extends OscarCategoryGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OscarCategoryGroupByOutputType, T['by']> &
       {
@@ -1431,6 +1431,11 @@ export type OscarCategoryFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` OscarCategories.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of OscarCategories.
+   */
   distinct?: Prisma.OscarCategoryScalarFieldEnum | Prisma.OscarCategoryScalarFieldEnum[]
 }
 

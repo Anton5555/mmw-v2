@@ -6,7 +6,7 @@ generator client {
 generator zod {
   provider               = "zod-prisma-types"
   output                 = "../src/lib/validations/generated"
-  prismaClientPath       = "../../../../generated/prisma/client"
+  prismaClientPath       = "../../../../generated/prisma"
   addInputTypeValidation = "false"
   addSelectType          = "false"
   createInputTypes       = "false"
