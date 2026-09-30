@@ -263,6 +263,14 @@ describe('getOscarLeaderboard', () => {
     ]);
   });
 
+  it('does not mark anyone as a winner while every score is 0', async () => {
+    db.oscarBallot.findMany.mockResolvedValue([ballot('a', 0, '2026-03-01'), ballot('b', 0, '2026-03-02')]);
+
+    const board = await getOscarLeaderboard(7);
+
+    expect(board.map((e) => e.isWinner)).toEqual([false, false]);
+  });
+
   it('falls back to "Usuario" for users without a name', async () => {
     db.oscarBallot.findMany.mockResolvedValue([ballot('a', 1, '2026-03-01', null)]);
     const [entry] = await getOscarLeaderboard(7);
