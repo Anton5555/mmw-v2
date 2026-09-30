@@ -112,7 +112,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
       </section>
 
       {/* Movie Grid Section */}
-      <section className="container mx-auto -mt-8 px-4 pb-20 md:px-8">
+      <section className="container relative z-10 mx-auto -mt-8 px-4 pb-20 md:px-8">
         {/* Filters */}
         <ListMovieFilters
           genres={genresList}
