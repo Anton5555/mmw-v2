@@ -58,7 +58,6 @@ jobs:
       TMDB_API_KEY: ci-dummy
       RESEND_API_KEY: ci-dummy
       APP_URL: http://localhost:3000
-      JWT_SECRET: ci-dummy
       VIP_CODE: ci-dummy
       STORAGE_ENDPOINT: http://localhost:9000
       REGION: us-east-1
