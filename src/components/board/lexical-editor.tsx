@@ -363,22 +363,22 @@ function OnChangePluginInternal({
 
 function InitializePlugin({ value }: { value?: string }) {
   const [editor] = useLexicalComposerContext();
-  const [initialized, setInitialized] = React.useState(false);
+  const initializedRef = React.useRef(false);
 
   useEffect(() => {
-    if (value && !initialized) {
+    if (value && !initializedRef.current) {
       const deserialized = deserializeEditorState(value);
       if (deserialized) {
         try {
           const editorState = editor.parseEditorState(JSON.stringify(deserialized));
           editor.setEditorState(editorState);
-          setInitialized(true);
+          initializedRef.current = true;
         } catch (error) {
           console.error('[LexicalEditor] Error initializing editor state:', error);
         }
       }
     }
-  }, [editor, value, initialized]);
+  }, [editor, value]);
 
   return null;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -94,12 +94,11 @@ export function EditEventSheet({
     defaultValues: getDefaultValues(),
   });
 
-  const eventType = form.watch('type');
+  const eventType = useWatch({ control: form.control, name: 'type' });
   const isDateOnlyEvent = ['BIRTHDAY', 'ANNIVERSARY'].includes(eventType);
 
   useEffect(() => {
     if (!open) {
-      setIsSubmitting(false);
       return;
     }
 

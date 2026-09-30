@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useOscarResultsStream } from '@/lib/hooks/useOscarResultsStream';
 import type {
   CategoryPredictionStats,
@@ -23,6 +23,8 @@ export function OscarResultsPageClient({
   const [leaderboard, setLeaderboard] =
     useState<LeaderboardEntry[]>(initialLeaderboard);
   const [stats, setStats] = useState<CategoryPredictionStats[]>(initialStats);
+  const [prevLeaderboard, setPrevLeaderboard] = useState(initialLeaderboard);
+  const [prevStats, setPrevStats] = useState(initialStats);
 
   const handleResultsUpdate = (event: {
     type: 'results:updated';
@@ -45,10 +47,12 @@ export function OscarResultsPageClient({
   );
 
   // Update state when initial props change (e.g., on navigation)
-  useEffect(() => {
+  if (initialLeaderboard !== prevLeaderboard || initialStats !== prevStats) {
+    setPrevLeaderboard(initialLeaderboard);
+    setPrevStats(initialStats);
     setLeaderboard(initialLeaderboard);
     setStats(initialStats);
-  }, [initialLeaderboard, initialStats]);
+  }
 
   return (
     <OscarResultsView

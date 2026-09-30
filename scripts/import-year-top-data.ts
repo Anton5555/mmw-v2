@@ -61,7 +61,7 @@ async function getMovieFromTMDB(imdbId: string): Promise<{
   const manualTmdbId = MANUAL_IMDB_TO_TMDB_MAP[imdbId];
   if (manualTmdbId) {
     console.log(`  Using manual mapping for ${imdbId} -> TMDB ID ${manualTmdbId}`);
-    return await getMovieFromTMDBById(manualTmdbId, imdbId);
+    return await getMovieFromTMDBById(manualTmdbId);
   }
 
   try {
@@ -109,8 +109,7 @@ async function getMovieFromTMDB(imdbId: string): Promise<{
 
 // Fetch movie from TMDB by TMDB ID (for manual mappings)
 async function getMovieFromTMDBById(
-  tmdbId: number,
-  imdbId: string
+  tmdbId: number
 ): Promise<{
   tmdbId: number;
   title: string;

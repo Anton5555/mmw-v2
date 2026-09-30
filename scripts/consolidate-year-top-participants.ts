@@ -117,7 +117,6 @@ async function main() {
 
             let moved = 0;
             let deleted = 0;
-            const skipped = 0;
 
             // Move picks one by one, handling duplicates
             for (const pick of picksToMove) {

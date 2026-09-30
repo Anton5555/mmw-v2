@@ -375,9 +375,9 @@ async function main() {
               },
               update: {},
             });
-          } catch (countryError: any) {
+          } catch (countryError) {
             console.log(
-              ` ❌ Error processing country ${code} for movie ${movie.title}: ${countryError.message}`
+              ` ❌ Error processing country ${code} for movie ${movie.title}: ${countryError instanceof Error ? countryError.message : String(countryError)}`
             );
             errors++;
           }
@@ -390,8 +390,8 @@ async function main() {
           `\rProgress: ${processed}/${movies.length} (${updated} updated, ${skipped} skipped, ${errors} errors)`
         );
       }
-    } catch (error: any) {
-      console.log(` ❌ Error: ${error.message}`);
+    } catch (error) {
+      console.log(` ❌ Error: ${error instanceof Error ? error.message : String(error)}`);
       errors++;
     }
 
