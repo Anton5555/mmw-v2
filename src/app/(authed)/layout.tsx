@@ -8,15 +8,14 @@ import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { getCurrentSession } from '@/lib/get-session';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
+import { MovieSheetHost } from '@/components/movie/movie-sheet-host';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 // Separate component to fetch user data (wrapped in Suspense)
 async function AuthenticatedLayoutContent({
   children,
-  modal,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
 }) {
   const session = await getCurrentSession();
 
@@ -44,7 +43,7 @@ async function AuthenticatedLayoutContent({
               <FilmStripWrapper />
               <BreadcrumbsNav />
               {children}
-              {modal}
+              <MovieSheetHost />
             </FilmStripProvider>
           </FilmSlateProvider>
         </BreadcrumbProvider>
@@ -53,18 +52,10 @@ async function AuthenticatedLayoutContent({
   );
 }
 
-const Layout = async ({
-  children,
-  modal,
-}: {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <AuthenticatedLayoutContent modal={modal}>
-        {children}
-      </AuthenticatedLayoutContent>
+      <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
     </Suspense>
   );
 };

@@ -1,42 +1,44 @@
 // @vitest-environment jsdom
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-const back = vi.hoisted(() => vi.fn());
-vi.mock('next/navigation', () => ({ useRouter: () => ({ back }) }));
 vi.mock('@/hooks/use-mobile', () => ({ useIsMobile: () => false }));
 
 import { MovieSheet } from './movie-sheet';
 
-beforeEach(() => {
-  back.mockReset();
-});
+const renderSheet = (onClose = vi.fn()) => {
+  render(
+    <MovieSheet
+      open
+      onClose={onClose}
+      title="A Second Chance"
+      fullPageHref="/mam/movie/7"
+    >
+      <p>contenido</p>
+    </MovieSheet>
+  );
+  return onClose;
+};
 
 describe('MovieSheet', () => {
   it('renders the title, content and a full-page link', () => {
-    render(
-      <MovieSheet title="A Second Chance" fullPageHref="/mam/movie/7">
-        <p>contenido</p>
-      </MovieSheet>
-    );
+    renderSheet();
 
     expect(screen.getByText('A Second Chance')).toBeTruthy();
     expect(screen.getByText('contenido')).toBeTruthy();
     expect(
-      screen.getByRole('link', { name: /Abrir página completa/ }).getAttribute('href')
+      screen
+        .getByRole('link', { name: /Abrir página completa/ })
+        .getAttribute('href')
     ).toBe('/mam/movie/7');
   });
 
-  it('goes back when closed', async () => {
-    render(
-      <MovieSheet title="A Second Chance" fullPageHref="/mam/movie/7">
-        <p>contenido</p>
-      </MovieSheet>
-    );
+  it('calls onClose when dismissed', async () => {
+    const onClose = renderSheet();
 
     await userEvent.keyboard('{Escape}');
 
-    expect(back).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

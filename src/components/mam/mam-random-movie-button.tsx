@@ -2,7 +2,7 @@
 
 import { Dices } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useOpenMovieSheet } from '@/components/movie/movie-sheet-host';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
 interface MamRandomMovieButtonProps {
@@ -10,7 +10,7 @@ interface MamRandomMovieButtonProps {
 }
 
 export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
-  const router = useRouter();
+  const openMovie = useOpenMovieSheet();
 
   const handleClick = () => {
     if (!movies || movies.length === 0) return;
@@ -20,7 +20,7 @@ export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
 
     if (!movie) return;
 
-    router.push(`/mam/movie/${movie.id}`);
+    openMovie(movie.id);
   };
 
   return (
