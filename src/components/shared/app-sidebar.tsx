@@ -118,11 +118,6 @@ export function AppSidebar({
       <SidebarContent
         className={cn('bg-zinc-950 py-6', open ? 'px-3' : 'px-2')}
       >
-        {open && (
-          <div className="mb-4 px-2">
-            <p className="text-xs text-zinc-500">Navegación</p>
-          </div>
-        )}
         <NavMain items={navItems} onNavigate={() => setOpenMobile(false)} />
       </SidebarContent>
 
