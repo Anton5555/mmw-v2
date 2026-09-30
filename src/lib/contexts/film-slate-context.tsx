@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, use, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 type FilmSlateData = {
@@ -49,7 +49,7 @@ export function FilmSlateProvider({
   }, [slateData, router]);
 
   return (
-    <FilmSlateContext.Provider
+    <FilmSlateContext
       value={{
         isShowing,
         slateData,
@@ -58,12 +58,12 @@ export function FilmSlateProvider({
       }}
     >
       {children}
-    </FilmSlateContext.Provider>
+    </FilmSlateContext>
   );
 }
 
 export function useFilmSlate() {
-  const context = useContext(FilmSlateContext);
+  const context = use(FilmSlateContext);
   if (context === undefined) {
     throw new Error('useFilmSlate must be used within a FilmSlateProvider');
   }
