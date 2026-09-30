@@ -117,7 +117,7 @@ export function OscarWinnersForm({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: category.order * 0.02 }}
-                className="rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-all"
+                className="rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-colors"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                   <div className="min-w-0 flex-1">
@@ -162,7 +162,7 @@ export function OscarWinnersForm({
                   <Button
                     onClick={() => handleSubmit(category)}
                     disabled={!selectedNominee || isSubmitting}
-                    className="shrink-0 rounded-full bg-white px-6 text-black transition-all duration-200 hover:bg-yellow-500 hover:text-black select-none"
+                    className="shrink-0 rounded-full bg-white px-6 text-black hover:bg-yellow-500 hover:text-black select-none"
                   >
                     {isSubmitting ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -204,7 +204,7 @@ export function OscarWinnersForm({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: category.order * 0.02 }}
-                className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-6 transition-all"
+                className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-6 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-yellow-500" />

@@ -23,7 +23,7 @@ export function ListCard({ list }: ListCardProps) {
     <Link
       href={`/lists/${list.id}`}
       onClick={handleClick}
-      className="group relative"
+      className="group relative @container"
     >
       <Card className="relative aspect-video w-full overflow-hidden border-none bg-muted shadow-lg transition-[transform,box-shadow] duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20">
         {/* Background Image */}
@@ -43,8 +43,8 @@ export function ListCard({ list }: ListCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
 
         {/* Title sits on the requester; hover opens room for the description */}
-        <div className="absolute inset-0 flex flex-col justify-end p-5">
-          <h3 className="text-xl font-black leading-tight text-white line-clamp-1 uppercase tracking-wide">
+        <div className="absolute inset-0 flex flex-col justify-end p-4 @xs:p-5">
+          <h3 className="text-balance text-base font-black leading-tight text-white line-clamp-2 uppercase tracking-normal @xs:text-lg @sm:text-xl">
             {list.name}
           </h3>
 
@@ -58,11 +58,11 @@ export function ListCard({ list }: ListCardProps) {
             </div>
           ) : null}
 
-          <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3">
-            <div className="flex items-center text-[10px] font-bold uppercase tracking-widest text-white/60">
+          <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 @xs:mt-3 @xs:pt-3">
+            <div className="flex items-center min-w-0 text-[10px] font-bold uppercase tracking-wider text-white/60">
               <User className="mr-1 h-3 w-3" />
               Pedido por:{' '}
-              <span className="ml-1 text-white">{list.createdBy}</span>
+              <span className="ml-1 truncate text-white">{list.createdBy}</span>
             </div>
           </div>
         </div>

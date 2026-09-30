@@ -53,7 +53,7 @@ export function ListMovieGridWrapper({
   // Show loading state immediately when client params differ (user is filtering, URL hasn't updated yet)
   if (paramsDiffer) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-4">
         {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}

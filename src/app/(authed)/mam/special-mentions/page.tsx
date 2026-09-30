@@ -4,8 +4,6 @@ import { getAllGenres, getAllDirectors } from '@/lib/api/movies';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieFilters } from '@/components/mam-movie-filters';
 import { MamSkeletonGrid } from '@/components/mam-skeleton-grid';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { SpecialMentionsGrid } from './_components/special-mentions-grid';
 import { SpecialMentionsGridWrapper } from './_components/special-mentions-grid-wrapper';
 
@@ -39,29 +37,18 @@ export default async function SpecialMentionsPage({
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
-      <div className="container mx-auto px-4 pb-8 pt-8">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
+      <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header */}
-        <div className="relative mb-12 pt-8 text-center md:text-left">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
-                Menciones especiales
-              </h1>
-              <p className="mt-2 text-zinc-400 max-w-2xl">
-                Selecciones de los participantes que merecen un reconocimiento
-                aparte.
-              </p>
-            </div>
-            <Button
-              asChild
-              variant="outline"
-              className="rounded-lg border-white/10 bg-zinc-900 hover:bg-zinc-800 px-5 h-10"
-            >
-              <Link href="/mam">Volver a MAM</Link>
-            </Button>
-          </div>
-        </div>
+        <header className="mb-8 pt-4 md:pt-8">
+          <h1 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+            Menciones especiales
+          </h1>
+          <p className="mt-2 max-w-2xl text-pretty text-zinc-400">
+            Selecciones de los participantes que merecen un reconocimiento
+            aparte.
+          </p>
+        </header>
 
         {/* Filters */}
         <MamMovieFilters

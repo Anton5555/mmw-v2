@@ -201,7 +201,7 @@ export default function ProfileForm({
                         <FormControl>
                           <Input
                             placeholder="Tu nombre"
-                            className="pl-10 bg-zinc-900/50 border-white/10 h-11 focus:border-yellow-500 transition-all"
+                            className="pl-10 bg-zinc-900/50 border-white/10 h-11 focus:border-yellow-500 transition-colors"
                             {...field}
                           />
                         </FormControl>
@@ -237,7 +237,7 @@ export default function ProfileForm({
                   </Button>
                   <Button
                     type="submit"
-                    className="flex-2 bg-white text-black hover:bg-zinc-200 font-bold px-8 shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all"
+                    className="flex-2 bg-white text-black hover:bg-zinc-200 font-bold px-8 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                     disabled={form.formState.isSubmitting}
                   >
                     {form.formState.isSubmitting ? (

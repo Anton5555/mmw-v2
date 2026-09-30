@@ -120,7 +120,7 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
             <div
               key={pick.id}
               className={cn(
-                'group relative overflow-hidden rounded-xl border border-white/5 bg-zinc-900/30 p-5 transition-all hover:border-white/20',
+                'group relative overflow-hidden rounded-xl border border-white/5 bg-zinc-900/30 p-5 transition-colors hover:border-white/20',
                 showPoster && pick.nominee.movie?.posterUrl && 'min-h-[200px]'
               )}
             >

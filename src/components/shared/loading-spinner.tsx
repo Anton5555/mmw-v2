@@ -2,7 +2,7 @@
 
 export function LoadingSpinner() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-svh bg-zinc-950 relative overflow-hidden">
       {/* Cinematic Film Grain Overlay */}
       <div
         className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] animate-grain"

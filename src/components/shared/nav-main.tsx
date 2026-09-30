@@ -38,7 +38,7 @@ export function NavMain({
                 tooltip={item.title}
                 isActive={isActive}
                 className={cn(
-                  'relative h-11 transition-all duration-200 group cursor-pointer',
+                  'relative h-11 transition-colors duration-200 group cursor-pointer',
                   isActive
                     ? 'bg-white/5 text-white font-semibold'
                     : 'text-zinc-400 hover:text-white hover:bg-white/5'

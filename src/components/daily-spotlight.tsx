@@ -57,7 +57,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
               </p>
             </div>
           )}
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+          <h3 className="text-balance text-2xl sm:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-tight">
             {movie.title}
           </h3>
           <Link href={`/mam/movie/${movie.id}`}>
@@ -101,7 +101,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
               </p>
             </div>
           )}
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+          <h3 className="text-balance text-2xl sm:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-tight">
             {list.name}
           </h3>
           {list.description && (
@@ -145,7 +145,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
               </p>
             </div>
           )}
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white leading-tight">
+          <h3 className="text-balance text-2xl sm:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-tight">
             {participant.displayName}
           </h3>
           {picksCount !== undefined && (

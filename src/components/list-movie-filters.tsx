@@ -278,10 +278,13 @@ export function ListMovieFilters({
   return (
     <>
       {/* Mobile: Drawer with trigger button */}
-      <div className="md:hidden">
+      <div className="mb-6 md:hidden">
         <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
           <DrawerTrigger asChild>
-            <button className="w-full bg-zinc-900/80 backdrop-blur-xl rounded-full border border-white/10 shadow-2xl flex items-center gap-3 px-6 py-3 text-white hover:bg-zinc-800/80 transition-colors">
+            <button
+              type="button"
+              className="flex h-12 w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm font-medium text-white transition-[background-color,transform] duration-150 ease-out hover:bg-white/[0.06] active:scale-[0.98]"
+            >
               <SlidersHorizontal className="h-4 w-4 shrink-0" />
               <span className="flex-1 text-left">Filtros</span>
               {activeFiltersCount > 0 && (
@@ -294,18 +297,18 @@ export function ListMovieFilters({
               )}
             </button>
           </DrawerTrigger>
-          <DrawerContent className="max-h-[60vh] bg-zinc-900/95 backdrop-blur-xl border-t border-white/10">
+          <DrawerContent className="max-h-[85dvh] bg-zinc-900/95 backdrop-blur-xl border-t border-white/10">
             <DrawerHeader className="text-left pb-4">
               <DrawerTitle className="text-white">Filtros</DrawerTitle>
             </DrawerHeader>
-            <div className="px-4 pb-6 overflow-y-auto">{filtersContent}</div>
+            <div className="px-4 pb-6 overflow-y-auto overscroll-contain">{filtersContent}</div>
           </DrawerContent>
         </Drawer>
       </div>
 
       {/* Desktop: Multi-Select Command Bar */}
-      <div className="sticky top-6 z-50 mb-12 hidden md:block">
-        <div className="p-2 bg-zinc-900/60 backdrop-blur-2xl rounded-full border border-white/10 shadow-2xl flex items-center gap-3 px-6">
+      <div className="sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-20 mb-8 hidden md:block">
+        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/70 p-2 px-5 shadow-xl shadow-black/40 backdrop-blur-2xl">
           <Search className="w-5 h-5 text-zinc-500 shrink-0" />
           {/* Main Search Input */}
           <Input

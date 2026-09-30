@@ -219,7 +219,7 @@ export function CreateListForm() {
           </div>
         )}
 
-        <footer className="sticky bottom-6 flex gap-4 bg-zinc-950 p-4 rounded-xl border border-white/10">
+        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 bg-zinc-950 p-4 rounded-xl border border-white/10">
           <Button
             variant="ghost"
             onClick={() => {

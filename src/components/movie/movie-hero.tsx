@@ -27,7 +27,7 @@ export function MovieHero({
   const countryCodes = movie.countryCodes ?? [];
 
   return (
-    <div className="relative h-[50vh] w-full overflow-hidden border-b border-white/5 md:h-[60vh]">
+    <div className="relative h-[50svh] w-full overflow-hidden border-b border-white/5 md:h-[60svh]">
       <Image
         src={`https://image.tmdb.org/t/p/original${movie.posterUrl}`}
         alt={displayTitle}
@@ -66,7 +66,7 @@ export function MovieHero({
             {/* Header Info */}
             <div className="flex flex-col justify-end space-y-6">
               <div className="space-y-2">
-                <h1 className="text-4xl font-black uppercase tracking-tighter md:text-6xl lg:text-7xl">
+                <h1 className="text-balance text-3xl font-black uppercase tracking-tighter sm:text-4xl md:text-5xl xl:text-6xl">
                   {displayTitle}
                 </h1>
                 <div className="flex flex-wrap items-center gap-4 text-sm font-medium tracking-wide text-white/60">

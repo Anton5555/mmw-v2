@@ -65,15 +65,16 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
   return (
     <>
       {/* Results Count & Random Pick */}
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-muted-foreground text-sm">
-          Mostrando {movies.length} de {pagination.totalCount} películas
+      <div className="mb-6 flex items-center justify-between gap-3">
+        <p className="text-sm tabular-nums text-muted-foreground">
+          <span className="text-zinc-200">{movies.length}</span> de{' '}
+          {pagination.totalCount} películas
         </p>
         <MamRandomMovieButton movies={movies} />
       </div>
 
       {/* Movie Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-8">
         {movies.map((movie, index) => (
           <div
             key={movie.id}
