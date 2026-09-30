@@ -245,7 +245,7 @@ export function OscarBallotForm({
           <div
             key={i}
             className={cn(
-              'flex-1 transition-all duration-500',
+              'flex-1 transition-colors duration-500',
               (i <= currentStep || isPreviewStep) ? 'bg-yellow-500' : 'bg-zinc-800'
             )}
           />
@@ -280,7 +280,7 @@ export function OscarBallotForm({
                   <button
                     key={category.id}
                     onClick={() => handleEditCategory(index)}
-                    className="w-full text-left p-4 rounded-xl border border-white/5 bg-zinc-900/50 hover:border-white/20 hover:bg-zinc-900/70 transition-all group select-none"
+                    className="w-full text-left p-4 rounded-xl border border-white/5 bg-zinc-900/50 hover:border-white/20 hover:bg-zinc-900/70 transition-[background-color,border-color,transform] duration-150 ease-out active:scale-[0.99] group select-none"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
@@ -338,7 +338,7 @@ export function OscarBallotForm({
                     key={nominee.id}
                     onClick={() => handleSelect(nominee.id)}
                     className={cn(
-                      'relative aspect-[2/3] rounded-xl border-2 transition-all text-left group overflow-hidden select-none',
+                      'relative aspect-[2/3] rounded-xl border-2 transition-[border-color,box-shadow,transform] duration-150 ease-out active:scale-[0.98] text-left group overflow-hidden select-none',
                       isSelected
                         ? 'bg-yellow-500/10 border-yellow-500 ring-2 ring-yellow-500/50'
                         : 'bg-zinc-900/50 border-white/5 hover:border-white/20 hover:bg-zinc-900/70'
@@ -382,7 +382,7 @@ export function OscarBallotForm({
                     key={nominee.id}
                     onClick={() => handleSelect(nominee.id)}
                     className={cn(
-                      'flex items-center justify-between p-4 rounded-xl border transition-all text-left group select-none',
+                      'flex items-center justify-between p-4 rounded-xl border transition-[background-color,border-color,transform] duration-150 ease-out active:scale-[0.99] text-left group select-none',
                       isSelected
                         ? 'bg-yellow-500/10 border-yellow-500 text-white'
                         : 'bg-zinc-900/50 border-white/5 text-zinc-400 hover:border-white/20 hover:bg-zinc-900/70'
@@ -425,7 +425,7 @@ export function OscarBallotForm({
 
         {isPreviewStep ? (
           <Button
-            className="bg-white text-black hover:bg-yellow-500 hover:text-black rounded-full px-8 select-none transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-white text-black hover:bg-yellow-500 hover:text-black rounded-full px-8 select-none disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting || !isFormAvailable}
             onClick={handleSubmit}
           >
@@ -443,7 +443,7 @@ export function OscarBallotForm({
         ) : allCategoriesSelected && hasReachedReview ? (
           <Button
             onClick={handleBackToReview}
-            className="bg-yellow-500/10 border border-yellow-500 text-yellow-500 hover:bg-yellow-500/20 hover:border-yellow-400 rounded-full px-8 select-none transition-all duration-200"
+            className="bg-yellow-500/10 border border-yellow-500 text-yellow-500 hover:bg-yellow-500/20 hover:border-yellow-400 rounded-full px-8 select-none"
           >
             Volver al Resumen
             <ChevronRight className="w-4 h-4 ml-2" />
@@ -452,7 +452,7 @@ export function OscarBallotForm({
           <Button
             onClick={handleNext}
             disabled={!selectedNomineeId}
-            className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none transition-all duration-200"
+            className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none"
           >
             Ver Resumen
             <ChevronRight className="w-4 h-4 ml-2" />
@@ -462,7 +462,7 @@ export function OscarBallotForm({
             <Button
               onClick={handleNext}
               disabled={!selectedNomineeId}
-              className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none transition-all duration-200"
+              className="bg-zinc-800 text-white hover:bg-zinc-700 rounded-full px-8 select-none"
             >
               Siguiente Categoría
               <ChevronRight className="w-4 h-4 ml-2" />

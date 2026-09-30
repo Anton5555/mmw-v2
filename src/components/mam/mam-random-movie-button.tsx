@@ -1,5 +1,6 @@
 'use client';
 
+import { Dices } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
@@ -26,8 +27,9 @@ export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
     <Button
       type="button"
       onClick={handleClick}
-      className="rounded-full px-6 h-10 bg-yellow-400 text-black font-semibold tracking-tight shadow-lg shadow-yellow-500/30 hover:bg-yellow-300 hover:-translate-y-0.5 transition-transform"
+      className="h-9 shrink-0 rounded-full bg-yellow-400 px-4 font-semibold tracking-tight text-black hover:bg-yellow-300 [&_svg]:size-4"
     >
+      <Dices aria-hidden />
       Probá tu suerte
     </Button>
   );

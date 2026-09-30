@@ -30,7 +30,7 @@ function DrawerOverlay({
   return (
     <DrawerPrimitive.Overlay
       ref={ref}
-      className={cn("fixed inset-0 z-50 bg-black/80", className)}
+      className={cn("fixed inset-0 z-50 bg-black/60", className)}
       {...props}
     />
   );
@@ -48,12 +48,12 @@ function DrawerContent({
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
+          "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-2xl border bg-background pb-[env(safe-area-inset-bottom,0px)]",
           className,
         )}
         {...props}
       >
-        <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+        <div aria-hidden className="mx-auto mt-3 h-1.5 w-10 shrink-0 rounded-full bg-white/20" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>

@@ -3,9 +3,9 @@ import { getMamParticipantBySlug } from '@/lib/api/mam';
 import { loadMamMoviesSearchParams } from '@/lib/searchParams';
 import { MamMovieCard } from '@/components/mam-movie-card';
 import { Film } from 'lucide-react';
+import { BreadcrumbLabel } from '@/components/breadcrumb-label';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ParticipantPageProps {
@@ -71,21 +71,11 @@ export default async function ParticipantPage({
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
-      <div className="container mx-auto px-4 pb-8 pt-8">
+    <div className="min-h-svh bg-[#0a0a0a] text-white">
+      <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header */}
+        <BreadcrumbLabel label={participant.displayName} />
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <Button
-              asChild
-              variant="outline"
-              className="rounded-full border-white/20 bg-white/10 text-white hover:bg-white/20"
-            >
-              <Link href="/mam">
-                <span className="font-bold tracking-tight">← Volver a MAM</span>
-              </Link>
-            </Button>
-          </div>
           <div className="flex items-center gap-4 mb-4">
             <Avatar className="h-16 w-16 border-2 border-yellow-500">
               <AvatarImage
@@ -127,7 +117,7 @@ export default async function ParticipantPage({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-4">
             {moviesWithPicks.map(({ movie, userPick }) => (
               <MamMovieCard
                 key={movie.id}

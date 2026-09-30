@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Users } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import {
   CommandDialog,
   CommandInput,
@@ -31,9 +30,10 @@ interface Participant {
 
 interface ParticipantNavProps {
   participants: Participant[];
+  className?: string;
 }
 
-export function ParticipantNav({ participants }: ParticipantNavProps) {
+export function ParticipantNav({ participants, className }: ParticipantNavProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -44,18 +44,17 @@ export function ParticipantNav({ participants }: ParticipantNavProps) {
 
   return (
     <>
-      <Button
+      <button
         type="button"
-        variant="outline"
-        className="inline-flex items-center gap-2 rounded-full border-white/10 bg-white/5 px-5 h-10 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20"
+        className={className}
         onClick={() => setOpen(true)}
       >
-        <Users className="h-4 w-4 text-yellow-500" />
-        <span>Explorar por participante</span>
-        <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-300">
+        <Users className="text-yellow-500" />
+        <span>Participantes</span>
+        <span className="hidden rounded-full bg-white/10 px-1.5 py-px sm:inline text-[10px] font-semibold tabular-nums text-zinc-300">
           {participants.length}
         </span>
-      </Button>
+      </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Buscar participante..." />

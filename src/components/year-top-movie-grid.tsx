@@ -77,7 +77,7 @@ export async function YearTopMovieGrid({ searchParams }: YearTopMovieGridProps) 
       </div>
 
       {/* Movie Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-8">
         {validMovies.map((movie, index) => (
           <div
             key={movie.id}

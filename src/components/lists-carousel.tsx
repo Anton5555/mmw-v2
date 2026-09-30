@@ -67,7 +67,7 @@ export const ListsCarousel = ({
               className="relative basis-full pl-0 transition-opacity duration-700"
               style={{ opacity: current === index ? 1 : 0.4 }}
             >
-              <div className="relative h-[60vh] min-h-[450px] w-full lg:h-[75vh]">
+              <div className="relative h-[60svh] min-h-[450px] w-full lg:h-[75svh]">
                 <Image
                   src={list.imgUrl}
                   alt={list.name}
@@ -81,7 +81,7 @@ export const ListsCarousel = ({
 
                 <div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-6 md:items-start md:px-20 lg:pb-24">
                   <div className="space-y-5 max-w-2xl">
-                    <h2 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg md:text-5xl lg:text-6xl">
+                    <h2 className="text-balance text-3xl font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl md:text-5xl xl:text-6xl">
                       {list.name}
                     </h2>
                     <div className="flex flex-wrap items-center gap-4">
@@ -111,7 +111,8 @@ export const ListsCarousel = ({
             onClick={() => api?.scrollTo(i)}
             aria-label={`Ir a lista ${i + 1}`}
             className={cn(
-              'h-1 rounded-full transition-all duration-300',
+              // The bar is 4px tall; the ::after pad makes it a real tap target
+              'relative h-1 rounded-full transition-[width,background-color] duration-300 ease-out after:absolute after:-inset-x-1 after:-inset-y-3',
               current === i
                 ? 'w-8 bg-yellow-500'
                 : 'w-2 bg-white/20 hover:bg-white/40'

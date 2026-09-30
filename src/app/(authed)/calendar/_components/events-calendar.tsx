@@ -91,11 +91,11 @@ const DayContent = ({
   const isToday = dayProps.modifiers.today;
 
   return (
-    <div className="group relative flex h-full w-full flex-col items-center justify-center gap-1 p-2 lg:items-start lg:justify-start lg:p-3 overflow-hidden rounded-xl transition-all duration-300">
+    <div className="group relative flex h-full w-full flex-col items-center justify-center gap-1 p-2 lg:items-start lg:justify-start lg:p-3 overflow-hidden rounded-xl transition-colors duration-300">
       {/* Date Label */}
       <span
         className={cn(
-          'text-sm font-bold lg:text-xl transition-all duration-300 group-hover:translate-x-1 z-10',
+          'text-sm font-semibold tabular-nums lg:text-lg transition-transform duration-300 ease-out group-hover:translate-x-1 z-10',
           isToday ? 'text-yellow-500' : 'text-zinc-400 group-hover:text-white'
         )}
       >
@@ -109,7 +109,7 @@ const DayContent = ({
             <div
               key={event.id}
               className={cn(
-                'h-1 w-full rounded-full transition-all duration-500 group-hover:h-1.5',
+                'h-1 w-full origin-bottom rounded-full transition-transform duration-300 ease-out group-hover:scale-y-150',
                 getColorClass(EVENT_COLORS[event.type])
               )}
               style={getGlowStyle(EVENT_COLORS[event.type])}
@@ -168,7 +168,7 @@ const EventPopoverContent = ({
               return (
                 <div
                   key={event.id}
-                  className="group relative rounded-lg bg-zinc-900/50 p-3 border border-white/5 hover:border-white/20 transition-all"
+                  className="group relative rounded-lg bg-zinc-900/50 p-3 border border-white/5 hover:border-white/20 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -325,10 +325,10 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="relative min-h-[600px] overflow-hidden rounded-xl border border-white/10 bg-zinc-900 p-4 lg:p-6">
+    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-zinc-900/40 p-3 sm:p-4 lg:p-6">
       {/* Header Section */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
+      <div className="mb-4 flex items-center justify-between gap-2 sm:mb-6">
+        <div className="min-w-0">
           <MonthYearPicker
             month={monthDate}
             handleMonthChange={handleMonthChange}
@@ -338,12 +338,13 @@ export function EventsCalendar({
           />
         </div>
 
-        <div className="flex items-center gap-2 bg-zinc-900/50 p-1 rounded-full border border-white/5">
+        <div className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.03] p-0.5">
           <Button
             variant="ghost"
             size="icon"
             onClick={onPrevMonth}
-            className="rounded-full hover:bg-white/10"
+            aria-label="Mes anterior"
+            className="size-10 rounded-full hover:bg-white/10"
           >
             <ChevronLeftIcon className="h-5 w-5" />
           </Button>
@@ -352,7 +353,8 @@ export function EventsCalendar({
             variant="ghost"
             size="icon"
             onClick={onNextMonth}
-            className="rounded-full hover:bg-white/10"
+            aria-label="Mes siguiente"
+            className="size-10 rounded-full hover:bg-white/10"
           >
             <ChevronRightIcon className="h-5 w-5" />
           </Button>
@@ -398,7 +400,7 @@ export function EventsCalendar({
                     <div
                       role="button"
                       tabIndex={0}
-                      className="group relative h-16 w-full lg:h-32 cursor-pointer outline-none"
+                      className="group relative h-14 w-full sm:h-16 lg:h-28 cursor-pointer outline-none rounded-lg focus-visible:ring-1 focus-visible:ring-white/40 active:bg-white/5"
                       onClick={(e: React.MouseEvent) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -442,11 +444,11 @@ export function EventsCalendar({
           button_previous: 'hidden',
           button_next: 'hidden',
           month_grid: 'w-full border-collapse',
-          weekdays: 'flex justify-between mb-4 border-b border-white/5 pb-2',
+          weekdays: 'flex justify-between gap-1 sm:gap-2 mb-2 border-b border-white/5 pb-2',
           weekday:
-            'text-xs font-medium text-zinc-500 w-full text-center',
-          week: 'flex w-full justify-between gap-2 mt-2',
-          day: 'h-16 w-full lg:h-32 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-hidden rounded-lg transition-colors',
+            'text-xs font-medium uppercase tracking-wide text-zinc-500 w-full text-center',
+          week: 'flex w-full justify-between gap-1 mt-1 sm:gap-2 sm:mt-2',
+          day: 'h-14 w-full sm:h-16 lg:h-28 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-hidden rounded-lg transition-colors',
           day_button: cn(
             buttonVariants({ variant: 'ghost' }),
             'h-full w-full p-0 font-normal aria-selected:opacity-100'

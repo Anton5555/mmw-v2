@@ -133,7 +133,7 @@ export function BoardPageClient({
   }, []);
 
   return (
-    <div className="relative w-full h-screen overflow-auto">
+    <div className="relative w-full h-dvh overflow-auto">
       <BoardToolbar onCreateClick={() => setCreateDialogOpen(true)} />
 
       <BoardGrid

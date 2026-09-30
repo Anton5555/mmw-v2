@@ -131,7 +131,7 @@ export function MamMovieCard({
         {/* Title Layer - Outside the poster for readability */}
         <div className="mt-3 px-1">
           <Link href={`/mam/movie/${movie.id}`}>
-            <h3 className="font-bold text-sm tracking-tight truncate group-hover:text-primary transition-colors">
+            <h3 className="font-bold text-sm leading-snug tracking-tight line-clamp-2 text-balance group-hover:text-primary transition-colors">
               {displayTitle}
             </h3>
           </Link>
@@ -182,7 +182,7 @@ export function MamMovieCard({
       {/* Review Dialog */}
       {showReview && userPick?.review && (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[85dvh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{displayTitle}</DialogTitle>
               <DialogDescription>

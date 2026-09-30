@@ -34,7 +34,7 @@ export function MovieHero({
     <div
       className={cn(
         'relative w-full overflow-hidden border-b border-white/5',
-        !compact && 'h-[50vh] md:h-[60vh]'
+        !compact && 'h-[50svh] md:h-[60svh]'
       )}
     >
       <Image
@@ -99,10 +99,10 @@ export function MovieHero({
               <div className="space-y-2">
                 <h1
                   className={cn(
-                    'font-black uppercase tracking-tighter',
+                    'text-balance font-black uppercase tracking-tighter',
                     compact
                       ? 'text-2xl'
-                      : 'text-4xl md:text-6xl lg:text-7xl'
+                      : 'text-3xl sm:text-4xl md:text-5xl xl:text-6xl'
                   )}
                 >
                   {displayTitle}

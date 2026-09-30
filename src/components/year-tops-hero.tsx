@@ -33,7 +33,7 @@ export function YearTopsHero({ availableYears }: YearTopsHeroProps) {
   return (
     <div className="space-y-12">
       <div className="text-center md:text-left">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+        <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
           Top del año
         </h1>
         <p className="mt-2 text-zinc-400">

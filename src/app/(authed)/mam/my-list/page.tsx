@@ -99,7 +99,7 @@ async function MyListPageContent({ searchParams }: MyListPageProps) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-4">
           {movies.map((movie) => {
             // Extract user's pick data (should only be one pick per movie for user's list)
             const userPick = movie.picks[0]

@@ -146,7 +146,7 @@ export function OscarResultsView({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.02 }}
                 className={cn(
-                  'relative overflow-hidden rounded-xl border p-5 transition-all',
+                  'relative overflow-hidden rounded-xl border p-5 transition-colors',
                   winner
                     ? 'border-yellow-500/30 bg-yellow-500/5'
                     : 'border-white/5 bg-zinc-900/30',

@@ -33,7 +33,7 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
     <div className="relative group">
       <div
         className={cn(
-          'relative overflow-hidden border-0 bg-transparent transition-all duration-300 ease-out',
+          'relative overflow-hidden border-0 bg-transparent',
           'group-hover:z-10'
         )}
       >
@@ -81,7 +81,7 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
           <Link
             href={`/year-tops/movie/${movie.id}`}
             >
-            <h3 className="font-bold text-sm tracking-tight truncate group-hover:text-primary transition-colors">
+            <h3 className="font-bold text-sm leading-snug tracking-tight line-clamp-2 text-balance group-hover:text-primary transition-colors">
               {displayTitle}
             </h3>
           </Link>

@@ -36,7 +36,7 @@ export function MovieSheet({ title, fullPageHref, children }: MovieSheetProps) {
         <SheetDescription className="sr-only">
           Detalles de {title}
         </SheetDescription>
-        <div className="sticky top-0 z-10 flex h-12 items-center border-b border-white/10 bg-[#0a0a0a]/90 px-4 backdrop-blur">
+        <div className="sticky top-0 z-10 flex h-14 items-center border-b border-white/10 bg-[#0a0a0a]/90 px-4 backdrop-blur">
           {/* Plain anchor on purpose: a hard navigation skips the interception. */}
           <a
             href={fullPageHref}

@@ -24,42 +24,44 @@ export default async function CalendarPage({ searchParams }: CalendarPageProps) 
   const suspenseKey = `${params.month}-${params.year}`;
 
   return (
-    <div className="container mx-auto lg:px-4 pb-8 pt-4">
-      <div className="lg:grid lg:grid-cols-4 lg:gap-6">
-        <div className="lg:col-span-1 mb-6 lg:mb-0">
-          <div className="hidden lg:block bg-card rounded-lg border shadow-xs p-6 h-full">
+    <div className="container mx-auto px-4 pb-8 pt-4">
+      {/* Side-by-side only when there is real room (the sidebar eats ~256px,
+          so a viewport breakpoint like lg leaves the events column too thin) */}
+      <div className="grid items-start gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]">
+        <aside className="min-w-0">
+          <div className="hidden rounded-xl border border-white/10 bg-zinc-900/40 p-5 xl:sticky xl:top-20 xl:block">
             <NextEvents events={nextEvents} />
           </div>
 
-          <div className="lg:hidden">
-            <Collapsible
-              className="bg-card rounded-none border-b border-t"
-              defaultOpen={true}
-            >
-              <div className="flex items-center justify-between p-4 border-b">
-                <h2 className="text-lg font-semibold">Próximos Eventos</h2>
-                <CollapsibleTrigger className="rounded-none h-8 w-8 inline-flex items-center justify-center transition-colors hover:bg-accent hover:text-accent-foreground">
-                  <ChevronDown className="h-4 w-4 transition-transform duration-200 data-[state=open]:rotate-180" />
-                  <span className="sr-only">Toggle events</span>
-                </CollapsibleTrigger>
+          <Collapsible
+            className="rounded-xl border border-white/10 bg-zinc-900/40 xl:hidden"
+            defaultOpen
+          >
+            <div className="flex items-center justify-between gap-3 px-4 py-2">
+              <h2 className="text-base font-semibold tracking-tight">
+                Próximos eventos
+              </h2>
+              <CollapsibleTrigger className="group inline-flex size-10 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-white/5 hover:text-white active:scale-[0.95]">
+                <ChevronDown className="size-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                <span className="sr-only">Mostrar u ocultar eventos</span>
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent>
+              <div className="border-t border-white/10 p-4">
+                <NextEvents events={nextEvents} showTitle={false} />
               </div>
-              <CollapsibleContent>
-                <div className="p-4">
-                  <NextEvents events={nextEvents} showTitle={false} />
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          </div>
-        </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </aside>
 
-        <div className="lg:col-span-3">
+        <div className="min-w-0">
           <Suspense key={suspenseKey} fallback={<EventsCalendarSkeleton />}>
             <EventsGrid month={params.month} year={params.year} />
           </Suspense>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-4 items-center justify-center bg-card p-4 rounded-lg shadow-xs mt-6">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-xl border border-white/10 bg-zinc-900/40 px-4 py-3">
         {Object.entries(EVENT_COLORS).map(([type, color]) => (
           <div key={type} className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-full', `bg-${color}`)} />

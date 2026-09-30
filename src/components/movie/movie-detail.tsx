@@ -42,7 +42,7 @@ export function MovieDetail({
 
   return (
     <div
-      className={cn('bg-[#0a0a0a] text-white', !compact && 'min-h-screen')}
+      className={cn('bg-[#0a0a0a] text-white', !compact && 'min-h-svh')}
     >
       <MovieHero
         movie={movie}
