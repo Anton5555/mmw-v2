@@ -51,6 +51,20 @@ jobs:
           path: coverage/
           if-no-files-found: ignore
 
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Boots a throwaway PostgreSQL (npm `embedded-postgres`) and applies the real migrations.
+      - run: pnpm test:integration
+
   build:
     name: Build
     runs-on: ubuntu-latest
