@@ -182,7 +182,7 @@ export type DirectorGroupByOutputType = {
   _max: DirectorMaxAggregateOutputType | null
 }
 
-type GetDirectorGroupByPayload<T extends DirectorGroupByArgs> = Prisma.PrismaPromise<
+export type GetDirectorGroupByPayload<T extends DirectorGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DirectorGroupByOutputType, T['by']> &
       {
@@ -1069,6 +1069,11 @@ export type DirectorFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Skip the first `n` Directors.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Directors.
+   */
   distinct?: Prisma.DirectorScalarFieldEnum | Prisma.DirectorScalarFieldEnum[]
 }
 

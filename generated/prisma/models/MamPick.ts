@@ -218,7 +218,7 @@ export type MamPickGroupByOutputType = {
   _max: MamPickMaxAggregateOutputType | null
 }
 
-type GetMamPickGroupByPayload<T extends MamPickGroupByArgs> = Prisma.PrismaPromise<
+export type GetMamPickGroupByPayload<T extends MamPickGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MamPickGroupByOutputType, T['by']> &
       {
@@ -1385,6 +1385,11 @@ export type MamPickFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Skip the first `n` MamPicks.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of MamPicks.
+   */
   distinct?: Prisma.MamPickScalarFieldEnum | Prisma.MamPickScalarFieldEnum[]
 }
 

@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { forgetPassword } from '@/lib/auth-client';
+import { requestPasswordReset } from '@/lib/auth-client';
 
 export default function ForgotPassword() {
   const form = useForm<ForgotPasswordFormValues>({
@@ -31,7 +31,7 @@ export default function ForgotPassword() {
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
     try {
-      await forgetPassword({
+      await requestPasswordReset({
         email: data.email,
         redirectTo: '/reset-password',
       });

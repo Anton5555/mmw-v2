@@ -106,6 +106,7 @@ export default function SignIn() {
                       </FormLabel>
                       <Link
                         href="/forgot-password"
+                        tabIndex={-1}
                         className="text-xs text-zinc-500 hover:text-white transition-colors"
                       >
                         ¿Olvidaste?

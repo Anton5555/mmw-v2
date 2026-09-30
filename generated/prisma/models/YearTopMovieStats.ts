@@ -204,7 +204,7 @@ export type YearTopMovieStatsGroupByOutputType = {
   _max: YearTopMovieStatsMaxAggregateOutputType | null
 }
 
-type GetYearTopMovieStatsGroupByPayload<T extends YearTopMovieStatsGroupByArgs> = Prisma.PrismaPromise<
+export type GetYearTopMovieStatsGroupByPayload<T extends YearTopMovieStatsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<YearTopMovieStatsGroupByOutputType, T['by']> &
       {
@@ -1186,6 +1186,11 @@ export type YearTopMovieStatsFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Skip the first `n` YearTopMovieStats.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of YearTopMovieStats.
+   */
   distinct?: Prisma.YearTopMovieStatsScalarFieldEnum | Prisma.YearTopMovieStatsScalarFieldEnum[]
 }
 
