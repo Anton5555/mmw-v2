@@ -39,16 +39,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ```bash
 pnpm test            # run unit tests once (vitest)
+pnpm test:integration # run integration tests against a real PostgreSQL
 pnpm test:watch      # watch mode
 pnpm test:coverage   # with coverage report in ./coverage
 pnpm typecheck       # tsc --noEmit
 pnpm lint            # eslint
 ```
 
-- Tests are colocated as `*.test.ts(x)` next to the code they cover. No database or network is needed: `@/lib/db`, `@/lib/auth` and `fetch` are mocked per test.
+- Tests are colocated as `*.test.ts(x)` next to the code they cover. Unit tests need no database or network: `@/lib/db`, `@/lib/auth` and `fetch` are mocked per test.
 - `vitest.setup.ts` loads dummy env vars from `tests/env.ts` so `@/env` validates, and stubs `next/cache`.
 - Component tests opt into jsdom with a `// @vitest-environment jsdom` comment at the top of the file.
-- GitHub Actions (`.github/workflows/ci.yml`) runs typecheck + lint, unit tests, and `next build` on every PR and push to `master`.
+- **Integration tests** (`*.integration.test.ts`) run the real Prisma client against a real PostgreSQL 17 that is started for the run (npm `embedded-postgres`, no Docker needed), with the actual migrations applied via `prisma migrate deploy`. Use them for what mocks can't verify: raw SQL, unique-constraint errors, transactions, concurrency and aggregates. Tests call `resetDatabase()` in `beforeEach` and build data with the helpers in `tests/integration/factories.ts`. To use your own local database instead, set `TEST_DATABASE_URL`; it must be on `localhost` and its name must contain `test` (tests truncate every table, and the runner refuses anything else).
+- GitHub Actions (`.github/workflows/ci.yml`) runs typecheck + lint, unit tests, integration tests, and `next build` on every PR and push to `master`.
 
 ## Database Setup and Migrations
 
