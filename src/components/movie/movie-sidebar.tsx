@@ -5,12 +5,15 @@ import { Star } from 'lucide-react';
 import type { List as ListType } from '@/lib/validations/generated';
 import type { YearTopSummaryItem } from '@/lib/validations/year-top';
 import { InfoPopover } from '@/components/ui/info-popover';
+import { cn } from '@/lib/utils';
 
 interface MovieSidebarProps {
   totalPoints?: number | null;
   totalPicks?: number | null;
   yearTopSummary?: YearTopSummaryItem[];
   otherLists?: ListType[];
+  /** Tighter stats for the details sheet. */
+  compact?: boolean;
 }
 
 export function MovieSidebar({
@@ -18,15 +21,21 @@ export function MovieSidebar({
   totalPicks,
   yearTopSummary = [],
   otherLists = [],
+  compact = false,
 }: MovieSidebarProps) {
   return (
-    <aside className="space-y-10">
+    <aside className={compact ? 'space-y-8' : 'space-y-10'}>
       {/* Stats Widget - Bento Grid */}
       {(totalPoints ?? 0) > 0 || (totalPicks ?? 0) > 0 ? (
         <div className="grid grid-cols-2 gap-px bg-white/10 rounded-xl overflow-hidden border border-white/10">
           {(totalPoints ?? 0) > 0 && (
-            <div className="bg-[#0a0a0a] p-6">
-              <span className="block text-3xl font-black text-yellow-500">
+            <div className={cn('bg-[#0a0a0a]', compact ? 'px-5 py-4' : 'p-6')}>
+              <span
+                className={cn(
+                  'block font-black text-yellow-500',
+                  compact ? 'text-2xl' : 'text-3xl'
+                )}
+              >
                 {totalPoints}
               </span>
               <span className="text-[10px] uppercase tracking-tighter text-zinc-500">
@@ -35,9 +44,20 @@ export function MovieSidebar({
             </div>
           )}
           <div
-            className={`bg-[#0a0a0a] p-6 ${(totalPoints ?? 0) > 0 ? '' : 'col-span-2'}`}
+            className={cn(
+              'bg-[#0a0a0a]',
+              compact ? 'px-5 py-4' : 'p-6',
+              (totalPoints ?? 0) <= 0 && 'col-span-2'
+            )}
           >
-            <span className="block text-3xl font-black">{totalPicks ?? 0}</span>
+            <span
+              className={cn(
+                'block font-black',
+                compact ? 'text-2xl' : 'text-3xl'
+              )}
+            >
+              {totalPicks ?? 0}
+            </span>
             <span className="text-[10px] uppercase tracking-tighter text-zinc-500">
               Votos
             </span>

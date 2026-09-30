@@ -8,7 +8,6 @@ import { InfoPopover } from '@/components/ui/info-popover';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
 import type { YearTopMovieWithPicks } from '@/lib/validations/year-top';
-import { useFilmStrip } from '@/lib/contexts/film-strip-context';
 import { YearTopPickType } from '@generated/prisma/enums';
 
 interface YearTopMovieCardProps {
@@ -18,15 +17,8 @@ interface YearTopMovieCardProps {
 }
 
 export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieCardProps) {
-  const { triggerStrip } = useFilmStrip();
-
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
-
-  const handleMovieClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    triggerStrip(displayTitle, `/year-tops/movie/${movie.id}`);
-  };
 
   // For BEST_AND_WORST, group picks by pickType
   const isDuales = pickType === 'BEST_AND_WORST';
@@ -48,7 +40,6 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
         {/* The Poster Layer */}
         <Link
           href={`/year-tops/movie/${movie.id}`}
-          onClick={handleMovieClick}
           className="block"
         >
           <div className="aspect-[2/3] relative rounded-lg overflow-hidden shadow-lg">
@@ -89,8 +80,7 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
         <div className="mt-3 px-1">
           <Link
             href={`/year-tops/movie/${movie.id}`}
-            onClick={handleMovieClick}
-          >
+            >
             <h3 className="font-bold text-sm tracking-tight truncate group-hover:text-primary transition-colors">
               {displayTitle}
             </h3>

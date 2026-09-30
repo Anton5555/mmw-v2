@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'motion/react';
 import { Calendar, Film } from 'lucide-react';
 import ReactCountryFlag from 'react-country-flag';
+import { cn } from '@/lib/utils';
 import { GlassButton } from '../ui/glass-button';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 
@@ -12,6 +13,8 @@ interface MovieHeroProps {
   rank?: number;
   director?: string;
   genre?: string;
+  /** Compact layout for the details sheet (no viewport-height hero). */
+  compact?: boolean;
 }
 
 export function MovieHero({
@@ -19,6 +22,7 @@ export function MovieHero({
   rank,
   director,
   genre,
+  compact = false,
 }: MovieHeroProps) {
   const displayTitle =
     movie.originalLanguage === 'es' ? movie.originalTitle : movie.title;
@@ -27,7 +31,12 @@ export function MovieHero({
   const countryCodes = movie.countryCodes ?? [];
 
   return (
-    <div className="relative h-[50vh] w-full overflow-hidden border-b border-white/5 md:h-[60vh]">
+    <div
+      className={cn(
+        'relative w-full overflow-hidden border-b border-white/5',
+        !compact && 'h-[50vh] md:h-[60vh]'
+      )}
+    >
       <Image
         src={`https://image.tmdb.org/t/p/original${movie.posterUrl}`}
         alt={displayTitle}
@@ -38,14 +47,27 @@ export function MovieHero({
       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
 
       {/* Content Overlay */}
-      <div className="absolute inset-0 flex items-end pb-12">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="grid gap-8 md:grid-cols-[300px_1fr]">
+      <div
+        className={cn(
+          compact ? 'relative pb-6 pt-6' : 'absolute inset-0 flex items-end pb-12'
+        )}
+      >
+        <div
+          className={cn(
+            compact ? 'px-4' : 'container mx-auto px-4 md:px-8'
+          )}
+        >
+          <div
+            className={cn(
+              'grid gap-8',
+              compact ? 'grid-cols-[110px_1fr] gap-4' : 'md:grid-cols-[300px_1fr]'
+            )}
+          >
             {/* Floating Poster */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="relative hidden md:block"
+              className={cn('relative', !compact && 'hidden md:block')}
             >
               <div className="aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50 ring-1 ring-white/10">
                 <Image
@@ -53,20 +75,36 @@ export function MovieHero({
                   alt={displayTitle}
                   fill
                   className="object-cover"
-                  sizes="300px"
+                  sizes={compact ? '110px' : '300px'}
                 />
               </div>
               {displayRank && (
-                <div className="absolute -right-4 -top-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 font-black text-white shadow-xl ring-4 ring-[#0a0a0a]">
-                  <span className="text-2xl">#{displayRank}</span>
+                <div
+                  className={cn(
+                    'absolute flex items-center justify-center rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 font-black text-white shadow-xl ring-4 ring-[#0a0a0a]',
+                    compact
+                      ? '-right-3 -top-3 h-10 w-10'
+                      : '-right-4 -top-4 h-16 w-16'
+                  )}
+                >
+                  <span className={compact ? 'text-sm' : 'text-2xl'}>
+                    #{displayRank}
+                  </span>
                 </div>
               )}
             </motion.div>
 
             {/* Header Info */}
-            <div className="flex flex-col justify-end space-y-6">
+            <div className={cn('flex flex-col justify-end', compact ? 'space-y-4' : 'space-y-6')}>
               <div className="space-y-2">
-                <h1 className="text-4xl font-black uppercase tracking-tighter md:text-6xl lg:text-7xl">
+                <h1
+                  className={cn(
+                    'font-black uppercase tracking-tighter',
+                    compact
+                      ? 'text-2xl'
+                      : 'text-4xl md:text-6xl lg:text-7xl'
+                  )}
+                >
                   {displayTitle}
                 </h1>
                 <div className="flex flex-wrap items-center gap-4 text-sm font-medium tracking-wide text-white/60">

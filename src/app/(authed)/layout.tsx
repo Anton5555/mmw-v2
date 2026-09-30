@@ -13,8 +13,10 @@ import { LoadingSpinner } from '@/components/shared/loading-spinner';
 // Separate component to fetch user data (wrapped in Suspense)
 async function AuthenticatedLayoutContent({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   const session = await getCurrentSession();
 
@@ -42,6 +44,7 @@ async function AuthenticatedLayoutContent({
               <FilmStripWrapper />
               <BreadcrumbsNav />
               {children}
+              {modal}
             </FilmStripProvider>
           </FilmSlateProvider>
         </BreadcrumbProvider>
@@ -50,10 +53,18 @@ async function AuthenticatedLayoutContent({
   );
 }
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <AuthenticatedLayoutContent>{children}</AuthenticatedLayoutContent>
+      <AuthenticatedLayoutContent modal={modal}>
+        {children}
+      </AuthenticatedLayoutContent>
     </Suspense>
   );
 };
