@@ -185,7 +185,7 @@ async function main() {
 
   let processed = 0;
   let updated = 0;
-  let skipped = 0;
+  const skipped = 0;
   let errors = 0;
 
   for (let i = 0; i < moviesToProcess.length; i++) {
