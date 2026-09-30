@@ -9,7 +9,7 @@ import { ParticipantAvatar, getParticipantDisplayName } from './participant-avat
 import { Film, Star } from 'lucide-react';
 import type { YearTopMovieWithPicks } from '@/lib/validations/year-top';
 import { useFilmStrip } from '@/lib/contexts/film-strip-context';
-import { YearTopPickType } from '../../generated/prisma/enums';
+import { YearTopPickType } from '@generated/prisma/enums';
 
 interface YearTopMovieCardProps {
   movie: YearTopMovieWithPicks;

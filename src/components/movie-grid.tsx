@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { FocusCards } from './ui/focus-cards';
 import { loadMoreMoviesAction } from '@/lib/actions/lists/load-more-movies';
-import { Movie } from '@prisma/client';
+import { Movie } from '@generated/prisma/client';
 
 const ITEMS_PER_PAGE = 20;
 

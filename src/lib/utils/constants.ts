@@ -1,4 +1,4 @@
-import { EventType } from '@prisma/client';
+import { EventType } from '@generated/prisma/client';
 import { Calendar, Gift, Heart, MessageCircle, Users } from 'lucide-react';
 
 export const EVENT_COLORS: Record<EventType, string> = {

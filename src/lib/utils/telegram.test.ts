@@ -1,4 +1,4 @@
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { formatEventMessage, sendTelegramMessage } from './telegram';
 

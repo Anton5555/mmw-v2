@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { User } from 'lucide-react';
 import { useFilmSlate } from '@/lib/contexts/film-slate-context';
-import { List } from '@prisma/client';
+import { List } from '@generated/prisma/client';
 
 interface ListCardProps {
   list: List;

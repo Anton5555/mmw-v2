@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db';
 import { normalizeDateToUTC } from '@/lib/utils/daily-recommendation';
-import type { Movie, List, MamParticipant } from '@prisma/client';
+import type { Movie, List, MamParticipant } from '@generated/prisma/client';
 
 export type DailyRecommendationData =
   | {

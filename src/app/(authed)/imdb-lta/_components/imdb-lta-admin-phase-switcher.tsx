@@ -4,7 +4,7 @@ import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Loader2, Shield } from 'lucide-react';
-import { ImdbLtaPhase } from '@prisma/client';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { updateImdbLtaPhaseAction } from '@/lib/actions/imdb-lta/update-phase';

@@ -32,7 +32,7 @@ import { EventTypeSchema } from '@/lib/validations/generated';
 import { DateTimePicker } from '@/components/datetime-picker';
 import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Sheet } from '@/components/ui/sheet';
-import type { Event } from '@prisma/client';
+import type { Event } from '@generated/prisma/client';
 
 type EditEventSheetProps = {
   event: Event;
