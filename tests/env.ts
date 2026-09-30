@@ -9,7 +9,6 @@ export const testEnv = {
   TMDB_API_KEY: 'test-tmdb-key',
   RESEND_API_KEY: 'test-resend-key',
   APP_URL: 'http://localhost:3000',
-  JWT_SECRET: 'test-jwt-secret',
   VIP_CODE: 'test-vip-code',
   STORAGE_ENDPOINT: 'http://localhost:9000',
   REGION: 'us-east-1',
