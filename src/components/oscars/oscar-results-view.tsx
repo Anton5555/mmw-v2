@@ -28,7 +28,6 @@ function getInitials(name: string): string {
 export function OscarResultsView({
   stats,
   leaderboard,
-  edition,
 }: OscarResultsViewProps) {
   const totalCategories = stats.length;
 

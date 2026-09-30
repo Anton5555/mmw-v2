@@ -1,6 +1,5 @@
 import { getMonthEvents } from '@/lib/api/events';
 import { EventsCalendar } from './events-calendar';
-import type { Event } from '@prisma/client';
 
 interface EventsGridProps {
   month: number;

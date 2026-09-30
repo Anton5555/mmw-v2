@@ -82,7 +82,7 @@ async function main() {
 
   let totalPicksUpdated = 0;
   let totalParticipantsDeleted = 0;
-  let errors: Array<{ mapping: string; error: string }> = [];
+  const errors: Array<{ mapping: string; error: string }> = [];
 
   // Process each consolidation mapping
   for (const mapping of CONSOLIDATION_MAPPINGS) {

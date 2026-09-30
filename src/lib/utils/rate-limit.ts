@@ -65,7 +65,6 @@ export async function processInBatches<T, R>(
   batchSize: number,
   processor: (item: T, rateLimiter: RateLimiter) => Promise<R>
 ): Promise<R[]> {
-  const results: R[] = [];
   // Use 4 requests/second to maximize throughput (TMDB allows 40 per 10 seconds)
   const rateLimiter = new RateLimiter(4);
 

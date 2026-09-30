@@ -7,11 +7,6 @@ const nextConfig: NextConfig = {
   // Enable Cache Components (new caching model)
   cacheComponents: true,
 
-  experimental: {
-    // Enable Turbopack filesystem caching (beta)
-    turbopackFileSystemCacheForDev: true,
-  },
-
   images: {
     // Optimize for movie posters: reduce variants to minimize optimization costs
     // Cache for 31 days (movie posters don't change)
@@ -28,7 +23,6 @@ const nextConfig: NextConfig = {
     imageSizes: [300, 400, 500, 600, 750, 1000],
     
     remotePatterns: [
-      { hostname: 'img.clerk.com', protocol: 'https', port: '' },
       {
         hostname: 'klqkextpvzmukkmlceai.supabase.co',
         protocol: 'https',
