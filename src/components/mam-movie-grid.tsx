@@ -2,6 +2,7 @@ import { getMamMovies } from '@/lib/api/mam';
 import { MamMovieCard } from '@/components/mam-movie-card';
 import { MamPagination } from '@/components/mam-pagination';
 import { Film } from 'lucide-react';
+import { staggerDelay } from '@/lib/utils';
 import { MamRandomMovieButton } from '@/components/mam/mam-random-movie-button';
 
 interface MovieGridProps {
@@ -77,7 +78,7 @@ export async function MamMovieGrid({ searchParams }: MovieGridProps) {
           <div
             key={movie.id}
             className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 50}ms` }}
+            style={staggerDelay(index)}
           >
             <MamMovieCard movie={movie} rank={movie.rank} />
           </div>

@@ -77,7 +77,7 @@ export function MamMovieCard({
     <div className="relative group">
       <div
         className={cn(
-          'relative overflow-hidden border-0 bg-transparent transition-all duration-300 ease-out',
+          'relative overflow-hidden border-0 bg-transparent',
           'group-hover:z-10'
         )}
       >
@@ -89,7 +89,7 @@ export function MamMovieCard({
                 src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
                 alt={displayTitle}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             ) : (
@@ -112,9 +112,9 @@ export function MamMovieCard({
             )}
 
             {/* Hover overlay: scrim keeps review readable over busy posters */}
-            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out pointer-events-none">
               <div className="bg-gradient-to-t from-black via-black/80 to-transparent px-4 pb-4 pt-16">
-                <div className="space-y-2">
+                <div className="space-y-2 translate-y-2 transition-transform duration-200 ease-out group-hover:translate-y-0">
                   {(movie.totalPoints ?? 0) > 0 && (
                     <div className="flex items-center gap-2">
                       <Badge

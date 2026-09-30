@@ -29,7 +29,7 @@ export default {
         collapse: 'collapse 0.2s ease-out',
         expand: 'expand 0.2s ease-out',
         shimmer: 'shimmer 2s infinite',
-        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'fade-in-up': 'fade-in-up 0.4s var(--ease-out) both',
         'breadcrumb-fade': 'breadcrumb-fade 0.4s ease-out',
       },
       backgroundImage: {

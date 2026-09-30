@@ -6,6 +6,7 @@ import { NextEvents } from '@/app/(authed)/calendar/_components/next-events';
 import { DailySpotlight } from '@/components/daily-spotlight';
 import Link from 'next/link';
 import { Calendar } from 'lucide-react';
+import { staggerDelay } from '@/lib/utils';
 
 export default async function Home({
   searchParams,
@@ -19,11 +20,11 @@ export default async function Home({
 
   return (
     <div className="flex flex-col gap-16 pb-20 overflow-x-hidden">
-      <section className="relative w-full overflow-hidden">
+      <section className="relative w-full overflow-hidden animate-fade-in">
         <ListsCarousel lists={lists} verified={verified} />
       </section>
 
-      <section className="container mx-auto px-4 lg:px-8">
+      <section className="container mx-auto px-4 lg:px-8 animate-fade-in-up" style={staggerDelay(2, 60)}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-8 space-y-6">
             <div className="flex items-center gap-4">
@@ -69,7 +70,7 @@ export default async function Home({
                 </Link>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-zinc-900 p-6">
+              <div className="rounded-xl border border-white/10 bg-zinc-900 p-6 animate-fade-in-up" style={staggerDelay(4, 60)}>
                 {nextEvents.length > 0 ? (
                   <NextEvents events={nextEvents} showTitle={false} />
                 ) : (
