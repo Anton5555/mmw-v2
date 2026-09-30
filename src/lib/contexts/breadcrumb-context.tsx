@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, use, useState } from 'react';
 
 export type IntermediateBreadcrumb = {
   label: string;
@@ -31,7 +31,7 @@ export function BreadcrumbProvider({
   >([]);
 
   return (
-    <BreadcrumbContext.Provider
+    <BreadcrumbContext
       value={{
         currentPageLabel,
         setCurrentPageLabel,
@@ -40,12 +40,12 @@ export function BreadcrumbProvider({
       }}
     >
       {children}
-    </BreadcrumbContext.Provider>
+    </BreadcrumbContext>
   );
 }
 
 export function useBreadcrumb() {
-  const context = useContext(BreadcrumbContext);
+  const context = use(BreadcrumbContext);
   if (context === undefined) {
     throw new Error('useBreadcrumb must be used within a BreadcrumbProvider');
   }

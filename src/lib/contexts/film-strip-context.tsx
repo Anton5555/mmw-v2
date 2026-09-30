@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, use, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 type FilmStripContextType = {
@@ -41,7 +41,7 @@ export function FilmStripProvider({
   }, [targetUrl, router]);
 
   return (
-    <FilmStripContext.Provider
+    <FilmStripContext
       value={{
         isActive,
         selectedTitle,
@@ -50,12 +50,12 @@ export function FilmStripProvider({
       }}
     >
       {children}
-    </FilmStripContext.Provider>
+    </FilmStripContext>
   );
 }
 
 export function useFilmStrip() {
-  const context = useContext(FilmStripContext);
+  const context = use(FilmStripContext);
   if (context === undefined) {
     throw new Error('useFilmStrip must be used within a FilmStripProvider');
   }
