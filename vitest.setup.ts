@@ -12,6 +12,7 @@ vi.mock('server-only', () => ({}));
 
 vi.mock('next/cache', () => ({
   revalidateTag: vi.fn(),
+  updateTag: vi.fn(),
   revalidatePath: vi.fn(),
   cacheLife: vi.fn(),
   cacheTag: vi.fn(),

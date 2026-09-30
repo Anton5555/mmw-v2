@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -31,7 +31,7 @@ describe('createEventAction', () => {
     mocks.getSession.mockResolvedValue(null);
     await expect(createEventAction(input)).rejects.toThrow('No autorizado');
     expect(mocks.eventCreate).not.toHaveBeenCalled();
-    expect(revalidateTag).not.toHaveBeenCalled();
+    expect(updateTag).not.toHaveBeenCalled();
   });
 
   it('creates the event attributed to the session user and revalidates the events cache', async () => {
@@ -43,6 +43,6 @@ describe('createEventAction', () => {
     expect(data).toMatchObject({ title: 'Cine', createdBy: 'user-1', month: 3, day: 5 });
     expect(data.id).toEqual(expect.any(String));
     expect(result).toEqual({ success: true, event: data });
-    expect(revalidateTag).toHaveBeenCalledWith('events', 'max');
+    expect(updateTag).toHaveBeenCalledWith('events');
   });
 });

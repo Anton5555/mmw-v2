@@ -1,5 +1,3 @@
-import type { LexicalEditorState } from './lexical';
-
 export type BoardPost = {
   id: string;
   title: string;

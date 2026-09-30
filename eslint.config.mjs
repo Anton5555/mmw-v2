@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "node_modules/**"],
+    ignores: [".next/**", "node_modules/**", "generated/**"],
   },
   ...tseslint.configs.recommended,
   {
@@ -30,6 +30,13 @@ export default tseslint.config(
       react: {
         version: "detect",
       },
+    },
+  },
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
   {

@@ -20,9 +20,6 @@ import {
   $isRangeSelection, 
   FORMAT_TEXT_COMMAND,
   $createParagraphNode,
-  $isElementNode,
-  SELECTION_CHANGE_COMMAND,
-  COMMAND_PRIORITY_CRITICAL,
   $getRoot,
   $createTextNode,
   $isTextNode,
@@ -188,7 +185,6 @@ function ToolbarPlugin({ readOnly }: { readOnly?: boolean }) {
     editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
-        const nodes = selection.getNodes();
         const selectedText = selection.getTextContent();
         
         if (selectedText) {

@@ -14,7 +14,6 @@ interface OscarPredictionsViewProps {
 
 export function OscarPredictionsView({
   stats,
-  edition,
 }: OscarPredictionsViewProps) {
   return (
     <motion.div
