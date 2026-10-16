@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Loader2, Mail, Lock } from 'lucide-react';
 import { signIn } from '@/lib/auth-client';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,9 +22,32 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { signInSchema } from '@/lib/validations/auth';
+import { AuthDivider, GoogleButton } from '@/components/auth/google-button';
 
 export default function SignIn() {
   const router = useRouter();
+
+  useEffect(() => {
+    const error = new URLSearchParams(window.location.search).get('error');
+    if (!error) return;
+    if (error === 'signup_disabled' || error === 'account_not_found') {
+      toast.error('No tenés cuenta, creala con tu código VIP', {
+        action: { label: 'Crear cuenta', onClick: () => router.push('/sign-up') },
+      });
+    } else {
+      toast.error('No pudimos iniciar sesión con Google. Intentá de nuevo.');
+    }
+    window.history.replaceState(null, '', window.location.pathname);
+  }, [router]);
+
+  const onGoogle = async () => {
+    await signIn.social({
+      provider: 'google',
+      callbackURL: '/home',
+      errorCallbackURL: '/sign-in',
+    });
+  };
+
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -159,6 +183,9 @@ export default function SignIn() {
                 'Entrar'
               )}
             </Button>
+
+            <AuthDivider>o</AuthDivider>
+            <GoogleButton onClick={onGoogle} />
 
             <p className="text-center text-sm text-zinc-500 pt-2">
               ¿No tenés cuenta?{' '}

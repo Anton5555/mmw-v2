@@ -24,6 +24,9 @@ export const env = createEnv({
     TELEGRAM_BOT_TOKEN: z.string(),
     TELEGRAM_CHAT_ID: z.string(),
     CRON_SECRET: z.string(),
+    BETTER_AUTH_SECRET: z.string().min(32),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
 
   client: {
@@ -48,6 +51,9 @@ export const env = createEnv({
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
     CRON_SECRET: process.env.CRON_SECRET,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },
