@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Loader2, Mail, Lock, User, KeyRound } from 'lucide-react';
-import { signUp } from '@/lib/auth-client';
+import { signIn, signUp } from '@/lib/auth-client';
+import { useEffect } from 'react';
+import { AuthDivider, GoogleButton } from '@/components/auth/google-button';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -20,10 +22,10 @@ import {
 } from '@/components/ui/form';
 
 interface SignUpFormProps {
-  validateVipCode: (code: string) => Promise<boolean>;
+  verifyVipCode: (code: string) => Promise<boolean>;
 }
 
-export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
+export default function SignUpForm({ verifyVipCode }: SignUpFormProps) {
   const router = useRouter();
 
   const form = useForm<SignUpFormValues>({
@@ -38,9 +40,43 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
     },
   });
 
+  useEffect(() => {
+    const error = new URLSearchParams(window.location.search).get('error');
+    if (!error) return;
+    if (error === 'VIP_REQUIRED') {
+      form.setError('vipCode', {
+        message: 'El código VIP expiró o es inválido',
+      });
+    } else {
+      toast.error('No pudimos crear la cuenta con Google. Intentá de nuevo.');
+    }
+    window.history.replaceState(null, '', window.location.pathname);
+  }, [form]);
+
+  const onGoogle = async () => {
+    try {
+      if (!(await form.trigger('vipCode'))) return;
+
+      if (!(await verifyVipCode(form.getValues('vipCode')))) {
+        form.setError('vipCode', { message: 'El código VIP es incorrecto' });
+        return;
+      }
+
+      await signIn.social({
+        provider: 'google',
+        requestSignUp: true,
+        callbackURL: '/home',
+        errorCallbackURL: '/sign-up',
+      });
+    } catch (error) {
+      console.error('Google sign up error:', error);
+      toast.error('Error al crear la cuenta. Por favor intenta de nuevo.');
+    }
+  };
+
   const onSubmit = async (data: SignUpFormValues) => {
     try {
-      const isValidVipCode = await validateVipCode(data.vipCode);
+      const isValidVipCode = await verifyVipCode(data.vipCode);
 
       if (!isValidVipCode) {
         form.setError('vipCode', {
@@ -98,6 +134,33 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="vipCode"
+                render={({ field }) => (
+                  <FormItem className="space-y-1.5">
+                    <FormLabel className="text-sm text-yellow-500">
+                      Código VIP
+                    </FormLabel>
+                    <div className="relative group">
+                      <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-yellow-500/70 group-focus-within:text-yellow-500 transition-colors" />
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Ingresá el código VIP"
+                          className="h-11 pl-10 bg-zinc-950 border-yellow-500/30 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
+                          {...field}
+                        />
+                      </FormControl>
+                    </div>
+                    <FormMessage className={messageClass} />
+                  </FormItem>
+                )}
+              />
+
+              <GoogleButton onClick={onGoogle} />
+              <AuthDivider>o completá tus datos</AuthDivider>
+
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -201,30 +264,6 @@ export default function SignUpForm({ validateVipCode }: SignUpFormProps) {
                           type="password"
                           placeholder="••••••••"
                           className={fieldClass}
-                          {...field}
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage className={messageClass} />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="vipCode"
-                render={({ field }) => (
-                  <FormItem className="space-y-1.5">
-                    <FormLabel className="text-sm text-yellow-500">
-                      Código VIP
-                    </FormLabel>
-                    <div className="relative group">
-                      <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-yellow-500/70 group-focus-within:text-yellow-500 transition-colors" />
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Ingresá el código VIP"
-                          className="h-11 pl-10 bg-zinc-950 border-yellow-500/30 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>
