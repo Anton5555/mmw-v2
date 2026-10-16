@@ -12,6 +12,9 @@ const publicRoutes = [
   '/api/auth/verify-email',
 ];
 
+// Public for everyone (including signed-in users); needed for Google OAuth brand URLs
+const alwaysPublicRoutes = ['/privacy', '/terms'];
+
 // Add routes that are always public (like images, etc)
 const staticRoutes = ['/logo.png'];
 
@@ -35,6 +38,9 @@ export async function proxy(request: NextRequest) {
   const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route),
   );
+  const isAlwaysPublic = alwaysPublicRoutes.some((route) =>
+    pathname.startsWith(route),
+  );
 
   // Optimistic check only: the cookie's presence is not proof of a valid
   // session. Pages and actions must still validate with auth.api.getSession.
@@ -45,6 +51,10 @@ export async function proxy(request: NextRequest) {
     return session
       ? NextResponse.redirect(new URL('/home', request.url))
       : NextResponse.redirect(new URL('/sign-in', request.url));
+  }
+
+  if (isAlwaysPublic) {
+    return NextResponse.next();
   }
 
   // If it's a public route, allow access without session check
