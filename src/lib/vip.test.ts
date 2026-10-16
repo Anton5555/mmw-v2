@@ -23,8 +23,10 @@ describe('vip token', () => {
   });
 
   it('rejects tampered or malformed tokens', () => {
-    const [, sig] = createVipToken().split('.');
-    expect(isValidVipToken(`${Date.now() + 10 * 60_000}.${sig}`)).toBe(false);
+    const [expiresAt, sig] = createVipToken().split('.');
+    // Same signature with a different expiry must fail (avoid same-ms race).
+    expect(isValidVipToken(`${Number(expiresAt) + 1}.${sig}`)).toBe(false);
+    expect(isValidVipToken(`${expiresAt}.${sig.slice(0, -1)}a`)).toBe(false);
     expect(isValidVipToken('garbage')).toBe(false);
     expect(isValidVipToken('')).toBe(false);
     expect(isValidVipToken(null)).toBe(false);
