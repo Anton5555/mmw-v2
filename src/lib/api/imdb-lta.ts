@@ -59,7 +59,7 @@ export async function assertNominationPhaseOpen(): Promise<void> {
   }
   if (isImdbLtaNominationDeadlinePassed()) {
     throw new Error(
-      'El plazo de nominaciones terminó el 21 de octubre. Ya no podés modificar tu lista.'
+      'El plazo de nominaciones terminó el 31 de octubre. Ya no podés modificar tu lista.'
     );
   }
 }

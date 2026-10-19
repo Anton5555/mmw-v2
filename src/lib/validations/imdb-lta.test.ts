@@ -13,24 +13,24 @@ const art = (isoDate: string, time = '12:00:00') => new Date(`${isoDate}T${time}
 
 describe('nomination deadline (Argentina time)', () => {
   it('is not passed during the last writable day, even late at night', () => {
-    expect(isImdbLtaNominationDeadlinePassed(art('2026-10-21', '23:59:59'))).toBe(false);
+    expect(isImdbLtaNominationDeadlinePassed(art('2026-10-31', '23:59:59'))).toBe(false);
   });
 
   it('is passed from local midnight of the next day', () => {
-    expect(isImdbLtaNominationDeadlinePassed(art('2026-10-22', '00:00:00'))).toBe(true);
+    expect(isImdbLtaNominationDeadlinePassed(art('2026-11-01', '00:00:00'))).toBe(true);
   });
 
-  it('uses Argentina calendar date, not UTC (02:00Z on the 22nd is still the 21st in ART)', () => {
-    expect(isImdbLtaNominationDeadlinePassed(new Date('2026-10-22T02:00:00Z'))).toBe(false);
+  it('uses Argentina calendar date, not UTC (02:00Z on Nov 1 is still Oct 31 in ART)', () => {
+    expect(isImdbLtaNominationDeadlinePassed(new Date('2026-11-01T02:00:00Z'))).toBe(false);
   });
 
   it.each([
-    ['2026-10-06', 'default'],
-    ['2026-10-07', 'warning'],
-    ['2026-10-13', 'warning'],
-    ['2026-10-14', 'urgent'],
-    ['2026-10-21', 'urgent'],
-    ['2026-10-22', 'passed'],
+    ['2026-10-16', 'default'],
+    ['2026-10-17', 'warning'],
+    ['2026-10-23', 'warning'],
+    ['2026-10-24', 'urgent'],
+    ['2026-10-31', 'urgent'],
+    ['2026-11-01', 'passed'],
   ])('tone on %s is %s', (day, tone) => {
     expect(getImdbLtaNominationDeadlineTone(art(day))).toBe(tone);
   });
