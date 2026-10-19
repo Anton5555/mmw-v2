@@ -4,7 +4,7 @@ export const IMDB_LTA_MIN_NOMINATIONS = 25;
 export const IMDB_LTA_MAX_NOMINATIONS = 50;
 
 /** Last writable calendar day for nominations (inclusive), Argentina time. */
-export const IMDB_LTA_NOMINATION_DEADLINE = '2026-10-21';
+export const IMDB_LTA_NOMINATION_DEADLINE = '2026-10-31';
 export const IMDB_LTA_NOMINATION_DEADLINE_TZ =
   'America/Argentina/Buenos_Aires';
 
@@ -36,8 +36,8 @@ export function getImdbLtaNominationDeadlineTone(
 ): ImdbLtaNominationDeadlineTone {
   const today = artCalendarDate(now);
   if (today > IMDB_LTA_NOMINATION_DEADLINE) return 'passed';
-  if (today >= '2026-10-14') return 'urgent';
-  if (today >= '2026-10-07') return 'warning';
+  if (today >= '2026-10-24') return 'urgent';
+  if (today >= '2026-10-17') return 'warning';
   return 'default';
 }
 

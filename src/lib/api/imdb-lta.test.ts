@@ -87,7 +87,7 @@ describe('assertNominationPhaseOpen', () => {
 
   it('throws after the Argentina-time deadline even if the phase is still open', async () => {
     setPhase('NOMINATION_OPEN');
-    vi.setSystemTime(new Date('2026-10-22T00:00:00-03:00'));
+    vi.setSystemTime(new Date('2026-11-01T00:00:00-03:00'));
     await expect(assertNominationPhaseOpen()).rejects.toThrow(/plazo de nominaciones terminó/);
   });
 

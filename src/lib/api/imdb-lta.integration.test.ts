@@ -28,7 +28,7 @@ async function nominate(userId: string, movieIds: number[]) {
 
 beforeEach(async () => {
   await resetDatabase();
-  // The nomination deadline is 2026-10-21 (Argentina time); pin the clock before it.
+  // The nomination deadline is 2026-10-31 (Argentina time); pin the clock before it.
   vi.useFakeTimers({ toFake: ['Date'] });
   vi.setSystemTime(new Date('2026-10-01T12:00:00-03:00'));
 });
@@ -103,7 +103,7 @@ describe('nominations', () => {
   it('is closed after the deadline even while the phase is still open', async () => {
     const user = await createUser();
     const movie = await createMovie();
-    vi.setSystemTime(new Date('2026-10-22T00:00:00-03:00'));
+    vi.setSystemTime(new Date('2026-11-01T00:00:00-03:00'));
 
     await expect(addNomination(user.id, movie.id)).rejects.toThrow(/plazo de nominaciones terminó/);
   });

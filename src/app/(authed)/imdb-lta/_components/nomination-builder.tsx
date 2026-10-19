@@ -369,7 +369,7 @@ export function NominationBuilder({
                   Plazo vencido
                 </p>
                 <p className="text-sm text-amber-200/80">
-                  El plazo terminó el 21 de octubre. Tu lista quedó congelada. Un
+                  El plazo terminó el 31 de octubre. Tu lista quedó congelada. Un
                   admin cerrará la fase.
                 </p>
               </>
@@ -443,7 +443,7 @@ export function NominationBuilder({
                 )}
               >
                 <Clock className="h-3.5 w-3.5 shrink-0" />
-                Cierra el 21 de octubre
+                Cierra el 31 de octubre
               </span>
             )}
           </div>
