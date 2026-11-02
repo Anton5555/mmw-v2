@@ -3,8 +3,12 @@ import { z } from 'zod';
 export const IMDB_LTA_MIN_NOMINATIONS = 25;
 export const IMDB_LTA_MAX_NOMINATIONS = 50;
 
-/** Last writable calendar day for nominations (inclusive), Argentina time. */
-export const IMDB_LTA_NOMINATION_DEADLINE = '2026-10-31';
+/** Last writable calendar day for nominations (inclusive), Argentina time (GMT−3). */
+export const IMDB_LTA_NOMINATION_DEADLINE = '2026-11-06';
+/** Late-window label shown while nominations are still writable. */
+export const IMDB_LTA_NOMINATION_WINDOW_LABEL = 'Para los rezagados';
+/** Spanish calendar label for the deadline, used in UI and server errors. */
+export const IMDB_LTA_NOMINATION_DEADLINE_LABEL = '6 de noviembre';
 export const IMDB_LTA_NOMINATION_DEADLINE_TZ =
   'America/Argentina/Buenos_Aires';
 

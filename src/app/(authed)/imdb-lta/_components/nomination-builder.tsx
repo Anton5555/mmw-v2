@@ -34,6 +34,8 @@ import {
   IMDB_ID_REGEX,
   IMDB_LTA_MAX_NOMINATIONS,
   IMDB_LTA_MIN_NOMINATIONS,
+  IMDB_LTA_NOMINATION_DEADLINE_LABEL,
+  IMDB_LTA_NOMINATION_WINDOW_LABEL,
   getImdbLtaNominationDeadlineTone,
 } from '@/lib/validations/imdb-lta';
 import type { MovieCardData } from '@/lib/api/movies';
@@ -369,8 +371,8 @@ export function NominationBuilder({
                   Plazo vencido
                 </p>
                 <p className="text-sm text-amber-200/80">
-                  El plazo terminó el 31 de octubre. Tu lista quedó congelada. Un
-                  admin cerrará la fase.
+                  El plazo terminó el {IMDB_LTA_NOMINATION_DEADLINE_LABEL}. Tu
+                  lista quedó congelada. Un admin cerrará la fase.
                 </p>
               </>
             ) : (
@@ -443,7 +445,8 @@ export function NominationBuilder({
                 )}
               >
                 <Clock className="h-3.5 w-3.5 shrink-0" />
-                Cierra el 31 de octubre
+                {IMDB_LTA_NOMINATION_WINDOW_LABEL} · cierra el{' '}
+                {IMDB_LTA_NOMINATION_DEADLINE_LABEL}
               </span>
             )}
           </div>
