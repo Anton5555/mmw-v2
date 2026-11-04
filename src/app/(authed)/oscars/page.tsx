@@ -28,7 +28,7 @@ async function OscarsPageContent() {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    redirect('/sign-in');
+    redirect('/api/auth/clear-session');
   }
 
   const isAdmin = session.user.role === 'admin';

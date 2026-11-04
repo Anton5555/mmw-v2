@@ -21,7 +21,7 @@ async function OscarsResultsPageContent() {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    redirect('/sign-in');
+    redirect('/api/auth/clear-session');
   }
 
   const edition = await getActiveEdition();

@@ -27,7 +27,7 @@ async function MyListPageContent({ searchParams }: MyListPageProps) {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    return redirect('/sign-in');
+    return redirect('/api/auth/clear-session');
   }
 
   const userId = session.user.id;
