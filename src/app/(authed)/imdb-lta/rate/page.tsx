@@ -52,7 +52,7 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    redirect('/sign-in');
+    redirect('/api/auth/clear-session');
   }
 
   const phase = await getImdbLtaPhase();
