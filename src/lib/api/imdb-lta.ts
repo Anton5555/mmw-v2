@@ -16,6 +16,11 @@ import {
   type ImdbLtaPhaseValue,
   type ImdbLtaRatingFilter,
 } from '@/lib/validations/imdb-lta';
+import {
+  getOpenBatch,
+  loadMovieBatchStates,
+  type MovieBatchState,
+} from '@/lib/api/imdb-lta-batches';
 
 const CONFIG_ID = 1;
 
@@ -470,6 +475,9 @@ export type CandidateMovieStats = MovieCardData & {
   averageScore: number | null;
   userNominated: boolean;
   userScore: number | null;
+  /** locked = never batched; open = current batch; released = past batch. */
+  batchState: MovieBatchState;
+  userSkipped: boolean;
 };
 
 export type RateableListResult = {
@@ -497,14 +505,15 @@ export async function assertRatingPhaseOpen(): Promise<void> {
   const phase = await getImdbLtaPhase();
   if (phase !== ImdbLtaPhase.RATING_OPEN) {
     throw new Error(
-      'Las puntuaciones están cerradas. Ya no podés puntuar películas.'
+      'Los puntajes están cerrados. Ya no podés puntuar películas.'
     );
   }
 }
 
 /**
  * Shared-unlock eligibility (ignores phase — callers check phase separately).
- * Solo nominator cannot rate; shared nominators and non-nominators can.
+ * Locked movies cannot be rated. Solo nominator cannot rate; shared nominators
+ * and non-nominators can. Existing ratings are allowed (upsert / edit).
  */
 export async function canUserRateMovie(
   userId: string,
@@ -521,13 +530,12 @@ export async function canUserRateMovie(
     };
   }
 
-  const existingRating = await prisma.imdbLtaRating.findUnique({
-    where: { userId_movieId: { userId, movieId } },
-    select: { id: true },
-  });
-
-  if (existingRating) {
-    return { allowed: false, reason: 'Ya puntuaste esta película' };
+  const batchState = await getMovieBatchStateCached(movieId);
+  if (batchState === 'locked') {
+    return {
+      allowed: false,
+      reason: 'Esta película todavía no salió en un lote',
+    };
   }
 
   const userNomination = await prisma.imdbLtaNomination.findUnique({
@@ -546,33 +554,52 @@ export async function canUserRateMovie(
   return { allowed: true };
 }
 
+async function getMovieBatchStateCached(
+  movieId: number
+): Promise<MovieBatchState> {
+  const states = await loadMovieBatchStates([movieId]);
+  return states.get(movieId) ?? 'locked';
+}
+
 async function loadCandidateStats(
   userId: string
 ): Promise<CandidateMovieStats[]> {
-  const [movies, nominationGroups, ratingGroups, myNominations, myRatings] =
-    await Promise.all([
-      prisma.movie.findMany({
-        where: { imdbLtaNominations: { some: {} } },
-        select: movieCardSelect,
-      }),
-      prisma.imdbLtaNomination.groupBy({
-        by: ['movieId'],
-        _count: { _all: true },
-      }),
-      prisma.imdbLtaRating.groupBy({
-        by: ['movieId'],
-        _count: { _all: true },
-        _avg: { score: true },
-      }),
-      prisma.imdbLtaNomination.findMany({
-        where: { userId },
-        select: { movieId: true },
-      }),
-      prisma.imdbLtaRating.findMany({
-        where: { userId },
-        select: { movieId: true, score: true },
-      }),
-    ]);
+  const [
+    movies,
+    nominationGroups,
+    ratingGroups,
+    myNominations,
+    myRatings,
+    mySkips,
+    batchStates,
+  ] = await Promise.all([
+    prisma.movie.findMany({
+      where: { imdbLtaNominations: { some: {} } },
+      select: movieCardSelect,
+    }),
+    prisma.imdbLtaNomination.groupBy({
+      by: ['movieId'],
+      _count: { _all: true },
+    }),
+    prisma.imdbLtaRating.groupBy({
+      by: ['movieId'],
+      _count: { _all: true },
+      _avg: { score: true },
+    }),
+    prisma.imdbLtaNomination.findMany({
+      where: { userId },
+      select: { movieId: true },
+    }),
+    prisma.imdbLtaRating.findMany({
+      where: { userId },
+      select: { movieId: true, score: true },
+    }),
+    prisma.imdbLtaSkip.findMany({
+      where: { userId },
+      select: { movieId: true },
+    }),
+    loadMovieBatchStates(),
+  ]);
 
   const nominationCountByMovie = new Map(
     nominationGroups.map((g) => [g.movieId, g._count._all])
@@ -585,21 +612,31 @@ async function loadCandidateStats(
   );
   const myNominationSet = new Set(myNominations.map((n) => n.movieId));
   const myScoreByMovie = new Map(myRatings.map((r) => [r.movieId, r.score]));
+  const mySkipSet = new Set(mySkips.map((s) => s.movieId));
 
   return movies.map((movie) => {
     const rating = ratingByMovie.get(movie.id);
+    const batchState = batchStates.get(movie.id) ?? 'locked';
+    const hideAggregates = batchState === 'open';
     return {
       ...movie,
       nominationCount: nominationCountByMovie.get(movie.id) ?? 0,
-      ratingCount: rating?.count ?? 0,
-      averageScore: rating?.avg ?? null,
+      ratingCount: hideAggregates ? 0 : (rating?.count ?? 0),
+      averageScore: hideAggregates ? null : (rating?.avg ?? null),
       userNominated: myNominationSet.has(movie.id),
       userScore: myScoreByMovie.get(movie.id) ?? null,
+      batchState,
+      userSkipped: mySkipSet.has(movie.id),
     };
   });
 }
 
+function isReleased(movie: CandidateMovieStats): boolean {
+  return movie.batchState === 'released';
+}
+
 function isEligibleToRate(movie: CandidateMovieStats): boolean {
+  if (movie.batchState === 'locked') return false;
   if (movie.userScore !== null) return false;
   if (movie.nominationCount === 0) return false;
   if (movie.userNominated && movie.nominationCount < 2) return false;
@@ -612,25 +649,21 @@ function matchesRatingFilter(
 ): boolean {
   switch (filter) {
     case 'mine_done':
-      return movie.userScore !== null;
-    case 'unrated':
-      return isEligibleToRate(movie);
-    case 'no_scores':
-      return isEligibleToRate(movie) && movie.ratingCount === 0;
-    case 'low':
+      // Include open-batch scores so users can edit what they just voted.
       return (
-        isEligibleToRate(movie) &&
-        movie.ratingCount >= 0 &&
-        movie.ratingCount <= 2
+        movie.userScore !== null &&
+        (movie.batchState === 'released' || movie.batchState === 'open')
       );
-    case 'close':
+    case 'needs_votes':
+      // Closed batches only; open lote is voted in /lote.
       return (
+        isReleased(movie) &&
         isEligibleToRate(movie) &&
-        movie.ratingCount >= 3 &&
-        movie.ratingCount <= 4
+        movie.ratingCount < IMDB_LTA_MIN_RATINGS_TO_QUALIFY
       );
-    case 'qualified':
+    case 'enough_votes':
       return (
+        isReleased(movie) &&
         isEligibleToRate(movie) &&
         movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
       );
@@ -647,6 +680,11 @@ function sortForCoverage(a: CandidateMovieStats, b: CandidateMovieStats) {
 }
 
 function sortMineDone(a: CandidateMovieStats, b: CandidateMovieStats) {
+  // Open-batch scores first (what you just voted), then A–Z.
+  if (a.batchState !== b.batchState) {
+    if (a.batchState === 'open') return -1;
+    if (b.batchState === 'open') return 1;
+  }
   return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
 }
 
@@ -654,7 +692,7 @@ export async function listRateableCandidates(
   userId: string,
   options: { filter?: ImdbLtaRatingFilter; page?: number; limit?: number } = {}
 ): Promise<RateableListResult> {
-  const filter = options.filter ?? 'unrated';
+  const filter = options.filter ?? 'needs_votes';
   const page = options.page ?? 1;
   const limit = options.limit ?? 30;
 
@@ -674,26 +712,6 @@ export async function listRateableCandidates(
   };
 }
 
-/**
- * Destacadas sin tu puntaje — UX discovery only; does not affect ranking.
- */
-export async function listHighlightUnrated(
-  userId: string,
-  limit = 12
-): Promise<CandidateMovieStats[]> {
-  const all = await loadCandidateStats(userId);
-  return all
-    .filter((m) => isEligibleToRate(m) && m.ratingCount >= 1)
-    .toSorted((a, b) => {
-      const avgA = a.averageScore ?? 0;
-      const avgB = b.averageScore ?? 0;
-      if (avgA !== avgB) return avgB - avgA;
-      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
-      return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
-    })
-    .slice(0, limit);
-}
-
 export async function submitRating(
   userId: string,
   movieId: number,
@@ -706,22 +724,101 @@ export async function submitRating(
     throw new Error(eligibility.reason ?? 'No podés puntuar esta película');
   }
 
-  try {
-    const rating = await prisma.imdbLtaRating.create({
-      data: { userId, movieId, score },
-    });
-    return { id: rating.id, movieId, score: rating.score };
-  } catch (error: unknown) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      error.code === 'P2002'
-    ) {
-      throw new Error('Ya puntuaste esta película');
-    }
-    throw error;
+  const [rating] = await prisma.$transaction([
+    prisma.imdbLtaRating.upsert({
+      where: { userId_movieId: { userId, movieId } },
+      create: { userId, movieId, score },
+      update: { score },
+    }),
+    prisma.imdbLtaSkip.deleteMany({
+      where: { userId, movieId },
+    }),
+  ]);
+
+  return { id: rating.id, movieId, score: rating.score };
+}
+
+export async function markNotSeen(userId: string, movieId: number) {
+  await assertRatingPhaseOpen();
+
+  const batchState = await getMovieBatchStateCached(movieId);
+  if (batchState === 'locked') {
+    throw new Error('Esta película todavía no salió en un lote');
   }
+
+  const nominationCount = await prisma.imdbLtaNomination.count({
+    where: { movieId },
+  });
+  if (nominationCount === 0) {
+    throw new Error('Esta película no es candidata de IMDB LTA');
+  }
+
+  await prisma.imdbLtaSkip.upsert({
+    where: { userId_movieId: { userId, movieId } },
+    create: { userId, movieId },
+    update: {},
+  });
+
+  return { movieId, skipped: true as const };
+}
+
+export type OpenBatchDeck = {
+  batch: {
+    id: number;
+    number: number;
+    openedAt: Date;
+  };
+  /** Movies the user can still act on (not rated, not skipped, eligible). */
+  deck: CandidateMovieStats[];
+  /** Open-batch movies the user already rated or skipped. */
+  doneCount: number;
+  /** Open-batch movies locked by solo-nomination for this user. */
+  ineligibleCount: number;
+  totalInBatch: number;
+};
+
+/**
+ * One-at-a-time voting deck for the current open batch.
+ */
+export async function listOpenBatchDeck(
+  userId: string
+): Promise<OpenBatchDeck | null> {
+  const open = await getOpenBatch();
+  if (!open) return null;
+
+  const all = await loadCandidateStats(userId);
+  const byId = new Map(all.map((m) => [m.id, m]));
+  const batchMovies = open.movies
+    .map((m) => byId.get(m.id))
+    .filter((m): m is CandidateMovieStats => Boolean(m));
+
+  const deck: CandidateMovieStats[] = [];
+  let doneCount = 0;
+  let ineligibleCount = 0;
+
+  for (const movie of batchMovies) {
+    if (movie.userScore !== null || movie.userSkipped) {
+      doneCount += 1;
+      continue;
+    }
+    if (movie.userNominated && movie.nominationCount < 2) {
+      ineligibleCount += 1;
+      continue;
+    }
+    deck.push(movie);
+  }
+
+  return {
+    batch: {
+      id: open.batch.id,
+      number: open.batch.number,
+      openedAt: open.batch.openedAt,
+    },
+    deck,
+    doneCount,
+    ineligibleCount,
+    totalInBatch: batchMovies.length,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -743,21 +840,23 @@ export async function listOfficialRanking(): Promise<{
   const phase = await getImdbLtaPhase();
   const isFinal = phase === ImdbLtaPhase.RATING_CLOSED;
 
-  const [movies, nominationGroups, ratingGroups] = await Promise.all([
-    prisma.movie.findMany({
-      where: { imdbLtaNominations: { some: {} } },
-      select: movieCardSelect,
-    }),
-    prisma.imdbLtaNomination.groupBy({
-      by: ['movieId'],
-      _count: { _all: true },
-    }),
-    prisma.imdbLtaRating.groupBy({
-      by: ['movieId'],
-      _count: { _all: true },
-      _avg: { score: true },
-    }),
-  ]);
+  const [movies, nominationGroups, ratingGroups, batchStates] =
+    await Promise.all([
+      prisma.movie.findMany({
+        where: { imdbLtaNominations: { some: {} } },
+        select: movieCardSelect,
+      }),
+      prisma.imdbLtaNomination.groupBy({
+        by: ['movieId'],
+        _count: { _all: true },
+      }),
+      prisma.imdbLtaRating.groupBy({
+        by: ['movieId'],
+        _count: { _all: true },
+        _avg: { score: true },
+      }),
+      loadMovieBatchStates(),
+    ]);
 
   const nominationCountByMovie = new Map(
     nominationGroups.map((g) => [g.movieId, g._count._all])
@@ -771,6 +870,10 @@ export async function listOfficialRanking(): Promise<{
 
   const qualified = movies
     .map((movie) => {
+      const batchState = batchStates.get(movie.id) ?? 'locked';
+      // Locked and open-batch movies stay off the ranking until their batch closes.
+      if (batchState !== 'released') return null;
+
       const rating = ratingByMovie.get(movie.id);
       const ratingCount = rating?.count ?? 0;
       const averageScore = rating?.avg ?? null;

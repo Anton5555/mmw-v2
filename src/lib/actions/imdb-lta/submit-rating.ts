@@ -23,6 +23,7 @@ export async function submitRatingAction(movieId: number, score: number) {
   );
 
   revalidatePath('/imdb-lta');
+  revalidatePath('/imdb-lta/lote');
   revalidatePath('/imdb-lta/rate');
   revalidatePath('/imdb-lta/ranking');
   return result;
