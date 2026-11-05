@@ -33,14 +33,15 @@ async function ImdbLtaRankingPageContent() {
 
   const phase = await getImdbLtaPhase();
 
-  if (
-    phase !== ImdbLtaPhase.RATING_OPEN &&
-    phase !== ImdbLtaPhase.RATING_CLOSED
-  ) {
+  if (phase === ImdbLtaPhase.RATING_OPEN) {
+    redirect('/imdb-lta/lote');
+  }
+
+  if (phase !== ImdbLtaPhase.RATING_CLOSED) {
     redirect('/imdb-lta');
   }
 
-  const { movies, isFinal } = await listOfficialRanking();
+  const { movies } = await listOfficialRanking();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -52,30 +53,18 @@ async function ImdbLtaRankingPageContent() {
             <Trophy className="h-7 w-7 text-yellow-500" />
             Ranking IMDB LTA
           </h1>
-          {isFinal ? (
-            <div className="rounded-2xl border border-blue-500/20 bg-blue-950/40 p-4">
-              <p className="text-sm font-bold uppercase tracking-wider text-blue-300">
-                Ranking oficial
-              </p>
-              <p className="mt-1 text-sm text-blue-200/80">
-                Las puntuaciones están cerradas. Este es el resultado final de
-                IMDB LTA.
-              </p>
-            </div>
-          ) : (
-            <div className="rounded-2xl border border-amber-500/20 bg-amber-950/40 p-4">
-              <p className="text-sm font-bold uppercase tracking-wider text-amber-300">
-                Ranking provisional (en vivo)
-              </p>
-              <p className="mt-1 text-sm text-amber-200/80">
-                Solo películas con al menos 5 puntajes. El orden puede cambiar
-                hasta que se cierren las puntuaciones.
-              </p>
-            </div>
-          )}
+          <div className="rounded-2xl border border-blue-500/20 bg-blue-950/40 p-4">
+            <p className="text-sm font-bold uppercase tracking-wider text-blue-300">
+              Ranking oficial
+            </p>
+            <p className="mt-1 text-sm text-blue-200/80">
+              Cerramos los puntajes. Este es el resultado final — no hay más
+              cambios.
+            </p>
+          </div>
           <p className="text-xs text-zinc-500">
-            Orden: promedio DESC · empate por cantidad de puntajes · luego
-            título. Las nominaciones no suman puntos.
+            Orden: promedio de mayor a menor · empate por cantidad de puntajes ·
+            después por título. Las nominaciones no suman puntos.
           </p>
         </header>
 
@@ -83,7 +72,7 @@ async function ImdbLtaRankingPageContent() {
           <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center">
             <Trophy className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
-              Todavía no hay películas calificadas (5+ puntajes).
+              Todavía no hay películas con 5 o más puntajes.
             </p>
           </div>
         ) : (

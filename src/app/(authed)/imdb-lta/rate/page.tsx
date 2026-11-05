@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   getImdbLtaPhase,
-  listHighlightUnrated,
   listRateableCandidates,
 } from '@/lib/api/imdb-lta';
 import { loadImdbLtaRateSearchParams } from '@/lib/searchParams';
@@ -37,6 +36,7 @@ function serializeMovie(
     averageScore: m.averageScore,
     userNominated: m.userNominated,
     userScore: m.userScore,
+    batchState: m.batchState,
   };
 }
 
@@ -68,18 +68,13 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   const parsedFilter = imdbLtaRatingFilterSchema.safeParse(raw.filter);
   const filter: ImdbLtaRatingFilter = parsedFilter.success
     ? parsedFilter.data
-    : 'unrated';
+    : 'needs_votes';
 
-  const [list, highlights] = await Promise.all([
-    listRateableCandidates(session.user.id, {
-      filter,
-      page: raw.page,
-      limit: raw.limit,
-    }),
-    filter === 'unrated' && phase === ImdbLtaPhase.RATING_OPEN
-      ? listHighlightUnrated(session.user.id, 10)
-      : Promise.resolve([]),
-  ]);
+  const list = await listRateableCandidates(session.user.id, {
+    filter,
+    page: raw.page,
+    limit: raw.limit,
+  });
 
   const isRatingOpen = phase === ImdbLtaPhase.RATING_OPEN;
 
@@ -89,7 +84,6 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
         <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/rate" />
         <RatingPageClient
           movies={list.movies.map(serializeMovie)}
-          highlights={highlights.map(serializeMovie)}
           pagination={list.pagination}
           isRatingOpen={isRatingOpen}
           filter={filter}

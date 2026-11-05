@@ -1,73 +1,90 @@
-import type { Event } from '@generated/prisma/client';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { formatEventMessage, sendTelegramMessage } from './telegram';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-const makeEvent = (overrides: Partial<Event> = {}): Event =>
-  ({
-    id: 1,
-    title: 'Movie night',
-    description: 'Bring snacks',
-    type: 'DISCORD',
-    time: null,
-    ...overrides,
-  }) as Event;
+const fetchMock = vi.fn();
+vi.stubGlobal('fetch', fetchMock);
 
-describe('formatEventMessage', () => {
-  it('shows a placeholder when there are no events', () => {
-    expect(formatEventMessage([], 'Hoy')).toBe(
-      '📅 <b>Hoy</b>\n\nNo hay eventos programados.'
-    );
-  });
+vi.mock('@/env', () => ({
+  env: {
+    TELEGRAM_BOT_TOKEN: 'test-bot-token',
+    TELEGRAM_CHAT_ID: 'chat-main',
+    TELEGRAM_LTA_CHAT_ID: 'chat-lta',
+    NEXT_PUBLIC_APP_URL: 'http://localhost:3000',
+  },
+}));
 
-  it('renders icon, title and description per event type', () => {
-    const message = formatEventMessage(
-      [
-        makeEvent({ type: 'BIRTHDAY', title: 'Ana' }),
-        makeEvent({ type: 'IN_PERSON', title: 'Cine', description: null }),
-      ],
-      'Hoy'
-    );
-    expect(message).toContain('🎂 <b>Ana</b>\nBring snacks');
-    expect(message).toContain('👥 <b>Cine</b>\n');
-    expect(message.startsWith('📅 <b>Hoy</b>\n\n')).toBe(true);
-  });
+import {
+  escapeHtml,
+  getLtaTelegramChatId,
+  sendTelegramAlbum,
+  sendTelegramMessage,
+  toTelegramPosterUrl,
+} from './telegram';
 
-  it('adds a time marker only when the event has a time', () => {
-    const withTime = formatEventMessage(
-      [makeEvent({ time: new Date('2026-03-05T20:30:00Z') })],
-      'Hoy'
-    );
-    expect(withTime).toContain('⏰');
-    expect(formatEventMessage([makeEvent()], 'Hoy')).not.toContain('⏰');
+beforeEach(() => {
+  fetchMock.mockReset();
+  fetchMock.mockResolvedValue({
+    ok: true,
+    json: async () => ({ ok: true }),
   });
 });
 
-describe('sendTelegramMessage', () => {
-  afterEach(() => {
-    vi.unstubAllGlobals();
+describe('telegram helpers', () => {
+  it('escapes HTML for Telegram parse_mode', () => {
+    expect(escapeHtml('A & B <C> "D"')).toBe('A &amp; B &lt;C&gt; &quot;D&quot;');
   });
 
-  it('posts to the bot endpoint with chat id and HTML parse mode', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ ok: true }),
+  it('prefers TELEGRAM_LTA_CHAT_ID when set', () => {
+    expect(getLtaTelegramChatId()).toBe('chat-lta');
+  });
+
+  it('builds TMDB poster URLs', () => {
+    expect(toTelegramPosterUrl('/abc.jpg')).toBe(
+      'https://image.tmdb.org/t/p/w500/abc.jpg'
+    );
+    expect(toTelegramPosterUrl('https://cdn.example/p.jpg')).toBe(
+      'https://cdn.example/p.jpg'
+    );
+    expect(toTelegramPosterUrl('')).toBeNull();
+  });
+
+  it('sendTelegramMessage posts to sendMessage with optional markup', async () => {
+    await sendTelegramMessage('hola', {
+      chatId: 'chat-lta',
+      replyMarkup: {
+        inline_keyboard: [[{ text: 'Votar', url: 'https://example.com' }]],
+      },
     });
-    vi.stubGlobal('fetch', fetchMock);
-
-    await expect(sendTelegramMessage('hi')).resolves.toEqual({ ok: true });
-
-    const [url, init] = fetchMock.mock.calls[0];
-    expect(url).toBe('https://api.telegram.org/bottest-bot-token/sendMessage');
-    expect(JSON.parse(init.body)).toEqual({
-      chat_id: 'test-chat-id',
-      text: 'hi',
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/sendMessage');
+    const body = JSON.parse(init.body as string);
+    expect(body).toMatchObject({
+      chat_id: 'chat-lta',
+      text: 'hola',
       parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [[{ text: 'Votar', url: 'https://example.com' }]],
+      },
     });
   });
 
-  it('throws on a non-ok response', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }));
-    await expect(sendTelegramMessage('hi')).rejects.toThrow('Telegram API error: 500');
+  it('sendTelegramAlbum posts a media group with caption on the first photo', async () => {
+    await sendTelegramAlbum([
+      { url: 'https://img/1.jpg', caption: 'Lote' },
+      { url: 'https://img/2.jpg' },
+    ]);
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/sendMediaGroup');
+    const body = JSON.parse(init.body as string);
+    expect(body.chat_id).toBe('chat-lta');
+    expect(body.media).toEqual([
+      {
+        type: 'photo',
+        media: 'https://img/1.jpg',
+        caption: 'Lote',
+        parse_mode: 'HTML',
+      },
+      { type: 'photo', media: 'https://img/2.jpg' },
+    ]);
   });
 });

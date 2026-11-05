@@ -5,6 +5,7 @@ import {
   getMyNominationList,
   listAdminNominationSnapshot,
 } from '@/lib/api/imdb-lta';
+import { getOpenBatch } from '@/lib/api/imdb-lta-batches';
 import { NominationBuilder } from './_components/nomination-builder';
 import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
@@ -12,6 +13,7 @@ import {
   phaseBannerCopy,
 } from './_components/imdb-lta-phase-nav';
 import { ImdbLtaAdminPhaseSwitcher } from './_components/imdb-lta-admin-phase-switcher';
+import { ImdbLtaAdminBatchPanel } from './_components/imdb-lta-admin-batch-panel';
 import {
   ImdbLtaAdminNominationsOverview,
 } from './_components/imdb-lta-admin-nominations-overview';
@@ -39,11 +41,22 @@ async function ImdbLtaPageContent() {
   }
 
   const isAdmin = session.user.role === 'admin';
+  const phase = await getImdbLtaPhase();
 
-  const [phase, nominationList, adminSnapshot] = await Promise.all([
-    getImdbLtaPhase(),
+  // During scoring, send regular users straight to the open batch (not the nomination list).
+  // Admins stay here for phase / lote controls.
+  if (phase === ImdbLtaPhase.RATING_OPEN && !isAdmin) {
+    redirect('/imdb-lta/lote');
+  }
+
+  if (phase === ImdbLtaPhase.RATING_CLOSED && !isAdmin) {
+    redirect('/imdb-lta/ranking');
+  }
+
+  const [nominationList, adminSnapshot, openBatch] = await Promise.all([
     getMyNominationList(session.user.id),
     isAdmin ? listAdminNominationSnapshot() : Promise.resolve(null),
+    isAdmin ? getOpenBatch() : Promise.resolve(null),
   ]);
 
   const isNominationOpen =
@@ -57,6 +70,22 @@ async function ImdbLtaPageContent() {
         <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta" />
 
         {isAdmin && <ImdbLtaAdminPhaseSwitcher currentPhase={phase} />}
+
+        {isAdmin && (
+          <ImdbLtaAdminBatchPanel
+            ratingOpen={phase === ImdbLtaPhase.RATING_OPEN}
+            openBatch={
+              openBatch
+                ? {
+                    number: openBatch.batch.number,
+                    openedAt: openBatch.batch.openedAt.toISOString(),
+                    movieCount: openBatch.movies.length,
+                    announced: openBatch.batch.announcedAt !== null,
+                  }
+                : null
+            }
+          />
+        )}
 
         {isAdmin && adminSnapshot && (
           <ImdbLtaAdminNominationsOverview
@@ -96,10 +125,10 @@ async function ImdbLtaPageContent() {
             <p className="mt-1 text-sm opacity-80">{banner.body}</p>
             {phase === ImdbLtaPhase.RATING_OPEN && (
               <Link
-                href="/imdb-lta/rate"
+                href="/imdb-lta/lote"
                 className="mt-3 inline-block text-xs font-black uppercase tracking-widest text-yellow-400 underline underline-offset-4"
               >
-                Ir a puntuar →
+                Ir al lote actual →
               </Link>
             )}
             {phase === ImdbLtaPhase.RATING_CLOSED && (
@@ -107,7 +136,7 @@ async function ImdbLtaPageContent() {
                 href="/imdb-lta/ranking"
                 className="mt-3 inline-block text-xs font-black uppercase tracking-widest text-yellow-400 underline underline-offset-4"
               >
-                Ver ranking oficial →
+                Ver el ranking →
               </Link>
             )}
           </div>
