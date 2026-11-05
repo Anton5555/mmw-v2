@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useEffectEvent, useState, useTransition } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -91,47 +91,6 @@ export function BatchDeckClient({
   );
   const isFlying = exitDir !== null;
   const busy = isPending || isFlying;
-
-  useEffect(() => {
-    setDeck(initialDeck);
-    setDoneCount(initialDoneCount);
-    setExitDir(null);
-  }, [initialDeck, initialDoneCount]);
-
-  useEffect(() => {
-    if (!current || !isRatingOpen || busy) return;
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
-      const target = event.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-
-      if (event.key >= '0' && event.key <= '9') {
-        event.preventDefault();
-        handleScore(Number(event.key));
-      } else if (event.key === '=' || event.key === '+') {
-        event.preventDefault();
-        handleScore(10);
-      } else if (event.key.toLowerCase() === 'n') {
-        event.preventDefault();
-        handleNotSeen();
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        handleSkip();
-      }
-    };
-
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- handlers close over current
-  }, [current?.id, isRatingOpen, busy]);
 
   const advance = (movieId: number) => {
     setDeck((prev) => prev.filter((m) => m.id !== movieId));
@@ -246,6 +205,39 @@ export function BatchDeckClient({
       }
     );
   };
+
+  const onKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    if (!current || !isRatingOpen || busy) return;
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    const target = event.target as HTMLElement | null;
+    if (
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+
+    if (event.key >= '0' && event.key <= '9') {
+      event.preventDefault();
+      handleScore(Number(event.key));
+    } else if (event.key === '=' || event.key === '+') {
+      event.preventDefault();
+      handleScore(10);
+    } else if (event.key.toLowerCase() === 'n') {
+      event.preventDefault();
+      handleNotSeen();
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      handleSkip();
+    }
+  });
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const spring = reduceMotion
     ? { duration: 0.01 }

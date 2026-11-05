@@ -71,6 +71,7 @@ async function ImdbLtaLotePageContent() {
           </div>
         ) : (
           <BatchDeckClient
+            key={deck.batch.id}
             batch={{
               id: deck.batch.id,
               number: deck.batch.number,
