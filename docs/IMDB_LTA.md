@@ -7,7 +7,8 @@ Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 | Piece | Status | Route |
 | --- | --- | --- |
 | Nominations (Phase 1) | Shipped | `/imdb-lta` |
-| Ratings (Phase 2) | Shipped | `/imdb-lta/rate` |
+| Ratings — current batch (Phase 2) | Shipped | `/imdb-lta/lote` |
+| Ratings — review / edit (Phase 2) | Shipped | `/imdb-lta/rate` |
 | Ranking (Phase 3) | Shipped | `/imdb-lta/ranking` |
 
 UI copy is Spanish. Phase lives in a singleton DB row (`ImdbLtaConfig` id=1), not env flags. The UI reflects closed states; **server-side phase and deadline guards are the real protection**.
@@ -30,7 +31,9 @@ This document is the product/process source of truth and the implementation-read
 | Rating count does not directly matter for ranking | Extra ratings do not add points. Count is only: (1) qualification threshold, (2) tie-breaker when averages are equal |
 | Discovery does not influence ranking | Sort/filter/featured order is UX-only. Showing a movie more often never gives ranking points |
 
-Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, editable ratings, rating deletion, emails/notifications, TMDB name search, full admin console, or a dedicated E2E suite (unit tests live in `src/**/*.test.ts`; see README).
+Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, rating deletion, emails/notifications, TMDB name search, full admin console, or a dedicated E2E suite (unit tests live in `src/**/*.test.ts`; see README).
+
+Ratings **are editable** after a movie’s batch closes (and while still in the open batch via the lote deck). There is still one score per `(userId, movieId)`.
 
 ---
 
@@ -122,128 +125,63 @@ While nominations are writable, the sticky progress bar shows `Para los rezagado
 
 ---
 
-## Phase 2 — Ratings (planned)
+## Phase 2 — Ratings (Telegram batches)
 
-Route: `/imdb-lta/rate`. Extend [`src/lib/api/imdb-lta.ts`](src/lib/api/imdb-lta.ts), validations in [`src/lib/validations/imdb-lta.ts`](src/lib/validations/imdb-lta.ts), actions under `src/lib/actions/imdb-lta/`. No schema change required — `ImdbLtaRating` already exists.
+Votes stay on the site (authenticated users, existing eligibility rules). Telegram only announces batches and links to `/imdb-lta/lote`. **Rotation is manual:** any admin uses “Cerrar lote y abrir el siguiente” on `/imdb-lta`. No cron. While `RATING_OPEN`, non-admins landing on `/imdb-lta` are sent to `/imdb-lta/lote`. The official ranking is only available after `RATING_CLOSED`.
 
-### 2.1 Rating scale
+### 2.1 Batch lifecycle
 
-- Integers **0 through 10** only
-- No decimals, no half points
-- `0` is valid; `10` is maximum
-- Stored value is the integer score
-- UI must make the 0–10 scale obvious; stars only if they map 1:1 to that integer (optional visual)
+```
+locked → open batch (vote on /lote, averages hidden) → released (review/edit on /rate)
+                ↑______________ re-queue if <5 ratings ______________|
+```
 
-Suggested meaning for users (copy guidance, not separate schema):
-
-| Score | Meaning |
+| State | Meaning |
 | --- | --- |
-| 0 | Mala / no recomendable |
-| 5 | Promedio |
-| 7 | Buena |
-| 8 | Muy buena |
-| 9 | Excelente |
-| 10 | Obra maestra |
+| **locked** | Never appeared in a batch. Cannot be rated. |
+| **open** | In the single current `ImdbLtaBatch` with `status=OPEN`. Rate on `/imdb-lta/lote`. Averages/counts hidden until the batch closes. |
+| **released** | Appeared in at least one closed batch (and not in the open one). Add/change scores on `/imdb-lta/rate`. Eligible for ranking once ≥5 ratings. |
 
-### 2.2 Who can rate (shared unlock)
+Rules:
 
-All must hold. Enforce in `canUserRateMovie` / `submitRating` (server), not only UI:
+- Batch size **10** (`IMDB_LTA_BATCH_SIZE`).
+- At most one OPEN batch (partial unique index).
+- Admins decide when to close/open; there is no automatic timer.
+- Re-queue: released movies with &lt;5 ratings, max **3** per new batch, max **3** appearances total. Skip re-queue if ≥70% of active raters marked “No la vi”.
+- Never-batched pick order: nomination count DESC, then title.
+- Solo-nomination lock still applies.
+- `submitRating` is an **upsert**; rating a movie clears any “No la vi” skip.
+
+### 2.2 Rating scale
+
+Integers **0–10** only. Suggested meaning: 0 mala · 5 promedio · 7 buena · 8 muy buena · 9 excelente · 10 obra maestra.
+
+### 2.3 Who can rate
 
 1. Phase is `RATING_OPEN`
-2. Movie is in the frozen candidate universe
-3. User has not already rated that movie
-4. **Either** the user did **not** nominate it, **or** they nominated it **and** `COUNT(nominations for movieId) >= 2`
+2. Movie is a nominated candidate
+3. Movie is **not locked** (must be open or released)
+4. Shared unlock: non-nominator, or nominator when `COUNT(nominations) >= 2`
 
-| Situation | Can rate? |
+Already-rated is allowed (edit). Phase ≠ `RATING_OPEN` rejects writes.
+
+### 2.4 Routes
+
+| Route | Role |
 | --- | --- |
-| Did not nominate; someone else did | Yes |
-| Nominated; at least one other also nominated | Yes (shared unlock) |
-| Only they nominated it | **No** (solo lock) |
-| Already rated | No |
-| Phase ≠ `RATING_OPEN` | No |
+| `/imdb-lta/lote` | One-at-a-time deck for the open batch: 0–10, Saltar, No la vi |
+| `/imdb-lta/rate` | **Revisar** — released movies only; add/change scores |
+| `/imdb-lta/ranking` | Qualified (≥5) released movies; live while `RATING_OPEN` |
 
-Rationale: if everyone nominates The Godfather, a “never rate your nominations” rule would leave it unrateable.
+### 2.5 Telegram + admin rotate
 
-### 2.3 One rating per user/movie (v1 immutable)
+- `rotateBatch()` closes the open batch (if any) and opens the next. Called only from the admin action on `/imdb-lta`.
+- `announcePendingBatches` posts results for closed unannounced batches, then the new batch album + “Votar el lote” URL button (`TELEGRAM_LTA_CHAT_ID` or fallback `TELEGRAM_CHAT_ID`). HTTPS required for the inline button; local `http://localhost` falls back to a plain-text link.
+- If Telegram fails after a rotate, the open batch keeps `announcedAt = null`. Clicking the admin button again **retries the announce only** (does not open another batch).
 
-- Unique `(userId, movieId)`
-- No edit, no delete in v1
-- Unrated lists must not include already-rated movies
-- `mine_done` may show past scores as view-only
+### 2.6 Rating phase closure (manual)
 
-### 2.4 Rating phase closure (manual)
-
-`RATING_OPEN → RATING_CLOSED` is admin-only. Do not auto-close.
-
-When `RATING_CLOSED`:
-
-- reject new ratings server-side
-- ranking uses the completed dataset as **official/final**
-
-### 2.5 Discovery / main list UX
-
-Goal: distribute ratings across the candidate universe (“help **complete** the ranking”), not concentrate on famous titles. Discovery/sort is **UX-only** and must never affect ranking scores.
-
-**Main grid default sort:**
-
-1. Eligible unrated movies with the **fewest** global ratings first
-2. Then title ASC
-
-Avoid repeatedly pushing the same movie to the same user when other eligible unrated movies remain.
-
-**Rating page flow:** discover eligible movie → poster/title → score 0–10 → submit → move efficiently to another unrated movie.
-
-### 2.6 Filters
-
-| Key | UI label guidance | Meaning |
-| --- | --- | --- |
-| `unrated` | Sin tu puntaje | Eligible for current user; not yet rated by them |
-| `no_scores` | Sin puntajes | 0 global ratings; still eligible for user |
-| `low` | Pocas puntuaciones | 0–2 global ratings |
-| `close` | Cerca de calificar | 3–4 global ratings |
-| `qualified` | Calificadas | ≥5 global ratings (**not** “ranked” — qualification only) |
-| `mine_done` | Ya puntuadas | Current user already rated — view-only |
-
-Prefer filter key `qualified` over `ranked`.
-
-### 2.7 Featured discovery strip
-
-**Destacadas sin tu puntaje** (~8–12 movies):
-
-- eligible for current user, not yet rated by them
-- at least one global rating
-- order: average score DESC, then rating count DESC
-
-Does **not** replace filters. Does **not** affect ranking. Same 0–10 control as the grid.
-
-### 2.8 Movies below the 5-rating threshold
-
-Movies with fewer than 5 ratings:
-
-- remain candidates
-- remain rateable while `RATING_OPEN` (if user-eligible)
-- remain visible via filters / discovery
-- are **not** on the official ranking list until they reach 5
-
-They must not disappear solely because they are under the threshold.
-
-### 2.9 API surface (implementation checklist)
-
-- `assertRatingPhaseOpen()`
-- `canUserRateMovie(userId, movieId)`
-- `listRateableCandidates(userId, { filter, page, limit })` — eligibility + filter + fewest-ratings-first
-- `listHighlightUnrated(userId, limit)` — Destacadas strip
-- `submitRating(userId, movieId, score)` — Zod `z.number().int().min(0).max(10)` + eligibility
-- Live aggregates via SQL/`_count`/`_avg` initially
-
-Optional later (not Phase 2 requirement): denormalize `ltaRatingCount`, `ltaAverageScore`, `ltaRank` on `Movie`.
-
-### 2.10 UI checklist
-
-- `/imdb-lta/rate` with filters (nuqs), Destacadas strip, 0–10 picker, toast on submit
-- Hub `/imdb-lta` phase-aware links: Nominaciones | Puntuar | Ranking
-- Nominations stay read-only when phase ≠ `NOMINATION_OPEN`
-- When `RATING_CLOSED`: no submit; personal scores / averages view-only as appropriate
+`RATING_OPEN → RATING_CLOSED` is admin-only. Rejects new ratings; ranking becomes official/final. Batches stop rotating.
 
 ---
 
@@ -305,8 +243,8 @@ Example shape:
 ## Implementation order — done
 
 1. Eligibility helper + rating Zod + `submitRating` + phase gate
-2. `listRateableCandidates` (filters including `qualified`) + `listHighlightUnrated`
-3. `/imdb-lta/rate` UI (Destacadas + filters + 0–10 + fewest-ratings-first)
+2. `listRateableCandidates` (`needs_votes` / `enough_votes` / `mine_done`)
+3. `/imdb-lta/rate` UI (filters + 0–10 + fewest-ratings-first)
 4. Phase-aware hub on `/imdb-lta`
 5. Ranking query (avg, ≥5, tie-breakers) + `/imdb-lta/ranking` with live vs final copy
 6. Optional Movie denormalized LTA fields — skipped (not needed)
@@ -317,12 +255,12 @@ Example shape:
 ## Out of scope (v1 Phase 2–3)
 
 - Changing Phase 1 nomination UX
-- Editable / deletable ratings
+- Rating deletion
 - Emails / notifications
 - TMDB name search
-- Full admin console beyond the hub phase switcher
+- Full admin console beyond the hub phase switcher + batch rotate
 - Statistical ranking formulas beyond simple average + tie-breakers
-- Automated tests (unless the project adds a suite later)
+- Linking Telegram user IDs to site accounts (not needed: one shared batch URL)
 
 ---
 
@@ -339,7 +277,7 @@ Example shape:
 **Phases 2–3 — done**
 
 - [x] `canUserRateMovie` (shared unlock) + `submitRating` 0–10 + `assertRatingPhaseOpen`
-- [x] Filters (`unrated`, `no_scores`, `low`, `close`, `qualified`, `mine_done`) + Destacadas
+- [x] Filters (`needs_votes`, `enough_votes`, `mine_done`)
 - [x] `/imdb-lta/rate` UI; coverage-first sort
 - [x] Phase-aware hub; nominations read-only during rating
 - [x] Ranking: AVG + ≥5 + tie-breakers; live vs final copy on `/imdb-lta/ranking`

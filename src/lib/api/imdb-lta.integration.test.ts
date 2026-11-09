@@ -176,7 +176,7 @@ describe('ratings', () => {
     await nominate(nominator.id, [movie.id]);
     await updateImdbLtaPhase('NOMINATION_OPEN');
 
-    await expect(submitRating(rater.id, movie.id, 8)).rejects.toThrow(/puntuaciones están cerradas/);
+    await expect(submitRating(rater.id, movie.id, 8)).rejects.toThrow(/puntajes están cerrados/);
   });
 
   it('stores a rating and rejects a second one from the same user (real unique constraint)', async () => {
@@ -232,9 +232,14 @@ describe('ratings', () => {
       data: (await createUsers(3)).map((u) => ({ userId: u.id, movieId: popular.id, score: 9 })),
     });
 
-    const unrated = await listRateableCandidates(alice.id, { filter: 'unrated' });
-    expect(unrated.movies.map((m) => m.id)).toEqual([fresh.id, popular.id]);
-    expect(unrated.movies[1]).toMatchObject({ ratingCount: 3, averageScore: 9 });
+    const needsVotes = await listRateableCandidates(alice.id, {
+      filter: 'needs_votes',
+    });
+    expect(needsVotes.movies.map((m) => m.id)).toEqual([fresh.id, popular.id]);
+    expect(needsVotes.movies[1]).toMatchObject({
+      ratingCount: 3,
+      averageScore: 9,
+    });
 
     const done = await listRateableCandidates(alice.id, { filter: 'mine_done' });
     expect(done.movies.map((m) => m.id)).toEqual([rated.id]);

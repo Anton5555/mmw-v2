@@ -23,17 +23,17 @@ const PHASES: {
   {
     value: 'NOMINATION_CLOSED',
     label: 'Nominaciones cerradas',
-    hint: 'Universo de candidatas congelado',
+    hint: 'No se nominan más',
   },
   {
     value: 'RATING_OPEN',
-    label: 'Puntuaciones abiertas',
-    hint: 'Se puede puntuar 0–10',
+    label: 'Puntajes abiertos',
+    hint: 'Lotes + puntaje 0–10',
   },
   {
     value: 'RATING_CLOSED',
     label: 'Ranking oficial',
-    hint: 'Sin nuevos puntajes; ranking final',
+    hint: 'Se corta: ranking final',
   },
 ];
 

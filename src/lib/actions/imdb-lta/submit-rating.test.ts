@@ -37,6 +37,7 @@ describe('submitRatingAction', () => {
     await expect(submitRatingAction(3, 9)).resolves.toEqual({ id: 1, movieId: 3, score: 9 });
     expect(mocks.submitRating).toHaveBeenCalledWith('u1', 3, 9);
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta');
+    expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/lote');
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/rate');
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/ranking');
   });

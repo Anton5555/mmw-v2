@@ -52,6 +52,8 @@ model Movie {
   countries            MovieCountry[]
   imdbLtaNominations   ImdbLtaNomination[]
   imdbLtaRatings       ImdbLtaRating[]
+  imdbLtaBatchMovies   ImdbLtaBatchMovie[]
+  imdbLtaSkips         ImdbLtaSkip[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -102,6 +104,7 @@ model User {
   imdbLtaNominationList   ImdbLtaNominationList?
   imdbLtaNominations      ImdbLtaNomination[]
   imdbLtaRatings          ImdbLtaRating[]
+  imdbLtaSkips            ImdbLtaSkip[]
 
   @@map("user")
 }
@@ -472,6 +475,50 @@ model ImdbLtaRating {
   userId    String
   movieId   Int
   score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@index([movieId])
+  @@index([userId])
+}
+
+enum ImdbLtaBatchStatus {
+  OPEN
+  CLOSED
+}
+
+model ImdbLtaBatch {
+  id          Int                 @id @default(autoincrement())
+  number      Int                 @unique
+  status      ImdbLtaBatchStatus  @default(OPEN)
+  openedAt    DateTime            @default(now())
+  closedAt    DateTime?
+  announcedAt DateTime?
+  movies      ImdbLtaBatchMovie[]
+
+  @@index([status])
+}
+
+model ImdbLtaBatchMovie {
+  id       Int         @id @default(autoincrement())
+  batchId  Int
+  movieId  Int
+  position Int
+  batch    ImdbLtaBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  movie    Movie        @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, movieId])
+  @@index([movieId])
+  @@index([batchId])
+}
+
+model ImdbLtaSkip {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  movieId   Int
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)

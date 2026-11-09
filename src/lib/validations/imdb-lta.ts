@@ -94,12 +94,28 @@ export type UpdateImdbLtaPhaseInput = z.infer<typeof updateImdbLtaPhaseSchema>;
 /** Minimum distinct-user ratings for a movie to qualify for the official ranking. */
 export const IMDB_LTA_MIN_RATINGS_TO_QUALIFY = 5;
 
+/** Movies per Telegram/site batch (also Telegram's album size limit). */
+export const IMDB_LTA_BATCH_SIZE = 10;
+
+/** Max re-queued (under-5) movies allowed in a single new batch. */
+export const IMDB_LTA_BATCH_REQUEUE_CAP = 3;
+
+/** Max times a movie may appear in batches before it stops re-queuing. */
+export const IMDB_LTA_BATCH_MAX_APPEARANCES = 3;
+
+/**
+ * Skip re-queue when this fraction (or more) of active raters marked "No la vi".
+ * Active raters = users who have submitted at least one IMDB LTA rating.
+ */
+export const IMDB_LTA_SKIP_REQUEUE_THRESHOLD = 0.7;
+
+export const markNotSeenSchema = movieIdSchema;
+
+export type MarkNotSeenInput = z.infer<typeof markNotSeenSchema>;
+
 export const imdbLtaRatingFilterSchema = z.enum([
-  'unrated',
-  'no_scores',
-  'low',
-  'close',
-  'qualified',
+  'needs_votes',
+  'enough_votes',
   'mine_done',
 ]);
 
@@ -117,7 +133,7 @@ export const submitRatingSchema = z.object({
 export type SubmitRatingInput = z.infer<typeof submitRatingSchema>;
 
 export const listRateableCandidatesSchema = z.object({
-  filter: imdbLtaRatingFilterSchema.default('unrated'),
+  filter: imdbLtaRatingFilterSchema.default('needs_votes'),
   page: z.number().int().positive().default(1),
   limit: z.number().int().positive().max(100).default(30),
 });
