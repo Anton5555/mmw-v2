@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useEffectEvent, useState, useTransition } from 'react';
+import { useEffect, useEffectEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
@@ -38,6 +37,7 @@ type BatchDeckClientProps = {
   };
   deck: BatchDeckMovie[];
   doneCount: number;
+  skippedCount: number;
   ineligibleCount: number;
   totalInBatch: number;
   isRatingOpen: boolean;
@@ -57,6 +57,23 @@ const EXIT_ANIM: Record<
 
 const IDLE_ANIM = { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 };
 
+const NOT_SEEN_HREF = '/imdb-lta/rate?filter=not_seen';
+
+/** In-flight save for a card that may already have left the deck. */
+type SavePhase = 'pending' | 'advanced' | 'failed';
+
+function NotSeenRecall({ count }: { count: number }) {
+  const label = count === 1 ? '1 no vista' : `${count} no vistas`;
+  return (
+    <p className="text-xs text-zinc-400">
+      <Link href={NOT_SEEN_HREF} className="font-bold text-yellow-400 underline">
+        {label}
+      </Link>
+      {count === 1 ? ' · puntuála si la ves' : ' · puntuálas si las ves'}
+    </p>
+  );
+}
+
 function posterSrc(posterUrl: string) {
   if (!posterUrl) return '';
   return posterUrl.startsWith('http')
@@ -68,6 +85,7 @@ export function BatchDeckClient({
   batch,
   deck: initialDeck,
   doneCount: initialDoneCount,
+  skippedCount: initialSkippedCount,
   ineligibleCount,
   totalInBatch,
   isRatingOpen,
@@ -75,10 +93,11 @@ export function BatchDeckClient({
   const reduceMotion = useReducedMotion();
   const [deck, setDeck] = useState(initialDeck);
   const [doneCount, setDoneCount] = useState(initialDoneCount);
+  const [skippedCount, setSkippedCount] = useState(initialSkippedCount);
+  const countedNotSeen = useRef(new Set<number>());
+  const savePhase = useRef(new Map<number, SavePhase>());
   const [pendingScore, setPendingScore] = useState<number | null>(null);
   const [exitDir, setExitDir] = useState<ExitDir | null>(null);
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const current = deck[0] ?? null;
   const nextUp = deck[1] ?? null;
@@ -89,24 +108,48 @@ export function BatchDeckClient({
     100,
     Math.round((progressDone / progressTotal) * 100)
   );
-  const isFlying = exitDir !== null;
-  const busy = isPending || isFlying;
+  // The fly-out is the only lock. The save stays in the background so the
+  // next card is clickable the moment it lands.
+  const busy = exitDir !== null;
 
-  const advance = (movieId: number) => {
+  const advance = (movieId: number, asNotSeen = false) => {
+    const phase = savePhase.current.get(movieId);
+    if (phase === 'failed') {
+      savePhase.current.delete(movieId);
+      return;
+    }
+    if (phase === 'pending') {
+      savePhase.current.set(movieId, 'advanced');
+    }
     setDeck((prev) => prev.filter((m) => m.id !== movieId));
     setDoneCount((n) => n + 1);
+    if (asNotSeen) {
+      countedNotSeen.current.add(movieId);
+      setSkippedCount((n) => n + 1);
+    }
   };
 
   const restoreFront = (movie: BatchDeckMovie) => {
+    const phase = savePhase.current.get(movie.id);
+    if (phase !== 'advanced') {
+      // Card is still on screen; skip the upcoming advance.
+      savePhase.current.set(movie.id, 'failed');
+      return;
+    }
+    savePhase.current.delete(movie.id);
     setDeck((prev) =>
       prev.some((m) => m.id === movie.id) ? prev : [movie, ...prev]
     );
     setDoneCount((n) => Math.max(0, n - 1));
+    if (countedNotSeen.current.delete(movie.id)) {
+      setSkippedCount((n) => Math.max(0, n - 1));
+    }
   };
 
   /**
-   * Play the Tinder fling, then run `onDone` (advance deck / rotate).
-   * Server work happens in parallel; on failure we snap the card back.
+   * Play the fling, then run `onDone` (advance deck / rotate).
+   * The server write starts immediately and does not lock the next card.
+   * On failure the movie snaps back to the front.
    */
   const fling = (
     dir: ExitDir,
@@ -120,48 +163,33 @@ export function BatchDeckClient({
     const finish = () => {
       onDone();
       setExitDir(null);
+      setPendingScore(null);
     };
 
-    if (reduceMotion) {
-      finish();
-      if (work) {
-        startTransition(async () => {
-          try {
-            await work();
-            router.refresh();
-          } catch (error) {
-            toast.error(
-              error instanceof Error ? error.message : 'No se pudo guardar'
-            );
-            restoreFront(movie);
-          } finally {
-            setPendingScore(null);
-          }
-        });
-      }
-      return;
-    }
-
-    // Let the fly-out spring play (~320ms), then swap the card.
-    window.setTimeout(() => {
-      finish();
-    }, 320);
-
     if (work) {
-      startTransition(async () => {
-        try {
-          await work();
-          router.refresh();
-        } catch (error) {
+      savePhase.current.set(movie.id, 'pending');
+      void work()
+        .then(() => {
+          const phase = savePhase.current.get(movie.id);
+          if (phase === 'pending' || phase === 'advanced') {
+            savePhase.current.delete(movie.id);
+          }
+        })
+        .catch((error: unknown) => {
           toast.error(
             error instanceof Error ? error.message : 'No se pudo guardar'
           );
           restoreFront(movie);
-        } finally {
-          setPendingScore(null);
-        }
-      });
+        });
     }
+
+    if (reduceMotion) {
+      finish();
+      return;
+    }
+
+    // Let the fly-out spring play (~320ms), then swap the card.
+    window.setTimeout(finish, 320);
   };
 
   const handleScore = (score: number) => {
@@ -198,10 +226,12 @@ export function BatchDeckClient({
     fling(
       'down',
       movie,
-      () => advance(movie.id),
+      () => advance(movie.id, true),
       async () => {
         await markNotSeenAction(movie.id);
-        toast.message('Marcada como no vista');
+        toast.message('Marcada como no vista', {
+          description: 'Queda en Tus puntajes → No vistas, por si la ves.',
+        });
       }
     );
   };
@@ -267,6 +297,7 @@ export function BatchDeckClient({
             transition={{ duration: 0.35, ease: 'easeOut' }}
           />
         </div>
+        {current && skippedCount > 0 && <NotSeenRecall count={skippedCount} />}
       </div>
 
       <div className="relative min-h-[28rem] overflow-visible">
@@ -298,6 +329,17 @@ export function BatchDeckClient({
                 </Link>
                 .
               </p>
+              {skippedCount > 0 && (
+                <p className="mx-auto mt-4 max-w-sm text-sm text-zinc-300">
+                  {skippedCount === 1
+                    ? 'Marcaste 1 como no vista. Si la ves, '
+                    : `Marcaste ${skippedCount} como no vistas. Si las ves, `}
+                  <Link href={NOT_SEEN_HREF} className="text-yellow-400 underline">
+                    {skippedCount === 1 ? 'puntuála acá' : 'puntuálas acá'}
+                  </Link>
+                  .
+                </p>
+              )}
               {ineligibleCount > 0 && (
                 <p className="mt-4 text-xs text-zinc-500">
                   {ineligibleCount} película

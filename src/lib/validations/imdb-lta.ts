@@ -117,6 +117,7 @@ export const imdbLtaRatingFilterSchema = z.enum([
   'needs_votes',
   'enough_votes',
   'mine_done',
+  'not_seen',
 ]);
 
 export type ImdbLtaRatingFilter = z.infer<typeof imdbLtaRatingFilterSchema>;

@@ -37,6 +37,7 @@ function serializeMovie(
     userNominated: m.userNominated,
     userScore: m.userScore,
     batchState: m.batchState,
+    userSkipped: m.userSkipped,
   };
 }
 

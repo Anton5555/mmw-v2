@@ -70,6 +70,7 @@ import {
   assertNominationPhaseOpen,
   canUserRateMovie,
   listOfficialRanking,
+  listOpenBatchDeck,
   listRateableCandidates,
   lookupMovie,
   removeNomination,
@@ -446,7 +447,11 @@ describe('listOfficialRanking', () => {
 describe('listRateableCandidates', () => {
   const stub = (
     rows: Array<{ id: number; title: string; noms: number; ratings: number }>,
-    mine: { nominated?: number[]; rated?: Array<{ movieId: number; score: number }> } = {}
+    mine: {
+      nominated?: number[];
+      rated?: Array<{ movieId: number; score: number }>;
+      skipped?: number[];
+    } = {}
   ) => {
     db.movie.findMany.mockResolvedValue(rows.map((r) => card(r.id, r.title)));
     db.imdbLtaNomination.groupBy.mockResolvedValue(
@@ -459,6 +464,11 @@ describe('listRateableCandidates', () => {
       (mine.nominated ?? []).map((movieId) => ({ movieId }))
     );
     db.imdbLtaRating.findMany.mockResolvedValue(mine.rated ?? []);
+    if (mine.skipped) {
+      db.imdbLtaSkip.findMany.mockResolvedValue(
+        mine.skipped.map((movieId) => ({ movieId }))
+      );
+    }
   };
 
   it('"needs_votes" lists eligible under-5 movies, least-rated first', async () => {
@@ -551,5 +561,76 @@ describe('listRateableCandidates', () => {
     const result = await listRateableCandidates('u1', { page: 2, limit: 2 });
     expect(result.movies.map((m) => m.title)).toEqual(['Movie 3', 'Movie 4']);
     expect(result.pagination).toEqual({ page: 2, limit: 2, total: 5, totalPages: 3 });
+  });
+
+  it('"not_seen" lists skipped movies I can still score, open batch first', async () => {
+    stub(
+      [
+        { id: 1, title: 'Released skip', noms: 2, ratings: 1 },
+        { id: 2, title: 'Open skip', noms: 2, ratings: 0 },
+        { id: 3, title: 'Already scored', noms: 2, ratings: 2 },
+        { id: 4, title: 'Solo skip', noms: 1, ratings: 0 },
+        { id: 5, title: 'Not skipped', noms: 2, ratings: 0 },
+      ],
+      {
+        nominated: [4],
+        rated: [{ movieId: 3, score: 8 }],
+        skipped: [1, 2, 3, 4],
+      }
+    );
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 1, batch: { status: 'CLOSED' } },
+      { movieId: 2, batch: { status: 'OPEN' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+      { movieId: 4, batch: { status: 'CLOSED' } },
+      { movieId: 5, batch: { status: 'CLOSED' } },
+    ]);
+
+    const result = await listRateableCandidates('u1', { filter: 'not_seen' });
+    expect(result.movies.map((m) => m.title)).toEqual([
+      'Open skip',
+      'Released skip',
+    ]);
+
+    const needsVotes = await listRateableCandidates('u1', {
+      filter: 'needs_votes',
+    });
+    expect(needsVotes.movies.map((m) => m.title)).not.toContain('Open skip');
+    expect(needsVotes.movies.map((m) => m.title)).toContain('Released skip');
+  });
+});
+
+describe('listOpenBatchDeck', () => {
+  it('counts open-batch skips separately from scored movies', async () => {
+    db.movie.findMany.mockResolvedValue([
+      card(1, 'Scored'),
+      card(2, 'Skipped'),
+      card(3, 'Pending'),
+    ]);
+    db.imdbLtaNomination.groupBy.mockResolvedValue([
+      { movieId: 1, _count: { _all: 2 } },
+      { movieId: 2, _count: { _all: 2 } },
+      { movieId: 3, _count: { _all: 2 } },
+    ]);
+    db.imdbLtaRating.groupBy.mockResolvedValue([]);
+    db.imdbLtaNomination.findMany.mockResolvedValue([]);
+    db.imdbLtaRating.findMany.mockResolvedValue([{ movieId: 1, score: 7 }]);
+    db.imdbLtaSkip.findMany.mockResolvedValue([{ movieId: 2 }]);
+    openBatchMovies(1, 2, 3);
+    db.imdbLtaBatch.findFirst.mockResolvedValue({
+      id: 9,
+      number: 3,
+      openedAt: new Date('2026-11-01T12:00:00Z'),
+      movies: [
+        { position: 0, movie: card(1, 'Scored') },
+        { position: 1, movie: card(2, 'Skipped') },
+        { position: 2, movie: card(3, 'Pending') },
+      ],
+    });
+
+    const deck = await listOpenBatchDeck('u1');
+    expect(deck?.deck.map((m) => m.title)).toEqual(['Pending']);
+    expect(deck?.doneCount).toBe(2);
+    expect(deck?.skippedCount).toBe(1);
   });
 });

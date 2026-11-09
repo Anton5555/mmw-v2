@@ -151,6 +151,7 @@ Rules:
 - Never-batched pick order: nomination count DESC, then title.
 - Solo-nomination lock still applies.
 - `submitRating` is an **upsert**; rating a movie clears any “No la vi” skip.
+- “No la vi” stays on **Tus puntajes → No vistas** (open batch included) until the user scores it.
 
 ### 2.2 Rating scale
 
@@ -170,7 +171,7 @@ Already-rated is allowed (edit). Phase ≠ `RATING_OPEN` rejects writes.
 | Route | Role |
 | --- | --- |
 | `/imdb-lta/lote` | One-at-a-time deck for the open batch: 0–10, Saltar, No la vi |
-| `/imdb-lta/rate` | **Revisar** — released movies only; add/change scores |
+| `/imdb-lta/rate` | **Revisar** — change scores, and **No vistas** for movies marked “No la vi” (including the open batch) |
 | `/imdb-lta/ranking` | Qualified (≥5) released movies; live while `RATING_OPEN` |
 
 ### 2.5 Telegram + admin rotate
@@ -243,7 +244,7 @@ Example shape:
 ## Implementation order — done
 
 1. Eligibility helper + rating Zod + `submitRating` + phase gate
-2. `listRateableCandidates` (`needs_votes` / `enough_votes` / `mine_done`)
+2. `listRateableCandidates` (`needs_votes` / `enough_votes` / `mine_done` / `not_seen`)
 3. `/imdb-lta/rate` UI (filters + 0–10 + fewest-ratings-first)
 4. Phase-aware hub on `/imdb-lta`
 5. Ranking query (avg, ≥5, tie-breakers) + `/imdb-lta/ranking` with live vs final copy
@@ -277,7 +278,7 @@ Example shape:
 **Phases 2–3 — done**
 
 - [x] `canUserRateMovie` (shared unlock) + `submitRating` 0–10 + `assertRatingPhaseOpen`
-- [x] Filters (`needs_votes`, `enough_votes`, `mine_done`)
+- [x] Filters (`needs_votes`, `enough_votes`, `mine_done`, `not_seen`)
 - [x] `/imdb-lta/rate` UI; coverage-first sort
 - [x] Phase-aware hub; nominations read-only during rating
 - [x] Ranking: AVG + ≥5 + tie-breakers; live vs final copy on `/imdb-lta/ranking`

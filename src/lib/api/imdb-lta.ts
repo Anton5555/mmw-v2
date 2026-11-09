@@ -667,6 +667,9 @@ function matchesRatingFilter(
         isEligibleToRate(movie) &&
         movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
       );
+    case 'not_seen':
+      // Still rateable, including the open batch. Scoring clears the skip.
+      return movie.userSkipped && isEligibleToRate(movie);
     default:
       return false;
   }
@@ -699,7 +702,11 @@ export async function listRateableCandidates(
   const all = await loadCandidateStats(userId);
   const filtered = all
     .filter((m) => matchesRatingFilter(m, filter))
-    .toSorted(filter === 'mine_done' ? sortMineDone : sortForCoverage);
+    .toSorted(
+      filter === 'mine_done' || filter === 'not_seen'
+        ? sortMineDone
+        : sortForCoverage
+    );
 
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / limit));
@@ -772,6 +779,8 @@ export type OpenBatchDeck = {
   deck: CandidateMovieStats[];
   /** Open-batch movies the user already rated or skipped. */
   doneCount: number;
+  /** Open-batch movies marked "no vista" and not yet scored. */
+  skippedCount: number;
   /** Open-batch movies locked by solo-nomination for this user. */
   ineligibleCount: number;
   totalInBatch: number;
@@ -794,11 +803,13 @@ export async function listOpenBatchDeck(
 
   const deck: CandidateMovieStats[] = [];
   let doneCount = 0;
+  let skippedCount = 0;
   let ineligibleCount = 0;
 
   for (const movie of batchMovies) {
     if (movie.userScore !== null || movie.userSkipped) {
       doneCount += 1;
+      if (movie.userSkipped && movie.userScore === null) skippedCount += 1;
       continue;
     }
     if (movie.userNominated && movie.nominationCount < 2) {
@@ -816,6 +827,7 @@ export async function listOpenBatchDeck(
     },
     deck,
     doneCount,
+    skippedCount,
     ineligibleCount,
     totalInBatch: batchMovies.length,
   };
