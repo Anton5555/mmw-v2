@@ -604,12 +604,11 @@ async function loadCandidateStats(
   return movies.map((movie) => {
     const rating = ratingByMovie.get(movie.id);
     const batchState = batchStates.get(movie.id) ?? 'locked';
-    const hideAggregates = batchState === 'open';
     return {
       ...movie,
       nominationCount: nominationCountByMovie.get(movie.id) ?? 0,
-      ratingCount: hideAggregates ? 0 : (rating?.count ?? 0),
-      averageScore: hideAggregates ? null : (rating?.avg ?? null),
+      ratingCount: rating?.count ?? 0,
+      averageScore: rating?.avg ?? null,
       userNominated: myNominationSet.has(movie.id),
       userScore: myScoreByMovie.get(movie.id) ?? null,
       batchState,

@@ -280,7 +280,7 @@ export function BatchDeckClient({
               Lote #{batch.number}
             </span>
             <span className="text-xs text-zinc-500">
-              Dura ~2 días · promedios al cerrar
+              Dura ~2 días · promedios al cerrar la votación
             </span>
           </div>
           <span className="shrink-0 font-mono text-xs font-bold text-zinc-300">
