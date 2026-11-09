@@ -26,6 +26,20 @@ async function nominate(userId: string, movieIds: number[]) {
   return list;
 }
 
+/** Put movies in a closed lote so they are eligible to score. */
+async function closeBatch(movieIds: number[]) {
+  await prisma.imdbLtaBatch.create({
+    data: {
+      number: movieIds[0] ?? 1,
+      status: 'CLOSED',
+      closedAt: new Date(),
+      movies: {
+        create: movieIds.map((movieId, position) => ({ movieId, position })),
+      },
+    },
+  });
+}
+
 beforeEach(async () => {
   await resetDatabase();
   // The nomination deadline is 2026-11-06 (Argentina time); pin the clock before it.
@@ -203,21 +217,18 @@ describe('ratings', () => {
     expect(await prisma.imdbLtaRating.count()).toBe(1);
   });
 
-  it('applies the shared-unlock rule using real nomination counts', async () => {
+  it('lets anyone rate a nominated movie, including the sole nominator', async () => {
     const [alice, bob, carol] = await createUsers(3);
     const solo = await createMovie();
     const shared = await createMovie();
     const nobodys = await createMovie();
     await nominate(alice.id, [solo.id, shared.id]);
     await nominate(bob.id, [shared.id]);
+    await closeBatch([solo.id, shared.id]);
 
-    // Movies nobody nominated are not candidates.
     await expect(canUserRateMovie(carol.id, nobodys.id)).resolves.toMatchObject({ allowed: false });
-    // A sole nominator can't rate their own unique pick...
-    await expect(canUserRateMovie(alice.id, solo.id)).resolves.toMatchObject({ allowed: false });
-    // ...but anyone else can.
+    await expect(canUserRateMovie(alice.id, solo.id)).resolves.toEqual({ allowed: true });
     await expect(canUserRateMovie(carol.id, solo.id)).resolves.toEqual({ allowed: true });
-    // Once a second person nominates it, both nominators unlock.
     await expect(canUserRateMovie(alice.id, shared.id)).resolves.toEqual({ allowed: true });
     await expect(canUserRateMovie(bob.id, shared.id)).resolves.toEqual({ allowed: true });
   });
@@ -225,8 +236,9 @@ describe('ratings', () => {
   it('lists rateable candidates from real aggregates, least-rated first', async () => {
     const [alice, bob] = await createUsers(2);
     const [mine, rated, fresh, popular] = await createMovies(4);
-    await nominate(alice.id, [mine.id]); // sole nomination by me -> not eligible
+    await nominate(alice.id, [mine.id]);
     await nominate(bob.id, [rated.id, fresh.id, popular.id]);
+    await closeBatch([mine.id, rated.id, fresh.id, popular.id]);
     await prisma.imdbLtaRating.create({ data: { userId: alice.id, movieId: rated.id, score: 7 } });
     await prisma.imdbLtaRating.createMany({
       data: (await createUsers(3)).map((u) => ({ userId: u.id, movieId: popular.id, score: 9 })),
@@ -235,8 +247,11 @@ describe('ratings', () => {
     const needsVotes = await listRateableCandidates(alice.id, {
       filter: 'needs_votes',
     });
-    expect(needsVotes.movies.map((m) => m.id)).toEqual([fresh.id, popular.id]);
-    expect(needsVotes.movies[1]).toMatchObject({
+    const needsVoteIds = needsVotes.movies.map((m) => m.id);
+    expect(needsVoteIds).toHaveLength(3);
+    expect(needsVoteIds.at(-1)).toBe(popular.id);
+    expect(new Set(needsVoteIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
+    expect(needsVotes.movies.find((m) => m.id === popular.id)).toMatchObject({
       ratingCount: 3,
       averageScore: 9,
     });

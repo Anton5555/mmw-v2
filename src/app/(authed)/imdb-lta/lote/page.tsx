@@ -92,7 +92,6 @@ async function ImdbLtaLotePageContent() {
             }))}
             doneCount={deck.doneCount}
             skippedCount={deck.skippedCount}
-            ineligibleCount={deck.ineligibleCount}
             totalInBatch={deck.totalInBatch}
             isRatingOpen
           />

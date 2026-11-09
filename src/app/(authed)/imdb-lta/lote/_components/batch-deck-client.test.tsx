@@ -51,7 +51,6 @@ function renderDeck() {
       deck={[movie(1, 'First'), movie(2, 'Second')]}
       doneCount={8}
       skippedCount={0}
-      ineligibleCount={0}
       totalInBatch={10}
       isRatingOpen
     />

@@ -38,7 +38,6 @@ type BatchDeckClientProps = {
   deck: BatchDeckMovie[];
   doneCount: number;
   skippedCount: number;
-  ineligibleCount: number;
   totalInBatch: number;
   isRatingOpen: boolean;
 };
@@ -86,7 +85,6 @@ export function BatchDeckClient({
   deck: initialDeck,
   doneCount: initialDoneCount,
   skippedCount: initialSkippedCount,
-  ineligibleCount,
   totalInBatch,
   isRatingOpen,
 }: BatchDeckClientProps) {
@@ -103,7 +101,7 @@ export function BatchDeckClient({
   const nextUp = deck[1] ?? null;
   const remaining = deck.length;
   const progressDone = doneCount;
-  const progressTotal = Math.max(totalInBatch - ineligibleCount, 1);
+  const progressTotal = Math.max(totalInBatch, 1);
   const progressPct = Math.min(
     100,
     Math.round((progressDone / progressTotal) * 100)
@@ -338,13 +336,6 @@ export function BatchDeckClient({
                     {skippedCount === 1 ? 'puntuála acá' : 'puntuálas acá'}
                   </Link>
                   .
-                </p>
-              )}
-              {ineligibleCount > 0 && (
-                <p className="mt-4 text-xs text-zinc-500">
-                  {ineligibleCount} película
-                  {ineligibleCount === 1 ? '' : 's'} del lote no te apareció
-                  porque la nominaste vos solo.
                 </p>
               )}
             </motion.div>

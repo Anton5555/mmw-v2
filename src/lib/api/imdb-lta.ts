@@ -511,9 +511,9 @@ export async function assertRatingPhaseOpen(): Promise<void> {
 }
 
 /**
- * Shared-unlock eligibility (ignores phase — callers check phase separately).
- * Locked movies cannot be rated. Solo nominator cannot rate; shared nominators
- * and non-nominators can. Existing ratings are allowed (upsert / edit).
+ * Eligibility ignores phase — callers check phase separately.
+ * Locked movies cannot be rated. Any user can rate a movie that has left
+ * its lote, including one they nominated alone. Existing ratings can be edited.
  */
 export async function canUserRateMovie(
   userId: string,
@@ -535,19 +535,6 @@ export async function canUserRateMovie(
     return {
       allowed: false,
       reason: 'Esta película todavía no salió en un lote',
-    };
-  }
-
-  const userNomination = await prisma.imdbLtaNomination.findUnique({
-    where: { userId_movieId: { userId, movieId } },
-    select: { id: true },
-  });
-
-  if (userNomination && nominationCount < 2) {
-    return {
-      allowed: false,
-      reason:
-        'Solo vos nominaste esta película. No podés puntuarla hasta que otra persona también la nominé.',
     };
   }
 
@@ -639,7 +626,6 @@ function isEligibleToRate(movie: CandidateMovieStats): boolean {
   if (movie.batchState === 'locked') return false;
   if (movie.userScore !== null) return false;
   if (movie.nominationCount === 0) return false;
-  if (movie.userNominated && movie.nominationCount < 2) return false;
   return true;
 }
 
@@ -781,8 +767,6 @@ export type OpenBatchDeck = {
   doneCount: number;
   /** Open-batch movies marked "no vista" and not yet scored. */
   skippedCount: number;
-  /** Open-batch movies locked by solo-nomination for this user. */
-  ineligibleCount: number;
   totalInBatch: number;
 };
 
@@ -804,16 +788,11 @@ export async function listOpenBatchDeck(
   const deck: CandidateMovieStats[] = [];
   let doneCount = 0;
   let skippedCount = 0;
-  let ineligibleCount = 0;
 
   for (const movie of batchMovies) {
     if (movie.userScore !== null || movie.userSkipped) {
       doneCount += 1;
       if (movie.userSkipped && movie.userScore === null) skippedCount += 1;
-      continue;
-    }
-    if (movie.userNominated && movie.nominationCount < 2) {
-      ineligibleCount += 1;
       continue;
     }
     deck.push(movie);
@@ -828,7 +807,6 @@ export async function listOpenBatchDeck(
     deck,
     doneCount,
     skippedCount,
-    ineligibleCount,
     totalInBatch: batchMovies.length,
   };
 }
