@@ -268,19 +268,15 @@ describe('canUserRateMovie', () => {
     });
   });
 
-  it('disallows the sole nominator from rating their own unique pick', async () => {
+  it('allows the sole nominator to rate their own pick', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(1);
     db.imdbLtaRating.findUnique.mockResolvedValue(null);
-    db.imdbLtaNomination.findUnique.mockResolvedValue({ id: 1 });
-    const result = await canUserRateMovie('u1', 7);
-    expect(result.allowed).toBe(false);
-    expect(result.reason).toMatch(/Solo vos nominaste/);
+    await expect(canUserRateMovie('u1', 7)).resolves.toEqual({ allowed: true });
   });
 
-  it('allows a nominator once someone else also nominated the movie', async () => {
+  it('allows a nominator when other people also nominated the movie', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(2);
     db.imdbLtaRating.findUnique.mockResolvedValue(null);
-    db.imdbLtaNomination.findUnique.mockResolvedValue({ id: 1 });
     await expect(canUserRateMovie('u1', 7)).resolves.toEqual({ allowed: true });
   });
 
@@ -395,7 +391,7 @@ describe('listRateableCandidates', () => {
     db.imdbLtaRating.findMany.mockResolvedValue(mine.rated ?? []);
   };
 
-  it('"unrated" hides movies I rated and my solo-nominated ones, least-rated first', async () => {
+  it('"unrated" hides movies I rated and keeps my solo pick, least-rated first', async () => {
     stub(
       [
         { id: 1, title: 'Rated by me', noms: 2, ratings: 1 },
@@ -406,8 +402,8 @@ describe('listRateableCandidates', () => {
       { nominated: [2], rated: [{ movieId: 1, score: 8 }] }
     );
     const result = await listRateableCandidates('u1', { filter: 'unrated' });
-    expect(result.movies.map((m) => m.title)).toEqual(['Fresh', 'Popular']);
-    expect(result.pagination).toEqual({ page: 1, limit: 30, total: 2, totalPages: 1 });
+    expect(result.movies.map((m) => m.title)).toEqual(['Fresh', 'My solo pick', 'Popular']);
+    expect(result.pagination).toEqual({ page: 1, limit: 30, total: 3, totalPages: 1 });
   });
 
   it.each([

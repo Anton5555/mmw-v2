@@ -203,7 +203,7 @@ describe('ratings', () => {
     expect(await prisma.imdbLtaRating.count()).toBe(1);
   });
 
-  it('applies the shared-unlock rule using real nomination counts', async () => {
+  it('lets anyone rate a nominated movie, including the sole nominator', async () => {
     const [alice, bob, carol] = await createUsers(3);
     const solo = await createMovie();
     const shared = await createMovie();
@@ -211,13 +211,9 @@ describe('ratings', () => {
     await nominate(alice.id, [solo.id, shared.id]);
     await nominate(bob.id, [shared.id]);
 
-    // Movies nobody nominated are not candidates.
     await expect(canUserRateMovie(carol.id, nobodys.id)).resolves.toMatchObject({ allowed: false });
-    // A sole nominator can't rate their own unique pick...
-    await expect(canUserRateMovie(alice.id, solo.id)).resolves.toMatchObject({ allowed: false });
-    // ...but anyone else can.
+    await expect(canUserRateMovie(alice.id, solo.id)).resolves.toEqual({ allowed: true });
     await expect(canUserRateMovie(carol.id, solo.id)).resolves.toEqual({ allowed: true });
-    // Once a second person nominates it, both nominators unlock.
     await expect(canUserRateMovie(alice.id, shared.id)).resolves.toEqual({ allowed: true });
     await expect(canUserRateMovie(bob.id, shared.id)).resolves.toEqual({ allowed: true });
   });
@@ -225,7 +221,7 @@ describe('ratings', () => {
   it('lists rateable candidates from real aggregates, least-rated first', async () => {
     const [alice, bob] = await createUsers(2);
     const [mine, rated, fresh, popular] = await createMovies(4);
-    await nominate(alice.id, [mine.id]); // sole nomination by me -> not eligible
+    await nominate(alice.id, [mine.id]);
     await nominate(bob.id, [rated.id, fresh.id, popular.id]);
     await prisma.imdbLtaRating.create({ data: { userId: alice.id, movieId: rated.id, score: 7 } });
     await prisma.imdbLtaRating.createMany({
@@ -233,8 +229,14 @@ describe('ratings', () => {
     });
 
     const unrated = await listRateableCandidates(alice.id, { filter: 'unrated' });
-    expect(unrated.movies.map((m) => m.id)).toEqual([fresh.id, popular.id]);
-    expect(unrated.movies[1]).toMatchObject({ ratingCount: 3, averageScore: 9 });
+    const unratedIds = unrated.movies.map((m) => m.id);
+    expect(unratedIds).toHaveLength(3);
+    expect(unratedIds.at(-1)).toBe(popular.id);
+    expect(new Set(unratedIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
+    expect(unrated.movies.find((m) => m.id === popular.id)).toMatchObject({
+      ratingCount: 3,
+      averageScore: 9,
+    });
 
     const done = await listRateableCandidates(alice.id, { filter: 'mine_done' });
     expect(done.movies.map((m) => m.id)).toEqual([rated.id]);

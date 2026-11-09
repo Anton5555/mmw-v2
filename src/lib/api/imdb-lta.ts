@@ -503,8 +503,9 @@ export async function assertRatingPhaseOpen(): Promise<void> {
 }
 
 /**
- * Shared-unlock eligibility (ignores phase — callers check phase separately).
- * Solo nominator cannot rate; shared nominators and non-nominators can.
+ * Eligibility ignores phase — callers check phase separately.
+ * Any user can rate a nominated movie they have not scored yet,
+ * including a movie they nominated alone.
  */
 export async function canUserRateMovie(
   userId: string,
@@ -528,19 +529,6 @@ export async function canUserRateMovie(
 
   if (existingRating) {
     return { allowed: false, reason: 'Ya puntuaste esta película' };
-  }
-
-  const userNomination = await prisma.imdbLtaNomination.findUnique({
-    where: { userId_movieId: { userId, movieId } },
-    select: { id: true },
-  });
-
-  if (userNomination && nominationCount < 2) {
-    return {
-      allowed: false,
-      reason:
-        'Solo vos nominaste esta película. No podés puntuarla hasta que otra persona también la nominé.',
-    };
   }
 
   return { allowed: true };
@@ -602,7 +590,6 @@ async function loadCandidateStats(
 function isEligibleToRate(movie: CandidateMovieStats): boolean {
   if (movie.userScore !== null) return false;
   if (movie.nominationCount === 0) return false;
-  if (movie.userNominated && movie.nominationCount < 2) return false;
   return true;
 }
 
