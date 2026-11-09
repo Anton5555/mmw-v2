@@ -20,7 +20,8 @@ interface RatePageProps {
 }
 
 function serializeMovie(
-  m: Awaited<ReturnType<typeof listRateableCandidates>>['movies'][number]
+  m: Awaited<ReturnType<typeof listRateableCandidates>>['movies'][number],
+  hideAggregates: boolean
 ) {
   return {
     id: m.id,
@@ -32,8 +33,8 @@ function serializeMovie(
     imdbId: m.imdbId,
     tmdbId: m.tmdbId,
     nominationCount: m.nominationCount,
-    ratingCount: m.ratingCount,
-    averageScore: m.averageScore,
+    ratingCount: hideAggregates ? 0 : m.ratingCount,
+    averageScore: hideAggregates ? null : m.averageScore,
     userNominated: m.userNominated,
     userScore: m.userScore,
     batchState: m.batchState,
@@ -89,7 +90,9 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
           isAdmin={isAdmin}
         />
         <RatingPageClient
-          movies={list.movies.map(serializeMovie)}
+          movies={list.movies.map((movie) =>
+            serializeMovie(movie, isRatingOpen)
+          )}
           pagination={list.pagination}
           isRatingOpen={isRatingOpen}
           filter={filter}

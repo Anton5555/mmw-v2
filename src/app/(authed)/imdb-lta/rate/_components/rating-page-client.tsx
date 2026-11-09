@@ -272,25 +272,24 @@ function MovieRateCard({
             </div>
 
             <div className="flex flex-wrap gap-1.5">
-              {avg !== null ? (
+              {!isRatingOpen && avg !== null && (
                 <span className="inline-flex items-center gap-1 rounded-full border border-yellow-500/35 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold text-yellow-300">
                   <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                   {avg} / 10
                 </span>
-              ) : (
-                <span className="rounded-full border border-white/10 bg-zinc-900/80 px-2.5 py-0.5 text-[10px] font-bold text-zinc-500">
-                  Todavía sin promedio
+              )}
+              {!isRatingOpen && (
+                <span className="rounded-full border border-white/10 bg-zinc-900/80 px-2.5 py-0.5 text-[10px] font-bold text-zinc-400">
+                  {movie.ratingCount}{' '}
+                  {movie.ratingCount === 1 ? 'puntaje' : 'puntajes'}
                 </span>
               )}
-              <span className="rounded-full border border-white/10 bg-zinc-900/80 px-2.5 py-0.5 text-[10px] font-bold text-zinc-400">
-                {movie.ratingCount}{' '}
-                {movie.ratingCount === 1 ? 'puntaje' : 'puntajes'}
-              </span>
-              {movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY && (
-                <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
-                  Entra al ranking
-                </span>
-              )}
+              {!isRatingOpen &&
+                movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY && (
+                  <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
+                    Entra al ranking
+                  </span>
+                )}
               {movie.userScore !== null && (
                 <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-200">
                   Vos: {movie.userScore}/10
