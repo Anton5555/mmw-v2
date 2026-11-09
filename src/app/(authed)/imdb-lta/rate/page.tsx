@@ -37,6 +37,7 @@ function serializeMovie(
     userNominated: m.userNominated,
     userScore: m.userScore,
     batchState: m.batchState,
+    userSkipped: m.userSkipped,
   };
 }
 
@@ -79,8 +80,8 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   const isRatingOpen = phase === ImdbLtaPhase.RATING_OPEN;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-5xl">
+    <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
+      <div className="w-full">
         <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/rate" />
         <RatingPageClient
           movies={list.movies.map(serializeMovie)}

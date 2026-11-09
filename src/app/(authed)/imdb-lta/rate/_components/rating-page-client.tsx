@@ -37,6 +37,7 @@ export type RateMovieClient = {
   userNominated: boolean;
   userScore: number | null;
   batchState: 'locked' | 'open' | 'released';
+  userSkipped: boolean;
 };
 
 type RatingPageClientProps = {
@@ -55,7 +56,21 @@ const FILTERS: { key: ImdbLtaRatingFilter; label: string }[] = [
   { key: 'needs_votes', label: 'Necesitan votos' },
   { key: 'enough_votes', label: 'Con votos suficientes' },
   { key: 'mine_done', label: 'Ya puntuadas' },
+  { key: 'not_seen', label: 'No vistas' },
 ];
+
+function filterHeading(filter: ImdbLtaRatingFilter) {
+  switch (filter) {
+    case 'mine_done':
+      return 'Tus puntajes';
+    case 'enough_votes':
+      return 'Ya llegan al ranking';
+    case 'not_seen':
+      return 'No vistas';
+    default:
+      return 'Les faltan votos';
+  }
+}
 
 function posterSrc(posterUrl: string) {
   if (!posterUrl) return '';
@@ -143,7 +158,7 @@ function ScorePicker({
               disabled={disabled || isPending}
               onClick={() => handleScore(score)}
               className={cn(
-                'flex h-9 cursor-pointer items-center justify-center rounded-xl border font-mono text-xs font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:text-sm',
+                'flex h-9 cursor-pointer items-center justify-center rounded-xl border font-mono text-xs font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:text-sm xl:h-11',
                 score === 10 && 'col-span-2 sm:col-span-1',
                 scoreButtonClass(score, currentScore)
               )}
@@ -200,16 +215,16 @@ function MovieRateCard({
         />
       )}
 
-      <div className="relative space-y-4 p-4 sm:p-5">
-        <div className="flex gap-4">
-          <div className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md sm:w-24">
+      <div className="relative space-y-4 p-4 sm:p-5 xl:p-6">
+        <div className="flex gap-4 xl:gap-5">
+          <div className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md sm:w-24 lg:w-32 xl:w-40 2xl:w-48">
             {src ? (
               <Image
                 src={src}
                 alt={movie.title}
                 fill
                 className="object-cover"
-                sizes="96px"
+                sizes="(min-width: 1536px) 192px, (min-width: 1280px) 160px, (min-width: 1024px) 128px, 96px"
                 unoptimized
               />
             ) : (
@@ -228,7 +243,7 @@ function MovieRateCard({
             )}
 
             <div>
-              <h3 className="text-base font-black uppercase italic leading-tight tracking-tight sm:text-lg">
+              <h3 className="text-base font-black uppercase italic leading-tight tracking-tight sm:text-lg xl:text-xl">
                 {movie.title}
               </h3>
               <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-400">
@@ -286,6 +301,11 @@ function MovieRateCard({
                   Lote actual
                 </span>
               )}
+              {movie.userSkipped && movie.userScore === null && (
+                <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-300">
+                  No vista
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -336,7 +356,15 @@ export function RatingPageClient({
         </h1>
         <p className="max-w-2xl text-sm text-zinc-400">
           Acá ves todo lo que ya puntuaste (incluido el lote de ahora) y podés
-          cambiar el número. Películas nuevas del lote se votan en{' '}
+          cambiar el número. Si marcaste alguna como no vista, queda en{' '}
+          <button
+            type="button"
+            onClick={() => setParams({ filter: 'not_seen', page: 1 })}
+            className="cursor-pointer text-yellow-400 underline"
+          >
+            No vistas
+          </button>{' '}
+          para puntuarla cuando la veas. Películas nuevas del lote se votan en{' '}
           <Link href="/imdb-lta/lote" className="text-yellow-400 underline">
             Lote actual
           </Link>
@@ -382,11 +410,7 @@ export function RatingPageClient({
       <section className="space-y-3">
         <div>
           <h2 className="text-sm font-black uppercase tracking-widest text-zinc-300">
-            {filter === 'mine_done'
-              ? 'Tus puntajes'
-              : filter === 'enough_votes'
-                ? 'Ya llegan al ranking'
-                : 'Les faltan votos'}{' '}
+            {filterHeading(filter)}{' '}
             <span className="font-mono text-zinc-500">({pagination.total})</span>
           </h2>
           {filter === 'needs_votes' && (
@@ -401,17 +425,25 @@ export function RatingPageClient({
               podés sumar el tuyo si no las puntuaste.
             </p>
           )}
+          {filter === 'not_seen' && (
+            <p className="mt-1 text-xs text-zinc-500">
+              Las marcaste como no vistas, también las del lote de ahora. Si
+              las ves, el puntaje reemplaza el “no vista”.
+            </p>
+          )}
         </div>
 
         {movies.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-white/10 px-6 py-16 text-center">
             <Film className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
-              No hay películas en este filtro.
+              {filter === 'not_seen'
+                ? 'No marcaste ninguna como no vista.'
+                : 'No hay películas en este filtro.'}
             </p>
           </div>
         ) : (
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-3 lg:grid-cols-2 xl:gap-4">
             {movies.map((movie) => (
               <MovieRateCard
                 key={movie.id}
