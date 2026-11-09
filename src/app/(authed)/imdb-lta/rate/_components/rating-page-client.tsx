@@ -158,7 +158,7 @@ function ScorePicker({
               disabled={disabled || isPending}
               onClick={() => handleScore(score)}
               className={cn(
-                'flex h-9 cursor-pointer items-center justify-center rounded-xl border font-mono text-xs font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:text-sm',
+                'flex h-9 cursor-pointer items-center justify-center rounded-xl border font-mono text-xs font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:text-sm xl:h-11',
                 score === 10 && 'col-span-2 sm:col-span-1',
                 scoreButtonClass(score, currentScore)
               )}
@@ -215,16 +215,16 @@ function MovieRateCard({
         />
       )}
 
-      <div className="relative space-y-4 p-4 sm:p-5">
-        <div className="flex gap-4">
-          <div className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md sm:w-24">
+      <div className="relative space-y-4 p-4 sm:p-5 xl:p-6">
+        <div className="flex gap-4 xl:gap-5">
+          <div className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md sm:w-24 lg:w-32 xl:w-40 2xl:w-48">
             {src ? (
               <Image
                 src={src}
                 alt={movie.title}
                 fill
                 className="object-cover"
-                sizes="96px"
+                sizes="(min-width: 1536px) 192px, (min-width: 1280px) 160px, (min-width: 1024px) 128px, 96px"
                 unoptimized
               />
             ) : (
@@ -243,7 +243,7 @@ function MovieRateCard({
             )}
 
             <div>
-              <h3 className="text-base font-black uppercase italic leading-tight tracking-tight sm:text-lg">
+              <h3 className="text-base font-black uppercase italic leading-tight tracking-tight sm:text-lg xl:text-xl">
                 {movie.title}
               </h3>
               <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-400">
@@ -443,7 +443,7 @@ export function RatingPageClient({
             </p>
           </div>
         ) : (
-          <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-3 lg:grid-cols-2 xl:gap-4">
             {movies.map((movie) => (
               <MovieRateCard
                 key={movie.id}

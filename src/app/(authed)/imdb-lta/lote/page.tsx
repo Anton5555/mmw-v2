@@ -38,8 +38,8 @@ async function ImdbLtaLotePageContent() {
       : null;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-xl">
+    <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
+      <div className="mx-auto w-full max-w-xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl">
         <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/lote" />
 
         {phase === ImdbLtaPhase.RATING_CLOSED ? (

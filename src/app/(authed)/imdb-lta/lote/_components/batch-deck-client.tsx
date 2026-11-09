@@ -447,16 +447,16 @@ function DeckCard({
         />
       )}
 
-      <div className="relative space-y-5 p-5 sm:p-6">
-        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-end sm:gap-5 sm:text-left">
-          <div className="relative aspect-2/3 w-36 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900 shadow-lg sm:w-40">
+      <div className="relative space-y-5 p-5 sm:p-6 xl:p-8">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-end sm:gap-5 sm:text-left xl:gap-8">
+          <div className="relative aspect-2/3 w-36 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900 shadow-lg sm:w-40 lg:w-52 xl:w-64 2xl:w-72">
             {src ? (
               <Image
                 src={src}
                 alt={movie.title}
                 fill
                 className="object-cover"
-                sizes="160px"
+                sizes="(min-width: 1536px) 288px, (min-width: 1280px) 256px, (min-width: 1024px) 208px, 160px"
                 priority
                 unoptimized
               />
@@ -474,7 +474,7 @@ function DeckCard({
                 La nominaste vos
               </span>
             )}
-            <h1 className="text-2xl font-black uppercase italic leading-tight tracking-tight sm:text-3xl">
+            <h1 className="text-2xl font-black uppercase italic leading-tight tracking-tight sm:text-3xl xl:text-4xl">
               {movie.title}
             </h1>
             <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-zinc-400 sm:justify-start">
@@ -520,7 +520,7 @@ function DeckCard({
                   disabled={!isRatingOpen || busy}
                   onClick={() => onScore(score)}
                   className={cn(
-                    'flex h-11 cursor-pointer items-center justify-center rounded-xl border font-mono text-sm font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40',
+                    'flex h-11 cursor-pointer items-center justify-center rounded-xl border font-mono text-sm font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 xl:h-12 xl:text-base',
                     score === 10 && 'col-span-2 sm:col-span-1',
                     score <= 3 &&
                       'border-red-500/25 bg-red-950/20 text-red-200 hover:border-red-400 hover:bg-red-500/25',
