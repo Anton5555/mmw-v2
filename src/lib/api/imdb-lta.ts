@@ -919,3 +919,190 @@ export async function listOfficialRanking(): Promise<{
 
   return { movies: qualified, isFinal, phase };
 }
+
+// ---------------------------------------------------------------------------
+// Admin — live rating snapshot (who scored what)
+// ---------------------------------------------------------------------------
+
+function compareEs(a: string, b: string) {
+  return a.localeCompare(b, 'es', { sensitivity: 'base' });
+}
+
+const adminMovieSelect = {
+  id: true,
+  title: true,
+  originalTitle: true,
+  posterUrl: true,
+  imdbId: true,
+} as const;
+
+export type AdminRatingVote = {
+  userId: string;
+  name: string;
+  score: number;
+  createdAt: Date;
+};
+
+export type AdminRatingMovie = {
+  id: number;
+  title: string;
+  originalTitle: string;
+  posterUrl: string;
+  imdbId: string;
+  ratingCount: number;
+  averageScore: number | null;
+  votes: AdminRatingVote[];
+};
+
+export type AdminRatingPersonMovie = {
+  movieId: number;
+  title: string;
+  originalTitle: string;
+  posterUrl: string;
+  score: number;
+  createdAt: Date;
+};
+
+export type AdminRatingPerson = {
+  userId: string;
+  name: string;
+  ratingCount: number;
+  averageScore: number;
+  ratings: AdminRatingPersonMovie[];
+};
+
+export type AdminRatingSnapshot = {
+  movieCount: number;
+  totalRatings: number;
+  voterCount: number;
+  movies: AdminRatingMovie[];
+  people: AdminRatingPerson[];
+};
+
+/**
+ * Every nominated or rated movie, with each score attached.
+ * Call only from admin-gated UI. The public ranking stays aggregated.
+ */
+export async function listAdminRatingSnapshot(): Promise<AdminRatingSnapshot> {
+  const [nominations, ratings] = await Promise.all([
+    prisma.imdbLtaNomination.findMany({
+      select: {
+        movieId: true,
+        movie: { select: adminMovieSelect },
+      },
+    }),
+    prisma.imdbLtaRating.findMany({
+      select: {
+        userId: true,
+        movieId: true,
+        score: true,
+        createdAt: true,
+        user: { select: { name: true } },
+        movie: { select: adminMovieSelect },
+      },
+    }),
+  ]);
+
+  const movieById = new Map<number, (typeof nominations)[number]['movie']>();
+  for (const nomination of nominations) {
+    movieById.set(nomination.movie.id, nomination.movie);
+  }
+  for (const rating of ratings) {
+    movieById.set(rating.movie.id, rating.movie);
+  }
+
+  const votesByMovie = new Map<number, AdminRatingVote[]>();
+  const ratingsByUser = new Map<
+    string,
+    { name: string; ratings: AdminRatingPersonMovie[] }
+  >();
+
+  for (const rating of ratings) {
+    const movieVotes = votesByMovie.get(rating.movieId) ?? [];
+    movieVotes.push({
+      userId: rating.userId,
+      name: rating.user.name,
+      score: rating.score,
+      createdAt: rating.createdAt,
+    });
+    votesByMovie.set(rating.movieId, movieVotes);
+
+    const person = ratingsByUser.get(rating.userId) ?? {
+      name: rating.user.name,
+      ratings: [],
+    };
+    person.ratings.push({
+      movieId: rating.movieId,
+      title: rating.movie.title,
+      originalTitle: rating.movie.originalTitle,
+      posterUrl: rating.movie.posterUrl,
+      score: rating.score,
+      createdAt: rating.createdAt,
+    });
+    ratingsByUser.set(rating.userId, person);
+  }
+
+  const movieIds = new Set<number>([
+    ...nominations.map((nomination) => nomination.movieId),
+    ...ratings.map((rating) => rating.movieId),
+  ]);
+
+  const movies = [...movieIds]
+    .flatMap((movieId) => {
+      const movie = movieById.get(movieId);
+      if (!movie) return [];
+      const votes = (votesByMovie.get(movieId) ?? []).toSorted((a, b) => {
+        if (a.score !== b.score) return b.score - a.score;
+        return compareEs(a.name, b.name);
+      });
+      const ratingCount = votes.length;
+      const averageScore =
+        ratingCount === 0
+          ? null
+          : votes.reduce((sum, vote) => sum + vote.score, 0) / ratingCount;
+      return [{ ...movie, ratingCount, averageScore, votes }];
+    })
+    .toSorted((a, b) => {
+      const aRated = a.ratingCount > 0;
+      const bRated = b.ratingCount > 0;
+      if (aRated !== bRated) return aRated ? -1 : 1;
+      if (a.averageScore !== b.averageScore) {
+        return (b.averageScore ?? 0) - (a.averageScore ?? 0);
+      }
+      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
+      return compareEs(a.title, b.title);
+    });
+
+  const people = [...ratingsByUser.entries()]
+    .map(([userId, person]) => {
+      const personRatings = person.ratings.toSorted((a, b) => {
+        if (a.score !== b.score) return b.score - a.score;
+        return compareEs(a.title, b.title);
+      });
+      const ratingCount = personRatings.length;
+      return {
+        userId,
+        name: person.name,
+        ratingCount,
+        averageScore:
+          personRatings.reduce((sum, rating) => sum + rating.score, 0) /
+          ratingCount,
+        ratings: personRatings,
+      };
+    })
+    .toSorted((a, b) => {
+      if (a.averageScore !== b.averageScore) {
+        return b.averageScore - a.averageScore;
+      }
+      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
+      return compareEs(a.name, b.name);
+    });
+
+  return {
+    movieCount: movies.length,
+    totalRatings: ratings.length,
+    voterCount: people.length,
+    movies,
+    people,
+  };
+}

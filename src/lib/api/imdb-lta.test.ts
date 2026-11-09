@@ -69,6 +69,7 @@ import {
   addNomination,
   assertNominationPhaseOpen,
   canUserRateMovie,
+  listAdminRatingSnapshot,
   listOfficialRanking,
   listOpenBatchDeck,
   listRateableCandidates,
@@ -632,5 +633,116 @@ describe('listOpenBatchDeck', () => {
     expect(deck?.deck.map((m) => m.title)).toEqual(['Pending']);
     expect(deck?.doneCount).toBe(2);
     expect(deck?.skippedCount).toBe(1);
+  });
+});
+
+describe('listAdminRatingSnapshot', () => {
+  const movie = (id: number, title: string) => ({
+    id,
+    title,
+    originalTitle: title,
+    posterUrl: `/p/${id}.jpg`,
+    imdbId: `tt${String(id).padStart(7, '0')}`,
+  });
+
+  it('groups averages, keeps unrated nominees, and sorts movies and votes', async () => {
+    db.imdbLtaNomination.findMany.mockResolvedValue([
+      { movieId: 1, movie: movie(1, 'Best') },
+      { movieId: 2, movie: movie(2, 'Tie Low') },
+      { movieId: 3, movie: movie(3, 'Zeta') },
+      { movieId: 4, movie: movie(4, 'Aaa') },
+      { movieId: 5, movie: movie(5, 'Popular') },
+    ]);
+    db.imdbLtaRating.findMany.mockResolvedValue([
+      {
+        userId: 'ana',
+        movieId: 1,
+        score: 9,
+        createdAt: new Date('2026-11-02T15:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(1, 'Best'),
+      },
+      {
+        userId: 'ana',
+        movieId: 5,
+        score: 8,
+        createdAt: new Date('2026-11-02T16:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(5, 'Popular'),
+      },
+      {
+        userId: 'bea',
+        movieId: 5,
+        score: 6,
+        createdAt: new Date('2026-11-03T15:00:00Z'),
+        user: { name: 'Bea' },
+        movie: movie(5, 'Popular'),
+      },
+      {
+        userId: 'ana',
+        movieId: 2,
+        score: 7,
+        createdAt: new Date('2026-11-04T15:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(2, 'Tie Low'),
+      },
+      {
+        userId: 'ana',
+        movieId: 3,
+        score: 7,
+        createdAt: new Date('2026-11-04T16:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(3, 'Zeta'),
+      },
+      {
+        userId: 'ciro',
+        movieId: 6,
+        score: 5,
+        createdAt: new Date('2026-11-05T15:00:00Z'),
+        user: { name: 'Ciro' },
+        movie: movie(6, 'Only Rated'),
+      },
+      {
+        userId: 'bea',
+        movieId: 6,
+        score: 5,
+        createdAt: new Date('2026-11-05T16:00:00Z'),
+        user: { name: 'Bea' },
+        movie: movie(6, 'Only Rated'),
+      },
+    ]);
+
+    const snapshot = await listAdminRatingSnapshot();
+
+    expect(snapshot.movieCount).toBe(6);
+    expect(snapshot.totalRatings).toBe(7);
+    expect(snapshot.voterCount).toBe(3);
+    expect(snapshot.movies.map((m) => [m.title, m.ratingCount, m.averageScore])).toEqual([
+      ['Best', 1, 9],
+      ['Popular', 2, 7],
+      ['Tie Low', 1, 7],
+      ['Zeta', 1, 7],
+      ['Only Rated', 2, 5],
+      ['Aaa', 0, null],
+    ]);
+    expect(snapshot.movies.find((m) => m.title === 'Popular')?.votes.map((v) => v.name)).toEqual([
+      'Ana',
+      'Bea',
+    ]);
+    expect(snapshot.movies.find((m) => m.title === 'Only Rated')?.votes.map((v) => v.name)).toEqual([
+      'Bea',
+      'Ciro',
+    ]);
+    expect(snapshot.people.map((p) => [p.name, p.ratingCount, p.averageScore])).toEqual([
+      ['Ana', 4, 7.75],
+      ['Bea', 2, 5.5],
+      ['Ciro', 1, 5],
+    ]);
+    expect(snapshot.people.find((p) => p.name === 'Ana')?.ratings.map((r) => r.title)).toEqual([
+      'Best',
+      'Popular',
+      'Tie Low',
+      'Zeta',
+    ]);
   });
 });
