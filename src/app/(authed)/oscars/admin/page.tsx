@@ -17,7 +17,7 @@ async function OscarsAdminPageContent() {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    redirect('/sign-in');
+    redirect('/api/auth/clear-session');
   }
 
   // Check if user is admin

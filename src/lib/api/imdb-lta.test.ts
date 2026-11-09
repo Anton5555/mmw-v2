@@ -19,10 +19,42 @@ const db = vi.hoisted(() => ({
     findUnique: vi.fn(),
     findMany: vi.fn(),
     create: vi.fn(),
+    upsert: vi.fn(),
     groupBy: vi.fn(),
   },
+  imdbLtaSkip: {
+    findMany: vi.fn(),
+    upsert: vi.fn(),
+    deleteMany: vi.fn(),
+  },
+  imdbLtaBatchMovie: {
+    findMany: vi.fn(),
+  },
+  imdbLtaBatch: {
+    findFirst: vi.fn(),
+  },
   movie: { findUnique: vi.fn(), findMany: vi.fn() },
+  $transaction: vi.fn(),
 }));
+
+/** Mark movieIds as released (appeared in a closed batch). Does not touch nomination.groupBy. */
+const releaseMovies = (...movieIds: number[]) => {
+  db.imdbLtaBatchMovie.findMany.mockResolvedValue(
+    movieIds.map((movieId) => ({
+      movieId,
+      batch: { status: 'CLOSED' },
+    }))
+  );
+};
+
+const openBatchMovies = (...movieIds: number[]) => {
+  db.imdbLtaBatchMovie.findMany.mockResolvedValue(
+    movieIds.map((movieId) => ({
+      movieId,
+      batch: { status: 'OPEN' },
+    }))
+  );
+};
 
 const movies = vi.hoisted(() => ({
   findMovieByImdbId: vi.fn(),
@@ -37,7 +69,9 @@ import {
   addNomination,
   assertNominationPhaseOpen,
   canUserRateMovie,
+  listAdminRatingSnapshot,
   listOfficialRanking,
+  listOpenBatchDeck,
   listRateableCandidates,
   lookupMovie,
   removeNomination,
@@ -64,6 +98,14 @@ const card = (id: number, title: string) => ({
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['Date'] });
   vi.setSystemTime(new Date('2026-10-01T12:00:00-03:00'));
+  db.imdbLtaSkip.findMany.mockResolvedValue([]);
+  db.imdbLtaBatchMovie.findMany.mockResolvedValue([]);
+  db.imdbLtaNomination.groupBy.mockResolvedValue([]);
+  db.$transaction.mockImplementation(async (ops: unknown) => {
+    if (Array.isArray(ops)) return Promise.all(ops);
+    if (typeof ops === 'function') return ops(db);
+    return ops;
+  });
 });
 
 afterEach(() => {
@@ -259,30 +301,37 @@ describe('canUserRateMovie', () => {
     expect(result.reason).toMatch(/no es candidata/);
   });
 
-  it('disallows re-rating', async () => {
+  it('disallows locked (never-batched) movies', async () => {
+    db.imdbLtaNomination.count.mockResolvedValue(2);
+    db.imdbLtaNomination.groupBy.mockResolvedValue([{ movieId: 7 }]);
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([]);
+    const result = await canUserRateMovie('u1', 7);
+    expect(result.allowed).toBe(false);
+    expect(result.reason).toMatch(/todavía no salió en un lote/);
+  });
+
+  it('allows re-rating a released movie (editable scores)', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(3);
-    db.imdbLtaRating.findUnique.mockResolvedValue({ id: 1 });
-    await expect(canUserRateMovie('u1', 7)).resolves.toEqual({
-      allowed: false,
-      reason: 'Ya puntuaste esta película',
-    });
+    releaseMovies(7);
+    db.imdbLtaNomination.findUnique.mockResolvedValue(null);
+    await expect(canUserRateMovie('u1', 7)).resolves.toEqual({ allowed: true });
   });
 
   it('allows the sole nominator to rate their own pick', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(1);
-    db.imdbLtaRating.findUnique.mockResolvedValue(null);
+    releaseMovies(7);
     await expect(canUserRateMovie('u1', 7)).resolves.toEqual({ allowed: true });
   });
 
   it('allows a nominator when other people also nominated the movie', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(2);
-    db.imdbLtaRating.findUnique.mockResolvedValue(null);
+    releaseMovies(7);
     await expect(canUserRateMovie('u1', 7)).resolves.toEqual({ allowed: true });
   });
 
-  it('allows a non-nominator', async () => {
+  it('allows a non-nominator on an open-batch movie', async () => {
     db.imdbLtaNomination.count.mockResolvedValue(1);
-    db.imdbLtaRating.findUnique.mockResolvedValue(null);
+    openBatchMovies(7);
     db.imdbLtaNomination.findUnique.mockResolvedValue(null);
     await expect(canUserRateMovie('u2', 7)).resolves.toEqual({ allowed: true });
   });
@@ -291,14 +340,14 @@ describe('canUserRateMovie', () => {
 describe('submitRating', () => {
   const eligible = () => {
     db.imdbLtaNomination.count.mockResolvedValue(2);
-    db.imdbLtaRating.findUnique.mockResolvedValue(null);
+    releaseMovies(7);
     db.imdbLtaNomination.findUnique.mockResolvedValue(null);
   };
 
   it('is blocked outside the RATING_OPEN phase', async () => {
     setPhase('NOMINATION_OPEN');
-    await expect(submitRating('u1', 7, 8)).rejects.toThrow(/puntuaciones están cerradas/);
-    expect(db.imdbLtaRating.create).not.toHaveBeenCalled();
+    await expect(submitRating('u1', 7, 8)).rejects.toThrow(/puntajes están cerrados/);
+    expect(db.imdbLtaRating.upsert).not.toHaveBeenCalled();
   });
 
   it('surfaces the eligibility reason', async () => {
@@ -307,18 +356,20 @@ describe('submitRating', () => {
     await expect(submitRating('u1', 7, 8)).rejects.toThrow(/no es candidata/);
   });
 
-  it('stores the rating', async () => {
+  it('upserts the rating and clears any skip', async () => {
     setPhase('RATING_OPEN');
     eligible();
-    db.imdbLtaRating.create.mockResolvedValue({ id: 3, score: 8 });
-    await expect(submitRating('u1', 7, 8)).resolves.toEqual({ id: 3, movieId: 7, score: 8 });
-  });
-
-  it('maps a race-condition unique violation to a friendly error', async () => {
-    setPhase('RATING_OPEN');
-    eligible();
-    db.imdbLtaRating.create.mockRejectedValue(uniqueViolation());
-    await expect(submitRating('u1', 7, 8)).rejects.toThrow('Ya puntuaste esta película');
+    db.imdbLtaRating.upsert.mockResolvedValue({ id: 3, score: 8 });
+    db.imdbLtaSkip.deleteMany.mockResolvedValue({ count: 1 });
+    await expect(submitRating('u1', 7, 8)).resolves.toEqual({
+      id: 3,
+      movieId: 7,
+      score: 8,
+    });
+    expect(db.imdbLtaRating.upsert).toHaveBeenCalled();
+    expect(db.imdbLtaSkip.deleteMany).toHaveBeenCalledWith({
+      where: { userId: 'u1', movieId: 7 },
+    });
   });
 });
 
@@ -343,6 +394,7 @@ describe('listOfficialRanking', () => {
       { id: 1, title: 'Few', noms: 2, count: 4, avg: 10 },
       { id: 2, title: 'Enough', noms: 2, count: 5, avg: 6 },
     ]);
+    releaseMovies(1, 2);
     const { movies: ranked } = await listOfficialRanking();
     expect(ranked.map((m) => m.title)).toEqual(['Enough']);
   });
@@ -355,6 +407,7 @@ describe('listOfficialRanking', () => {
       { id: 3, title: 'Popular', noms: 1, count: 9, avg: 7 },
       { id: 4, title: 'Best', noms: 1, count: 5, avg: 9 },
     ]);
+    releaseMovies(1, 2, 3, 4);
     const { movies: ranked } = await listOfficialRanking();
     expect(ranked.map((m) => [m.rank, m.title])).toEqual([
       [1, 'Best'],
@@ -362,6 +415,21 @@ describe('listOfficialRanking', () => {
       [3, 'Alpha'],
       [4, 'Zeta'],
     ]);
+  });
+
+  it('excludes locked and open-batch movies from the ranking', async () => {
+    setPhase('RATING_OPEN');
+    stubData([
+      { id: 1, title: 'Locked', noms: 2, count: 10, avg: 9 },
+      { id: 2, title: 'Open', noms: 2, count: 10, avg: 9 },
+      { id: 3, title: 'Released', noms: 2, count: 5, avg: 7 },
+    ]);
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 2, batch: { status: 'OPEN' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+    ]);
+    const { movies: ranked } = await listOfficialRanking();
+    expect(ranked.map((m) => m.title)).toEqual(['Released']);
   });
 
   it('flags the ranking as final only when ratings are closed', async () => {
@@ -376,7 +444,11 @@ describe('listOfficialRanking', () => {
 describe('listRateableCandidates', () => {
   const stub = (
     rows: Array<{ id: number; title: string; noms: number; ratings: number }>,
-    mine: { nominated?: number[]; rated?: Array<{ movieId: number; score: number }> } = {}
+    mine: {
+      nominated?: number[];
+      rated?: Array<{ movieId: number; score: number }>;
+      skipped?: number[];
+    } = {}
   ) => {
     db.movie.findMany.mockResolvedValue(rows.map((r) => card(r.id, r.title)));
     db.imdbLtaNomination.groupBy.mockResolvedValue(
@@ -389,55 +461,88 @@ describe('listRateableCandidates', () => {
       (mine.nominated ?? []).map((movieId) => ({ movieId }))
     );
     db.imdbLtaRating.findMany.mockResolvedValue(mine.rated ?? []);
+    if (mine.skipped) {
+      db.imdbLtaSkip.findMany.mockResolvedValue(
+        mine.skipped.map((movieId) => ({ movieId }))
+      );
+    }
   };
 
-  it('"unrated" hides movies I rated and keeps my solo pick, least-rated first', async () => {
+  it('"needs_votes" lists eligible under-5 movies, least-rated first', async () => {
     stub(
       [
         { id: 1, title: 'Rated by me', noms: 2, ratings: 1 },
         { id: 2, title: 'My solo pick', noms: 1, ratings: 0 },
         { id: 3, title: 'Popular', noms: 2, ratings: 6 },
         { id: 4, title: 'Fresh', noms: 3, ratings: 0 },
+        { id: 5, title: 'Almost', noms: 2, ratings: 4 },
       ],
       { nominated: [2], rated: [{ movieId: 1, score: 8 }] }
     );
-    const result = await listRateableCandidates('u1', { filter: 'unrated' });
-    expect(result.movies.map((m) => m.title)).toEqual(['Fresh', 'My solo pick', 'Popular']);
+    releaseMovies(1, 2, 3, 4, 5);
+    const result = await listRateableCandidates('u1', { filter: 'needs_votes' });
+    expect(result.movies.map((m) => m.title)).toEqual(['Fresh', 'My solo pick', 'Almost']);
     expect(result.pagination).toEqual({ page: 1, limit: 30, total: 3, totalPages: 1 });
   });
 
-  it.each([
-    ['no_scores', ['A']],
-    ['low', ['A', 'B']],
-    ['close', ['C']],
-    ['qualified', ['D']],
-  ] as const)('filter %s', async (filter, expected) => {
+  it('"enough_votes" lists eligible movies with 5+ ratings', async () => {
     stub([
       { id: 1, title: 'A', noms: 2, ratings: 0 },
-      { id: 2, title: 'B', noms: 2, ratings: 2 },
-      { id: 3, title: 'C', noms: 2, ratings: 4 },
-      { id: 4, title: 'D', noms: 2, ratings: 5 },
+      { id: 2, title: 'B', noms: 2, ratings: 4 },
+      { id: 3, title: 'C', noms: 2, ratings: 5 },
+      { id: 4, title: 'D', noms: 2, ratings: 8 },
     ]);
-    const result = await listRateableCandidates('u1', { filter });
-    expect(result.movies.map((m) => m.title)).toEqual(expected);
+    releaseMovies(1, 2, 3, 4);
+    const result = await listRateableCandidates('u1', {
+      filter: 'enough_votes',
+    });
+    expect(result.movies.map((m) => m.title)).toEqual(['C', 'D']);
   });
 
-  it('"mine_done" lists only movies I scored, alphabetically', async () => {
+  it('"mine_done" lists only movies I scored, open batch first then A–Z', async () => {
     stub(
       [
         { id: 1, title: 'B', noms: 2, ratings: 1 },
         { id: 2, title: 'A', noms: 2, ratings: 1 },
         { id: 3, title: 'C', noms: 2, ratings: 1 },
+        { id: 4, title: 'Zebra Open', noms: 2, ratings: 1 },
       ],
       {
         rated: [
           { movieId: 1, score: 5 },
           { movieId: 2, score: 9 },
+          { movieId: 4, score: 7 },
         ],
       }
     );
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 1, batch: { status: 'CLOSED' } },
+      { movieId: 2, batch: { status: 'CLOSED' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+      { movieId: 4, batch: { status: 'OPEN' } },
+    ]);
     const result = await listRateableCandidates('u1', { filter: 'mine_done' });
-    expect(result.movies.map((m) => m.title)).toEqual(['A', 'B']);
+    expect(result.movies.map((m) => m.title)).toEqual([
+      'Zebra Open',
+      'A',
+      'B',
+    ]);
+  });
+
+  it('excludes locked and open-batch movies from discovery filters', async () => {
+    stub([
+      { id: 1, title: 'Locked', noms: 2, ratings: 0 },
+      { id: 2, title: 'Open', noms: 2, ratings: 0 },
+      { id: 3, title: 'Released', noms: 2, ratings: 0 },
+    ]);
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 2, batch: { status: 'OPEN' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+    ]);
+    const result = await listRateableCandidates('u1', {
+      filter: 'needs_votes',
+    });
+    expect(result.movies.map((m) => m.title)).toEqual(['Released']);
   });
 
   it('paginates', async () => {
@@ -449,8 +554,192 @@ describe('listRateableCandidates', () => {
         ratings: 0,
       }))
     );
+    releaseMovies(1, 2, 3, 4, 5);
     const result = await listRateableCandidates('u1', { page: 2, limit: 2 });
     expect(result.movies.map((m) => m.title)).toEqual(['Movie 3', 'Movie 4']);
     expect(result.pagination).toEqual({ page: 2, limit: 2, total: 5, totalPages: 3 });
+  });
+
+  it('"not_seen" lists skipped movies I can still score, open batch first', async () => {
+    stub(
+      [
+        { id: 1, title: 'Released skip', noms: 2, ratings: 1 },
+        { id: 2, title: 'Open skip', noms: 2, ratings: 0 },
+        { id: 3, title: 'Already scored', noms: 2, ratings: 2 },
+        { id: 4, title: 'Solo skip', noms: 1, ratings: 0 },
+        { id: 5, title: 'Not skipped', noms: 2, ratings: 0 },
+      ],
+      {
+        nominated: [4],
+        rated: [{ movieId: 3, score: 8 }],
+        skipped: [1, 2, 3, 4],
+      }
+    );
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 1, batch: { status: 'CLOSED' } },
+      { movieId: 2, batch: { status: 'OPEN' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+      { movieId: 4, batch: { status: 'CLOSED' } },
+      { movieId: 5, batch: { status: 'CLOSED' } },
+    ]);
+
+    const result = await listRateableCandidates('u1', { filter: 'not_seen' });
+    expect(result.movies.map((m) => m.title)).toEqual([
+      'Open skip',
+      'Released skip',
+      'Solo skip',
+    ]);
+
+    const needsVotes = await listRateableCandidates('u1', {
+      filter: 'needs_votes',
+    });
+    expect(needsVotes.movies.map((m) => m.title)).not.toContain('Open skip');
+    expect(needsVotes.movies.map((m) => m.title)).toContain('Released skip');
+  });
+});
+
+describe('listOpenBatchDeck', () => {
+  it('counts open-batch skips separately from scored movies', async () => {
+    db.movie.findMany.mockResolvedValue([
+      card(1, 'Scored'),
+      card(2, 'Skipped'),
+      card(3, 'Pending'),
+    ]);
+    db.imdbLtaNomination.groupBy.mockResolvedValue([
+      { movieId: 1, _count: { _all: 2 } },
+      { movieId: 2, _count: { _all: 2 } },
+      { movieId: 3, _count: { _all: 2 } },
+    ]);
+    db.imdbLtaRating.groupBy.mockResolvedValue([]);
+    db.imdbLtaNomination.findMany.mockResolvedValue([]);
+    db.imdbLtaRating.findMany.mockResolvedValue([{ movieId: 1, score: 7 }]);
+    db.imdbLtaSkip.findMany.mockResolvedValue([{ movieId: 2 }]);
+    openBatchMovies(1, 2, 3);
+    db.imdbLtaBatch.findFirst.mockResolvedValue({
+      id: 9,
+      number: 3,
+      openedAt: new Date('2026-11-01T12:00:00Z'),
+      movies: [
+        { position: 0, movie: card(1, 'Scored') },
+        { position: 1, movie: card(2, 'Skipped') },
+        { position: 2, movie: card(3, 'Pending') },
+      ],
+    });
+
+    const deck = await listOpenBatchDeck('u1');
+    expect(deck?.deck.map((m) => m.title)).toEqual(['Pending']);
+    expect(deck?.doneCount).toBe(2);
+    expect(deck?.skippedCount).toBe(1);
+  });
+});
+
+describe('listAdminRatingSnapshot', () => {
+  const movie = (id: number, title: string) => ({
+    id,
+    title,
+    originalTitle: title,
+    posterUrl: `/p/${id}.jpg`,
+    imdbId: `tt${String(id).padStart(7, '0')}`,
+  });
+
+  it('groups averages, keeps unrated nominees, and sorts movies and votes', async () => {
+    db.imdbLtaNomination.findMany.mockResolvedValue([
+      { movieId: 1, movie: movie(1, 'Best') },
+      { movieId: 2, movie: movie(2, 'Tie Low') },
+      { movieId: 3, movie: movie(3, 'Zeta') },
+      { movieId: 4, movie: movie(4, 'Aaa') },
+      { movieId: 5, movie: movie(5, 'Popular') },
+    ]);
+    db.imdbLtaRating.findMany.mockResolvedValue([
+      {
+        userId: 'ana',
+        movieId: 1,
+        score: 9,
+        createdAt: new Date('2026-11-02T15:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(1, 'Best'),
+      },
+      {
+        userId: 'ana',
+        movieId: 5,
+        score: 8,
+        createdAt: new Date('2026-11-02T16:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(5, 'Popular'),
+      },
+      {
+        userId: 'bea',
+        movieId: 5,
+        score: 6,
+        createdAt: new Date('2026-11-03T15:00:00Z'),
+        user: { name: 'Bea' },
+        movie: movie(5, 'Popular'),
+      },
+      {
+        userId: 'ana',
+        movieId: 2,
+        score: 7,
+        createdAt: new Date('2026-11-04T15:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(2, 'Tie Low'),
+      },
+      {
+        userId: 'ana',
+        movieId: 3,
+        score: 7,
+        createdAt: new Date('2026-11-04T16:00:00Z'),
+        user: { name: 'Ana' },
+        movie: movie(3, 'Zeta'),
+      },
+      {
+        userId: 'ciro',
+        movieId: 6,
+        score: 5,
+        createdAt: new Date('2026-11-05T15:00:00Z'),
+        user: { name: 'Ciro' },
+        movie: movie(6, 'Only Rated'),
+      },
+      {
+        userId: 'bea',
+        movieId: 6,
+        score: 5,
+        createdAt: new Date('2026-11-05T16:00:00Z'),
+        user: { name: 'Bea' },
+        movie: movie(6, 'Only Rated'),
+      },
+    ]);
+
+    const snapshot = await listAdminRatingSnapshot();
+
+    expect(snapshot.movieCount).toBe(6);
+    expect(snapshot.totalRatings).toBe(7);
+    expect(snapshot.voterCount).toBe(3);
+    expect(snapshot.movies.map((m) => [m.title, m.ratingCount, m.averageScore])).toEqual([
+      ['Best', 1, 9],
+      ['Popular', 2, 7],
+      ['Tie Low', 1, 7],
+      ['Zeta', 1, 7],
+      ['Only Rated', 2, 5],
+      ['Aaa', 0, null],
+    ]);
+    expect(snapshot.movies.find((m) => m.title === 'Popular')?.votes.map((v) => v.name)).toEqual([
+      'Ana',
+      'Bea',
+    ]);
+    expect(snapshot.movies.find((m) => m.title === 'Only Rated')?.votes.map((v) => v.name)).toEqual([
+      'Bea',
+      'Ciro',
+    ]);
+    expect(snapshot.people.map((p) => [p.name, p.ratingCount, p.averageScore])).toEqual([
+      ['Ana', 4, 7.75],
+      ['Bea', 2, 5.5],
+      ['Ciro', 1, 5],
+    ]);
+    expect(snapshot.people.find((p) => p.name === 'Ana')?.ratings.map((r) => r.title)).toEqual([
+      'Best',
+      'Popular',
+      'Tie Low',
+      'Zeta',
+    ]);
   });
 });

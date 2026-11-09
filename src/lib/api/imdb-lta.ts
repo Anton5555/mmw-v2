@@ -16,6 +16,11 @@ import {
   type ImdbLtaPhaseValue,
   type ImdbLtaRatingFilter,
 } from '@/lib/validations/imdb-lta';
+import {
+  getOpenBatch,
+  loadMovieBatchStates,
+  type MovieBatchState,
+} from '@/lib/api/imdb-lta-batches';
 
 const CONFIG_ID = 1;
 
@@ -470,6 +475,9 @@ export type CandidateMovieStats = MovieCardData & {
   averageScore: number | null;
   userNominated: boolean;
   userScore: number | null;
+  /** locked = never batched; open = current batch; released = past batch. */
+  batchState: MovieBatchState;
+  userSkipped: boolean;
 };
 
 export type RateableListResult = {
@@ -497,15 +505,15 @@ export async function assertRatingPhaseOpen(): Promise<void> {
   const phase = await getImdbLtaPhase();
   if (phase !== ImdbLtaPhase.RATING_OPEN) {
     throw new Error(
-      'Las puntuaciones están cerradas. Ya no podés puntuar películas.'
+      'Los puntajes están cerrados. Ya no podés puntuar películas.'
     );
   }
 }
 
 /**
  * Eligibility ignores phase — callers check phase separately.
- * Any user can rate a nominated movie they have not scored yet,
- * including a movie they nominated alone.
+ * Locked movies cannot be rated. Any user can rate a movie that has left
+ * its lote, including one they nominated alone. Existing ratings can be edited.
  */
 export async function canUserRateMovie(
   userId: string,
@@ -522,45 +530,63 @@ export async function canUserRateMovie(
     };
   }
 
-  const existingRating = await prisma.imdbLtaRating.findUnique({
-    where: { userId_movieId: { userId, movieId } },
-    select: { id: true },
-  });
-
-  if (existingRating) {
-    return { allowed: false, reason: 'Ya puntuaste esta película' };
+  const batchState = await getMovieBatchStateCached(movieId);
+  if (batchState === 'locked') {
+    return {
+      allowed: false,
+      reason: 'Esta película todavía no salió en un lote',
+    };
   }
 
   return { allowed: true };
 }
 
+async function getMovieBatchStateCached(
+  movieId: number
+): Promise<MovieBatchState> {
+  const states = await loadMovieBatchStates([movieId]);
+  return states.get(movieId) ?? 'locked';
+}
+
 async function loadCandidateStats(
   userId: string
 ): Promise<CandidateMovieStats[]> {
-  const [movies, nominationGroups, ratingGroups, myNominations, myRatings] =
-    await Promise.all([
-      prisma.movie.findMany({
-        where: { imdbLtaNominations: { some: {} } },
-        select: movieCardSelect,
-      }),
-      prisma.imdbLtaNomination.groupBy({
-        by: ['movieId'],
-        _count: { _all: true },
-      }),
-      prisma.imdbLtaRating.groupBy({
-        by: ['movieId'],
-        _count: { _all: true },
-        _avg: { score: true },
-      }),
-      prisma.imdbLtaNomination.findMany({
-        where: { userId },
-        select: { movieId: true },
-      }),
-      prisma.imdbLtaRating.findMany({
-        where: { userId },
-        select: { movieId: true, score: true },
-      }),
-    ]);
+  const [
+    movies,
+    nominationGroups,
+    ratingGroups,
+    myNominations,
+    myRatings,
+    mySkips,
+    batchStates,
+  ] = await Promise.all([
+    prisma.movie.findMany({
+      where: { imdbLtaNominations: { some: {} } },
+      select: movieCardSelect,
+    }),
+    prisma.imdbLtaNomination.groupBy({
+      by: ['movieId'],
+      _count: { _all: true },
+    }),
+    prisma.imdbLtaRating.groupBy({
+      by: ['movieId'],
+      _count: { _all: true },
+      _avg: { score: true },
+    }),
+    prisma.imdbLtaNomination.findMany({
+      where: { userId },
+      select: { movieId: true },
+    }),
+    prisma.imdbLtaRating.findMany({
+      where: { userId },
+      select: { movieId: true, score: true },
+    }),
+    prisma.imdbLtaSkip.findMany({
+      where: { userId },
+      select: { movieId: true },
+    }),
+    loadMovieBatchStates(),
+  ]);
 
   const nominationCountByMovie = new Map(
     nominationGroups.map((g) => [g.movieId, g._count._all])
@@ -573,21 +599,31 @@ async function loadCandidateStats(
   );
   const myNominationSet = new Set(myNominations.map((n) => n.movieId));
   const myScoreByMovie = new Map(myRatings.map((r) => [r.movieId, r.score]));
+  const mySkipSet = new Set(mySkips.map((s) => s.movieId));
 
   return movies.map((movie) => {
     const rating = ratingByMovie.get(movie.id);
+    const batchState = batchStates.get(movie.id) ?? 'locked';
+    const hideAggregates = batchState === 'open';
     return {
       ...movie,
       nominationCount: nominationCountByMovie.get(movie.id) ?? 0,
-      ratingCount: rating?.count ?? 0,
-      averageScore: rating?.avg ?? null,
+      ratingCount: hideAggregates ? 0 : (rating?.count ?? 0),
+      averageScore: hideAggregates ? null : (rating?.avg ?? null),
       userNominated: myNominationSet.has(movie.id),
       userScore: myScoreByMovie.get(movie.id) ?? null,
+      batchState,
+      userSkipped: mySkipSet.has(movie.id),
     };
   });
 }
 
+function isReleased(movie: CandidateMovieStats): boolean {
+  return movie.batchState === 'released';
+}
+
 function isEligibleToRate(movie: CandidateMovieStats): boolean {
+  if (movie.batchState === 'locked') return false;
   if (movie.userScore !== null) return false;
   if (movie.nominationCount === 0) return false;
   return true;
@@ -599,28 +635,27 @@ function matchesRatingFilter(
 ): boolean {
   switch (filter) {
     case 'mine_done':
-      return movie.userScore !== null;
-    case 'unrated':
-      return isEligibleToRate(movie);
-    case 'no_scores':
-      return isEligibleToRate(movie) && movie.ratingCount === 0;
-    case 'low':
+      // Include open-batch scores so users can edit what they just voted.
       return (
-        isEligibleToRate(movie) &&
-        movie.ratingCount >= 0 &&
-        movie.ratingCount <= 2
+        movie.userScore !== null &&
+        (movie.batchState === 'released' || movie.batchState === 'open')
       );
-    case 'close':
+    case 'needs_votes':
+      // Closed batches only; open lote is voted in /lote.
       return (
+        isReleased(movie) &&
         isEligibleToRate(movie) &&
-        movie.ratingCount >= 3 &&
-        movie.ratingCount <= 4
+        movie.ratingCount < IMDB_LTA_MIN_RATINGS_TO_QUALIFY
       );
-    case 'qualified':
+    case 'enough_votes':
       return (
+        isReleased(movie) &&
         isEligibleToRate(movie) &&
         movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
       );
+    case 'not_seen':
+      // Still rateable, including the open batch. Scoring clears the skip.
+      return movie.userSkipped && isEligibleToRate(movie);
     default:
       return false;
   }
@@ -634,6 +669,11 @@ function sortForCoverage(a: CandidateMovieStats, b: CandidateMovieStats) {
 }
 
 function sortMineDone(a: CandidateMovieStats, b: CandidateMovieStats) {
+  // Open-batch scores first (what you just voted), then A–Z.
+  if (a.batchState !== b.batchState) {
+    if (a.batchState === 'open') return -1;
+    if (b.batchState === 'open') return 1;
+  }
   return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
 }
 
@@ -641,14 +681,18 @@ export async function listRateableCandidates(
   userId: string,
   options: { filter?: ImdbLtaRatingFilter; page?: number; limit?: number } = {}
 ): Promise<RateableListResult> {
-  const filter = options.filter ?? 'unrated';
+  const filter = options.filter ?? 'needs_votes';
   const page = options.page ?? 1;
   const limit = options.limit ?? 30;
 
   const all = await loadCandidateStats(userId);
   const filtered = all
     .filter((m) => matchesRatingFilter(m, filter))
-    .toSorted(filter === 'mine_done' ? sortMineDone : sortForCoverage);
+    .toSorted(
+      filter === 'mine_done' || filter === 'not_seen'
+        ? sortMineDone
+        : sortForCoverage
+    );
 
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / limit));
@@ -659,26 +703,6 @@ export async function listRateableCandidates(
     movies,
     pagination: { page, limit, total, totalPages },
   };
-}
-
-/**
- * Destacadas sin tu puntaje — UX discovery only; does not affect ranking.
- */
-export async function listHighlightUnrated(
-  userId: string,
-  limit = 12
-): Promise<CandidateMovieStats[]> {
-  const all = await loadCandidateStats(userId);
-  return all
-    .filter((m) => isEligibleToRate(m) && m.ratingCount >= 1)
-    .toSorted((a, b) => {
-      const avgA = a.averageScore ?? 0;
-      const avgB = b.averageScore ?? 0;
-      if (avgA !== avgB) return avgB - avgA;
-      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
-      return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
-    })
-    .slice(0, limit);
 }
 
 export async function submitRating(
@@ -693,22 +717,98 @@ export async function submitRating(
     throw new Error(eligibility.reason ?? 'No podés puntuar esta película');
   }
 
-  try {
-    const rating = await prisma.imdbLtaRating.create({
-      data: { userId, movieId, score },
-    });
-    return { id: rating.id, movieId, score: rating.score };
-  } catch (error: unknown) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      error.code === 'P2002'
-    ) {
-      throw new Error('Ya puntuaste esta película');
-    }
-    throw error;
+  const [rating] = await prisma.$transaction([
+    prisma.imdbLtaRating.upsert({
+      where: { userId_movieId: { userId, movieId } },
+      create: { userId, movieId, score },
+      update: { score },
+    }),
+    prisma.imdbLtaSkip.deleteMany({
+      where: { userId, movieId },
+    }),
+  ]);
+
+  return { id: rating.id, movieId, score: rating.score };
+}
+
+export async function markNotSeen(userId: string, movieId: number) {
+  await assertRatingPhaseOpen();
+
+  const batchState = await getMovieBatchStateCached(movieId);
+  if (batchState === 'locked') {
+    throw new Error('Esta película todavía no salió en un lote');
   }
+
+  const nominationCount = await prisma.imdbLtaNomination.count({
+    where: { movieId },
+  });
+  if (nominationCount === 0) {
+    throw new Error('Esta película no es candidata de IMDB LTA');
+  }
+
+  await prisma.imdbLtaSkip.upsert({
+    where: { userId_movieId: { userId, movieId } },
+    create: { userId, movieId },
+    update: {},
+  });
+
+  return { movieId, skipped: true as const };
+}
+
+export type OpenBatchDeck = {
+  batch: {
+    id: number;
+    number: number;
+    openedAt: Date;
+  };
+  /** Movies the user can still act on (not rated, not skipped, eligible). */
+  deck: CandidateMovieStats[];
+  /** Open-batch movies the user already rated or skipped. */
+  doneCount: number;
+  /** Open-batch movies marked "no vista" and not yet scored. */
+  skippedCount: number;
+  totalInBatch: number;
+};
+
+/**
+ * One-at-a-time voting deck for the current open batch.
+ */
+export async function listOpenBatchDeck(
+  userId: string
+): Promise<OpenBatchDeck | null> {
+  const open = await getOpenBatch();
+  if (!open) return null;
+
+  const all = await loadCandidateStats(userId);
+  const byId = new Map(all.map((m) => [m.id, m]));
+  const batchMovies = open.movies
+    .map((m) => byId.get(m.id))
+    .filter((m): m is CandidateMovieStats => Boolean(m));
+
+  const deck: CandidateMovieStats[] = [];
+  let doneCount = 0;
+  let skippedCount = 0;
+
+  for (const movie of batchMovies) {
+    if (movie.userScore !== null || movie.userSkipped) {
+      doneCount += 1;
+      if (movie.userSkipped && movie.userScore === null) skippedCount += 1;
+      continue;
+    }
+    deck.push(movie);
+  }
+
+  return {
+    batch: {
+      id: open.batch.id,
+      number: open.batch.number,
+      openedAt: open.batch.openedAt,
+    },
+    deck,
+    doneCount,
+    skippedCount,
+    totalInBatch: batchMovies.length,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -730,21 +830,23 @@ export async function listOfficialRanking(): Promise<{
   const phase = await getImdbLtaPhase();
   const isFinal = phase === ImdbLtaPhase.RATING_CLOSED;
 
-  const [movies, nominationGroups, ratingGroups] = await Promise.all([
-    prisma.movie.findMany({
-      where: { imdbLtaNominations: { some: {} } },
-      select: movieCardSelect,
-    }),
-    prisma.imdbLtaNomination.groupBy({
-      by: ['movieId'],
-      _count: { _all: true },
-    }),
-    prisma.imdbLtaRating.groupBy({
-      by: ['movieId'],
-      _count: { _all: true },
-      _avg: { score: true },
-    }),
-  ]);
+  const [movies, nominationGroups, ratingGroups, batchStates] =
+    await Promise.all([
+      prisma.movie.findMany({
+        where: { imdbLtaNominations: { some: {} } },
+        select: movieCardSelect,
+      }),
+      prisma.imdbLtaNomination.groupBy({
+        by: ['movieId'],
+        _count: { _all: true },
+      }),
+      prisma.imdbLtaRating.groupBy({
+        by: ['movieId'],
+        _count: { _all: true },
+        _avg: { score: true },
+      }),
+      loadMovieBatchStates(),
+    ]);
 
   const nominationCountByMovie = new Map(
     nominationGroups.map((g) => [g.movieId, g._count._all])
@@ -758,6 +860,10 @@ export async function listOfficialRanking(): Promise<{
 
   const qualified = movies
     .map((movie) => {
+      const batchState = batchStates.get(movie.id) ?? 'locked';
+      // Locked and open-batch movies stay off the ranking until their batch closes.
+      if (batchState !== 'released') return null;
+
       const rating = ratingByMovie.get(movie.id);
       const ratingCount = rating?.count ?? 0;
       const averageScore = rating?.avg ?? null;
@@ -790,4 +896,191 @@ export async function listOfficialRanking(): Promise<{
     }));
 
   return { movies: qualified, isFinal, phase };
+}
+
+// ---------------------------------------------------------------------------
+// Admin — live rating snapshot (who scored what)
+// ---------------------------------------------------------------------------
+
+function compareEs(a: string, b: string) {
+  return a.localeCompare(b, 'es', { sensitivity: 'base' });
+}
+
+const adminMovieSelect = {
+  id: true,
+  title: true,
+  originalTitle: true,
+  posterUrl: true,
+  imdbId: true,
+} as const;
+
+export type AdminRatingVote = {
+  userId: string;
+  name: string;
+  score: number;
+  createdAt: Date;
+};
+
+export type AdminRatingMovie = {
+  id: number;
+  title: string;
+  originalTitle: string;
+  posterUrl: string;
+  imdbId: string;
+  ratingCount: number;
+  averageScore: number | null;
+  votes: AdminRatingVote[];
+};
+
+export type AdminRatingPersonMovie = {
+  movieId: number;
+  title: string;
+  originalTitle: string;
+  posterUrl: string;
+  score: number;
+  createdAt: Date;
+};
+
+export type AdminRatingPerson = {
+  userId: string;
+  name: string;
+  ratingCount: number;
+  averageScore: number;
+  ratings: AdminRatingPersonMovie[];
+};
+
+export type AdminRatingSnapshot = {
+  movieCount: number;
+  totalRatings: number;
+  voterCount: number;
+  movies: AdminRatingMovie[];
+  people: AdminRatingPerson[];
+};
+
+/**
+ * Every nominated or rated movie, with each score attached.
+ * Call only from admin-gated UI. The public ranking stays aggregated.
+ */
+export async function listAdminRatingSnapshot(): Promise<AdminRatingSnapshot> {
+  const [nominations, ratings] = await Promise.all([
+    prisma.imdbLtaNomination.findMany({
+      select: {
+        movieId: true,
+        movie: { select: adminMovieSelect },
+      },
+    }),
+    prisma.imdbLtaRating.findMany({
+      select: {
+        userId: true,
+        movieId: true,
+        score: true,
+        createdAt: true,
+        user: { select: { name: true } },
+        movie: { select: adminMovieSelect },
+      },
+    }),
+  ]);
+
+  const movieById = new Map<number, (typeof nominations)[number]['movie']>();
+  for (const nomination of nominations) {
+    movieById.set(nomination.movie.id, nomination.movie);
+  }
+  for (const rating of ratings) {
+    movieById.set(rating.movie.id, rating.movie);
+  }
+
+  const votesByMovie = new Map<number, AdminRatingVote[]>();
+  const ratingsByUser = new Map<
+    string,
+    { name: string; ratings: AdminRatingPersonMovie[] }
+  >();
+
+  for (const rating of ratings) {
+    const movieVotes = votesByMovie.get(rating.movieId) ?? [];
+    movieVotes.push({
+      userId: rating.userId,
+      name: rating.user.name,
+      score: rating.score,
+      createdAt: rating.createdAt,
+    });
+    votesByMovie.set(rating.movieId, movieVotes);
+
+    const person = ratingsByUser.get(rating.userId) ?? {
+      name: rating.user.name,
+      ratings: [],
+    };
+    person.ratings.push({
+      movieId: rating.movieId,
+      title: rating.movie.title,
+      originalTitle: rating.movie.originalTitle,
+      posterUrl: rating.movie.posterUrl,
+      score: rating.score,
+      createdAt: rating.createdAt,
+    });
+    ratingsByUser.set(rating.userId, person);
+  }
+
+  const movieIds = new Set<number>([
+    ...nominations.map((nomination) => nomination.movieId),
+    ...ratings.map((rating) => rating.movieId),
+  ]);
+
+  const movies = [...movieIds]
+    .flatMap((movieId) => {
+      const movie = movieById.get(movieId);
+      if (!movie) return [];
+      const votes = (votesByMovie.get(movieId) ?? []).toSorted((a, b) => {
+        if (a.score !== b.score) return b.score - a.score;
+        return compareEs(a.name, b.name);
+      });
+      const ratingCount = votes.length;
+      const averageScore =
+        ratingCount === 0
+          ? null
+          : votes.reduce((sum, vote) => sum + vote.score, 0) / ratingCount;
+      return [{ ...movie, ratingCount, averageScore, votes }];
+    })
+    .toSorted((a, b) => {
+      const aRated = a.ratingCount > 0;
+      const bRated = b.ratingCount > 0;
+      if (aRated !== bRated) return aRated ? -1 : 1;
+      if (a.averageScore !== b.averageScore) {
+        return (b.averageScore ?? 0) - (a.averageScore ?? 0);
+      }
+      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
+      return compareEs(a.title, b.title);
+    });
+
+  const people = [...ratingsByUser.entries()]
+    .map(([userId, person]) => {
+      const personRatings = person.ratings.toSorted((a, b) => {
+        if (a.score !== b.score) return b.score - a.score;
+        return compareEs(a.title, b.title);
+      });
+      const ratingCount = personRatings.length;
+      return {
+        userId,
+        name: person.name,
+        ratingCount,
+        averageScore:
+          personRatings.reduce((sum, rating) => sum + rating.score, 0) /
+          ratingCount,
+        ratings: personRatings,
+      };
+    })
+    .toSorted((a, b) => {
+      if (a.averageScore !== b.averageScore) {
+        return b.averageScore - a.averageScore;
+      }
+      if (a.ratingCount !== b.ratingCount) return b.ratingCount - a.ratingCount;
+      return compareEs(a.name, b.name);
+    });
+
+  return {
+    movieCount: movies.length,
+    totalRatings: ratings.length,
+    voterCount: people.length,
+    movies,
+    people,
+  };
 }

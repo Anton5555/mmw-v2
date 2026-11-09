@@ -23,6 +23,8 @@ export const env = createEnv({
     STORAGE_PUBLIC_URL: z.url(),
     TELEGRAM_BOT_TOKEN: z.string(),
     TELEGRAM_CHAT_ID: z.string(),
+    /** Optional override for IMDB LTA batch announcements. Falls back to TELEGRAM_CHAT_ID. */
+    TELEGRAM_LTA_CHAT_ID: z.string().optional(),
     CRON_SECRET: z.string(),
     BETTER_AUTH_SECRET: z.string().min(32),
     GOOGLE_CLIENT_ID: z.string(),
@@ -50,6 +52,7 @@ export const env = createEnv({
     STORAGE_PUBLIC_URL: process.env.STORAGE_PUBLIC_URL,
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID,
+    TELEGRAM_LTA_CHAT_ID: process.env.TELEGRAM_LTA_CHAT_ID,
     CRON_SECRET: process.env.CRON_SECRET,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

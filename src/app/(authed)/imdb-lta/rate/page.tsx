@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   getImdbLtaPhase,
-  listHighlightUnrated,
   listRateableCandidates,
 } from '@/lib/api/imdb-lta';
 import { loadImdbLtaRateSearchParams } from '@/lib/searchParams';
@@ -37,6 +36,8 @@ function serializeMovie(
     averageScore: m.averageScore,
     userNominated: m.userNominated,
     userScore: m.userScore,
+    batchState: m.batchState,
+    userSkipped: m.userSkipped,
   };
 }
 
@@ -52,7 +53,7 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    redirect('/sign-in');
+    redirect('/api/auth/clear-session');
   }
 
   const phase = await getImdbLtaPhase();
@@ -68,28 +69,27 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   const parsedFilter = imdbLtaRatingFilterSchema.safeParse(raw.filter);
   const filter: ImdbLtaRatingFilter = parsedFilter.success
     ? parsedFilter.data
-    : 'unrated';
+    : 'needs_votes';
 
-  const [list, highlights] = await Promise.all([
-    listRateableCandidates(session.user.id, {
-      filter,
-      page: raw.page,
-      limit: raw.limit,
-    }),
-    filter === 'unrated' && phase === ImdbLtaPhase.RATING_OPEN
-      ? listHighlightUnrated(session.user.id, 10)
-      : Promise.resolve([]),
-  ]);
+  const list = await listRateableCandidates(session.user.id, {
+    filter,
+    page: raw.page,
+    limit: raw.limit,
+  });
 
   const isRatingOpen = phase === ImdbLtaPhase.RATING_OPEN;
+  const isAdmin = session.user.role === 'admin';
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-5xl">
-        <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/rate" />
+    <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
+      <div className="w-full">
+        <ImdbLtaPhaseNav
+          phase={phase}
+          currentPath="/imdb-lta/rate"
+          isAdmin={isAdmin}
+        />
         <RatingPageClient
           movies={list.movies.map(serializeMovie)}
-          highlights={highlights.map(serializeMovie)}
           pagination={list.pagination}
           isRatingOpen={isRatingOpen}
           filter={filter}

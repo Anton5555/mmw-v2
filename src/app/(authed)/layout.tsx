@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
@@ -20,8 +21,8 @@ async function AuthenticatedLayoutContent({
   const session = await getCurrentSession();
 
   if (!session?.user) {
-    // This shouldn't happen due to proxy, but handle it gracefully
-    return <div>Unauthorized</div>;
+    // The proxy only checks that a session cookie exists, so it can be stale
+    redirect('/api/auth/clear-session');
   }
 
   const user = session.user;

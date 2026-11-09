@@ -26,6 +26,20 @@ async function nominate(userId: string, movieIds: number[]) {
   return list;
 }
 
+/** Put movies in a closed lote so they are eligible to score. */
+async function closeBatch(movieIds: number[]) {
+  await prisma.imdbLtaBatch.create({
+    data: {
+      number: movieIds[0] ?? 1,
+      status: 'CLOSED',
+      closedAt: new Date(),
+      movies: {
+        create: movieIds.map((movieId, position) => ({ movieId, position })),
+      },
+    },
+  });
+}
+
 beforeEach(async () => {
   await resetDatabase();
   // The nomination deadline is 2026-11-06 (Argentina time); pin the clock before it.
@@ -176,7 +190,7 @@ describe('ratings', () => {
     await nominate(nominator.id, [movie.id]);
     await updateImdbLtaPhase('NOMINATION_OPEN');
 
-    await expect(submitRating(rater.id, movie.id, 8)).rejects.toThrow(/puntuaciones están cerradas/);
+    await expect(submitRating(rater.id, movie.id, 8)).rejects.toThrow(/puntajes están cerrados/);
   });
 
   it('stores a rating and rejects a second one from the same user (real unique constraint)', async () => {
@@ -210,6 +224,7 @@ describe('ratings', () => {
     const nobodys = await createMovie();
     await nominate(alice.id, [solo.id, shared.id]);
     await nominate(bob.id, [shared.id]);
+    await closeBatch([solo.id, shared.id]);
 
     await expect(canUserRateMovie(carol.id, nobodys.id)).resolves.toMatchObject({ allowed: false });
     await expect(canUserRateMovie(alice.id, solo.id)).resolves.toEqual({ allowed: true });
@@ -223,17 +238,20 @@ describe('ratings', () => {
     const [mine, rated, fresh, popular] = await createMovies(4);
     await nominate(alice.id, [mine.id]);
     await nominate(bob.id, [rated.id, fresh.id, popular.id]);
+    await closeBatch([mine.id, rated.id, fresh.id, popular.id]);
     await prisma.imdbLtaRating.create({ data: { userId: alice.id, movieId: rated.id, score: 7 } });
     await prisma.imdbLtaRating.createMany({
       data: (await createUsers(3)).map((u) => ({ userId: u.id, movieId: popular.id, score: 9 })),
     });
 
-    const unrated = await listRateableCandidates(alice.id, { filter: 'unrated' });
-    const unratedIds = unrated.movies.map((m) => m.id);
-    expect(unratedIds).toHaveLength(3);
-    expect(unratedIds.at(-1)).toBe(popular.id);
-    expect(new Set(unratedIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
-    expect(unrated.movies.find((m) => m.id === popular.id)).toMatchObject({
+    const needsVotes = await listRateableCandidates(alice.id, {
+      filter: 'needs_votes',
+    });
+    const needsVoteIds = needsVotes.movies.map((m) => m.id);
+    expect(needsVoteIds).toHaveLength(3);
+    expect(needsVoteIds.at(-1)).toBe(popular.id);
+    expect(new Set(needsVoteIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
+    expect(needsVotes.movies.find((m) => m.id === popular.id)).toMatchObject({
       ratingCount: 3,
       averageScore: 9,
     });

@@ -1,65 +1,67 @@
-import Link from 'next/link';
 import { ImdbLtaPhase } from '@generated/prisma/client';
-import { cn } from '@/lib/utils';
+import {
+  ImdbLtaPhaseNavClient,
+  type PhaseNavTab,
+} from './imdb-lta-phase-nav-client';
 
-const TABS = [
+const TABS: Array<{
+  href: string;
+  label: string;
+  visible: (phase: ImdbLtaPhase, isAdmin: boolean) => boolean;
+}> = [
   {
     href: '/imdb-lta',
     label: 'Nominaciones',
-    match: (path: string) => path === '/imdb-lta',
     visible: () => true,
   },
   {
+    href: '/imdb-lta/lote',
+    label: 'Lote actual',
+    visible: (phase) => phase === ImdbLtaPhase.RATING_OPEN,
+  },
+  {
     href: '/imdb-lta/rate',
-    label: 'Puntuar',
-    match: (path: string) => path.startsWith('/imdb-lta/rate'),
-    visible: (phase: ImdbLtaPhase) =>
+    label: 'Revisar',
+    visible: (phase) =>
       phase === ImdbLtaPhase.RATING_OPEN ||
       phase === ImdbLtaPhase.RATING_CLOSED,
   },
   {
     href: '/imdb-lta/ranking',
     label: 'Ranking',
-    match: (path: string) => path.startsWith('/imdb-lta/ranking'),
-    visible: (phase: ImdbLtaPhase) =>
-      phase === ImdbLtaPhase.RATING_OPEN ||
-      phase === ImdbLtaPhase.RATING_CLOSED,
+    // Only when everything is done — no peeking mid-season.
+    visible: (phase) => phase === ImdbLtaPhase.RATING_CLOSED,
   },
-] as const;
+  {
+    href: '/imdb-lta/admin',
+    label: 'Admin',
+    visible: (_phase, isAdmin) => isAdmin,
+  },
+];
 
 type ImdbLtaPhaseNavProps = {
   phase: ImdbLtaPhase;
   currentPath: string;
+  isAdmin?: boolean;
 };
 
-export function ImdbLtaPhaseNav({ phase, currentPath }: ImdbLtaPhaseNavProps) {
-  const visibleTabs = TABS.filter((tab) => tab.visible(phase));
+export function ImdbLtaPhaseNav({
+  phase,
+  currentPath,
+  isAdmin = false,
+}: ImdbLtaPhaseNavProps) {
+  const visibleTabs = TABS.filter((tab) => tab.visible(phase, isAdmin));
 
   if (visibleTabs.length <= 1 && phase === ImdbLtaPhase.NOMINATION_OPEN) {
     return null;
   }
 
-  return (
-    <nav className="mb-8 flex flex-wrap gap-2 border-b border-white/10 pb-4">
-      {visibleTabs.map((tab) => {
-        const active = tab.match(currentPath);
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            className={cn(
-              'rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest transition',
-              active
-                ? 'bg-yellow-500 text-black'
-                : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-white'
-            )}
-          >
-            {tab.label}
-          </Link>
-        );
-      })}
-    </nav>
-  );
+  const tabs: PhaseNavTab[] = visibleTabs.map(({ href, label }) => ({
+    href,
+    label,
+  }));
+
+  return <ImdbLtaPhaseNavClient tabs={tabs} currentPath={currentPath} />;
 }
 
 export function phaseBannerCopy(phase: ImdbLtaPhase): {
@@ -73,19 +75,19 @@ export function phaseBannerCopy(phase: ImdbLtaPhase): {
     case ImdbLtaPhase.NOMINATION_CLOSED:
       return {
         title: 'Nominaciones cerradas',
-        body: 'El universo de candidatas está congelado. Pronto se abrirán las puntuaciones.',
+        body: 'Listo, ya no se puede nominar más. En un rato arrancamos a puntuar por lotes.',
         tone: 'amber',
       };
     case ImdbLtaPhase.RATING_OPEN:
       return {
-        title: 'Puntuaciones abiertas',
-        body: 'Puntuá películas candidatas del 0 al 10. El ranking se actualiza en vivo (provisional).',
+        title: 'A puntuar',
+        body: 'Van saliendo lotes de 10. Entrá al lote actual, puntuá lo que viste y si no la viste, decí “No la vi”.',
         tone: 'emerald',
       };
     case ImdbLtaPhase.RATING_CLOSED:
       return {
         title: 'Ranking oficial',
-        body: 'Las puntuaciones están cerradas. El ranking de IMDB LTA es el resultado final.',
+        body: 'Cerramos los puntajes. Este es el resultado final de IMDB LTA.',
         tone: 'blue',
       };
     default:
