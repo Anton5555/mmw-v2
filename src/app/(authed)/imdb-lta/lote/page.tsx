@@ -40,7 +40,11 @@ async function ImdbLtaLotePageContent() {
   return (
     <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
       <div className="mx-auto w-full max-w-xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl">
-        <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/lote" />
+        <ImdbLtaPhaseNav
+          phase={phase}
+          currentPath="/imdb-lta/lote"
+          isAdmin={session.user.role === 'admin'}
+        />
 
         {phase === ImdbLtaPhase.RATING_CLOSED ? (
           <div className="rounded-2xl border border-white/10 bg-zinc-950/60 px-6 py-16 text-center">

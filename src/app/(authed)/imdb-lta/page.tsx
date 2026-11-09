@@ -67,7 +67,11 @@ async function ImdbLtaPageContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-5xl">
-        <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta" />
+        <ImdbLtaPhaseNav
+          phase={phase}
+          currentPath="/imdb-lta"
+          isAdmin={isAdmin}
+        />
 
         {isAdmin && <ImdbLtaAdminPhaseSwitcher currentPhase={phase} />}
 

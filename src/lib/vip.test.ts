@@ -26,7 +26,11 @@ describe('vip token', () => {
     const [expiresAt, sig] = createVipToken().split('.');
     // Same signature with a different expiry must fail (avoid same-ms race).
     expect(isValidVipToken(`${Number(expiresAt) + 1}.${sig}`)).toBe(false);
-    expect(isValidVipToken(`${expiresAt}.${sig.slice(0, -1)}a`)).toBe(false);
+    // Hex signatures sometimes already end in "a"; flipping to a fixed
+    // character would leave those tokens unchanged.
+    const last = sig.at(-1) ?? '';
+    const flipped = `${sig.slice(0, -1)}${last === 'a' ? 'b' : 'a'}`;
+    expect(isValidVipToken(`${expiresAt}.${flipped}`)).toBe(false);
     expect(isValidVipToken('garbage')).toBe(false);
     expect(isValidVipToken('')).toBe(false);
     expect(isValidVipToken(null)).toBe(false);

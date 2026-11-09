@@ -7,25 +7,21 @@ import {
 const TABS: Array<{
   href: string;
   label: string;
-  match: (path: string) => boolean;
-  visible: (phase: ImdbLtaPhase) => boolean;
+  visible: (phase: ImdbLtaPhase, isAdmin: boolean) => boolean;
 }> = [
   {
     href: '/imdb-lta',
     label: 'Nominaciones',
-    match: (path) => path === '/imdb-lta',
     visible: () => true,
   },
   {
     href: '/imdb-lta/lote',
     label: 'Lote actual',
-    match: (path) => path.startsWith('/imdb-lta/lote'),
     visible: (phase) => phase === ImdbLtaPhase.RATING_OPEN,
   },
   {
     href: '/imdb-lta/rate',
     label: 'Revisar',
-    match: (path) => path.startsWith('/imdb-lta/rate'),
     visible: (phase) =>
       phase === ImdbLtaPhase.RATING_OPEN ||
       phase === ImdbLtaPhase.RATING_CLOSED,
@@ -33,19 +29,28 @@ const TABS: Array<{
   {
     href: '/imdb-lta/ranking',
     label: 'Ranking',
-    match: (path) => path.startsWith('/imdb-lta/ranking'),
     // Only when everything is done — no peeking mid-season.
     visible: (phase) => phase === ImdbLtaPhase.RATING_CLOSED,
+  },
+  {
+    href: '/imdb-lta/admin',
+    label: 'Admin',
+    visible: (_phase, isAdmin) => isAdmin,
   },
 ];
 
 type ImdbLtaPhaseNavProps = {
   phase: ImdbLtaPhase;
   currentPath: string;
+  isAdmin?: boolean;
 };
 
-export function ImdbLtaPhaseNav({ phase, currentPath }: ImdbLtaPhaseNavProps) {
-  const visibleTabs = TABS.filter((tab) => tab.visible(phase));
+export function ImdbLtaPhaseNav({
+  phase,
+  currentPath,
+  isAdmin = false,
+}: ImdbLtaPhaseNavProps) {
+  const visibleTabs = TABS.filter((tab) => tab.visible(phase, isAdmin));
 
   if (visibleTabs.length <= 1 && phase === ImdbLtaPhase.NOMINATION_OPEN) {
     return null;

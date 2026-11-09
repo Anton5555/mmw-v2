@@ -78,11 +78,16 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   });
 
   const isRatingOpen = phase === ImdbLtaPhase.RATING_OPEN;
+  const isAdmin = session.user.role === 'admin';
 
   return (
     <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
       <div className="w-full">
-        <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/rate" />
+        <ImdbLtaPhaseNav
+          phase={phase}
+          currentPath="/imdb-lta/rate"
+          isAdmin={isAdmin}
+        />
         <RatingPageClient
           movies={list.movies.map(serializeMovie)}
           pagination={list.pagination}

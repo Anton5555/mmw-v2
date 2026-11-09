@@ -46,7 +46,11 @@ async function ImdbLtaRankingPageContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-3xl">
-        <ImdbLtaPhaseNav phase={phase} currentPath="/imdb-lta/ranking" />
+        <ImdbLtaPhaseNav
+          phase={phase}
+          currentPath="/imdb-lta/ranking"
+          isAdmin={session.user.role === 'admin'}
+        />
 
         <header className="mb-8 space-y-3">
           <h1 className="flex items-center gap-2 text-3xl font-black uppercase italic tracking-tight">
