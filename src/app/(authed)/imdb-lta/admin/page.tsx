@@ -127,8 +127,8 @@ async function ImdbLtaAdminVotesPageContent() {
             Votos
           </h1>
           <p className="mt-2 text-sm text-zinc-400">
-            Películas, personas y lotes por separado. Filtrá por persona para
-            ver solo sus nominaciones y puntajes.
+            Películas, personas y lotes por separado. Buscá por nombre o
+            filtrá por persona para ver solo sus nominaciones y puntajes.
           </p>
         </header>
 
