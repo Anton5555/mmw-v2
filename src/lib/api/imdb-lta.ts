@@ -1083,3 +1083,159 @@ export async function listAdminRatingSnapshot(): Promise<AdminRatingSnapshot> {
     people,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Admin — batches, with who nominated and who skipped each movie
+// ---------------------------------------------------------------------------
+
+export type AdminLotePerson = {
+  userId: string;
+  name: string;
+};
+
+export type AdminLoteMovie = {
+  id: number;
+  title: string;
+  originalTitle: string;
+  posterUrl: string;
+  imdbId: string;
+  position: number;
+  nominators: AdminLotePerson[];
+  skips: AdminLotePerson[];
+};
+
+export type AdminLote = {
+  id: number;
+  number: number;
+  status: 'OPEN' | 'CLOSED';
+  openedAt: Date;
+  closedAt: Date | null;
+  movies: AdminLoteMovie[];
+};
+
+export type AdminPersonPick = {
+  userId: string;
+  name: string;
+  nominations: { movieId: number; title: string }[];
+};
+
+export type AdminLoteSnapshot = {
+  lotes: AdminLote[];
+  picks: AdminPersonPick[];
+};
+
+/**
+ * Every batch, with nominators and “No la vi” on each movie, plus each
+ * person’s nomination list. Scores stay on `listAdminRatingSnapshot`.
+ * Call only from admin-gated UI.
+ */
+export async function listAdminLotes(): Promise<AdminLoteSnapshot> {
+  const [batches, nominations, skips] = await Promise.all([
+    prisma.imdbLtaBatch.findMany({
+      orderBy: { number: 'desc' },
+      select: {
+        id: true,
+        number: true,
+        status: true,
+        openedAt: true,
+        closedAt: true,
+        movies: {
+          orderBy: { position: 'asc' },
+          select: {
+            position: true,
+            movie: { select: adminMovieSelect },
+          },
+        },
+      },
+    }),
+    prisma.imdbLtaNomination.findMany({
+      select: {
+        userId: true,
+        movieId: true,
+        user: { select: { name: true } },
+        movie: { select: { title: true } },
+      },
+    }),
+    prisma.imdbLtaSkip.findMany({
+      select: {
+        userId: true,
+        movieId: true,
+        user: { select: { name: true } },
+      },
+    }),
+  ]);
+
+  const nominatorsByMovie = new Map<number, AdminLotePerson[]>();
+  const picksByUser = new Map<
+    string,
+    { name: string; nominations: { movieId: number; title: string }[] }
+  >();
+
+  for (const nomination of nominations) {
+    const nominators = nominatorsByMovie.get(nomination.movieId) ?? [];
+    nominators.push({
+      userId: nomination.userId,
+      name: nomination.user.name,
+    });
+    nominatorsByMovie.set(nomination.movieId, nominators);
+
+    const pick = picksByUser.get(nomination.userId) ?? {
+      name: nomination.user.name,
+      nominations: [],
+    };
+    pick.nominations.push({
+      movieId: nomination.movieId,
+      title: nomination.movie.title,
+    });
+    picksByUser.set(nomination.userId, pick);
+  }
+
+  const skipsByMovie = new Map<number, AdminLotePerson[]>();
+  for (const skip of skips) {
+    const movieSkips = skipsByMovie.get(skip.movieId) ?? [];
+    movieSkips.push({ userId: skip.userId, name: skip.user.name });
+    skipsByMovie.set(skip.movieId, movieSkips);
+  }
+
+  for (const nominators of nominatorsByMovie.values()) {
+    nominators.sort((a, b) => compareEs(a.name, b.name));
+  }
+  for (const movieSkips of skipsByMovie.values()) {
+    movieSkips.sort((a, b) => compareEs(a.name, b.name));
+  }
+
+  const lotes: AdminLote[] = batches
+    .map((batch) => ({
+      id: batch.id,
+      number: batch.number,
+      status: batch.status === 'OPEN' ? ('OPEN' as const) : ('CLOSED' as const),
+      openedAt: batch.openedAt,
+      closedAt: batch.closedAt,
+      movies: batch.movies.map((row) => ({
+        id: row.movie.id,
+        title: row.movie.title,
+        originalTitle: row.movie.originalTitle,
+        posterUrl: row.movie.posterUrl,
+        imdbId: row.movie.imdbId,
+        position: row.position,
+        nominators: nominatorsByMovie.get(row.movie.id) ?? [],
+        skips: skipsByMovie.get(row.movie.id) ?? [],
+      })),
+    }))
+    .toSorted((a, b) => {
+      if (a.status !== b.status) return a.status === 'OPEN' ? -1 : 1;
+      return b.number - a.number;
+    });
+
+  const picks: AdminPersonPick[] = [...picksByUser.entries()]
+    .map(([userId, pick]) => ({
+      userId,
+      name: pick.name,
+      nominations: pick.nominations.toSorted((a, b) =>
+        compareEs(a.title, b.title)
+      ),
+    }))
+    .toSorted((a, b) => compareEs(a.name, b.name));
+
+  return { lotes, picks };
+}
