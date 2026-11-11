@@ -32,6 +32,7 @@ const db = vi.hoisted(() => ({
   },
   imdbLtaBatch: {
     findFirst: vi.fn(),
+    findMany: vi.fn(),
   },
   movie: { findUnique: vi.fn(), findMany: vi.fn() },
   $transaction: vi.fn(),
@@ -69,6 +70,7 @@ import {
   addNomination,
   assertNominationPhaseOpen,
   canUserRateMovie,
+  listAdminLotes,
   listAdminRatingSnapshot,
   listOfficialRanking,
   listOpenBatchDeck,
@@ -740,6 +742,86 @@ describe('listAdminRatingSnapshot', () => {
       'Popular',
       'Tie Low',
       'Zeta',
+    ]);
+  });
+});
+
+describe('listAdminLotes', () => {
+  const movie = (id: number, title: string) => ({
+    id,
+    title,
+    originalTitle: title,
+    posterUrl: `/p/${id}.jpg`,
+    imdbId: `tt${String(id).padStart(7, '0')}`,
+  });
+
+  it('puts the open lote first and attaches nominators, skips, and picks', async () => {
+    db.imdbLtaBatch.findMany.mockResolvedValue([
+      {
+        id: 1,
+        number: 1,
+        status: 'CLOSED',
+        openedAt: new Date('2026-11-01T15:00:00Z'),
+        closedAt: new Date('2026-11-08T15:00:00Z'),
+        movies: [{ position: 1, movie: movie(3, 'Older') }],
+      },
+      {
+        id: 2,
+        number: 2,
+        status: 'OPEN',
+        openedAt: new Date('2026-11-10T15:00:00Z'),
+        closedAt: null,
+        movies: [
+          { position: 1, movie: movie(1, 'Best') },
+          { position: 2, movie: movie(2, 'Quiet') },
+        ],
+      },
+    ]);
+    db.imdbLtaNomination.findMany.mockResolvedValue([
+      {
+        userId: 'bea',
+        movieId: 1,
+        user: { name: 'Bea' },
+        movie: { title: 'Best' },
+      },
+      {
+        userId: 'ana',
+        movieId: 1,
+        user: { name: 'Ana' },
+        movie: { title: 'Best' },
+      },
+      {
+        userId: 'ana',
+        movieId: 3,
+        user: { name: 'Ana' },
+        movie: { title: 'Older' },
+      },
+    ]);
+    db.imdbLtaSkip.findMany.mockResolvedValue([
+      {
+        userId: 'ciro',
+        movieId: 2,
+        user: { name: 'Ciro' },
+      },
+    ]);
+
+    const snapshot = await listAdminLotes();
+
+    expect(snapshot.lotes.map((lote) => [lote.number, lote.status])).toEqual([
+      [2, 'OPEN'],
+      [1, 'CLOSED'],
+    ]);
+    expect(snapshot.lotes[0]?.movies[0]?.nominators.map((person) => person.name)).toEqual([
+      'Ana',
+      'Bea',
+    ]);
+    expect(snapshot.lotes[0]?.movies[1]?.skips.map((person) => person.name)).toEqual([
+      'Ciro',
+    ]);
+    expect(snapshot.lotes[0]?.movies[1]?.nominators).toEqual([]);
+    expect(snapshot.picks.map((pick) => [pick.name, pick.nominations.map((n) => n.title)])).toEqual([
+      ['Ana', ['Best', 'Older']],
+      ['Bea', ['Best']],
     ]);
   });
 });
