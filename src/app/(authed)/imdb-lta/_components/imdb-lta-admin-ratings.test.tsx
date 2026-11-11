@@ -172,6 +172,91 @@ describe('ImdbLtaAdminRatings', () => {
     expect(screen.getByText('Ciro')).toBeTruthy();
   });
 
+  it('shows nominators on the collapsed película card and the imdb id inside', () => {
+    renderAdmin({
+      picks: [
+        {
+          userId: 'bea',
+          name: 'Bea',
+          nominations: [{ movieId: 1, title: 'Best' }],
+        },
+        {
+          userId: 'ana',
+          name: 'Ana',
+          nominations: [
+            { movieId: 1, title: 'Best' },
+            { movieId: 2, title: 'Quiet' },
+          ],
+        },
+      ],
+    });
+
+    const movie = screen.getAllByText('Best')[0]?.closest('details');
+    const summary = movie?.querySelector('summary');
+    expect(summary?.textContent).toContain('Nominaron');
+    expect(summary?.textContent).toContain('Ana');
+    expect(summary?.textContent).toContain('Bea');
+    expect(summary?.textContent).not.toContain('tt0000001');
+    expect(movie?.textContent).toContain('tt0000001');
+    expect(movie?.hasAttribute('open')).toBe(false);
+
+    const quiet = screen.getByText('Quiet').closest('details')?.querySelector('summary');
+    expect(quiet?.textContent).toContain('Ana');
+    expect(quiet?.textContent).not.toContain('Bea');
+  });
+
+  it('filters movies by name across tabs', () => {
+    renderAdmin({
+      snapshot: {
+        ...snapshot,
+        movies: [
+          snapshot.movies[0]!,
+          {
+            ...snapshot.movies[1]!,
+            title: 'Silencio',
+            originalTitle: 'The Quiet One',
+          },
+        ],
+      },
+      lotes: [lote],
+      picks: [
+        {
+          userId: 'ana',
+          name: 'Ana',
+          nominations: [{ movieId: 2, title: 'Silencio' }],
+        },
+      ],
+    });
+
+    fireEvent.change(screen.getByLabelText('Película'), {
+      target: { value: 'quiet' },
+    });
+
+    expect(screen.queryByText('Best')).toBeNull();
+    expect(screen.getByText('Silencio')).toBeTruthy();
+
+    fireEvent.change(screen.getByLabelText('Película'), {
+      target: { value: 'zzz' },
+    });
+    expect(screen.getByText('Ninguna película coincide.')).toBeTruthy();
+
+    fireEvent.change(screen.getByLabelText('Película'), {
+      target: { value: 'best' },
+    });
+    fireEvent.click(screen.getByRole('tab', { name: 'Lotes' }));
+    expect(screen.getByText(/1\. Best/)).toBeTruthy();
+    expect(screen.queryByText('Ninguna película de este lote coincide.')).toBeNull();
+
+    fireEvent.change(screen.getByLabelText('Película'), {
+      target: { value: 'silencio' },
+    });
+    expect(screen.getByText('Ninguna película de este lote coincide.')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Personas' }));
+    expect(screen.getByText('Silencio')).toBeTruthy();
+    expect(screen.getByText('Ninguna coincide.')).toBeTruthy();
+  });
+
   it('says when nobody has scored', () => {
     renderAdmin({
       snapshot: {
