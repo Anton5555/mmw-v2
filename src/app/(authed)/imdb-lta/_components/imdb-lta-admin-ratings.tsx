@@ -112,6 +112,64 @@ function compareName(a: string, b: string) {
   return a.localeCompare(b, 'es', { sensitivity: 'base' });
 }
 
+function fold(value: string) {
+  return value
+    .trim()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLocaleLowerCase('es');
+}
+
+function matchesMovieName(
+  movie: { title: string; originalTitle?: string },
+  query: string
+) {
+  const needle = fold(query);
+  if (!needle) return true;
+  return (
+    fold(movie.title).includes(needle) ||
+    fold(movie.originalTitle ?? '').includes(needle)
+  );
+}
+
+function nominatorsFromPicks(picks: AdminPickView[]) {
+  const byMovie = new Map<number, { userId: string; name: string }[]>();
+  for (const pick of picks) {
+    for (const nomination of pick.nominations) {
+      const people = byMovie.get(nomination.movieId) ?? [];
+      if (!people.some((person) => person.userId === pick.userId)) {
+        people.push({ userId: pick.userId, name: pick.name });
+      }
+      byMovie.set(nomination.movieId, people);
+    }
+  }
+  for (const people of byMovie.values()) {
+    people.sort((a, b) => compareName(a.name, b.name));
+  }
+  return byMovie;
+}
+
+function personTouchesMovie(person: PersonRow, query: string) {
+  const needle = fold(query);
+  if (!needle) return true;
+  return (
+    person.nominations.some((nomination) => fold(nomination.title).includes(needle)) ||
+    person.ratings.some((rating) => fold(rating.title).includes(needle))
+  );
+}
+
+function filterPersonMovies(person: PersonRow, query: string): PersonRow {
+  const needle = fold(query);
+  if (!needle) return person;
+  return {
+    ...person,
+    nominations: person.nominations.filter((nomination) =>
+      fold(nomination.title).includes(needle)
+    ),
+    ratings: person.ratings.filter((rating) => fold(rating.title).includes(needle)),
+  };
+}
+
 function mergePeople(
   snapshot: AdminRatingsView,
   picks: AdminPickView[]
@@ -237,6 +295,7 @@ export function ImdbLtaAdminRatings({
 }) {
   const [tab, setTab] = useState<TabId>('peliculas');
   const [personId, setPersonId] = useState('');
+  const [movieQuery, setMovieQuery] = useState('');
   const [loteId, setLoteId] = useState<number | null>(() => defaultLoteId(lotes));
 
   const people = mergePeople(snapshot, picks);
@@ -244,11 +303,22 @@ export function ImdbLtaAdminRatings({
   const selected = personId
     ? (people.find((person) => person.userId === personId) ?? null)
     : null;
-  const visibleMovies = selected
-    ? snapshot.movies.filter((movie) =>
-        movie.votes.some((vote) => vote.userId === selected.userId)
-      )
-    : snapshot.movies;
+  const hasMovieQuery = fold(movieQuery).length > 0;
+  const nominatorsByMovieId = nominatorsFromPicks(picks);
+  const visibleMovies = snapshot.movies.filter((movie) => {
+    if (
+      selected &&
+      !movie.votes.some((vote) => vote.userId === selected.userId)
+    ) {
+      return false;
+    }
+    return matchesMovieName(movie, movieQuery);
+  });
+  const visiblePeople = (selected ? [selected] : people).flatMap((person) => {
+    if (!hasMovieQuery) return [person];
+    if (!selected && !personTouchesMovie(person, movieQuery)) return [];
+    return [filterPersonMovies(person, movieQuery)];
+  });
   const selectedLote =
     lotes.find((lote) => lote.id === loteId) ??
     lotes.find((lote) => lote.status === 'OPEN') ??
@@ -321,6 +391,18 @@ export function ImdbLtaAdminRatings({
         </div>
 
         <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-black uppercase tracking-widest text-zinc-500">
+          Película
+          <input
+            type="search"
+            value={movieQuery}
+            onChange={(event) => setMovieQuery(event.target.value)}
+            placeholder="Buscar por nombre"
+            autoComplete="off"
+            className={selectClassName()}
+          />
+        </label>
+
+        <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-black uppercase tracking-widest text-zinc-500">
           Persona
           <select
             value={selected?.userId ?? ''}
@@ -363,13 +445,27 @@ export function ImdbLtaAdminRatings({
       ) : null}
 
       {tab === 'peliculas' ? (
-        <MovieList movies={visibleMovies} personName={selected?.name ?? null} />
+        <MovieList
+          movies={visibleMovies}
+          nominatorsByMovieId={nominatorsByMovieId}
+          highlightId={selected?.userId ?? ''}
+          personName={selected?.name ?? null}
+          hasQuery={hasMovieQuery}
+        />
       ) : null}
       {tab === 'personas' ? (
-        <PeopleList people={selected ? [selected] : people} focused={selected !== null} />
+        <PeopleList
+          people={visiblePeople}
+          focused={selected !== null}
+          hasQuery={hasMovieQuery}
+        />
       ) : null}
       {tab === 'lotes' ? (
-        <LotePanel lote={selectedLote} highlightId={selected?.userId ?? ''} />
+        <LotePanel
+          lote={selectedLote}
+          highlightId={selected?.userId ?? ''}
+          movieQuery={movieQuery}
+        />
       ) : null}
     </div>
   );
@@ -377,75 +473,100 @@ export function ImdbLtaAdminRatings({
 
 function MovieList({
   movies,
+  nominatorsByMovieId,
+  highlightId,
   personName,
+  hasQuery,
 }: {
   movies: AdminRatingsView['movies'];
+  nominatorsByMovieId: Map<number, { userId: string; name: string }[]>;
+  highlightId: string;
   personName: string | null;
+  hasQuery: boolean;
 }) {
+  const emptyMessage = personName
+    ? hasQuery
+      ? `${personName} no puntuó ninguna película con ese nombre.`
+      : `${personName} no puntuó ninguna película.`
+    : hasQuery
+      ? 'Ninguna película coincide.'
+      : 'Sin películas aún.';
+
   return (
     <section className="space-y-3">
       <h2 className="text-[11px] font-black uppercase tracking-widest text-yellow-400">
         Películas
       </h2>
       {movies.length === 0 ? (
-        <p className="text-sm text-zinc-500">
-          {personName
-            ? `${personName} no puntuó ninguna película.`
-            : 'Sin películas aún.'}
-        </p>
+        <p className="text-sm text-zinc-500">{emptyMessage}</p>
       ) : (
         <ul className="space-y-2">
-          {movies.map((movie) => (
-            <li
-              key={movie.id}
-              style={{ contentVisibility: 'auto', containIntrinsicSize: '0 72px' }}
-            >
-              <details className="group rounded-xl border border-white/10 bg-zinc-950/50">
-                <summary className="flex cursor-pointer list-none items-center gap-3 p-2 [&::-webkit-details-marker]:hidden">
-                  <Poster posterUrl={movie.posterUrl} />
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-bold text-zinc-100">
-                      {movie.title}
-                    </span>
-                    <span className="block truncate text-[11px] text-zinc-500">
-                      {movie.originalTitle} · {movie.imdbId}
-                    </span>
-                  </span>
-                  <span className="shrink-0 text-right">
-                    <span className="block text-sm font-black tabular-nums text-yellow-300">
-                      {formatAverage(movie.averageScore)}
-                    </span>
-                    <span className="block text-[11px] text-zinc-500">
-                      {scoreCountLabel(movie.ratingCount)}
-                    </span>
-                  </span>
-                  <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500 transition-transform group-open:rotate-180" />
-                </summary>
-                {movie.votes.length === 0 ? (
-                  <p className="border-t border-white/10 px-3 py-2 text-xs text-zinc-500">
-                    Sin puntajes.
-                  </p>
-                ) : (
-                  <ul className="divide-y divide-white/5 border-t border-white/10">
-                    {movie.votes.map((vote) => (
-                      <li
-                        key={vote.userId}
-                        className="flex items-center gap-3 px-3 py-2 text-sm"
-                      >
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-zinc-200">{vote.name}</p>
-                          <p className="text-[11px] text-zinc-500">{vote.votedAt}</p>
-                        </div>
-                        <span className="w-6 shrink-0 text-right font-black tabular-nums text-yellow-300">
-                          {vote.score}
+          {movies.map((movie) => {
+            const nominators = nominatorsByMovieId.get(movie.id) ?? [];
+            const meta =
+              movie.originalTitle && movie.originalTitle !== movie.title
+                ? `${movie.originalTitle} · ${movie.imdbId}`
+                : movie.imdbId;
+            return (
+              <li
+                key={movie.id}
+                style={{ contentVisibility: 'auto', containIntrinsicSize: '0 88px' }}
+              >
+                <details className="group rounded-xl border border-white/10 bg-zinc-950/50">
+                  <summary className="flex cursor-pointer list-none items-center gap-3 p-2 [&::-webkit-details-marker]:hidden">
+                    <Poster posterUrl={movie.posterUrl} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-bold text-zinc-100">
+                        {movie.title}
+                      </span>
+                      <span className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-zinc-400">
+                        <span className="font-black uppercase tracking-widest text-zinc-500">
+                          Nominaron{' '}
                         </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </details>
-            </li>
-          ))}
+                        <NameList
+                          people={nominators}
+                          highlightId={highlightId}
+                          empty="Nadie"
+                        />
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-right">
+                      <span className="block text-sm font-black tabular-nums text-yellow-300">
+                        {formatAverage(movie.averageScore)}
+                      </span>
+                      <span className="block text-[11px] text-zinc-500">
+                        {scoreCountLabel(movie.ratingCount)}
+                      </span>
+                    </span>
+                    <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <div className="border-t border-white/10">
+                    <p className="px-3 pt-2 text-[11px] text-zinc-500">{meta}</p>
+                    {movie.votes.length === 0 ? (
+                      <p className="px-3 py-2 text-xs text-zinc-500">Sin puntajes.</p>
+                    ) : (
+                      <ul className="divide-y divide-white/5">
+                        {movie.votes.map((vote) => (
+                          <li
+                            key={vote.userId}
+                            className="flex items-center gap-3 px-3 py-2 text-sm"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-zinc-200">{vote.name}</p>
+                              <p className="text-[11px] text-zinc-500">{vote.votedAt}</p>
+                            </div>
+                            <span className="w-6 shrink-0 text-right font-black tabular-nums text-yellow-300">
+                              {vote.score}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </details>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>
@@ -455,9 +576,11 @@ function MovieList({
 function PeopleList({
   people,
   focused,
+  hasQuery,
 }: {
   people: PersonRow[];
   focused: boolean;
+  hasQuery: boolean;
 }) {
   return (
     <section className="space-y-3">
@@ -465,7 +588,11 @@ function PeopleList({
         Personas
       </h2>
       {people.length === 0 ? (
-        <p className="text-sm text-zinc-500">Nadie puntuó todavía.</p>
+        <p className="text-sm text-zinc-500">
+          {hasQuery
+            ? 'Nadie nominó ni puntuó una película con ese nombre.'
+            : 'Nadie puntuó todavía.'}
+        </p>
       ) : (
         <ul className="space-y-2">
           {people.map((person) => (
@@ -487,7 +614,7 @@ function PeopleList({
                   </span>
                   <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500 transition-transform group-open:rotate-180" />
                 </summary>
-                <PersonDetail person={person} />
+                <PersonDetail person={person} hasQuery={hasQuery} />
               </details>
             </li>
           ))}
@@ -497,7 +624,13 @@ function PeopleList({
   );
 }
 
-function PersonDetail({ person }: { person: PersonRow }) {
+function PersonDetail({
+  person,
+  hasQuery,
+}: {
+  person: PersonRow;
+  hasQuery: boolean;
+}) {
   return (
     <div className="space-y-4 border-t border-white/10 px-3 py-3">
       <div className="space-y-2">
@@ -505,7 +638,9 @@ function PersonDetail({ person }: { person: PersonRow }) {
           Nominaciones
         </h3>
         {person.nominations.length === 0 ? (
-          <p className="text-xs text-zinc-500">Sin nominaciones.</p>
+          <p className="text-xs text-zinc-500">
+            {hasQuery ? 'Ninguna coincide.' : 'Sin nominaciones.'}
+          </p>
         ) : (
           <ul className="max-h-80 space-y-1 overflow-y-auto">
             {person.nominations.map((nomination) => (
@@ -521,7 +656,9 @@ function PersonDetail({ person }: { person: PersonRow }) {
           Puntajes
         </h3>
         {person.ratings.length === 0 ? (
-          <p className="text-xs text-zinc-500">Todavía no puntuó.</p>
+          <p className="text-xs text-zinc-500">
+            {hasQuery ? 'Ninguna coincide.' : 'Todavía no puntuó.'}
+          </p>
         ) : (
           <ul className="max-h-80 divide-y divide-white/5 overflow-y-auto">
             {person.ratings.map((rating) => (
@@ -548,9 +685,11 @@ function PersonDetail({ person }: { person: PersonRow }) {
 function LotePanel({
   lote,
   highlightId,
+  movieQuery,
 }: {
   lote: AdminLoteView | null;
   highlightId: string;
+  movieQuery: string;
 }) {
   if (!lote) {
     return <p className="text-sm text-zinc-500">Todavía no hay lotes.</p>;
@@ -578,6 +717,9 @@ function LotePanel({
   const qualified = lote.movies.filter(
     (movie) => movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
   ).length;
+  const visibleMovies = lote.movies.filter((movie) =>
+    matchesMovieName(movie, movieQuery)
+  );
 
   return (
     <section className="space-y-3">
@@ -608,9 +750,11 @@ function LotePanel({
 
       {lote.movies.length === 0 ? (
         <p className="text-sm text-zinc-500">Este lote no tiene películas.</p>
+      ) : visibleMovies.length === 0 ? (
+        <p className="text-sm text-zinc-500">Ninguna película de este lote coincide.</p>
       ) : (
         <ul className="space-y-2">
-          {lote.movies.map((movie) => {
+          {visibleMovies.map((movie) => {
             const missing = Math.max(
               0,
               IMDB_LTA_MIN_RATINGS_TO_QUALIFY - movie.ratingCount
