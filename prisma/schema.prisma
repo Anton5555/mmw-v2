@@ -516,12 +516,14 @@ model ImdbLtaBatchMovie {
 }
 
 model ImdbLtaSkip {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    String
   movieId   Int
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  /// Set when the user marks this unseen movie as "Quiero ver". Null keeps it in No vistas only.
+  pinnedAt  DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@unique([userId, movieId])
   @@index([movieId])

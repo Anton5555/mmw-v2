@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import {
   ArrowRight,
   ExternalLink,
+  Eye,
   Film,
   Loader2,
   Sparkles,
@@ -15,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { submitRatingAction } from '@/lib/actions/imdb-lta/submit-rating';
+import { setWantToWatchAction } from '@/lib/actions/imdb-lta/set-want-to-watch';
 import { useImdbLtaRateParams } from '@/lib/hooks/useImdbLtaRateParams';
 import {
   IMDB_LTA_MIN_RATINGS_TO_QUALIFY,
@@ -38,6 +40,7 @@ export type RateMovieClient = {
   userScore: number | null;
   batchState: 'locked' | 'open' | 'released';
   userSkipped: boolean;
+  userWantToWatch: boolean;
 };
 
 type RatingPageClientProps = {
@@ -57,6 +60,7 @@ const FILTERS: { key: ImdbLtaRatingFilter; label: string }[] = [
   { key: 'enough_votes', label: 'Con votos suficientes' },
   { key: 'mine_done', label: 'Ya puntuadas' },
   { key: 'not_seen', label: 'No vistas' },
+  { key: 'want_to_watch', label: 'Quiero ver' },
 ];
 
 function filterHeading(filter: ImdbLtaRatingFilter) {
@@ -67,6 +71,8 @@ function filterHeading(filter: ImdbLtaRatingFilter) {
       return 'Ya llegan al ranking';
     case 'not_seen':
       return 'No vistas';
+    case 'want_to_watch':
+      return 'Quiero ver';
     default:
       return 'Les faltan votos';
   }
@@ -173,6 +179,61 @@ function ScorePicker({
         })}
       </div>
     </div>
+  );
+}
+
+function WantToWatchButton({
+  movieId,
+  pinned,
+  onChanged,
+}: {
+  movieId: number;
+  pinned: boolean;
+  onChanged: () => void;
+}) {
+  const [override, setOverride] = useState<boolean | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const shownPinned = override ?? pinned;
+
+  const toggle = () => {
+    if (isPending) return;
+    const next = !shownPinned;
+    setOverride(next);
+    startTransition(async () => {
+      try {
+        await setWantToWatchAction(movieId, next);
+        toast.success(next ? 'Arriba en No vistas' : 'Salió de Quiero ver');
+        onChanged();
+      } catch (error) {
+        setOverride(null);
+        toast.error(
+          error instanceof Error ? error.message : 'No se pudo guardar'
+        );
+      }
+    });
+  };
+
+  return (
+    <button
+      type="button"
+      aria-pressed={shownPinned}
+      aria-label={shownPinned ? 'Quitar de Quiero ver' : 'Marcar Quiero ver'}
+      disabled={isPending}
+      onClick={toggle}
+      className={cn(
+        'inline-flex cursor-pointer items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition disabled:cursor-wait',
+        shownPinned
+          ? 'border-yellow-400/70 bg-yellow-500/25 text-yellow-100'
+          : 'border-white/15 bg-white/5 text-zinc-300 hover:border-yellow-400/50 hover:text-yellow-100'
+      )}
+    >
+      {isPending ? (
+        <Loader2 className="h-3 w-3 animate-spin" />
+      ) : (
+        <Eye className={cn('h-3 w-3', shownPinned && 'fill-current')} />
+      )}
+      Quiero ver
+    </button>
   );
 }
 
@@ -305,6 +366,22 @@ function MovieRateCard({
                   No vista
                 </span>
               )}
+              {movie.userSkipped &&
+                movie.userScore === null &&
+                (isRatingOpen ? (
+                  <WantToWatchButton
+                    movieId={movie.id}
+                    pinned={movie.userWantToWatch}
+                    onChanged={onScored}
+                  />
+                ) : (
+                  movie.userWantToWatch && (
+                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-400/70 bg-yellow-500/25 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-100">
+                      <Eye className="h-3 w-3 fill-current" />
+                      Quiero ver
+                    </span>
+                  )
+                ))}
             </div>
           </div>
         </div>
@@ -362,8 +439,17 @@ export function RatingPageClient({
             className="cursor-pointer text-yellow-400 underline"
           >
             No vistas
+          </button>
+          . El ojo de{' '}
+          <button
+            type="button"
+            onClick={() => setParams({ filter: 'want_to_watch', page: 1 })}
+            className="cursor-pointer text-yellow-400 underline"
+          >
+            Quiero ver
           </button>{' '}
-          para puntuarla cuando la veas. Películas nuevas del lote se votan en{' '}
+          la manda arriba de esa lista, hasta que le pongas un puntaje.
+          Películas nuevas del lote se votan en{' '}
           <Link href="/imdb-lta/lote" className="text-yellow-400 underline">
             Lote actual
           </Link>
@@ -426,8 +512,15 @@ export function RatingPageClient({
           )}
           {filter === 'not_seen' && (
             <p className="mt-1 text-xs text-zinc-500">
-              Las marcaste como no vistas, también las del lote de ahora. Si
-              las ves, el puntaje reemplaza el “no vista”.
+              Las marcaste como no vistas, también las del lote de ahora. El
+              ojo las sube arriba. Si las ves, el puntaje las saca de acá.
+            </p>
+          )}
+          {filter === 'want_to_watch' && (
+            <p className="mt-1 text-xs text-zinc-500">
+              Las no vistas que marcaste con el ojo, la más nueva arriba.
+              Sacále el ojo para volverla a No vistas, o poné un puntaje y
+              desaparece de las dos.
             </p>
           )}
         </div>
@@ -438,7 +531,9 @@ export function RatingPageClient({
             <p className="text-sm text-zinc-400">
               {filter === 'not_seen'
                 ? 'No marcaste ninguna como no vista.'
-                : 'No hay películas en este filtro.'}
+                : filter === 'want_to_watch'
+                  ? 'Todavía no marcaste ninguna como quiero ver.'
+                  : 'No hay películas en este filtro.'}
             </p>
           </div>
         ) : (

@@ -113,11 +113,19 @@ export const markNotSeenSchema = movieIdSchema;
 
 export type MarkNotSeenInput = z.infer<typeof markNotSeenSchema>;
 
+export const setWantToWatchSchema = z.object({
+  movieId: z.number().int().positive(),
+  pinned: z.boolean(),
+});
+
+export type SetWantToWatchInput = z.infer<typeof setWantToWatchSchema>;
+
 export const imdbLtaRatingFilterSchema = z.enum([
   'needs_votes',
   'enough_votes',
   'mine_done',
   'not_seen',
+  'want_to_watch',
 ]);
 
 export type ImdbLtaRatingFilter = z.infer<typeof imdbLtaRatingFilterSchema>;
