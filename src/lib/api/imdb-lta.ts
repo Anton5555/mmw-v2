@@ -478,6 +478,9 @@ export type CandidateMovieStats = MovieCardData & {
   /** locked = never batched; open = current batch; released = past batch. */
   batchState: MovieBatchState;
   userSkipped: boolean;
+  /** Timestamp of the Quiero ver pin. Null when the skip is not pinned. */
+  wantToWatchAt: Date | null;
+  userWantToWatch: boolean;
 };
 
 export type RateableListResult = {
@@ -583,7 +586,7 @@ async function loadCandidateStats(
     }),
     prisma.imdbLtaSkip.findMany({
       where: { userId },
-      select: { movieId: true },
+      select: { movieId: true, pinnedAt: true },
     }),
     loadMovieBatchStates(),
   ]);
@@ -599,11 +602,14 @@ async function loadCandidateStats(
   );
   const myNominationSet = new Set(myNominations.map((n) => n.movieId));
   const myScoreByMovie = new Map(myRatings.map((r) => [r.movieId, r.score]));
-  const mySkipSet = new Set(mySkips.map((s) => s.movieId));
+  const skipByMovie = new Map(
+    mySkips.map((skip) => [skip.movieId, skip.pinnedAt ?? null])
+  );
 
   return movies.map((movie) => {
     const rating = ratingByMovie.get(movie.id);
     const batchState = batchStates.get(movie.id) ?? 'locked';
+    const wantToWatchAt = skipByMovie.get(movie.id) ?? null;
     return {
       ...movie,
       nominationCount: nominationCountByMovie.get(movie.id) ?? 0,
@@ -612,7 +618,9 @@ async function loadCandidateStats(
       userNominated: myNominationSet.has(movie.id),
       userScore: myScoreByMovie.get(movie.id) ?? null,
       batchState,
-      userSkipped: mySkipSet.has(movie.id),
+      userSkipped: skipByMovie.has(movie.id),
+      wantToWatchAt,
+      userWantToWatch: wantToWatchAt !== null,
     };
   });
 }
@@ -655,6 +663,13 @@ function matchesRatingFilter(
     case 'not_seen':
       // Still rateable, including the open batch. Scoring clears the skip.
       return movie.userSkipped && isEligibleToRate(movie);
+    case 'want_to_watch':
+      // Pinned no-vistas only. Scoring deletes the skip, so the pin goes too.
+      return (
+        movie.userSkipped &&
+        movie.userWantToWatch &&
+        isEligibleToRate(movie)
+      );
     default:
       return false;
   }
@@ -665,6 +680,17 @@ function sortForCoverage(a: CandidateMovieStats, b: CandidateMovieStats) {
     return a.ratingCount - b.ratingCount;
   }
   return a.title.localeCompare(b.title, 'es', { sensitivity: 'base' });
+}
+
+function sortNotSeen(a: CandidateMovieStats, b: CandidateMovieStats) {
+  const aPin = a.wantToWatchAt?.getTime() ?? null;
+  const bPin = b.wantToWatchAt?.getTime() ?? null;
+  if (aPin !== bPin) {
+    if (aPin === null) return 1;
+    if (bPin === null) return -1;
+    return bPin - aPin;
+  }
+  return sortMineDone(a, b);
 }
 
 function sortMineDone(a: CandidateMovieStats, b: CandidateMovieStats) {
@@ -688,9 +714,11 @@ export async function listRateableCandidates(
   const filtered = all
     .filter((m) => matchesRatingFilter(m, filter))
     .toSorted(
-      filter === 'mine_done' || filter === 'not_seen'
-        ? sortMineDone
-        : sortForCoverage
+      filter === 'not_seen' || filter === 'want_to_watch'
+        ? sortNotSeen
+        : filter === 'mine_done'
+          ? sortMineDone
+          : sortForCoverage
     );
 
   const total = filtered.length;
@@ -752,6 +780,29 @@ export async function markNotSeen(userId: string, movieId: number) {
   });
 
   return { movieId, skipped: true as const };
+}
+
+export async function setWantToWatch(
+  userId: string,
+  movieId: number,
+  pinned: boolean
+) {
+  await assertRatingPhaseOpen();
+
+  const skip = await prisma.imdbLtaSkip.findUnique({
+    where: { userId_movieId: { userId, movieId } },
+    select: { id: true },
+  });
+  if (!skip) {
+    throw new Error('Solo podés marcar Quiero ver en una película no vista');
+  }
+
+  await prisma.imdbLtaSkip.update({
+    where: { userId_movieId: { userId, movieId } },
+    data: { pinnedAt: pinned ? new Date() : null },
+  });
+
+  return { movieId, wantToWatch: pinned };
 }
 
 export type OpenBatchDeck = {

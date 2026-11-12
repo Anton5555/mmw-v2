@@ -5,6 +5,8 @@ import {
   isImdbLtaNominationDeadlinePassed,
   lookupMovieQuerySchema,
   searchNominationsQuerySchema,
+  imdbLtaRatingFilterSchema,
+  setWantToWatchSchema,
   submitRatingSchema,
 } from './imdb-lta';
 
@@ -60,6 +62,14 @@ describe('query schemas', () => {
   it('searchNominationsQuerySchema requires at least 2 characters', () => {
     expect(searchNominationsQuerySchema.safeParse({ query: 'a' }).success).toBe(false);
     expect(searchNominationsQuerySchema.safeParse({ query: 'ab' }).success).toBe(true);
+  });
+});
+
+describe('want to watch', () => {
+  it('accepts the Quiero ver filter and a pin toggle', () => {
+    expect(imdbLtaRatingFilterSchema.safeParse('want_to_watch').success).toBe(true);
+    expect(setWantToWatchSchema.safeParse({ movieId: 7, pinned: true }).success).toBe(true);
+    expect(setWantToWatchSchema.safeParse({ movieId: 7, pinned: 'yes' }).success).toBe(false);
   });
 });
 

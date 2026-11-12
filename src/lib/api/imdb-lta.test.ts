@@ -24,7 +24,9 @@ const db = vi.hoisted(() => ({
   },
   imdbLtaSkip: {
     findMany: vi.fn(),
+    findUnique: vi.fn(),
     upsert: vi.fn(),
+    update: vi.fn(),
     deleteMany: vi.fn(),
   },
   imdbLtaBatchMovie: {
@@ -78,6 +80,7 @@ import {
   lookupMovie,
   removeNomination,
   submitNominations,
+  setWantToWatch,
   submitRating,
 } from './imdb-lta';
 
@@ -449,7 +452,7 @@ describe('listRateableCandidates', () => {
     mine: {
       nominated?: number[];
       rated?: Array<{ movieId: number; score: number }>;
-      skipped?: number[];
+      skipped?: Array<number | { movieId: number; pinnedAt?: Date | null }>;
     } = {}
   ) => {
     db.movie.findMany.mockResolvedValue(rows.map((r) => card(r.id, r.title)));
@@ -465,7 +468,11 @@ describe('listRateableCandidates', () => {
     db.imdbLtaRating.findMany.mockResolvedValue(mine.rated ?? []);
     if (mine.skipped) {
       db.imdbLtaSkip.findMany.mockResolvedValue(
-        mine.skipped.map((movieId) => ({ movieId }))
+        mine.skipped.map((entry) =>
+          typeof entry === 'number'
+            ? { movieId: entry, pinnedAt: null }
+            : { movieId: entry.movieId, pinnedAt: entry.pinnedAt ?? null }
+        )
       );
     }
   };
@@ -597,6 +604,124 @@ describe('listRateableCandidates', () => {
     });
     expect(needsVotes.movies.map((m) => m.title)).not.toContain('Open skip');
     expect(needsVotes.movies.map((m) => m.title)).toContain('Released skip');
+  });
+
+  it('"not_seen" floats Quiero ver pins above the rest, newest pin first', async () => {
+    stub(
+      [
+        { id: 1, title: 'Released skip', noms: 2, ratings: 1 },
+        { id: 2, title: 'Open skip', noms: 2, ratings: 0 },
+        { id: 3, title: 'Older pin', noms: 2, ratings: 1 },
+        { id: 4, title: 'Newer pin', noms: 2, ratings: 1 },
+      ],
+      {
+        skipped: [
+          1,
+          2,
+          { movieId: 3, pinnedAt: new Date('2026-11-01T12:00:00Z') },
+          { movieId: 4, pinnedAt: new Date('2026-11-10T12:00:00Z') },
+        ],
+      }
+    );
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 1, batch: { status: 'CLOSED' } },
+      { movieId: 2, batch: { status: 'OPEN' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+      { movieId: 4, batch: { status: 'CLOSED' } },
+    ]);
+
+    const result = await listRateableCandidates('u1', { filter: 'not_seen' });
+    expect(result.movies.map((m) => m.title)).toEqual([
+      'Newer pin',
+      'Older pin',
+      'Open skip',
+      'Released skip',
+    ]);
+    expect(result.movies.map((m) => m.userWantToWatch)).toEqual([
+      true,
+      true,
+      false,
+      false,
+    ]);
+  });
+
+  it('"want_to_watch" lists only pinned no-vistas, newest pin first', async () => {
+    stub(
+      [
+        { id: 1, title: 'Plain skip', noms: 2, ratings: 0 },
+        { id: 2, title: 'Older pin', noms: 2, ratings: 0 },
+        { id: 3, title: 'Newer pin', noms: 2, ratings: 0 },
+        { id: 4, title: 'Scored pin', noms: 2, ratings: 1 },
+      ],
+      {
+        rated: [{ movieId: 4, score: 6 }],
+        skipped: [
+          1,
+          { movieId: 2, pinnedAt: new Date('2026-11-01T12:00:00Z') },
+          { movieId: 3, pinnedAt: new Date('2026-11-10T12:00:00Z') },
+          { movieId: 4, pinnedAt: new Date('2026-11-11T12:00:00Z') },
+        ],
+      }
+    );
+    releaseMovies(1, 2, 3, 4);
+
+    const result = await listRateableCandidates('u1', {
+      filter: 'want_to_watch',
+    });
+    expect(result.movies.map((m) => m.title)).toEqual(['Newer pin', 'Older pin']);
+    expect(result.movies.every((m) => m.userWantToWatch)).toBe(true);
+  });
+});
+
+describe('setWantToWatch', () => {
+  it('stamps pinnedAt on an existing no-vista', async () => {
+    setPhase('RATING_OPEN');
+    db.imdbLtaSkip.findUnique.mockResolvedValue({ id: 4, pinnedAt: null });
+    db.imdbLtaSkip.update.mockResolvedValue({ id: 4 });
+
+    await expect(setWantToWatch('u1', 7, true)).resolves.toEqual({
+      movieId: 7,
+      wantToWatch: true,
+    });
+    expect(db.imdbLtaSkip.update).toHaveBeenCalledWith({
+      where: { userId_movieId: { userId: 'u1', movieId: 7 } },
+      data: { pinnedAt: new Date('2026-10-01T12:00:00-03:00') },
+    });
+  });
+
+  it('clears the pin without deleting the no-vista', async () => {
+    setPhase('RATING_OPEN');
+    db.imdbLtaSkip.findUnique.mockResolvedValue({
+      id: 4,
+      pinnedAt: new Date('2026-11-01T12:00:00Z'),
+    });
+    db.imdbLtaSkip.update.mockResolvedValue({ id: 4 });
+
+    await expect(setWantToWatch('u1', 7, false)).resolves.toEqual({
+      movieId: 7,
+      wantToWatch: false,
+    });
+    expect(db.imdbLtaSkip.update).toHaveBeenCalledWith({
+      where: { userId_movieId: { userId: 'u1', movieId: 7 } },
+      data: { pinnedAt: null },
+    });
+    expect(db.imdbLtaSkip.deleteMany).not.toHaveBeenCalled();
+  });
+
+  it('refuses when the movie is not marked no vista', async () => {
+    setPhase('RATING_OPEN');
+    db.imdbLtaSkip.findUnique.mockResolvedValue(null);
+
+    await expect(setWantToWatch('u1', 7, true)).rejects.toThrow(/no vista/i);
+    expect(db.imdbLtaSkip.update).not.toHaveBeenCalled();
+  });
+
+  it('is blocked outside the RATING_OPEN phase', async () => {
+    setPhase('RATING_CLOSED');
+    await expect(setWantToWatch('u1', 7, true)).rejects.toThrow(
+      /puntajes están cerrados/
+    );
+    expect(db.imdbLtaSkip.update).not.toHaveBeenCalled();
   });
 });
 
