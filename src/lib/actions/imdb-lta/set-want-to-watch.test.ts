@@ -1,18 +1,34 @@
 import { revalidatePath } from 'next/cache';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   getSession: vi.fn(),
   setWantToWatch: vi.fn(),
+  after: vi.fn((callback: () => void) => {
+    callback();
+  }),
+  notifyWantToWatch: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/auth', () => ({ auth: { api: { getSession: mocks.getSession } } }));
 vi.mock('next/headers', () => ({ headers: vi.fn(async () => new Headers()) }));
+vi.mock('next/server', () => ({ after: mocks.after }));
 vi.mock('@/lib/api/imdb-lta', () => ({ setWantToWatch: mocks.setWantToWatch }));
+vi.mock('@/lib/api/imdb-lta-notifications', () => ({
+  notifyWantToWatch: mocks.notifyWantToWatch,
+}));
 
 import { setWantToWatchAction } from './set-want-to-watch';
 
 describe('setWantToWatchAction', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mocks.after.mockImplementation((callback: () => void) => {
+      callback();
+    });
+    mocks.notifyWantToWatch.mockResolvedValue(undefined);
+  });
+
   it('requires a session', async () => {
     mocks.getSession.mockResolvedValue(null);
     await expect(setWantToWatchAction(1, true)).rejects.toThrow('No autorizado');
@@ -38,6 +54,20 @@ describe('setWantToWatchAction', () => {
       wantToWatch: true,
     });
     expect(mocks.setWantToWatch).toHaveBeenCalledWith('u1', 7, true);
+    expect(mocks.after).toHaveBeenCalledOnce();
+    expect(mocks.notifyWantToWatch).toHaveBeenCalledWith('u1', 7);
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/rate');
+  });
+
+  it('does not notify Telegram when unpinning', async () => {
+    mocks.getSession.mockResolvedValue({ user: { id: 'u1' } });
+    mocks.setWantToWatch.mockResolvedValue({ movieId: 7, wantToWatch: false });
+
+    await expect(setWantToWatchAction(7, false)).resolves.toEqual({
+      movieId: 7,
+      wantToWatch: false,
+    });
+    expect(mocks.after).not.toHaveBeenCalled();
+    expect(mocks.notifyWantToWatch).not.toHaveBeenCalled();
   });
 });
