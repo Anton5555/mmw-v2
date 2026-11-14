@@ -11,10 +11,21 @@ type CallTelegramOptions = {
   chatId?: string;
 };
 
-async function callTelegram(
+export type TelegramMessageResult = {
+  message_id: number;
+  chat?: { id: number };
+};
+
+type TelegramApiResponse<T = unknown> = {
+  ok: boolean;
+  description?: string;
+  result?: T;
+};
+
+async function callTelegram<T = unknown>(
   method: string,
   payload: Record<string, unknown>
-) {
+): Promise<TelegramApiResponse<T>> {
   const url = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/${method}`;
 
   const response = await fetch(url, {
@@ -23,10 +34,7 @@ async function callTelegram(
     body: JSON.stringify(payload),
   });
 
-  const data = (await response.json()) as {
-    ok: boolean;
-    description?: string;
-  };
+  const data = (await response.json()) as TelegramApiResponse<T>;
 
   if (!response.ok || !data.ok) {
     throw new Error(
@@ -60,15 +68,23 @@ export async function sendTelegramMessage(
   options: {
     chatId?: string;
     replyMarkup?: TelegramReplyMarkup;
+    replyToMessageId?: number;
   } = {}
 ) {
   try {
-    return await callTelegram('sendMessage', {
+    return await callTelegram<TelegramMessageResult>('sendMessage', {
       chat_id: options.chatId ?? env.TELEGRAM_CHAT_ID,
       text: message,
       parse_mode: 'HTML',
       ...(options.replyMarkup
         ? { reply_markup: options.replyMarkup }
+        : {}),
+      ...(options.replyToMessageId != null
+        ? {
+            reply_parameters: {
+              message_id: options.replyToMessageId,
+            },
+          }
         : {}),
     });
   } catch (error) {
@@ -100,6 +116,59 @@ export async function sendTelegramAlbum(
     });
   } catch (error) {
     console.error('Failed to send Telegram album:', error);
+    throw error;
+  }
+}
+
+/**
+ * Upload a local image buffer as a Telegram photo (multipart/form-data).
+ */
+export async function sendTelegramPhotoUpload(
+  buffer: Buffer,
+  options: {
+    caption?: string;
+    chatId?: string;
+    replyToMessageId?: number;
+    filename?: string;
+  } = {}
+) {
+  const chatId = options.chatId ?? getLtaTelegramChatId();
+  const form = new FormData();
+  form.append('chat_id', chatId);
+  form.append(
+    'photo',
+    new Blob([new Uint8Array(buffer)], { type: 'image/jpeg' }),
+    options.filename ?? 'trivia.jpg'
+  );
+  if (options.caption) {
+    form.append('caption', options.caption);
+    form.append('parse_mode', 'HTML');
+  }
+  if (options.replyToMessageId != null) {
+    form.append(
+      'reply_parameters',
+      JSON.stringify({ message_id: options.replyToMessageId })
+    );
+  }
+
+  const url = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendPhoto`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: form,
+    });
+    const data = (await response.json()) as TelegramApiResponse<TelegramMessageResult>;
+
+    if (!response.ok || !data.ok) {
+      throw new Error(
+        `Telegram API error (sendPhoto): ${data.description ?? response.status}`
+      );
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Failed to send Telegram photo upload:', error);
     throw error;
   }
 }

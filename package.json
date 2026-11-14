@@ -74,6 +74,7 @@
     "react-hook-form": "^7.71.0",
     "react-intersection-observer": "^11.0.1",
     "resend": "^6.31.0",
+    "sharp": "^0.35.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "uuid": "^14.0.2",

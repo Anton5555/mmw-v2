@@ -1,8 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  getMovieBackdrops,
   getMovieById,
   getMovieDetails,
   getMovieDetailsFull,
+  getMovieTriviaDetails,
   searchMovieByName,
 } from './tmdb';
 
@@ -188,5 +190,79 @@ describe('getMovieDetailsFull', () => {
   it('returns null when the request throws', async () => {
     fetchMock.mockRejectedValue(new Error('network'));
     await expect(getMovieDetailsFull(5)).resolves.toBeNull();
+  });
+});
+
+describe('getMovieBackdrops', () => {
+  it('requests textless images and sorts by votes', async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse({
+        backdrops: [
+          {
+            file_path: '/b.jpg',
+            width: 100,
+            height: 50,
+            vote_average: 1,
+            vote_count: 2,
+            iso_639_1: null,
+          },
+          {
+            file_path: '/a.jpg',
+            width: 100,
+            height: 50,
+            vote_average: 5,
+            vote_count: 10,
+            iso_639_1: null,
+          },
+        ],
+      })
+    );
+    const backdrops = await getMovieBackdrops(42);
+    expect(requestedUrl().pathname).toBe('/3/movie/42/images');
+    expect(requestedUrl().searchParams.get('include_image_language')).toBe(
+      'null'
+    );
+    expect(backdrops.map((b) => b.file_path)).toEqual(['/a.jpg', '/b.jpg']);
+  });
+
+  it('returns an empty array on errors', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse({}, { ok: false, status: 500 }));
+    await expect(getMovieBackdrops(1)).resolves.toEqual([]);
+    fetchMock.mockRejectedValueOnce(new Error('network'));
+    await expect(getMovieBackdrops(1)).resolves.toEqual([]);
+  });
+});
+
+describe('getMovieTriviaDetails', () => {
+  it('maps keywords, year, countries and selected crew jobs', async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse({
+        release_date: '1962-04-11',
+        production_countries: [{ iso_3166_1: 'FR', name: 'France' }],
+        keywords: { keywords: [{ id: 1, name: 'paris' }] },
+        credits: {
+          crew: [
+            { job: 'Director', name: 'Agnès Varda' },
+            { job: 'Director of Photography', name: 'Jean Rabier' },
+            { job: 'Original Music Composer', name: 'Michel Legrand' },
+            { job: 'Editor', name: 'Janine Verneau' },
+            { job: 'Producer', name: 'Someone' },
+          ],
+        },
+      })
+    );
+    await expect(getMovieTriviaDetails(499)).resolves.toEqual({
+      keywords: ['paris'],
+      year: 1962,
+      countries: ['France'],
+      music: ['Michel Legrand'],
+      cinematography: ['Jean Rabier'],
+      editing: ['Janine Verneau'],
+      directors: ['Agnès Varda'],
+    });
+    expect(requestedUrl().searchParams.get('append_to_response')).toBe(
+      'credits,keywords'
+    );
+    expect(requestedUrl().searchParams.get('language')).toBe('es-ES');
   });
 });
