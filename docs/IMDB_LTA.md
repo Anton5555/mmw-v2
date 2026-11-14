@@ -31,7 +31,7 @@ This document is the product/process source of truth and the implementation-read
 | Rating count does not directly matter for ranking | Extra ratings do not add points. Count is only: (1) qualification threshold, (2) tie-breaker when averages are equal |
 | Discovery does not influence ranking | Sort/filter/featured order is UX-only. Showing a movie more often never gives ranking points |
 
-Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, rating deletion, emails/notifications, TMDB name search, full admin console, or a dedicated E2E suite (unit tests live in `src/**/*.test.ts`; see README).
+Do **not** introduce for v1: Bayesian averages, Wilson scores, weighted ratings, reputation, nomination bonuses, popularity bonuses, recency weighting, rating deletion, emails, TMDB name search, full admin console, or a dedicated E2E suite (unit tests live in `src/**/*.test.ts`; see README). Telegram social pings for Quiero ver and batch all-rated are in scope (see §2.5).
 
 Ratings **are editable** after a movie’s batch closes (and while still in the open batch via the lote deck). There is still one score per `(userId, movieId)`.
 
@@ -179,6 +179,10 @@ Already-rated is allowed (edit). Phase ≠ `RATING_OPEN` rejects writes.
 - `rotateBatch()` closes the open batch (if any) and opens the next. Called only from the admin action on `/imdb-lta`.
 - `announcePendingBatches` posts results for closed unannounced batches, then the new batch album + “Votar el lote” URL button (`TELEGRAM_LTA_CHAT_ID` or fallback `TELEGRAM_CHAT_ID`). HTTPS required for the inline button; local `http://localhost` falls back to a plain-text link.
 - If Telegram fails after a rotate, the open batch keeps `announcedAt = null`. Clicking the admin button again **retries the announce only** (does not open another batch).
+- Social notifications (same LTA chat), fire-and-forget via `after()` so Telegram never blocks a vote:
+  - **Quiero ver:** when a user pins an unseen movie, once per `(user, movie)`: `🍿 Juan quiere ver Stalker (1979), también la quieren ver Ana, Leo` (the “también…” clause is omitted when nobody else pinned it).
+  - **Batch all-rated:** when a user has scored every movie in the open batch, once per `(user, batch)`: `🎉 Feliciten a Juan que vio y puntuó todas las películas del lote #5 (solo 3 de 12 lo hicieron)`. Skips (“No la vi”) do not count; N is users who rated the whole batch, M is distinct users with at least one rating.
+  - Idempotency via `ImdbLtaNotification.key`. A failed send deletes the claim so a later action can retry.
 
 ### 2.6 Rating phase closure (manual)
 
@@ -257,11 +261,11 @@ Example shape:
 
 - Changing Phase 1 nomination UX
 - Rating deletion
-- Emails / notifications
+- Emails
 - TMDB name search
 - Full admin console beyond the hub phase switcher + batch rotate
 - Statistical ranking formulas beyond simple average + tie-breakers
-- Linking Telegram user IDs to site accounts (not needed: one shared batch URL)
+- Linking Telegram user IDs to site accounts (not needed: one shared batch URL; social pings use the site display name)
 
 ---
 

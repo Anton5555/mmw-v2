@@ -1,18 +1,34 @@
 import { revalidatePath } from 'next/cache';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   getSession: vi.fn(),
   submitRating: vi.fn(),
+  after: vi.fn((callback: () => void) => {
+    callback();
+  }),
+  notifyBatchAllRatedIfDone: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/auth', () => ({ auth: { api: { getSession: mocks.getSession } } }));
 vi.mock('next/headers', () => ({ headers: vi.fn(async () => new Headers()) }));
+vi.mock('next/server', () => ({ after: mocks.after }));
 vi.mock('@/lib/api/imdb-lta', () => ({ submitRating: mocks.submitRating }));
+vi.mock('@/lib/api/imdb-lta-notifications', () => ({
+  notifyBatchAllRatedIfDone: mocks.notifyBatchAllRatedIfDone,
+}));
 
 import { submitRatingAction } from './submit-rating';
 
 describe('submitRatingAction', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mocks.after.mockImplementation((callback: () => void) => {
+      callback();
+    });
+    mocks.notifyBatchAllRatedIfDone.mockResolvedValue(undefined);
+  });
+
   it('requires a session', async () => {
     mocks.getSession.mockResolvedValue(null);
     await expect(submitRatingAction(1, 5)).rejects.toThrow('No autorizado');
@@ -36,6 +52,8 @@ describe('submitRatingAction', () => {
 
     await expect(submitRatingAction(3, 9)).resolves.toEqual({ id: 1, movieId: 3, score: 9 });
     expect(mocks.submitRating).toHaveBeenCalledWith('u1', 3, 9);
+    expect(mocks.after).toHaveBeenCalledOnce();
+    expect(mocks.notifyBatchAllRatedIfDone).toHaveBeenCalledWith('u1', 3);
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta');
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/lote');
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/rate');

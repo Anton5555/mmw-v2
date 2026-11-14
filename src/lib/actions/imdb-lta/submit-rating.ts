@@ -1,9 +1,11 @@
 'use server';
 
+import { after } from 'next/server';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { submitRating } from '@/lib/api/imdb-lta';
+import { notifyBatchAllRatedIfDone } from '@/lib/api/imdb-lta-notifications';
 import { submitRatingSchema } from '@/lib/validations/imdb-lta';
 
 export async function submitRatingAction(movieId: number, score: number) {
@@ -21,6 +23,18 @@ export async function submitRatingAction(movieId: number, score: number) {
     validated.movieId,
     validated.score
   );
+
+  const userId = session.user.id;
+  after(() => {
+    void notifyBatchAllRatedIfDone(userId, validated.movieId).catch(
+      (error) => {
+        console.error(
+          'Failed to notify batch all-rated on Telegram:',
+          error
+        );
+      }
+    );
+  });
 
   revalidatePath('/imdb-lta');
   revalidatePath('/imdb-lta/lote');
