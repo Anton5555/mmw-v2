@@ -477,7 +477,7 @@ describe('listRateableCandidates', () => {
     }
   };
 
-  it('"needs_votes" lists eligible under-5 movies, least-rated first', async () => {
+  it('"pending" lists unscored released movies, least-rated first', async () => {
     stub(
       [
         { id: 1, title: 'Rated by me', noms: 2, ratings: 1 },
@@ -489,12 +489,23 @@ describe('listRateableCandidates', () => {
       { nominated: [2], rated: [{ movieId: 1, score: 8 }] }
     );
     releaseMovies(1, 2, 3, 4, 5);
-    const result = await listRateableCandidates('u1', { filter: 'needs_votes' });
-    expect(result.movies.map((m) => m.title)).toEqual(['Fresh', 'My solo pick', 'Almost']);
-    expect(result.pagination).toEqual({ page: 1, limit: 30, total: 3, totalPages: 1 });
+    const result = await listRateableCandidates('u1', { filter: 'pending' });
+    expect(result.movies.map((m) => m.title)).toEqual([
+      'Fresh',
+      'My solo pick',
+      'Almost',
+      'Popular',
+    ]);
+    expect(result.pagination).toEqual({ page: 1, limit: 30, total: 4, totalPages: 1 });
+    expect(result.counts).toEqual({
+      pending: 4,
+      mine_done: 1,
+      not_seen: 0,
+      want_to_watch: 0,
+    });
   });
 
-  it('"enough_votes" lists eligible movies with 5+ ratings', async () => {
+  it('"pending" + onlyShort keeps movies under the ranking threshold', async () => {
     stub([
       { id: 1, title: 'A', noms: 2, ratings: 0 },
       { id: 2, title: 'B', noms: 2, ratings: 4 },
@@ -503,9 +514,11 @@ describe('listRateableCandidates', () => {
     ]);
     releaseMovies(1, 2, 3, 4);
     const result = await listRateableCandidates('u1', {
-      filter: 'enough_votes',
+      filter: 'pending',
+      onlyShort: true,
     });
-    expect(result.movies.map((m) => m.title)).toEqual(['C', 'D']);
+    expect(result.movies.map((m) => m.title)).toEqual(['A', 'B']);
+    expect(result.counts.pending).toBe(4);
   });
 
   it('"mine_done" lists only movies I scored, open batch first then A–Z', async () => {
@@ -538,7 +551,7 @@ describe('listRateableCandidates', () => {
     ]);
   });
 
-  it('excludes locked and open-batch movies from discovery filters', async () => {
+  it('excludes locked and open-batch movies from pending', async () => {
     stub([
       { id: 1, title: 'Locked', noms: 2, ratings: 0 },
       { id: 2, title: 'Open', noms: 2, ratings: 0 },
@@ -549,7 +562,7 @@ describe('listRateableCandidates', () => {
       { movieId: 3, batch: { status: 'CLOSED' } },
     ]);
     const result = await listRateableCandidates('u1', {
-      filter: 'needs_votes',
+      filter: 'pending',
     });
     expect(result.movies.map((m) => m.title)).toEqual(['Released']);
   });
@@ -569,7 +582,7 @@ describe('listRateableCandidates', () => {
     expect(result.pagination).toEqual({ page: 2, limit: 2, total: 5, totalPages: 3 });
   });
 
-  it('"not_seen" lists skipped movies I can still score, open batch first', async () => {
+  it('"not_seen" lists unpinned skips I can still score, open batch first', async () => {
     stub(
       [
         { id: 1, title: 'Released skip', noms: 2, ratings: 1 },
@@ -577,49 +590,17 @@ describe('listRateableCandidates', () => {
         { id: 3, title: 'Already scored', noms: 2, ratings: 2 },
         { id: 4, title: 'Solo skip', noms: 1, ratings: 0 },
         { id: 5, title: 'Not skipped', noms: 2, ratings: 0 },
+        { id: 6, title: 'Pinned skip', noms: 2, ratings: 0 },
       ],
       {
         nominated: [4],
         rated: [{ movieId: 3, score: 8 }],
-        skipped: [1, 2, 3, 4],
-      }
-    );
-    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
-      { movieId: 1, batch: { status: 'CLOSED' } },
-      { movieId: 2, batch: { status: 'OPEN' } },
-      { movieId: 3, batch: { status: 'CLOSED' } },
-      { movieId: 4, batch: { status: 'CLOSED' } },
-      { movieId: 5, batch: { status: 'CLOSED' } },
-    ]);
-
-    const result = await listRateableCandidates('u1', { filter: 'not_seen' });
-    expect(result.movies.map((m) => m.title)).toEqual([
-      'Open skip',
-      'Released skip',
-      'Solo skip',
-    ]);
-
-    const needsVotes = await listRateableCandidates('u1', {
-      filter: 'needs_votes',
-    });
-    expect(needsVotes.movies.map((m) => m.title)).not.toContain('Open skip');
-    expect(needsVotes.movies.map((m) => m.title)).toContain('Released skip');
-  });
-
-  it('"not_seen" floats Quiero ver pins above the rest, newest pin first', async () => {
-    stub(
-      [
-        { id: 1, title: 'Released skip', noms: 2, ratings: 1 },
-        { id: 2, title: 'Open skip', noms: 2, ratings: 0 },
-        { id: 3, title: 'Older pin', noms: 2, ratings: 1 },
-        { id: 4, title: 'Newer pin', noms: 2, ratings: 1 },
-      ],
-      {
         skipped: [
           1,
           2,
-          { movieId: 3, pinnedAt: new Date('2026-11-01T12:00:00Z') },
-          { movieId: 4, pinnedAt: new Date('2026-11-10T12:00:00Z') },
+          3,
+          4,
+          { movieId: 6, pinnedAt: new Date('2026-11-10T12:00:00Z') },
         ],
       }
     );
@@ -628,21 +609,29 @@ describe('listRateableCandidates', () => {
       { movieId: 2, batch: { status: 'OPEN' } },
       { movieId: 3, batch: { status: 'CLOSED' } },
       { movieId: 4, batch: { status: 'CLOSED' } },
+      { movieId: 5, batch: { status: 'CLOSED' } },
+      { movieId: 6, batch: { status: 'CLOSED' } },
     ]);
 
     const result = await listRateableCandidates('u1', { filter: 'not_seen' });
     expect(result.movies.map((m) => m.title)).toEqual([
-      'Newer pin',
-      'Older pin',
       'Open skip',
       'Released skip',
+      'Solo skip',
     ]);
-    expect(result.movies.map((m) => m.userWantToWatch)).toEqual([
-      true,
-      true,
-      false,
-      false,
-    ]);
+    expect(result.counts).toEqual({
+      pending: 1,
+      mine_done: 1,
+      not_seen: 3,
+      want_to_watch: 1,
+    });
+
+    const pending = await listRateableCandidates('u1', {
+      filter: 'pending',
+    });
+    expect(pending.movies.map((m) => m.title)).toEqual(['Not skipped']);
+    expect(pending.movies.map((m) => m.title)).not.toContain('Released skip');
+    expect(pending.movies.map((m) => m.title)).not.toContain('Open skip');
   });
 
   it('"want_to_watch" lists only pinned no-vistas, newest pin first', async () => {

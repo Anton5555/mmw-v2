@@ -65,9 +65,17 @@ describe('query schemas', () => {
   });
 });
 
-describe('want to watch', () => {
-  it('accepts the Quiero ver filter and a pin toggle', () => {
+describe('rating filters', () => {
+  it('accepts the exclusive tab filters and rejects the old vote-count ones', () => {
+    expect(imdbLtaRatingFilterSchema.safeParse('pending').success).toBe(true);
+    expect(imdbLtaRatingFilterSchema.safeParse('mine_done').success).toBe(true);
+    expect(imdbLtaRatingFilterSchema.safeParse('not_seen').success).toBe(true);
     expect(imdbLtaRatingFilterSchema.safeParse('want_to_watch').success).toBe(true);
+    expect(imdbLtaRatingFilterSchema.safeParse('needs_votes').success).toBe(false);
+    expect(imdbLtaRatingFilterSchema.safeParse('enough_votes').success).toBe(false);
+  });
+
+  it('accepts a Quiero ver pin toggle', () => {
     expect(setWantToWatchSchema.safeParse({ movieId: 7, pinned: true }).success).toBe(true);
     expect(setWantToWatchSchema.safeParse({ movieId: 7, pinned: 'yes' }).success).toBe(false);
   });

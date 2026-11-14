@@ -121,14 +121,23 @@ export const setWantToWatchSchema = z.object({
 export type SetWantToWatchInput = z.infer<typeof setWantToWatchSchema>;
 
 export const imdbLtaRatingFilterSchema = z.enum([
-  'needs_votes',
-  'enough_votes',
+  'pending',
   'mine_done',
   'not_seen',
   'want_to_watch',
 ]);
 
 export type ImdbLtaRatingFilter = z.infer<typeof imdbLtaRatingFilterSchema>;
+
+/** Legacy rate-page filter values still accepted in URLs. */
+export const imdbLtaLegacyRatingFilterSchema = z.enum([
+  'needs_votes',
+  'enough_votes',
+]);
+
+export type ImdbLtaLegacyRatingFilter = z.infer<
+  typeof imdbLtaLegacyRatingFilterSchema
+>;
 
 export const submitRatingSchema = z.object({
   movieId: z.number().int().positive(),
@@ -142,7 +151,8 @@ export const submitRatingSchema = z.object({
 export type SubmitRatingInput = z.infer<typeof submitRatingSchema>;
 
 export const listRateableCandidatesSchema = z.object({
-  filter: imdbLtaRatingFilterSchema.default('needs_votes'),
+  filter: imdbLtaRatingFilterSchema.default('pending'),
+  onlyShort: z.boolean().default(false),
   page: z.number().int().positive().default(1),
   limit: z.number().int().positive().max(100).default(30),
 });

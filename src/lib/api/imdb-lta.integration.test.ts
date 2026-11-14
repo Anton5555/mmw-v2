@@ -244,17 +244,19 @@ describe('ratings', () => {
       data: (await createUsers(3)).map((u) => ({ userId: u.id, movieId: popular.id, score: 9 })),
     });
 
-    const needsVotes = await listRateableCandidates(alice.id, {
-      filter: 'needs_votes',
+    const pending = await listRateableCandidates(alice.id, {
+      filter: 'pending',
     });
-    const needsVoteIds = needsVotes.movies.map((m) => m.id);
-    expect(needsVoteIds).toHaveLength(3);
-    expect(needsVoteIds.at(-1)).toBe(popular.id);
-    expect(new Set(needsVoteIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
-    expect(needsVotes.movies.find((m) => m.id === popular.id)).toMatchObject({
+    const pendingIds = pending.movies.map((m) => m.id);
+    expect(pendingIds).toHaveLength(3);
+    expect(pendingIds.at(-1)).toBe(popular.id);
+    expect(new Set(pendingIds.slice(0, 2))).toEqual(new Set([mine.id, fresh.id]));
+    expect(pending.movies.find((m) => m.id === popular.id)).toMatchObject({
       ratingCount: 3,
       averageScore: 9,
     });
+    expect(pending.counts.pending).toBe(3);
+    expect(pending.counts.mine_done).toBe(1);
 
     const done = await listRateableCandidates(alice.id, { filter: 'mine_done' });
     expect(done.movies.map((m) => m.id)).toEqual([rated.id]);
