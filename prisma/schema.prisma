@@ -557,7 +557,8 @@ model ImdbLtaTriviaGame {
   focusY         Float
   imageStep      Int                 @default(0)
   clueStep       Int                 @default(0)
-  clues          Json
+  /// JSON snapshot of the clue ladder (stringified TriviaCluesSnapshot).
+  clues          String
   rootMessageId  Int?
   winnerUserId   String?
   createdById    String

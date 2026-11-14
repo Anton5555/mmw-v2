@@ -86,15 +86,27 @@ const gameInclude = {
 } as const;
 
 function parseClues(raw: unknown): TriviaCluesSnapshot {
+  let value = raw;
+  if (typeof raw === 'string') {
+    try {
+      value = JSON.parse(raw) as unknown;
+    } catch {
+      return { clues: [] };
+    }
+  }
   if (
-    typeof raw === 'object' &&
-    raw !== null &&
-    'clues' in raw &&
-    Array.isArray((raw as TriviaCluesSnapshot).clues)
+    typeof value === 'object' &&
+    value !== null &&
+    'clues' in value &&
+    Array.isArray((value as TriviaCluesSnapshot).clues)
   ) {
-    return raw as TriviaCluesSnapshot;
+    return value as TriviaCluesSnapshot;
   }
   return { clues: [] };
+}
+
+function serializeClues(snapshot: TriviaCluesSnapshot): string {
+  return JSON.stringify(snapshot);
 }
 
 function toView(
@@ -337,7 +349,7 @@ export async function createTriviaDraft(
           backdropPath: payload.backdropPath,
           focusX: payload.focusX,
           focusY: payload.focusY,
-          clues: payload.clues,
+          clues: serializeClues(payload.clues),
           createdById,
         },
         include: gameInclude,
