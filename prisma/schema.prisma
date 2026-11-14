@@ -529,3 +529,10 @@ model ImdbLtaSkip {
   @@index([movieId])
   @@index([userId])
 }
+
+/// Idempotency keys for LTA Telegram social notifications (want-to-watch, batch all-rated).
+model ImdbLtaNotification {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  createdAt DateTime @default(now())
+}

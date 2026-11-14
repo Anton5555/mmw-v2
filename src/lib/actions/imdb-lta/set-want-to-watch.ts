@@ -1,9 +1,11 @@
 'use server';
 
+import { after } from 'next/server';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { setWantToWatch } from '@/lib/api/imdb-lta';
+import { notifyWantToWatch } from '@/lib/api/imdb-lta-notifications';
 import { setWantToWatchSchema } from '@/lib/validations/imdb-lta';
 
 export async function setWantToWatchAction(movieId: number, pinned: boolean) {
@@ -21,6 +23,15 @@ export async function setWantToWatchAction(movieId: number, pinned: boolean) {
     validated.movieId,
     validated.pinned
   );
+
+  if (validated.pinned) {
+    const userId = session.user.id;
+    after(() => {
+      void notifyWantToWatch(userId, validated.movieId).catch((error) => {
+        console.error('Failed to notify Quiero ver on Telegram:', error);
+      });
+    });
+  }
 
   revalidatePath('/imdb-lta');
   revalidatePath('/imdb-lta/lote');
