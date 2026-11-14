@@ -25,16 +25,14 @@ export async function submitRatingAction(movieId: number, score: number) {
   );
 
   const userId = session.user.id;
-  after(() => {
-    void notifyBatchAllRatedIfDone(userId, validated.movieId).catch(
-      (error) => {
-        console.error(
-          'Failed to notify batch all-rated on Telegram:',
-          error
-        );
-      }
-    );
-  });
+  // Return the promise so waitUntil keeps the invocation alive until Telegram
+  // finishes. A voided fire-and-forget inside after() freezes mid-request on
+  // serverless and can flush on the next action (one-step-behind notifications).
+  after(() =>
+    notifyBatchAllRatedIfDone(userId, validated.movieId).catch((error) => {
+      console.error('Failed to notify batch all-rated on Telegram:', error);
+    })
+  );
 
   revalidatePath('/imdb-lta');
   revalidatePath('/imdb-lta/lote');

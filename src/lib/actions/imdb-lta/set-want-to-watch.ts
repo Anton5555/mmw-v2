@@ -26,11 +26,15 @@ export async function setWantToWatchAction(movieId: number, pinned: boolean) {
 
   if (validated.pinned) {
     const userId = session.user.id;
-    after(() => {
-      void notifyWantToWatch(userId, validated.movieId).catch((error) => {
+    const movieId = validated.movieId;
+    // Return the promise so waitUntil keeps the invocation alive until Telegram
+    // finishes. A voided fire-and-forget inside after() freezes mid-request on
+    // serverless and can flush on the next action (one-step-behind notifications).
+    after(() =>
+      notifyWantToWatch(userId, movieId).catch((error) => {
         console.error('Failed to notify Quiero ver on Telegram:', error);
-      });
-    });
+      })
+    );
   }
 
   revalidatePath('/imdb-lta');
