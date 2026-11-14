@@ -18,11 +18,11 @@ import {
   sendTelegramMessage,
   sendTelegramPhotoUpload,
 } from '@/lib/utils/telegram';
-import {
-  TRIVIA_IMAGE_STEP_COUNT,
-  fetchTriviaBackdropBuffer,
-  renderTriviaStep,
-} from '@/lib/utils/trivia-image';
+import { TRIVIA_IMAGE_STEP_COUNT } from '@/lib/utils/trivia-image-constants';
+
+async function loadTriviaImage() {
+  return import('@/lib/utils/trivia-image');
+}
 
 export type TriviaClue = {
   key: string;
@@ -417,6 +417,8 @@ async function renderStepBuffer(
   game: Pick<ImdbLtaTriviaGame, 'backdropPath' | 'focusX' | 'focusY'>,
   step: number
 ): Promise<Buffer> {
+  const { fetchTriviaBackdropBuffer, renderTriviaStep } =
+    await loadTriviaImage();
   const source = await fetchTriviaBackdropBuffer(game.backdropPath);
   return renderTriviaStep(
     source,

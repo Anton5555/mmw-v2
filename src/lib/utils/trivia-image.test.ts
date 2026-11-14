@@ -3,7 +3,7 @@ import {
   TRIVIA_IMAGE_STEP_COUNT,
   computeTriviaCropWindow,
   triviaBackdropUrl,
-} from './trivia-image';
+} from './trivia-image-constants';
 
 describe('computeTriviaCropWindow', () => {
   it('returns a tight centered crop for step 1', () => {

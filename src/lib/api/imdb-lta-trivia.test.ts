@@ -33,6 +33,13 @@ vi.mock('@/lib/utils/telegram', () => ({
   sendTelegramPhotoUpload: telegram.sendTelegramPhotoUpload,
 }));
 
+vi.mock('@/lib/utils/trivia-image-constants', async () => {
+  const actual = await vi.importActual<
+    typeof import('@/lib/utils/trivia-image-constants')
+  >('@/lib/utils/trivia-image-constants');
+  return actual;
+});
+
 vi.mock('@/lib/utils/trivia-image', () => ({
   TRIVIA_IMAGE_STEP_COUNT: 5,
   fetchTriviaBackdropBuffer: vi.fn(async () => Buffer.from('src')),

@@ -32,7 +32,7 @@ import {
   solveTriviaGameAction,
   startTriviaGameAction,
 } from '@/lib/actions/imdb-lta/trivia';
-import { TRIVIA_IMAGE_STEP_COUNT } from '@/lib/utils/trivia-image';
+import { TRIVIA_IMAGE_STEP_COUNT } from '@/lib/utils/trivia-image-constants';
 
 export type TriviaPanelGame = {
   id: number;

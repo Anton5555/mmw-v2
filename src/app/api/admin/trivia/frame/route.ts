@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { getTriviaGameById } from '@/lib/api/imdb-lta-trivia';
+import { TRIVIA_IMAGE_STEP_COUNT } from '@/lib/utils/trivia-image-constants';
 import {
-  TRIVIA_IMAGE_STEP_COUNT,
   fetchTriviaBackdropBuffer,
   renderTriviaStep,
 } from '@/lib/utils/trivia-image';
