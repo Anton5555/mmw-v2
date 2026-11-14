@@ -17,6 +17,7 @@ import {
   getLtaTelegramChatId,
   sendTelegramAlbum,
   sendTelegramMessage,
+  sendTelegramPhotoUpload,
   toTelegramPosterUrl,
 } from './telegram';
 
@@ -24,7 +25,7 @@ beforeEach(() => {
   fetchMock.mockReset();
   fetchMock.mockResolvedValue({
     ok: true,
-    json: async () => ({ ok: true }),
+    json: async () => ({ ok: true, result: { message_id: 42 } }),
   });
 });
 
@@ -86,5 +87,35 @@ describe('telegram helpers', () => {
       },
       { type: 'photo', media: 'https://img/2.jpg' },
     ]);
+  });
+
+  it('sendTelegramMessage can reply to another message', async () => {
+    await sendTelegramMessage('pista', {
+      chatId: 'chat-lta',
+      replyToMessageId: 7,
+    });
+    const body = JSON.parse(
+      (fetchMock.mock.calls[0] as [string, RequestInit])[1].body as string
+    );
+    expect(body.reply_parameters).toEqual({ message_id: 7 });
+  });
+
+  it('sendTelegramPhotoUpload posts multipart with optional reply', async () => {
+    const result = await sendTelegramPhotoUpload(Buffer.from('jpeg-bytes'), {
+      caption: 'Trivia',
+      replyToMessageId: 11,
+      chatId: 'chat-lta',
+    });
+    expect(result.result?.message_id).toBe(42);
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toContain('/sendPhoto');
+    expect(init.body).toBeInstanceOf(FormData);
+    const form = init.body as FormData;
+    expect(form.get('chat_id')).toBe('chat-lta');
+    expect(form.get('caption')).toBe('Trivia');
+    expect(form.get('reply_parameters')).toBe(
+      JSON.stringify({ message_id: 11 })
+    );
+    expect(form.get('photo')).toBeInstanceOf(Blob);
   });
 });

@@ -110,6 +110,122 @@ export interface TMDBMovieSearchResponse {
   total_pages: number;
 }
 
+export interface TMDBBackdrop {
+  file_path: string;
+  width: number;
+  height: number;
+  vote_average: number;
+  vote_count: number;
+  iso_639_1: string | null;
+}
+
+export interface MovieTriviaDetails {
+  keywords: string[];
+  year: number | null;
+  countries: string[];
+  music: string[];
+  cinematography: string[];
+  editing: string[];
+  directors: string[];
+}
+
+type TMDBImagesResponse = {
+  backdrops?: TMDBBackdrop[];
+};
+
+type TMDBTriviaMovieResponse = {
+  release_date?: string;
+  production_countries?: Array<{ iso_3166_1: string; name: string }>;
+  credits?: {
+    crew?: Array<{ job: string; name: string }>;
+  };
+  keywords?: {
+    keywords?: Array<{ id: number; name: string }>;
+  };
+};
+
+/**
+ * Textless backdrops for a movie, highest vote_count first.
+ */
+export async function getMovieBackdrops(
+  tmdbId: number
+): Promise<TMDBBackdrop[]> {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${tmdbId}/images?api_key=${env.TMDB_API_KEY}&include_image_language=null`
+    );
+
+    if (!response.ok) {
+      console.error(
+        `TMDB images API error for movie ${tmdbId}: ${response.status}`
+      );
+      return [];
+    }
+
+    const data = (await response.json()) as TMDBImagesResponse;
+    const backdrops = data.backdrops ?? [];
+    return backdrops.toSorted(
+      (a, b) =>
+        b.vote_count - a.vote_count || b.vote_average - a.vote_average
+    );
+  } catch (error) {
+    console.error(`Error fetching backdrops for TMDB ID ${tmdbId}:`, error);
+    return [];
+  }
+}
+
+/**
+ * Crew + keywords snapshot used by LTA trivia clue ladder.
+ */
+export async function getMovieTriviaDetails(
+  tmdbId: number
+): Promise<MovieTriviaDetails | null> {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${env.TMDB_API_KEY}&append_to_response=credits,keywords&language=es-ES`
+    );
+
+    if (!response.ok) {
+      console.error(
+        `TMDB trivia details error for movie ${tmdbId}: ${response.status}`
+      );
+      return null;
+    }
+
+    const data = (await response.json()) as TMDBTriviaMovieResponse;
+    const crew = data.credits?.crew ?? [];
+
+    const namesFor = (...jobs: string[]) =>
+      [
+        ...new Set(
+          crew
+            .filter((person) => jobs.includes(person.job))
+            .map((person) => person.name)
+        ),
+      ];
+
+    const year = data.release_date
+      ? Number(data.release_date.slice(0, 4))
+      : null;
+
+    return {
+      keywords: (data.keywords?.keywords ?? []).map((k) => k.name),
+      year: Number.isFinite(year) ? year : null,
+      countries: (data.production_countries ?? []).map((c) => c.name),
+      music: namesFor('Original Music Composer', 'Music'),
+      cinematography: namesFor('Director of Photography'),
+      editing: namesFor('Editor'),
+      directors: namesFor('Director'),
+    };
+  } catch (error) {
+    console.error(
+      `Error fetching trivia details for TMDB ID ${tmdbId}:`,
+      error
+    );
+    return null;
+  }
+}
+
 /**
  * Search for movies by name using TMDB API
  * @param query Movie name to search for

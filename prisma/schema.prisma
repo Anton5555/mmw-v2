@@ -54,6 +54,7 @@ model Movie {
   imdbLtaRatings       ImdbLtaRating[]
   imdbLtaBatchMovies   ImdbLtaBatchMovie[]
   imdbLtaSkips         ImdbLtaSkip[]
+  imdbLtaTriviaGames   ImdbLtaTriviaGame[]
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -105,6 +106,8 @@ model User {
   imdbLtaNominations      ImdbLtaNomination[]
   imdbLtaRatings          ImdbLtaRating[]
   imdbLtaSkips            ImdbLtaSkip[]
+  imdbLtaTriviaCreated    ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaCreatedBy")
+  imdbLtaTriviaWins       ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaWinner")
 
   @@map("user")
 }
@@ -535,4 +538,39 @@ model ImdbLtaNotification {
   id        Int      @id @default(autoincrement())
   key       String   @unique
   createdAt DateTime @default(now())
+}
+
+enum ImdbLtaTriviaStatus {
+  DRAFT
+  ACTIVE
+  SOLVED
+  ABANDONED
+}
+
+model ImdbLtaTriviaGame {
+  id             Int                 @id @default(autoincrement())
+  number         Int                 @unique
+  movieId        Int
+  status         ImdbLtaTriviaStatus @default(DRAFT)
+  backdropPath   String
+  focusX         Float
+  focusY         Float
+  imageStep      Int                 @default(0)
+  clueStep       Int                 @default(0)
+  /// JSON snapshot of the clue ladder (stringified TriviaCluesSnapshot).
+  clues          String
+  rootMessageId  Int?
+  winnerUserId   String?
+  createdById    String
+  createdAt      DateTime            @default(now())
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  movie          Movie               @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  createdBy      User                @relation("ImdbLtaTriviaCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+  winner         User?               @relation("ImdbLtaTriviaWinner", fields: [winnerUserId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([movieId])
+  @@index([winnerUserId])
+  @@index([createdById])
 }

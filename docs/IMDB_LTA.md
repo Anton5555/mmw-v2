@@ -188,6 +188,25 @@ Already-rated is allowed (edit). Phase ≠ `RATING_OPEN` rejects writes.
 
 `RATING_OPEN → RATING_CLOSED` is admin-only. Rejects new ratings; ranking becomes official/final. Batches stop rotating.
 
+### 2.7 Admin trivia (Telegram still + clue ladder)
+
+Route: `/imdb-lta/admin/trivia` (admin-only). Manual — no cron.
+
+| Step | What happens |
+| --- | --- |
+| Draft | Admin rolls a random **never-batched** nominated movie (excludes movies already used in trivia). Preview poster, full frame, and crop 1. Can reroll movie/image or discard. |
+| Start | Bot posts crop 1 to the LTA chat (`Trivia #N · ¿Qué película es?`) and stores `rootMessageId`. |
+| Image track | Admin “Revelar más” posts the next crop as a **reply** to the root (5 steps: 20% → 35% → 55% → 80% → full). |
+| Clue track | Parallel ladder from a TMDB snapshot taken at draft time: keywords → year → country → music → cinematography → editing → director. Empty steps are skipped. Each clue is a reply: `Pista N`. |
+| Solve | Admin picks the site user who guessed it. Bot posts the full frame (if needed) and announces the winner + running score. “Revelar sin ganador” closes without a scoreboard point. |
+
+Rules:
+
+- At most one unfinished game (`DRAFT` or `ACTIVE`) via a partial unique index.
+- Step advances use `updateMany` claims so two admins cannot double-send; Telegram failures roll the step back.
+- Crops are rendered with `sharp` from TMDB `w1280` textless backdrops; nothing is stored on disk.
+- Scoreboard = count of `SOLVED` games per `winnerUserId`.
+
 ---
 
 ## Phase 3 — Official ranking (planned)

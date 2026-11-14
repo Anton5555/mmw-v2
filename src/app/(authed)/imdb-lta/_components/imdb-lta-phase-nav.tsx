@@ -37,6 +37,11 @@ const TABS: Array<{
     label: 'Admin',
     visible: (_phase, isAdmin) => isAdmin,
   },
+  {
+    href: '/imdb-lta/admin/trivia',
+    label: 'Trivia',
+    visible: (_phase, isAdmin) => isAdmin,
+  },
 ];
 
 type ImdbLtaPhaseNavProps = {

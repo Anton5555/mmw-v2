@@ -27,11 +27,13 @@ export function ImdbLtaPhaseNavClient({
 }: ImdbLtaPhaseNavClientProps) {
   const router = useRouter();
   const activeTab =
-    tabs.find((tab) =>
-      tab.href === '/imdb-lta'
-        ? currentPath === '/imdb-lta'
-        : currentPath.startsWith(tab.href)
-    ) ?? tabs[0];
+    [...tabs]
+      .sort((a, b) => b.href.length - a.href.length)
+      .find((tab) =>
+        tab.href === '/imdb-lta'
+          ? currentPath === '/imdb-lta'
+          : currentPath === tab.href || currentPath.startsWith(`${tab.href}/`)
+      ) ?? tabs[0];
 
   return (
     <nav className="mb-6 border-b border-white/10 pb-4 sm:mb-8">
@@ -52,10 +54,7 @@ export function ImdbLtaPhaseNavClient({
             className="w-[min(100vw-2rem,20rem)] border-white/10 bg-zinc-950"
           >
             {tabs.map((tab) => {
-              const active =
-                tab.href === '/imdb-lta'
-                  ? currentPath === '/imdb-lta'
-                  : currentPath.startsWith(tab.href);
+              const active = activeTab?.href === tab.href;
               return (
                 <DropdownMenuItem
                   key={tab.href}
@@ -80,10 +79,7 @@ export function ImdbLtaPhaseNavClient({
       {/* Desktop: horizontal pills */}
       <div className="hidden flex-wrap gap-2 sm:flex">
         {tabs.map((tab) => {
-          const active =
-            tab.href === '/imdb-lta'
-              ? currentPath === '/imdb-lta'
-              : currentPath.startsWith(tab.href);
+          const active = activeTab?.href === tab.href;
           return (
             <Link
               key={tab.href}
