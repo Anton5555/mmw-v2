@@ -1,4 +1,10 @@
-import { parseAsInteger, parseAsString, parseAsArrayOf, createLoader } from 'nuqs/server';
+import {
+  parseAsInteger,
+  parseAsString,
+  parseAsArrayOf,
+  parseAsBoolean,
+  createLoader,
+} from 'nuqs/server';
 
 export const eventsSearchParams = {
   month: parseAsInteger.withDefault(new Date().getMonth() + 1),
@@ -36,7 +42,8 @@ export const loadYearTopSearchParams = createLoader(yearTopSearchParams);
 
 // IMDB LTA rating page filters
 export const imdbLtaRateSearchParams = {
-  filter: parseAsString.withDefault('needs_votes'),
+  filter: parseAsString.withDefault('pending'),
+  short: parseAsBoolean.withDefault(false),
   page: parseAsInteger.withDefault(1),
   limit: parseAsInteger.withDefault(30),
 };

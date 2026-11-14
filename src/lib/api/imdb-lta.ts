@@ -483,6 +483,8 @@ export type CandidateMovieStats = MovieCardData & {
   userWantToWatch: boolean;
 };
 
+export type RateableFilterCounts = Record<ImdbLtaRatingFilter, number>;
+
 export type RateableListResult = {
   movies: CandidateMovieStats[];
   pagination: {
@@ -491,6 +493,7 @@ export type RateableListResult = {
     total: number;
     totalPages: number;
   };
+  counts: RateableFilterCounts;
 };
 
 const movieCardSelect = {
@@ -647,22 +650,20 @@ function matchesRatingFilter(
         movie.userScore !== null &&
         (movie.batchState === 'released' || movie.batchState === 'open')
       );
-    case 'needs_votes':
-      // Closed batches only; open lote is voted in /lote.
+    case 'pending':
+      // Closed batches only; open lote is voted in /lote. Skips live in their own tabs.
       return (
         isReleased(movie) &&
         isEligibleToRate(movie) &&
-        movie.ratingCount < IMDB_LTA_MIN_RATINGS_TO_QUALIFY
-      );
-    case 'enough_votes':
-      return (
-        isReleased(movie) &&
-        isEligibleToRate(movie) &&
-        movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
+        !movie.userSkipped
       );
     case 'not_seen':
-      // Still rateable, including the open batch. Scoring clears the skip.
-      return movie.userSkipped && isEligibleToRate(movie);
+      // Still rateable, including the open batch. Pinned ones live in Quiero ver.
+      return (
+        movie.userSkipped &&
+        !movie.userWantToWatch &&
+        isEligibleToRate(movie)
+      );
     case 'want_to_watch':
       // Pinned no-vistas only. Scoring deletes the skip, so the pin goes too.
       return (
@@ -673,6 +674,22 @@ function matchesRatingFilter(
     default:
       return false;
   }
+}
+
+function countByFilter(all: CandidateMovieStats[]): RateableFilterCounts {
+  const counts: RateableFilterCounts = {
+    pending: 0,
+    mine_done: 0,
+    not_seen: 0,
+    want_to_watch: 0,
+  };
+  for (const movie of all) {
+    if (matchesRatingFilter(movie, 'pending')) counts.pending += 1;
+    if (matchesRatingFilter(movie, 'mine_done')) counts.mine_done += 1;
+    if (matchesRatingFilter(movie, 'not_seen')) counts.not_seen += 1;
+    if (matchesRatingFilter(movie, 'want_to_watch')) counts.want_to_watch += 1;
+  }
+  return counts;
 }
 
 function sortForCoverage(a: CandidateMovieStats, b: CandidateMovieStats) {
@@ -704,19 +721,34 @@ function sortMineDone(a: CandidateMovieStats, b: CandidateMovieStats) {
 
 export async function listRateableCandidates(
   userId: string,
-  options: { filter?: ImdbLtaRatingFilter; page?: number; limit?: number } = {}
+  options: {
+    filter?: ImdbLtaRatingFilter;
+    onlyShort?: boolean;
+    page?: number;
+    limit?: number;
+  } = {}
 ): Promise<RateableListResult> {
-  const filter = options.filter ?? 'needs_votes';
+  const filter = options.filter ?? 'pending';
+  const onlyShort = options.onlyShort ?? false;
   const page = options.page ?? 1;
   const limit = options.limit ?? 30;
 
   const all = await loadCandidateStats(userId);
+  const counts = countByFilter(all);
   const filtered = all
     .filter((m) => matchesRatingFilter(m, filter))
+    .filter(
+      (m) =>
+        !(
+          filter === 'pending' &&
+          onlyShort &&
+          m.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY
+        )
+    )
     .toSorted(
-      filter === 'not_seen' || filter === 'want_to_watch'
+      filter === 'want_to_watch'
         ? sortNotSeen
-        : filter === 'mine_done'
+        : filter === 'mine_done' || filter === 'not_seen'
           ? sortMineDone
           : sortForCoverage
     );
@@ -729,6 +761,7 @@ export async function listRateableCandidates(
   return {
     movies,
     pagination: { page, limit, total, totalPages },
+    counts,
   };
 }
 

@@ -51,13 +51,14 @@ type RatingPageClientProps = {
     total: number;
     totalPages: number;
   };
+  counts: Record<ImdbLtaRatingFilter, number>;
   isRatingOpen: boolean;
   filter: ImdbLtaRatingFilter;
+  onlyShort: boolean;
 };
 
 const FILTERS: { key: ImdbLtaRatingFilter; label: string }[] = [
-  { key: 'needs_votes', label: 'Necesitan votos' },
-  { key: 'enough_votes', label: 'Con votos suficientes' },
+  { key: 'pending', label: 'Por votar' },
   { key: 'mine_done', label: 'Ya puntuadas' },
   { key: 'not_seen', label: 'No vistas' },
   { key: 'want_to_watch', label: 'Quiero ver' },
@@ -66,15 +67,30 @@ const FILTERS: { key: ImdbLtaRatingFilter; label: string }[] = [
 function filterHeading(filter: ImdbLtaRatingFilter) {
   switch (filter) {
     case 'mine_done':
-      return 'Tus puntajes';
-    case 'enough_votes':
-      return 'Ya llegan al ranking';
+      return 'Ya puntuadas';
     case 'not_seen':
       return 'No vistas';
     case 'want_to_watch':
       return 'Quiero ver';
     default:
-      return 'Les faltan votos';
+      return 'Por votar';
+  }
+}
+
+function emptyMessage(filter: ImdbLtaRatingFilter, onlyShort: boolean) {
+  switch (filter) {
+    case 'not_seen':
+      return 'No marcaste ninguna como no vista.';
+    case 'want_to_watch':
+      return 'Todavía no marcaste ninguna como quiero ver.';
+    case 'mine_done':
+      return 'Todavía no puntuaste ninguna.';
+    case 'pending':
+      return onlyShort
+        ? 'Ninguna pendiente se queda corta del ranking.'
+        : 'No te falta puntuar ninguna.';
+    default:
+      return 'No hay películas en este filtro.';
   }
 }
 
@@ -202,7 +218,7 @@ function WantToWatchButton({
     startTransition(async () => {
       try {
         await setWantToWatchAction(movieId, next);
-        toast.success(next ? 'Arriba en No vistas' : 'Salió de Quiero ver');
+        toast.success(next ? 'Pasó a Quiero ver' : 'Volvió a No vistas');
         onChanged();
       } catch (error) {
         setOverride(null);
@@ -408,13 +424,17 @@ function MovieRateCard({
 export function RatingPageClient({
   movies,
   pagination,
+  counts,
   isRatingOpen,
   filter,
+  onlyShort,
 }: RatingPageClientProps) {
   const { setParams } = useImdbLtaRateParams();
   const router = useRouter();
 
   const showPicker = isRatingOpen;
+  const listTotal =
+    filter === 'pending' && onlyShort ? pagination.total : counts[filter];
 
   return (
     <div className="space-y-6">
@@ -431,25 +451,8 @@ export function RatingPageClient({
           Tus puntajes
         </h1>
         <p className="max-w-2xl text-sm text-zinc-400">
-          Acá ves todo lo que ya puntuaste (incluido el lote de ahora) y podés
-          cambiar el número. Si marcaste alguna como no vista, queda en{' '}
-          <button
-            type="button"
-            onClick={() => setParams({ filter: 'not_seen', page: 1 })}
-            className="cursor-pointer text-yellow-400 underline"
-          >
-            No vistas
-          </button>
-          . El ojo de{' '}
-          <button
-            type="button"
-            onClick={() => setParams({ filter: 'want_to_watch', page: 1 })}
-            className="cursor-pointer text-yellow-400 underline"
-          >
-            Quiero ver
-          </button>{' '}
-          la manda arriba de esa lista, hasta que le pongas un puntaje.
-          Películas nuevas del lote se votan en{' '}
+          Pendientes, lo que ya puntuaste y lo que marcaste como no vista. Las
+          del lote de ahora se votan en{' '}
           <Link href="/imdb-lta/lote" className="text-yellow-400 underline">
             Lote actual
           </Link>
@@ -474,46 +477,83 @@ export function RatingPageClient({
         </Link>
       )}
 
-      <div className="flex flex-wrap gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            type="button"
-            onClick={() => setParams({ filter: f.key, page: 1 })}
-            className={cn(
-              'cursor-pointer rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition',
-              filter === f.key
-                ? 'bg-yellow-500 text-black'
-                : 'border border-white/10 bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
-            )}
-          >
-            {f.label}
-          </button>
-        ))}
+      <div role="tablist" aria-label="Filtros de puntajes" className="flex flex-wrap gap-2">
+        {FILTERS.map((f) => {
+          const selected = filter === f.key;
+          return (
+            <button
+              key={f.key}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              onClick={() =>
+                setParams({
+                  filter: f.key,
+                  page: 1,
+                  short: f.key === 'pending' ? onlyShort : false,
+                })
+              }
+              className={cn(
+                'cursor-pointer rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition',
+                selected
+                  ? 'bg-yellow-500 text-black'
+                  : 'border border-white/10 bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
+              )}
+            >
+              {f.label}{' '}
+              <span
+                className={cn(
+                  'font-mono',
+                  selected ? 'text-black/70' : 'text-zinc-500'
+                )}
+              >
+                {counts[f.key]}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <section className="space-y-3">
         <div>
           <h2 className="text-sm font-black uppercase tracking-widest text-zinc-300">
             {filterHeading(filter)}{' '}
-            <span className="font-mono text-zinc-500">({pagination.total})</span>
+            <span className="font-mono text-zinc-500">({listTotal})</span>
           </h2>
-          {filter === 'needs_votes' && (
-            <p className="mt-1 text-xs text-zinc-500">
-              Menos de {IMDB_LTA_MIN_RATINGS_TO_QUALIFY} puntajes — priorizá
-              estas para que entren al ranking.
-            </p>
-          )}
-          {filter === 'enough_votes' && (
-            <p className="mt-1 text-xs text-zinc-500">
-              Ya tienen {IMDB_LTA_MIN_RATINGS_TO_QUALIFY}+ puntajes. Todavía
-              podés sumar el tuyo si no las puntuaste.
-            </p>
+          {filter === 'pending' && (
+            <div className="mt-2 space-y-2">
+              <button
+                type="button"
+                aria-pressed={onlyShort}
+                onClick={() =>
+                  setParams({
+                    filter: 'pending',
+                    short: !onlyShort,
+                    page: 1,
+                  })
+                }
+                className={cn(
+                  'cursor-pointer rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition',
+                  onlyShort
+                    ? 'border border-yellow-400/60 bg-yellow-500/20 text-yellow-100'
+                    : 'border border-white/10 bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
+                )}
+              >
+                Solo las que no llegan al ranking
+              </button>
+              <p className="text-xs text-zinc-500">
+                Una película entra al ranking cuando tiene al menos{' '}
+                {IMDB_LTA_MIN_RATINGS_TO_QUALIFY} puntajes. Si tiene menos, no
+                aparece aunque tenga buen promedio. Tu voto en estas cuenta
+                doble.
+              </p>
+            </div>
           )}
           {filter === 'not_seen' && (
             <p className="mt-1 text-xs text-zinc-500">
               Las marcaste como no vistas, también las del lote de ahora. El
-              ojo las sube arriba. Si las ves, el puntaje las saca de acá.
+              ojo las manda a Quiero ver. Si las ves, el puntaje las saca de
+              acá.
             </p>
           )}
           {filter === 'want_to_watch' && (
@@ -523,17 +563,19 @@ export function RatingPageClient({
               desaparece de las dos.
             </p>
           )}
+          {filter === 'mine_done' && (
+            <p className="mt-1 text-xs text-zinc-500">
+              Podés cambiar el número cuando quieras mientras la votación esté
+              abierta.
+            </p>
+          )}
         </div>
 
         {movies.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-white/10 px-6 py-16 text-center">
             <Film className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
-              {filter === 'not_seen'
-                ? 'No marcaste ninguna como no vista.'
-                : filter === 'want_to_watch'
-                  ? 'Todavía no marcaste ninguna como quiero ver.'
-                  : 'No hay películas en este filtro.'}
+              {emptyMessage(filter, onlyShort)}
             </p>
           </div>
         ) : (

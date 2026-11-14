@@ -7,6 +7,7 @@ import {
 } from '@/lib/api/imdb-lta';
 import { loadImdbLtaRateSearchParams } from '@/lib/searchParams';
 import {
+  imdbLtaLegacyRatingFilterSchema,
   imdbLtaRatingFilterSchema,
   type ImdbLtaRatingFilter,
 } from '@/lib/validations/imdb-lta';
@@ -17,6 +18,26 @@ import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 interface RatePageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+function resolveRateFilter(rawFilter: string): {
+  filter: ImdbLtaRatingFilter;
+  onlyShort: boolean;
+} {
+  const parsed = imdbLtaRatingFilterSchema.safeParse(rawFilter);
+  if (parsed.success) {
+    return { filter: parsed.data, onlyShort: false };
+  }
+
+  const legacy = imdbLtaLegacyRatingFilterSchema.safeParse(rawFilter);
+  if (legacy.success) {
+    return {
+      filter: 'pending',
+      onlyShort: legacy.data === 'needs_votes',
+    };
+  }
+
+  return { filter: 'pending', onlyShort: false };
 }
 
 function serializeMovie(
@@ -68,13 +89,14 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
   }
 
   const raw = await loadImdbLtaRateSearchParams(searchParams);
-  const parsedFilter = imdbLtaRatingFilterSchema.safeParse(raw.filter);
-  const filter: ImdbLtaRatingFilter = parsedFilter.success
-    ? parsedFilter.data
-    : 'needs_votes';
+  const resolved = resolveRateFilter(raw.filter);
+  const filter = resolved.filter;
+  const onlyShort =
+    filter === 'pending' && (resolved.onlyShort || raw.short);
 
   const list = await listRateableCandidates(session.user.id, {
     filter,
+    onlyShort,
     page: raw.page,
     limit: raw.limit,
   });
@@ -95,8 +117,10 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
             serializeMovie(movie, isRatingOpen)
           )}
           pagination={list.pagination}
+          counts={list.counts}
           isRatingOpen={isRatingOpen}
           filter={filter}
+          onlyShort={onlyShort}
         />
       </div>
     </div>
