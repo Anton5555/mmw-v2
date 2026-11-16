@@ -43,12 +43,8 @@ async function ImdbLtaPageContent() {
   const isAdmin = session.user.role === 'admin';
   const phase = await getImdbLtaPhase();
 
-  // During scoring, send regular users straight to the open batch (not the nomination list).
-  // Admins stay here for phase / lote controls.
-  if (phase === ImdbLtaPhase.RATING_OPEN && !isAdmin) {
-    redirect('/imdb-lta/lote');
-  }
-
+  // Nominations stay reachable during scoring so people can open their own list
+  // from the lote page. The lote itself lives at /imdb-lta/lote.
   if (phase === ImdbLtaPhase.RATING_CLOSED && !isAdmin) {
     redirect('/imdb-lta/ranking');
   }

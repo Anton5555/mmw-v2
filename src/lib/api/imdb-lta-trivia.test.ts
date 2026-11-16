@@ -8,9 +8,11 @@ const prisma = vi.hoisted(() => ({
     updateMany: vi.fn(),
     update: vi.fn(),
     count: vi.fn(),
+    groupBy: vi.fn(),
   },
   user: {
     findUnique: vi.fn(),
+    findMany: vi.fn(),
   },
 }));
 
@@ -55,10 +57,12 @@ vi.mock('@/lib/tmdb', () => ({
 import {
   buildTriviaClues,
   formatTriviaClueMessage,
+  formatTriviaScoreboard,
   formatTriviaSolvedMessage,
   formatTriviaStartCaption,
   revealNextImage,
   sendNextClue,
+  solveTriviaGame,
 } from './imdb-lta-trivia';
 
 const activeGame = {
@@ -152,24 +156,35 @@ describe('format helpers', () => {
     expect(
       formatTriviaClueMessage(2, { key: 'year', label: 'Año', text: '1986' })
     ).toBe('Pista 2: <b>Año</b>\n1986');
-    expect(
-      formatTriviaSolvedMessage({
-        title: 'Heat',
-        year: 1995,
-        directors: ['Michael Mann'],
-        winnerName: 'Juan',
-        winnerWins: 3,
-      })
-    ).toContain('Lo adivinó <b>Juan</b>');
-    expect(
-      formatTriviaSolvedMessage({
-        title: 'Heat',
-        year: 1995,
-        directors: ['Michael Mann'],
-        winnerName: null,
-        winnerWins: null,
-      })
-    ).toContain('Nadie la adivinó');
+    const solved = formatTriviaSolvedMessage({
+      title: 'Heat',
+      year: 1995,
+      directors: ['Michael Mann'],
+      winnerName: 'Juan',
+      winnerWins: 3,
+      scoreboard: [
+        { name: 'Juan', wins: 3 },
+        { name: 'Ana & Co', wins: 1 },
+      ],
+    });
+    expect(solved).toContain('Lo adivinó <b>Juan</b>');
+    expect(solved).toContain('<b>Marcador</b>');
+    expect(solved).toContain('1. Juan — 3 aciertos');
+    expect(solved).toContain('2. Ana &amp; Co — 1 acierto');
+    const abandoned = formatTriviaSolvedMessage({
+      title: 'Heat',
+      year: 1995,
+      directors: ['Michael Mann'],
+      winnerName: null,
+      winnerWins: null,
+      scoreboard: [{ name: 'Juan', wins: 3 }],
+    });
+    expect(abandoned).toContain('Nadie la adivinó');
+    expect(abandoned).not.toContain('Marcador');
+  });
+
+  it('formats an empty scoreboard as nothing', () => {
+    expect(formatTriviaScoreboard([])).toBe('');
   });
 });
 
@@ -225,5 +240,33 @@ describe('sendNextClue step claim', () => {
       where: { id: 1 },
       data: { clueStep: 0 },
     });
+  });
+});
+
+describe('solveTriviaGame', () => {
+  it('includes the current scoreboard in the winner message', async () => {
+    const finishedGame = { ...activeGame, status: 'SOLVED', imageStep: 5 };
+    prisma.imdbLtaTriviaGame.findUnique.mockResolvedValue({
+      ...activeGame,
+      imageStep: 5,
+    });
+    prisma.imdbLtaTriviaGame.findUniqueOrThrow.mockResolvedValue(finishedGame);
+    prisma.user.findUnique.mockResolvedValue({ id: 'u1', name: 'Juan' });
+    prisma.imdbLtaTriviaGame.count.mockResolvedValue(2);
+    prisma.imdbLtaTriviaGame.groupBy.mockResolvedValue([
+      { winnerUserId: 'u1', _count: { _all: 2 } },
+      { winnerUserId: 'u2', _count: { _all: 1 } },
+    ]);
+    prisma.user.findMany.mockResolvedValue([
+      { id: 'u1', name: 'Juan' },
+      { id: 'u2', name: 'Ana' },
+    ]);
+
+    await solveTriviaGame('u1');
+
+    const message = telegram.sendTelegramMessage.mock.calls.at(-1)?.[0] as string;
+    expect(message).toContain('Lo adivinó <b>Juan</b>');
+    expect(message).toContain('1. Juan — 2 aciertos');
+    expect(message).toContain('2. Ana — 1 acierto');
   });
 });

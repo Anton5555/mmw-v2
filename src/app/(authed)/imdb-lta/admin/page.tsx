@@ -1,14 +1,17 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
+import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   getImdbLtaPhase,
   listAdminLotes,
   listAdminRatingSnapshot,
   type AdminLote,
 } from '@/lib/api/imdb-lta';
+import { getOpenBatch } from '@/lib/api/imdb-lta-batches';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
+import { ImdbLtaAdminBatchPanel } from '../_components/imdb-lta-admin-batch-panel';
 import {
   ImdbLtaAdminRatings,
   type AdminLoteView,
@@ -71,10 +74,11 @@ async function ImdbLtaAdminVotesPageContent() {
     redirect('/imdb-lta');
   }
 
-  const [phase, snapshot, loteSnapshot] = await Promise.all([
+  const [phase, snapshot, loteSnapshot, openBatch] = await Promise.all([
     getImdbLtaPhase(),
     listAdminRatingSnapshot(),
     listAdminLotes(),
+    getOpenBatch(),
   ]);
 
   const view: AdminRatingsView = {
@@ -117,6 +121,20 @@ async function ImdbLtaAdminVotesPageContent() {
           phase={phase}
           currentPath="/imdb-lta/admin"
           isAdmin
+        />
+
+        <ImdbLtaAdminBatchPanel
+          ratingOpen={phase === ImdbLtaPhase.RATING_OPEN}
+          openBatch={
+            openBatch
+              ? {
+                  number: openBatch.batch.number,
+                  openedAt: openBatch.batch.openedAt.toISOString(),
+                  movieCount: openBatch.movies.length,
+                  announced: openBatch.batch.announcedAt !== null,
+                }
+              : null
+          }
         />
 
         <header className="mb-8">

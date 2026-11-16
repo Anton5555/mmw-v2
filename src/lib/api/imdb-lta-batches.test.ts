@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { pickNextBatchMovieIds } from './imdb-lta-batches';
+import { formatOpenBatchCaption, pickNextBatchMovieIds } from './imdb-lta-batches';
 
 type Row = Parameters<typeof pickNextBatchMovieIds>[0][number];
 
@@ -131,5 +131,56 @@ describe('pickNextBatchMovieIds', () => {
       { activeRaterCount: 10, size: 10 }
     );
     expect(picked).toEqual([2]);
+  });
+});
+
+describe('formatOpenBatchCaption', () => {
+  const movies = [
+    { title: 'Heat', releaseDate: new Date('1995-12-15T00:00:00.000Z') },
+    { title: 'A & B', releaseDate: new Date('2010-01-01T00:00:00.000Z') },
+  ];
+
+  it('puts the movie list and the site link in one caption', () => {
+    const caption = formatOpenBatchCaption({
+      batchNumber: 4,
+      movies,
+      voteUrl: 'https://www.elvipdemm.com/imdb-lta/lote',
+    });
+
+    expect(caption).toContain('IMDB LTA · Lote #4');
+    expect(caption).toContain('1. Heat (1995)');
+    expect(caption).toContain('2. A &amp; B (2010)');
+    expect(caption).toContain(
+      '<a href="https://www.elvipdemm.com/imdb-lta/lote">Votar el lote</a>'
+    );
+    expect(caption).not.toContain('Recordatorio');
+  });
+
+  it('uses the reminder copy and still includes posters caption pieces', () => {
+    const caption = formatOpenBatchCaption({
+      batchNumber: 4,
+      movies,
+      voteUrl: 'https://www.elvipdemm.com/imdb-lta/lote',
+      reminder: true,
+    });
+
+    expect(caption).toContain(
+      'Recordatorio:</b> Voten el lote actual así podemos seguir con los jueguitos, trivias y más lotes.'
+    );
+    expect(caption).toContain('1. Heat (1995)');
+    expect(caption).toContain(
+      '<a href="https://www.elvipdemm.com/imdb-lta/lote">Votar el lote</a>'
+    );
+  });
+
+  it('falls back to a plain url when the site is not https', () => {
+    const caption = formatOpenBatchCaption({
+      batchNumber: 1,
+      movies,
+      voteUrl: 'http://localhost:3000/imdb-lta/lote',
+    });
+
+    expect(caption).toContain('<code>http://localhost:3000/imdb-lta/lote</code>');
+    expect(caption).not.toContain('<a href=');
   });
 });

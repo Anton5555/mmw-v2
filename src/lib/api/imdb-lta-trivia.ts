@@ -201,12 +201,24 @@ export function formatTriviaStartCaption(number: number): string {
   return `🎬 <b>Trivia #${number}</b>\n¿Qué película es?`;
 }
 
+export function formatTriviaScoreboard(
+  rows: Array<{ name: string; wins: number }>
+): string {
+  if (rows.length === 0) return '';
+  const lines = rows.map((row, index) => {
+    const label = row.wins === 1 ? 'acierto' : 'aciertos';
+    return `${index + 1}. ${escapeHtml(row.name)} — ${row.wins} ${label}`;
+  });
+  return `\n\n<b>Marcador</b>\n${lines.join('\n')}`;
+}
+
 export function formatTriviaSolvedMessage(input: {
   title: string;
   year: number | null;
   directors: string[];
   winnerName: string | null;
   winnerWins: number | null;
+  scoreboard?: Array<{ name: string; wins: number }>;
 }): string {
   const year = input.year != null ? ` (${input.year})` : '';
   const director =
@@ -223,7 +235,8 @@ export function formatTriviaSolvedMessage(input: {
     input.winnerWins != null
       ? ` · ${escapeHtml(input.winnerName)} lleva ${input.winnerWins}`
       : '';
-  return `✅ Lo adivinó <b>${escapeHtml(input.winnerName)}</b> · ${answer}${score}`;
+  const board = formatTriviaScoreboard(input.scoreboard ?? []);
+  return `✅ Lo adivinó <b>${escapeHtml(input.winnerName)}</b> · ${answer}${score}${board}`;
 }
 
 async function resolveTmdbId(movie: {
@@ -628,6 +641,7 @@ async function finishGame(input: {
 
     let winnerName: string | null = null;
     let winnerWins: number | null = null;
+    let scoreboard: TriviaScoreboardRow[] = [];
     if (input.winnerUserId) {
       const winner = await prisma.user.findUnique({
         where: { id: input.winnerUserId },
@@ -640,6 +654,8 @@ async function finishGame(input: {
           status: ImdbLtaTriviaStatus.SOLVED,
         },
       });
+      // Counted after the win is saved, so this board already includes it.
+      scoreboard = await listTriviaScoreboard();
     }
 
     await sendTelegramMessage(
@@ -649,6 +665,7 @@ async function finishGame(input: {
         directors,
         winnerName,
         winnerWins,
+        scoreboard,
       }),
       {
         chatId: getLtaTelegramChatId(),

@@ -3,8 +3,9 @@
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { Loader2, RefreshCw, Shield } from 'lucide-react';
+import { Bell, Loader2, RefreshCw, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { remindOpenBatchAction } from '@/lib/actions/imdb-lta/remind-batch';
 import { rotateBatchNowAction } from '@/lib/actions/imdb-lta/rotate-batch';
 
 type ImdbLtaAdminBatchPanelProps = {
@@ -32,12 +33,14 @@ export function ImdbLtaAdminBatchPanel({
   openBatch,
   ratingOpen,
 }: ImdbLtaAdminBatchPanelProps) {
-  const [isPending, startTransition] = useTransition();
+  const [isRotating, startRotate] = useTransition();
+  const [isReminding, startRemind] = useTransition();
   const router = useRouter();
+  const isPending = isRotating || isReminding;
 
   const handleRotate = () => {
     if (isPending) return;
-    startTransition(async () => {
+    startRotate(async () => {
       try {
         const result = await rotateBatchNowAction();
         if (
@@ -58,6 +61,22 @@ export function ImdbLtaAdminBatchPanel({
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : 'No se pudo rotar el lote'
+        );
+      }
+    });
+  };
+
+  const handleRemind = () => {
+    if (isPending || !openBatch) return;
+    startRemind(async () => {
+      try {
+        const result = await remindOpenBatchAction();
+        toast.success(`Recordatorio del lote #${result.batchNumber} enviado`);
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : 'No se pudo mandar el recordatorio'
         );
       }
     });
@@ -103,24 +122,43 @@ export function ImdbLtaAdminBatchPanel({
         resultados al grupo de Telegram y abrís el siguiente.
       </p>
 
-      <Button
-        type="button"
-        variant="outline"
-        disabled={isPending || !ratingOpen}
-        onClick={handleRotate}
-        className="border-yellow-500/40 bg-yellow-500/10 text-yellow-100 hover:bg-yellow-500/20"
-      >
-        {isPending ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <RefreshCw className="mr-2 h-4 w-4" />
+      <div className="flex flex-wrap gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          disabled={isPending || !ratingOpen}
+          onClick={handleRotate}
+          className="border-yellow-500/40 bg-yellow-500/10 text-yellow-100 hover:bg-yellow-500/20"
+        >
+          {isRotating ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCw className="mr-2 h-4 w-4" />
+          )}
+          {openBatch && !openBatch.announced
+            ? 'Reintentar anuncio Telegram'
+            : openBatch
+              ? 'Cerrar lote y abrir el siguiente'
+              : 'Abrir primer lote'}
+        </Button>
+
+        {openBatch?.announced && (
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isPending || !ratingOpen}
+            onClick={handleRemind}
+            className="border-yellow-500/40 bg-yellow-500/10 text-yellow-100 hover:bg-yellow-500/20"
+          >
+            {isReminding ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Bell className="mr-2 h-4 w-4" />
+            )}
+            Recordatorio Telegram
+          </Button>
         )}
-        {openBatch && !openBatch.announced
-          ? 'Reintentar anuncio Telegram'
-          : openBatch
-            ? 'Cerrar lote y abrir el siguiente'
-            : 'Abrir primer lote'}
-      </Button>
+      </div>
     </section>
   );
 }
