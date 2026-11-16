@@ -382,9 +382,6 @@ export function NominationBuilder({
                 </p>
                 <p className="text-sm text-amber-200/80">
                   Ya no podés modificar tu lista. Podés revisarla abajo.
-                  {phase !== 'NOMINATION_CLOSED' && (
-                    <span className="ml-1 opacity-70">(fase: {phase})</span>
-                  )}
                 </p>
               </>
             )}

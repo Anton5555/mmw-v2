@@ -454,26 +454,76 @@ function formatClosedResultsMessage(
   )}${footer}`;
 }
 
-function formatNewBatchCaption(
-  batchNumber: number,
-  movies: BatchMovieCard[]
+function movieYearLabel(releaseDate: Date): string {
+  const year = releaseDate.getUTCFullYear();
+  return Number.isFinite(year) ? ` (${year})` : '';
+}
+
+function formatBatchMovieList(
+  movies: Array<{ title: string; releaseDate: Date }>
 ): string {
-  const list = movies
+  return movies
     .map(
-      (m, i) =>
-        `${i + 1}. ${escapeHtml(m.title)}${
-          (() => {
-            try {
-              return ` (${m.releaseDate.getFullYear()})`;
-            } catch {
-              return '';
-            }
-          })()
-        }`
+      (movie, index) =>
+        `${index + 1}. ${escapeHtml(movie.title)}${movieYearLabel(movie.releaseDate)}`
     )
     .join('\n');
+}
 
-  return `🎬 <b>IMDB LTA · Lote #${batchNumber}</b>\nDura ~2 días hasta el próximo lote.\n\n${list}`;
+function formatBatchVoteLink(voteUrl: string): string {
+  if (voteUrl.startsWith('https://')) {
+    return `🗳️ <a href="${escapeHtml(voteUrl)}">Votar el lote</a>`;
+  }
+  return `🗳️ Abrí en esta máquina:\n<code>${escapeHtml(voteUrl)}</code>`;
+}
+
+export function formatOpenBatchCaption(input: {
+  batchNumber: number;
+  movies: Array<{ title: string; releaseDate: Date }>;
+  voteUrl: string;
+  reminder?: boolean;
+}): string {
+  const list = formatBatchMovieList(input.movies);
+  const link = formatBatchVoteLink(input.voteUrl);
+  const header = input.reminder
+    ? `🔔 <b>Recordatorio:</b> Voten el lote actual así podemos seguir con los jueguitos, trivias y más lotes.\n\n🎬 <b>Lote #${input.batchNumber}</b>`
+    : `🎬 <b>IMDB LTA · Lote #${input.batchNumber}</b>\nDura ~2 días hasta el próximo lote.`;
+
+  return `${header}\n\n${list}\n\n${link}`;
+}
+
+function batchVoteUrl(): string {
+  return `${env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '')}/imdb-lta/lote`;
+}
+
+async function sendOpenBatchPost(
+  batch: OpenBatchView,
+  kind: 'announce' | 'reminder'
+) {
+  const chatId = getLtaTelegramChatId();
+  const caption = formatOpenBatchCaption({
+    batchNumber: batch.batch.number,
+    movies: batch.movies,
+    voteUrl: batchVoteUrl(),
+    reminder: kind === 'reminder',
+  });
+
+  const photos = batch.movies.flatMap((movie) => {
+    const url = toTelegramPosterUrl(movie.posterUrl);
+    return url ? [{ url }] : [];
+  });
+
+  if (photos.length === 0) {
+    await sendTelegramMessage(caption, { chatId });
+    return;
+  }
+
+  await sendTelegramAlbum(
+    photos.map((photo, index) =>
+      index === 0 ? { ...photo, caption } : photo
+    ),
+    { chatId }
+  );
 }
 
 async function announceClosedBatch(batchId: number, batchNumber: number) {
@@ -486,49 +536,24 @@ async function announceClosedBatch(batchId: number, batchNumber: number) {
 }
 
 async function announceOpenBatch(batch: OpenBatchView) {
-  const chatId = getLtaTelegramChatId();
-  const voteUrl = `${env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '')}/imdb-lta/lote`;
-  // Telegram inline URL buttons require https. Local http://localhost fails the API.
-  const canUseUrlButton = voteUrl.startsWith('https://');
-  const voteBody = canUseUrlButton
-    ? `🗳️ <b>Votá el lote #${batch.batch.number}</b>\nTenés ~2 días antes de que salga el próximo lote (igual después podés revisar y cambiar puntajes).\n\nTip: abrilo en el navegador si Telegram te bloquea el login.`
-    : `🗳️ <b>Votá el lote #${batch.batch.number}</b>\nTenés ~2 días antes de que salga el próximo lote.\n\nAbrí en esta máquina:\n<code>${escapeHtml(voteUrl)}</code>`;
+  await sendOpenBatchPost(batch, 'announce');
+}
 
-  // Vote message first so a bad URL fails before we post the album.
-  await sendTelegramMessage(voteBody, {
-    chatId,
-    ...(canUseUrlButton
-      ? {
-          replyMarkup: {
-            inline_keyboard: [[{ text: 'Votar el lote', url: voteUrl }]],
-          },
-        }
-      : {}),
-  });
-
-  const caption = formatNewBatchCaption(batch.batch.number, batch.movies);
-
-  const photos = batch.movies
-    .map((m) => {
-      const url = toTelegramPosterUrl(m.posterUrl);
-      return url ? { url, caption: undefined as string | undefined } : null;
-    })
-    .filter((p): p is { url: string; caption: string | undefined } =>
-      Boolean(p)
-    );
-
-  if (photos.length > 0) {
-    photos[0].caption = caption;
-    await sendTelegramAlbum(photos, { chatId });
-  } else {
-    await sendTelegramMessage(caption, { chatId });
+export async function remindOpenBatch(): Promise<{ batchNumber: number }> {
+  const open = await getOpenBatch();
+  if (!open) {
+    throw new Error('No hay lote abierto');
   }
+
+  await sendOpenBatchPost(open, 'reminder');
+  return { batchNumber: open.batch.number };
 }
 
 /**
  * Posts Telegram announcements for any batch that has not been announced yet
- * (closed → results, open → album + vote button). Marks announcedAt only after
- * a successful post so a failed send retries on the next cron run.
+ * (closed → results, open → one album with the list, posters, and link).
+ * Marks announcedAt only after a successful post so a failed send retries
+ * on the next run.
  */
 export async function announcePendingBatches(): Promise<{
   announced: number;
