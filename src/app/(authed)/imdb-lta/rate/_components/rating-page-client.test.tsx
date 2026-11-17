@@ -7,6 +7,7 @@ import type { RateMovieClient } from './rating-page-client';
 
 const mocks = vi.hoisted(() => ({
   setWantToWatchAction: vi.fn(),
+  markNotSeenAction: vi.fn(),
   submitRatingAction: vi.fn(),
   refresh: vi.fn(),
   setParams: vi.fn(),
@@ -25,6 +26,9 @@ vi.mock('@/lib/hooks/useImdbLtaRateParams', () => ({
 }));
 vi.mock('@/lib/actions/imdb-lta/set-want-to-watch', () => ({
   setWantToWatchAction: mocks.setWantToWatchAction,
+}));
+vi.mock('@/lib/actions/imdb-lta/mark-not-seen', () => ({
+  markNotSeenAction: mocks.markNotSeenAction,
 }));
 vi.mock('@/lib/actions/imdb-lta/submit-rating', () => ({
   submitRatingAction: mocks.submitRatingAction,
@@ -149,6 +153,49 @@ describe('RatingPageClient tabs', () => {
         name: /Solo las que no llegan al ranking/i,
       })
     ).not.toBeInTheDocument();
+  });
+});
+
+describe('RatingPageClient No vistas from Por votar', () => {
+  beforeEach(() => {
+    mocks.markNotSeenAction.mockReset();
+    mocks.markNotSeenAction.mockResolvedValue({ movieId: 7, skipped: true });
+    mocks.refresh.mockReset();
+    mocks.toastSuccess.mockReset();
+    mocks.toastError.mockReset();
+  });
+
+  it('sends a pending movie to No vistas', async () => {
+    const user = userEvent.setup();
+    renderPage(
+      [movie({ userSkipped: false, userScore: null, batchState: 'released' })],
+      'pending'
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Mandar a No vistas' }));
+    expect(mocks.markNotSeenAction).toHaveBeenCalledWith(7);
+    expect(mocks.toastSuccess).toHaveBeenCalledWith('Pasó a No vistas');
+    expect(mocks.refresh).toHaveBeenCalled();
+  });
+
+  it('keeps the button off the other tabs', () => {
+    renderPage([movie()], 'not_seen');
+    expect(
+      screen.queryByRole('button', { name: 'Mandar a No vistas' })
+    ).not.toBeInTheDocument();
+  });
+
+  it('reports when the move fails', async () => {
+    const user = userEvent.setup();
+    mocks.markNotSeenAction.mockRejectedValue(new Error('Cerrada'));
+    renderPage(
+      [movie({ userSkipped: false, userScore: null })],
+      'pending'
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Mandar a No vistas' }));
+    expect(mocks.toastError).toHaveBeenCalledWith('Cerrada');
+    expect(mocks.refresh).not.toHaveBeenCalled();
   });
 });
 
