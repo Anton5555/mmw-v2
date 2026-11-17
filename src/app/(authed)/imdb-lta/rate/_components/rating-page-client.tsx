@@ -8,6 +8,7 @@ import {
   ArrowRight,
   ExternalLink,
   Eye,
+  EyeOff,
   Film,
   Loader2,
   Sparkles,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { markNotSeenAction } from '@/lib/actions/imdb-lta/mark-not-seen';
 import { submitRatingAction } from '@/lib/actions/imdb-lta/submit-rating';
 import { setWantToWatchAction } from '@/lib/actions/imdb-lta/set-want-to-watch';
 import { useImdbLtaRateParams } from '@/lib/hooks/useImdbLtaRateParams';
@@ -253,15 +255,60 @@ function WantToWatchButton({
   );
 }
 
+function MarkNotSeenButton({
+  movieId,
+  onChanged,
+}: {
+  movieId: number;
+  onChanged: () => void;
+}) {
+  const [isPending, startTransition] = useTransition();
+
+  const mark = () => {
+    if (isPending) return;
+    startTransition(async () => {
+      try {
+        await markNotSeenAction(movieId);
+        toast.success('Pasó a No vistas');
+        onChanged();
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : 'No se pudo guardar'
+        );
+      }
+    });
+  };
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      aria-label="Mandar a No vistas"
+      className="h-9 w-full border-white/15 bg-zinc-900/70 text-xs text-zinc-200 hover:bg-zinc-800"
+      disabled={isPending}
+      onClick={mark}
+    >
+      {isPending ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <EyeOff className="mr-2 h-4 w-4" />
+      )}
+      No la vi
+    </Button>
+  );
+}
+
 function MovieRateCard({
   movie,
   isRatingOpen,
   showPicker,
+  allowNotSeen,
   onScored,
 }: {
   movie: RateMovieClient;
   isRatingOpen: boolean;
   showPicker: boolean;
+  allowNotSeen: boolean;
   onScored: () => void;
 }) {
   const src = posterSrc(movie.posterUrl);
@@ -403,12 +450,17 @@ function MovieRateCard({
         </div>
 
         {showPicker && isRatingOpen ? (
-          <ScorePicker
-            movieId={movie.id}
-            disabled={!isRatingOpen}
-            currentScore={movie.userScore}
-            onScored={onScored}
-          />
+          <div className="space-y-2">
+            <ScorePicker
+              movieId={movie.id}
+              disabled={!isRatingOpen}
+              currentScore={movie.userScore}
+              onScored={onScored}
+            />
+            {allowNotSeen ? (
+              <MarkNotSeenButton movieId={movie.id} onChanged={onScored} />
+            ) : null}
+          </div>
         ) : movie.userScore !== null ? (
           <p className="rounded-xl border border-emerald-500/20 bg-emerald-950/30 px-3 py-2 text-sm font-bold text-emerald-300">
             Tu puntaje: {movie.userScore}/10
@@ -545,7 +597,7 @@ export function RatingPageClient({
                 Una película entra al ranking cuando tiene al menos{' '}
                 {IMDB_LTA_MIN_RATINGS_TO_QUALIFY} puntajes. Si tiene menos, no
                 aparece aunque tenga buen promedio. Tu voto en estas cuenta
-                doble.
+                doble. Si no la viste, «No la vi» la manda a No vistas.
               </p>
             </div>
           )}
@@ -586,6 +638,7 @@ export function RatingPageClient({
                 movie={movie}
                 isRatingOpen={isRatingOpen}
                 showPicker={showPicker}
+                allowNotSeen={filter === 'pending' && isRatingOpen}
                 onScored={() => router.refresh()}
               />
             ))}
