@@ -1,5 +1,17 @@
 # IMDB LTA — product, process, and implementation plan
 
+> **Parts of this plan are historical.** It was the implementation spec for phases 2 and 3. The code has since diverged. For what the app does now, read [BUSINESS_LOGIC.md](BUSINESS_LOGIC.md). For why it changed, read [DECISIONS.md](DECISIONS.md).
+>
+> Superseded in this working tree:
+>
+> - **Solo-nominator lock / shared unlock.** Any member may rate a candidate once it is out of the locked batch state.
+> - **Live ranking during `RATING_OPEN`.** The ranking tab and route stay closed until `RATING_CLOSED`. Revisar hides group averages during the season. Admins still see scores on `/imdb-lta/admin`.
+> - **31 Oct 2026** was an earlier cutoff in chat only. This plan and the code both use **6 Nov 2026** (Argentina). The phase still does not flip by itself.
+>
+> Still accurate: manual phases on `ImdbLtaConfig`, 0–10 scores, qualification at 5 ratings, average then rating-count then title, nominations do not score, batches of 10, Telegram as a nudge rather than a ballot.
+>
+> A later chat (19 Nov 2026) designed a Revisar dashboard and moving admin controls off `/imdb-lta`. That work is not in this checkout. See [HISTORY.md](HISTORY.md).
+
 Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 
 **NOMINATE → SCORE → RANK**
