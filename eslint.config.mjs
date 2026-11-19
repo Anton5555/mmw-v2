@@ -5,7 +5,15 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "node_modules/**", "coverage/**", "generated/**"],
+    ignores: [
+      ".next/**",
+      "node_modules/**",
+      "coverage/**",
+      "generated/**",
+      // Vendored agent skills, not app code.
+      ".agents/**",
+      ".claude/**",
+    ],
   },
   ...tseslint.configs.recommended,
   {
