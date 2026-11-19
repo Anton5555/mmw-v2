@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from 'sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import NextTopLoader from 'nextjs-toploader';
+import { MotionProvider } from '@/components/shared/motion-provider';
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -48,7 +49,9 @@ export default async function RootLayout({
         <NextTopLoader color="#f2b632" height={2} showSpinner={false} />
 
         <main className="flex-1">
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <NuqsAdapter>
+            <MotionProvider>{children}</MotionProvider>
+          </NuqsAdapter>
         </main>
 
         <Toaster theme="dark" />

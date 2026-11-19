@@ -78,17 +78,6 @@
   }
 }
 
-@keyframes breadcrumb-fade {
-  0% {
-    opacity: 0;
-    transform: translateX(-5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 
 @keyframes spin {
   from {
@@ -121,11 +110,11 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.5s var(--ease-out) both;
+  animation: fade-in 0.3s var(--ease-out) both;
 }
 
 .animate-scale-in {
-  animation: scale-in 0.5s var(--ease-out) both;
+  animation: scale-in 0.3s var(--ease-out) both;
 }
 
 /* Skeleton sweep: a soft highlight travelling across instead of a flat pulse */
@@ -145,7 +134,7 @@
     rgba(255, 255, 255, 0.06),
     transparent
   );
-  animation: shimmer 1.6s ease-in-out infinite;
+  animation: shimmer 1.6s linear infinite;
 }
 
 
