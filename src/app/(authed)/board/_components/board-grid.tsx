@@ -172,7 +172,7 @@ function GridItem({
       className={`h-[280px] transition-[opacity,transform] duration-300 ease-out ${
         isDragging 
           ? 'opacity-40 scale-[0.96] rotate-1' 
-          : 'opacity-100 scale-100 rotate-0 hover:scale-[1.02] hover:-translate-y-1'
+          : 'opacity-100 scale-100 rotate-0 [@media(hover:hover)_and_(pointer:fine)]:hover:scale-[1.02] [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
       } ${
         isDragOver 
           ? 'ring-2 ring-yellow-500 rounded-lg ring-offset-2 ring-offset-black scale-[1.02] z-10' 

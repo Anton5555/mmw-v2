@@ -1,7 +1,12 @@
 'use client';
 
-import React, { createContext, use, useState, useCallback } from 'react';
+import React, { createContext, use, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useReducedMotion } from 'motion/react';
+
+// How long the slate stays up after the clap lands, before we navigate.
+// Kept short: the slate is a flourish, it must not hold up navigation.
+const HOLD_AFTER_CLAP_MS = 150;
 
 type FilmSlateData = {
   scene: string;
@@ -29,24 +34,32 @@ export function FilmSlateProvider({
   const [slateData, setSlateData] = useState<FilmSlateData | null>(null);
   const router = useRouter();
 
-  const triggerSlate = useCallback(
-    (scene: string, targetUrl: string, take: string = '01') => {
-      setSlateData({ scene, take, targetUrl });
-      setIsShowing(true);
-    },
-    []
-  );
+  const reduceMotion = useReducedMotion();
 
-  const onAnimationComplete = useCallback(() => {
-    // Wait a bit for the user to see the slate, then navigate
+  const triggerSlate = (
+    scene: string,
+    targetUrl: string,
+    take: string = '01'
+  ) => {
+    if (reduceMotion) {
+      router.push(targetUrl);
+      return;
+    }
+    // Start fetching the route while the slate plays
+    router.prefetch(targetUrl);
+    setSlateData({ scene, take, targetUrl });
+    setIsShowing(true);
+  };
+
+  const onAnimationComplete = () => {
     setTimeout(() => {
       if (slateData?.targetUrl) {
         router.push(slateData.targetUrl);
       }
       setIsShowing(false);
       setSlateData(null);
-    }, 1200); // Give time for the animation and for the user to read the slate
-  }, [slateData, router]);
+    }, HOLD_AFTER_CLAP_MS);
+  };
 
   return (
     <FilmSlateContext

@@ -32,7 +32,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
           src={movie.posterUrl || '/placeholder-poster.jpg'}
           alt={movie.title}
           fill
-          className="object-cover opacity-60 transition-[transform,opacity] duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105 group-hover:opacity-75"
+          className="object-cover opacity-60 transition-[transform,opacity] duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105 group-hover:opacity-75"
           sizes="(max-width: 768px) 100vw, 66vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
@@ -77,7 +77,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
           src={list.imgUrl || '/placeholder-list.jpg'}
           alt={list.name}
           fill
-          className="object-cover opacity-60 transition-[transform,opacity] duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105 group-hover:opacity-75"
+          className="object-cover opacity-60 transition-[transform,opacity] duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105 group-hover:opacity-75"
           sizes="(max-width: 768px) 100vw, 66vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />

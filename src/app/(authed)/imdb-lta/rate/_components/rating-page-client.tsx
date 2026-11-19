@@ -525,7 +525,7 @@ export function RatingPageClient({
               Votá de a una · dura ~2 días
             </p>
           </div>
-          <ArrowRight className="h-5 w-5 transition group-hover:translate-x-0.5" />
+          <ArrowRight className="h-5 w-5 transition-transform duration-150 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-x-0.5" />
         </Link>
       )}
 

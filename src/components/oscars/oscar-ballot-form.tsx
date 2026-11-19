@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { EASE_OUT } from '@/lib/motion';
 import { Check, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { submitBallotAction } from '@/lib/actions/oscars/submit-ballot';
 import { toast } from 'sonner';
@@ -199,8 +200,9 @@ export function OscarBallotForm({
     <div className="space-y-8">
       {!isFormAvailable && ceremonyDate && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: EASE_OUT }}
           className="p-6 rounded-xl border border-primary/70 bg-card"
         >
           <div className="flex items-center gap-3">
@@ -226,8 +228,9 @@ export function OscarBallotForm({
 
       {isFormAvailable && ceremonyDate && timeUntilBlocked && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, ease: EASE_OUT }}
           className="p-4 rounded-xl border border-zinc-700/50 bg-zinc-900/30"
         >
           <div className="flex items-center gap-3">
@@ -245,7 +248,7 @@ export function OscarBallotForm({
           <div
             key={i}
             className={cn(
-              'flex-1 transition-colors duration-500',
+              'flex-1 transition-colors duration-200',
               (i <= currentStep || isPreviewStep) ? 'bg-yellow-500' : 'bg-zinc-800'
             )}
           />
@@ -257,10 +260,10 @@ export function OscarBallotForm({
           // Preview Step
           <motion.div
             key="preview"
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.18, ease: EASE_OUT }}
             className={cn('space-y-6', !isFormAvailable && 'opacity-50 pointer-events-none')}
           >
             <div className="space-y-2">
@@ -315,10 +318,10 @@ export function OscarBallotForm({
           // Category Selection Step
           <motion.div
             key={currentCategory.id}
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.18, ease: EASE_OUT }}
             className={cn('space-y-6', !isFormAvailable && 'opacity-50 pointer-events-none')}
           >
           <div className="space-y-2">

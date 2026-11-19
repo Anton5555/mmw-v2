@@ -66,7 +66,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
           alt={list.name}
           fill
           priority
-          className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
+          className="object-cover object-top transition-transform duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
         />
 
         {/* Top fade so the breadcrumb trail reads over the image */}

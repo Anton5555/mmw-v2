@@ -95,7 +95,7 @@ const DayContent = ({
       {/* Date Label */}
       <span
         className={cn(
-          'text-sm font-semibold tabular-nums lg:text-lg transition-transform duration-300 ease-out group-hover:translate-x-1 z-10',
+          'text-sm font-semibold tabular-nums lg:text-lg transition-transform duration-200 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-x-1 z-10',
           isToday ? 'text-yellow-500' : 'text-zinc-400 group-hover:text-white'
         )}
       >
@@ -109,7 +109,7 @@ const DayContent = ({
             <div
               key={event.id}
               className={cn(
-                'h-1 w-full origin-bottom rounded-full transition-transform duration-300 ease-out group-hover:scale-y-150',
+                'h-1 w-full origin-bottom rounded-full transition-transform duration-200 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-y-150',
                 getColorClass(EVENT_COLORS[event.type])
               )}
               style={getGlowStyle(EVENT_COLORS[event.type])}
@@ -125,7 +125,7 @@ const DayContent = ({
 
       {/* Background Hover Aura */}
       <div
-        className="absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100 rounded-xl"
+        className="absolute inset-0 -z-10 opacity-0 transition-opacity duration-200 group-hover:opacity-100 rounded-xl"
         style={{
           background:
             'radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%)',

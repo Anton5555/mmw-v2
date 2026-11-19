@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
+import { EASE_OUT, staggerDelay } from '@/lib/motion';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 import { setSingleWinnerAction } from '@/lib/actions/oscars/set-winners';
 import { toast } from 'sonner';
@@ -95,9 +96,9 @@ export function OscarWinnersForm({
     <div className="space-y-10">
       {/* Pendientes */}
       <motion.section
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3, ease: EASE_OUT }}
         className="space-y-4"
       >
         <h2 className="text-xl font-bold">
@@ -116,7 +117,7 @@ export function OscarWinnersForm({
                 key={category.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: category.order * 0.02 }}
+                transition={{ duration: 0.3, ease: EASE_OUT, delay: staggerDelay(category.order) }}
                 className="rounded-xl border border-border/60 bg-zinc-900/50 p-6 transition-colors"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -187,9 +188,9 @@ export function OscarWinnersForm({
 
       {/* Anunciados */}
       <motion.section
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.3, ease: EASE_OUT, delay: 0.08 }}
         className="space-y-4"
       >
         <h2 className="text-xl font-bold">
@@ -203,7 +204,7 @@ export function OscarWinnersForm({
                 key={category.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: category.order * 0.02 }}
+                transition={{ duration: 0.3, ease: EASE_OUT, delay: staggerDelay(category.order) }}
                 className="rounded-xl border border-primary/70 bg-card p-6 transition-colors"
               >
                 <div className="flex items-center gap-3">

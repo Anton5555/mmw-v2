@@ -119,7 +119,7 @@ export default function ProfileForm({
 
               <label
                 htmlFor="image-upload"
-                className="absolute -bottom-2 -right-2 flex size-10 items-center justify-center bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl cursor-pointer shadow-lg transition-transform hover:scale-110 active:scale-95"
+                className="absolute -bottom-2 -right-2 flex size-10 items-center justify-center bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl cursor-pointer shadow-lg transition-transform duration-150 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:scale-105 active:scale-95"
               >
                 <Camera className="size-5" />
               </label>

@@ -4,8 +4,6 @@ import { TopNav } from '@/components/shared/top-nav';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
 import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
-import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
-import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
 import { getCurrentSession } from '@/lib/get-session';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
 import { MovieSheetHost } from '@/components/movie/movie-sheet-host';
@@ -38,13 +36,10 @@ async function AuthenticatedLayoutContent({
       <div className="mb-8 min-w-0 flex-1 pb-[env(safe-area-inset-bottom,0px)]">
         <BreadcrumbProvider>
           <FilmSlateProvider>
-            <FilmStripProvider>
-              <FilmSlateWrapper />
-              <FilmStripWrapper />
-              <BreadcrumbsNav />
-              {children}
-              <MovieSheetHost />
-            </FilmStripProvider>
+            <FilmSlateWrapper />
+            <BreadcrumbsNav />
+            {children}
+            <MovieSheetHost />
           </FilmSlateProvider>
         </BreadcrumbProvider>
       </div>

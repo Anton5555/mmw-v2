@@ -30,7 +30,7 @@ export function ListCard({ list }: ListCardProps) {
             src={list.imgUrl}
             alt=""
             fill
-            className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
+            className="object-cover transition-transform duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
           />
         ) : null}

@@ -26,11 +26,10 @@ export default {
         display: ['var(--font-barlow-condensed)', 'Arial Narrow', 'sans-serif'],
       },
       animation: {
-        collapse: 'collapse 0.2s ease-out',
-        expand: 'expand 0.2s ease-out',
-        shimmer: 'shimmer 2s infinite',
-        'fade-in-up': 'fade-in-up 0.4s var(--ease-out) both',
-        'breadcrumb-fade': 'breadcrumb-fade 0.4s ease-out',
+        collapse: 'collapse 0.2s var(--ease-out)',
+        expand: 'expand 0.2s var(--ease-out)',
+        shimmer: 'shimmer 2s linear infinite',
+        'fade-in-up': 'fade-in-up 0.3s var(--ease-out) both',
       },
       backgroundImage: {
         'glass-gradient':

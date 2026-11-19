@@ -655,7 +655,7 @@ export function NominationBuilder({
                         src={src}
                         alt={movie.title}
                         fill
-                        className="object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0"
+                        className="object-cover grayscale transition-[filter] duration-200 group-hover:grayscale-0"
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
                         unoptimized
                       />

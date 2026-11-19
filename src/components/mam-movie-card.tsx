@@ -48,7 +48,7 @@ export function MamMovieCard({
                 src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
                 alt={displayTitle}
                 fill
-                className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
+                className="object-cover transition-transform duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               />
             ) : (
@@ -74,7 +74,7 @@ export function MamMovieCard({
             {/* Hover overlay: scrim keeps review readable over busy posters */}
             <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 [@media(hover:none)]:hidden transition-opacity duration-200 ease-out pointer-events-none">
               <div className="bg-gradient-to-t from-background via-background/85 to-transparent px-4 pb-4 pt-16">
-                <div className="space-y-2 translate-y-2 transition-transform duration-200 ease-out group-hover:translate-y-0">
+                <div className="space-y-2 [@media(hover:hover)_and_(pointer:fine)]:translate-y-2 transition-transform duration-200 ease-out group-hover:translate-y-0">
                   {(movie.totalPoints ?? 0) > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="inline-flex items-center gap-1 bg-primary px-1.5 py-0.5 text-xs font-bold text-primary-foreground">
