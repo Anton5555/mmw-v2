@@ -91,7 +91,7 @@ const DayContent = ({
   const isToday = dayProps.modifiers.today;
 
   return (
-    <div className="group relative flex h-full w-full flex-col items-center justify-center gap-1 p-2 lg:items-start lg:justify-start lg:p-3 overflow-hidden rounded-xl transition-colors duration-300">
+    <div className="group relative flex h-full w-full flex-col items-center justify-center gap-1 p-1 sm:p-2 lg:items-start lg:justify-start lg:p-3 overflow-hidden rounded-xl transition-colors duration-300">
       {/* Date Label */}
       <span
         className={cn(
@@ -116,8 +116,8 @@ const DayContent = ({
             />
           ))}
           {events.length > 3 && (
-            <p className="text-xs text-zinc-500 mt-0.5">
-              + {events.length - 3} más
+            <p className="mt-0.5 text-center text-[10px] leading-none text-zinc-500 sm:text-left sm:text-xs">
+              +{events.length - 3}<span className="hidden sm:inline"> más</span>
             </p>
           )}
         </div>
@@ -182,7 +182,7 @@ const EventPopoverContent = ({
                     </h4>
                   </div>
                   {event.time && (
-                    <p className="mt-1 text-[10px] text-zinc-500 font-mono">
+                    <p className="mt-1 text-xs text-zinc-500 font-mono">
                       {event.time.toLocaleTimeString('es', {
                         hour: '2-digit',
                         minute: '2-digit',
@@ -200,25 +200,25 @@ const EventPopoverContent = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-7 px-2 text-xs hover:bg-white/10"
+                        className="h-7 px-2 text-xs hover:bg-white/10 pointer-coarse:px-3 pointer-coarse:text-sm"
                         onClick={() => {
                           setEditingEvent(event);
                           setIsEditOpen(true);
                         }}
                       >
-                        <Pencil className="w-3 h-3 mr-1" />
+                        <Pencil className="size-3.5" />
                         Editar
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-7 px-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                        className="h-7 px-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 pointer-coarse:px-3 pointer-coarse:text-sm"
                         onClick={() => {
                           setDeletingEvent(event);
                           setIsDeleteOpen(true);
                         }}
                       >
-                        <Trash2 className="w-3 h-3 mr-1" />
+                        <Trash2 className="size-3.5" />
                         Eliminar
                       </Button>
                     </div>
@@ -451,7 +451,7 @@ export function EventsCalendar({
           day: 'h-14 w-full sm:h-16 lg:h-28 text-center text-sm p-0 relative flex flex-col items-center justify-start overflow-hidden rounded-lg transition-colors',
           day_button: cn(
             buttonVariants({ variant: 'ghost' }),
-            'h-full w-full p-0 font-normal aria-selected:opacity-100'
+            'h-full w-full p-0 font-normal aria-selected:opacity-100 pointer-coarse:h-full'
           ),
           selected:
             'bg-white text-black font-semibold',

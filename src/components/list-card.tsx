@@ -39,15 +39,15 @@ export function ListCard({ list }: ListCardProps) {
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-transparent to-75%" />
 
         {/* Title sits on the requester; hover opens room for the description */}
-        <div className="absolute inset-x-0 bottom-0 flex flex-col p-5">
-          <h3 className="text-balance font-display text-2xl font-bold uppercase leading-[1.05] text-foreground">
+        <div className="absolute inset-x-0 bottom-0 flex flex-col p-4 sm:p-5">
+          <h3 className="text-balance font-display text-xl font-bold uppercase leading-[1.05] sm:text-2xl text-foreground">
             {list.name}
           </h3>
 
           {list.description ? (
             <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] motion-reduce:transition-none [@media(hover:none)]:grid-rows-[1fr]">
               <div className="min-h-0 overflow-hidden">
-                <p className="mt-2 line-clamp-4 text-sm leading-snug text-foreground/85 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100">
+                <p className="mt-2 line-clamp-4 text-sm leading-snug [@media(hover:none)]:line-clamp-2 text-foreground/85 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100">
                   {list.description}
                 </p>
               </div>

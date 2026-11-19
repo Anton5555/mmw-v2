@@ -34,7 +34,7 @@ export function MovieSheet({
         side={isMobile ? 'bottom' : 'right'}
         className={cn(
           'overflow-y-auto border-border bg-background p-0 sm:max-w-3xl',
-          isMobile && 'max-h-[92vh]'
+          isMobile && 'max-h-[92dvh]'
         )}
       >
         <SheetTitle className="sr-only">{title}</SheetTitle>
@@ -46,7 +46,7 @@ export function MovieSheet({
           <a
             href={fullPageHref}
             data-no-sheet
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:text-primary"
+            className="-mx-2 inline-flex min-h-10 items-center gap-1.5 px-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-primary active:text-primary sm:text-xs"
           >
             <Maximize2 className="h-3.5 w-3.5" />
             Abrir página completa

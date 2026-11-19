@@ -378,7 +378,7 @@ export function ImdbLtaAdminRatings({
                 aria-selected={active}
                 onClick={() => setTab(item.id)}
                 className={cn(
-                  'rounded-lg px-3 py-2 text-[11px] font-black uppercase tracking-widest',
+                  'min-h-9 rounded-lg px-3 py-2 text-xs font-black uppercase tracking-widest',
                   active
                     ? 'bg-yellow-500/15 text-yellow-300'
                     : 'text-zinc-400 hover:text-zinc-200'

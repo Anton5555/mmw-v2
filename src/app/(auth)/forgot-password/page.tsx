@@ -95,7 +95,7 @@ export default function ForgotPassword() {
               ¿Recordaste tu contraseña?{' '}
               <Link
                 href="/sign-in"
-                className="text-white hover:text-yellow-500 transition-colors"
+                className="-my-3 inline-block py-3 text-white hover:text-yellow-500 transition-colors"
               >
                 Volver al inicio de sesión
               </Link>

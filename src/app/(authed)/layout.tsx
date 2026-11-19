@@ -33,7 +33,7 @@ async function AuthenticatedLayoutContent({
         }}
       />
 
-      <div className="mb-8 min-w-0 flex-1">
+      <div className="mb-8 min-w-0 flex-1 pb-[env(safe-area-inset-bottom,0px)]">
         <BreadcrumbProvider>
           <FilmSlateProvider>
             <FilmSlateWrapper />

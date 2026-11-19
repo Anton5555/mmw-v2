@@ -131,7 +131,7 @@ export default function SignIn() {
                       <Link
                         href="/forgot-password"
                         tabIndex={-1}
-                        className="text-xs text-zinc-500 hover:text-white transition-colors"
+                        className="-my-3 -mr-2 inline-block px-2 py-3 text-xs text-zinc-500 hover:text-white transition-colors"
                       >
                         ¿Olvidaste?
                       </Link>
@@ -191,7 +191,7 @@ export default function SignIn() {
               ¿No tenés cuenta?{' '}
               <Link
                 href="/sign-up"
-                className="text-white hover:text-yellow-500 transition-colors"
+                className="-my-3 inline-block py-3 text-white hover:text-yellow-500 transition-colors"
               >
                 Creala ahora
               </Link>

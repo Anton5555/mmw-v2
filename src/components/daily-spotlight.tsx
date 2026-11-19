@@ -27,7 +27,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const rank = movie.mamRank;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border sm:aspect-video border-border bg-zinc-900 group animate-scale-in">
         <Image
           src={movie.posterUrl || '/placeholder-poster.jpg'}
           alt={movie.title}
@@ -37,7 +37,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 
-        <div className="absolute bottom-0 p-6 md:p-8 space-y-3">
+        <div className="absolute inset-x-0 bottom-0 space-y-3 p-5 sm:p-6 md:p-8">
           {curator && (
             <div className="flex items-center gap-3">
               <Avatar className="h-8 w-8 border border-yellow-500">
@@ -60,11 +60,9 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
           <h3 className="text-balance text-2xl sm:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-tight">
             {movie.title}
           </h3>
-          <Link href={`/mam/movie/${movie.id}`}>
-            <Button className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
-              Ver detalles
-            </Button>
-          </Link>
+          <Button asChild className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
+            <Link href={`/mam/movie/${movie.id}`}>Ver detalles</Link>
+          </Button>
         </div>
       </div>
     );
@@ -74,7 +72,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const { list, curator } = recommendation;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border sm:aspect-video border-border bg-zinc-900 group animate-scale-in">
         <Image
           src={list.imgUrl || '/placeholder-list.jpg'}
           alt={list.name}
@@ -84,7 +82,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 
-        <div className="absolute bottom-0 p-6 md:p-8 space-y-3">
+        <div className="absolute inset-x-0 bottom-0 space-y-3 p-5 sm:p-6 md:p-8">
           {curator && (
             <div className="flex items-center gap-3">
               <Avatar className="h-8 w-8 border border-yellow-500">
@@ -109,11 +107,9 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
               {list.description}
             </p>
           )}
-          <Link href={`/lists/${list.id}`}>
-            <Button className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
-              Ver lista
-            </Button>
-          </Link>
+          <Button asChild className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
+            <Link href={`/lists/${list.id}`}>Ver lista</Link>
+          </Button>
         </div>
       </div>
     );
@@ -124,11 +120,11 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const picksCount = participant._count?.picks;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border sm:aspect-video border-border bg-zinc-900 group animate-scale-in">
         <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-zinc-900 to-zinc-950" />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 
-        <div className="absolute bottom-0 p-6 md:p-8 space-y-3">
+        <div className="absolute inset-x-0 bottom-0 space-y-3 p-5 sm:p-6 md:p-8">
           {curator && (
             <div className="flex items-center gap-3">
               <Avatar className="h-8 w-8 border border-yellow-500">
@@ -153,11 +149,9 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
               {picksCount} películas en su lista personal
             </p>
           )}
-          <Link href={`/mam/participant/${participant.slug}`}>
-            <Button className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
-              Ver lista
-            </Button>
-          </Link>
+          <Button asChild className="bg-white text-black font-semibold rounded-lg px-5 hover:bg-zinc-100">
+            <Link href={`/mam/participant/${participant.slug}`}>Ver lista</Link>
+          </Button>
         </div>
       </div>
     );

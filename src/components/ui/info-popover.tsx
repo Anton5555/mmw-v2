@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsTouch } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
 interface InfoPopoverProps {
@@ -14,10 +14,10 @@ interface InfoPopoverProps {
 }
 
 export function InfoPopover({ children, content, className, side = 'top' }: InfoPopoverProps) {
-  const isMobile = useIsMobile();
+  const isTouch = useIsTouch();
   const [open, setOpen] = React.useState(false);
 
-  if (!isMobile) {
+  if (!isTouch) {
     return (
       <TooltipProvider>
         <Tooltip delayDuration={200}>

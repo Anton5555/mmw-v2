@@ -153,7 +153,7 @@ export function MovieSidebar({
               <Link
                 key={list.id}
                 href={`/lists/${list.id}`}
-                className="rounded-sm border border-border bg-card px-2.5 py-1 text-xs transition-colors hover:border-primary hover:text-primary"
+                className="rounded-sm border border-border bg-card px-3 py-2 text-sm transition-colors hover:border-primary hover:text-primary active:border-primary sm:px-2.5 sm:py-1 sm:text-xs"
               >
                 {list.name}
               </Link>

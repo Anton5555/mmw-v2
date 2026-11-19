@@ -46,19 +46,19 @@ export function OscarResultsView({
         </h2>
         <div className="overflow-hidden rounded-xl border border-border bg-zinc-900/50">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[400px] text-left">
+            <table className="w-full text-left sm:min-w-[400px]">
               <thead>
                 <tr className="border-b border-border bg-zinc-900/80">
-                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
+                  <th className="px-3 py-3 text-xs font-semibold text-muted-foreground sm:px-4">
                     #
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
+                  <th className="px-3 py-3 text-xs font-semibold text-muted-foreground sm:px-4">
                     Participante
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
+                  <th className="px-3 py-3 text-xs font-semibold text-muted-foreground sm:px-4">
                     Pts
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
+                  <th className="hidden px-4 py-3 text-xs font-semibold text-muted-foreground sm:table-cell">
                     Enviado
                   </th>
                 </tr>
@@ -75,7 +75,7 @@ export function OscarResultsView({
                       entry.isWinner ? 'bg-secondary/60 shadow-[inset_3px_0_0_hsl(var(--primary))]' : 'hover:bg-white/5',
                     )}
                   >
-                    <td className="px-4 py-3">
+                    <td className="px-3 py-3 sm:px-4">
                       <span
                         className={cn(
                           'font-bold tabular-nums',
@@ -85,7 +85,7 @@ export function OscarResultsView({
                         {entry.rank}
                       </span>
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 py-3 sm:px-4">
                       <div className="flex items-center gap-3">
                         <Avatar className="h-8 w-8 border border-border">
                           {entry.userImage && (
@@ -108,10 +108,10 @@ export function OscarResultsView({
                         </span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-mono font-semibold tabular-nums text-white">
+                    <td className="whitespace-nowrap px-3 py-3 font-mono font-semibold sm:px-4 tabular-nums text-white">
                       {entry.score} / {totalCategories}
                     </td>
-                    <td className="px-4 py-3 text-sm text-zinc-500">
+                    <td className="hidden px-4 py-3 text-sm text-zinc-500 sm:table-cell">
                       {new Date(entry.submittedAt).toLocaleDateString('es-ES', {
                         day: 'numeric',
                         month: 'short',

@@ -67,7 +67,7 @@ export function RevisarMyNominations({
         </div>
       </summary>
 
-      <ul className="grid grid-cols-3 gap-3 px-5 sm:grid-cols-4 sm:px-6 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
+      <ul className="grid grid-cols-2 gap-3 px-4 min-[420px]:grid-cols-3 sm:grid-cols-4 sm:px-6 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
         {nominations.map((movie) => {
           const src = posterSrc(movie.posterUrl);
           const year = yearOf(movie.releaseDate);
@@ -89,7 +89,7 @@ export function RevisarMyNominations({
                   </div>
                 )}
               </div>
-              <p className="line-clamp-2 text-[11px] font-bold leading-snug text-zinc-200">
+              <p className="line-clamp-2 text-xs font-bold leading-snug text-zinc-200">
                 {movie.title}
                 {year ? (
                   <span className="font-mono font-normal text-zinc-500">
@@ -100,12 +100,12 @@ export function RevisarMyNominations({
               </p>
               <div className="flex flex-wrap gap-1">
                 <span
-                  className={`rounded-sm px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider ${badge.className}`}
+                  className={`rounded-sm px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider ${badge.className}`}
                 >
                   {badge.label}
                 </span>
                 {movie.userScore !== null ? (
-                  <span className="rounded-sm bg-white/5 px-1.5 py-0.5 font-mono text-[9px] font-bold text-zinc-300">
+                  <span className="rounded-sm bg-white/5 px-1.5 py-0.5 font-mono text-[10px] font-bold text-zinc-300">
                     {movie.userScore}/10
                   </span>
                 ) : null}

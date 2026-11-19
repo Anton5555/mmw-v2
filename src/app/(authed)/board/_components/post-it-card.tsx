@@ -59,7 +59,7 @@ export function PostItCard({
       {/* Drag Handle - The "Tape" look */}
       <div
         ref={dragHandleRef}
-        className="h-6 flex-shrink-0 bg-zinc-800/50 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"
+        className="h-8 sm:h-6 flex-shrink-0 bg-zinc-800/50 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"
       >
         <div className="flex gap-1">
           {[...Array(3)].map((_, i) => (
@@ -82,27 +82,29 @@ export function PostItCard({
       </div>
 
       {/* Metadata Footer */}
-      <div className="flex-shrink-0 p-3 bg-black/20 border-t border-border/60 flex justify-between items-center">
-        <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">
+      <div className="flex-shrink-0 gap-2 p-3 bg-black/20 border-t border-border/60 flex justify-between items-center">
+        <span className="min-w-0 truncate text-[11px] font-bold text-zinc-600 uppercase tracking-widest">
           {createdByUser?.name || 'Anónimo'}
         </span>
         {isOwner && (
-          <div className="flex gap-2">
+          <div className="flex shrink-0 gap-1">
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 text-zinc-400 hover:text-yellow-500 hover:bg-yellow-500/10"
+              aria-label="Editar post-it"
+              className="size-10 sm:size-7 text-zinc-400 hover:text-yellow-500 hover:bg-yellow-500/10"
               onClick={onEdit}
             >
-              <Pencil className="h-3 w-3" />
+              <Pencil className="size-4" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 text-zinc-400 hover:text-red-500 hover:bg-red-500/10"
+              aria-label="Borrar post-it"
+              className="size-10 sm:size-7 text-zinc-400 hover:text-red-500 hover:bg-red-500/10"
               onClick={onDelete}
             >
-              <Trash2 className="h-3 w-3" />
+              <Trash2 className="size-4" />
             </Button>
           </div>
         )}

@@ -102,12 +102,12 @@ export default function ProfileForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl p-0 overflow-hidden bg-zinc-950 border-border shadow-2xl">
-        <div className="flex flex-col md:flex-row min-h-[450px]">
+      <DialogContent className="max-w-3xl p-0 sm:p-0 bg-zinc-950 border-border shadow-2xl">
+        <div className="flex flex-col md:min-h-[450px] md:flex-row">
           {/* LEFT PANEL: The "Studio Pass" Preview */}
-          <div className="w-full md:w-5/12 bg-zinc-900/50 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-border/60">
+          <div className="w-full md:w-5/12 bg-zinc-900/50 p-5 md:p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-border/60">
             <div className="relative group">
-              <Avatar className="h-32 w-32 rounded-2xl border-2 border-border shadow-2xl ring-offset-4 ring-offset-zinc-950 ring-2 ring-yellow-500/20">
+              <Avatar className="size-24 md:size-32 rounded-2xl border-2 border-border shadow-2xl ring-offset-4 ring-offset-zinc-950 ring-2 ring-yellow-500/20">
                 <AvatarImage
                   src={imagePreview ?? undefined}
                   className="object-cover"
@@ -119,26 +119,26 @@ export default function ProfileForm({
 
               <label
                 htmlFor="image-upload"
-                className="absolute -bottom-2 -right-2 p-2 bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl cursor-pointer shadow-lg transition-transform duration-150 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:scale-105 active:scale-95"
+                className="absolute -bottom-2 -right-2 flex size-10 items-center justify-center bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl cursor-pointer shadow-lg transition-transform duration-150 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:scale-105 active:scale-95"
               >
-                <Camera className="w-4 h-4" />
+                <Camera className="size-5" />
               </label>
             </div>
 
-            <div className="mt-6 text-center space-y-1">
+            <div className="mt-4 md:mt-6 w-full min-w-0 text-center space-y-1">
               <h3 className="text-xl font-bold tracking-tight text-white">
                 {watchedName || 'Sin Nombre'}
               </h3>
-              <div className="flex items-center justify-center gap-1.5 text-zinc-500">
-                <Mail className="w-3 h-3" />
-                <span className="text-xs font-mono">{user.email}</span>
+              <div className="flex min-w-0 items-center justify-center gap-1.5 text-zinc-500">
+                <Mail className="w-3 h-3 shrink-0" />
+                <span className="min-w-0 truncate text-xs font-mono">{user.email}</span>
               </div>
             </div>
 
-            <div className="mt-8 w-full">
+            <div className="mt-5 md:mt-8 w-full">
               <div className="rounded-xl border border-border/60 bg-black/20 p-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">
+                  <span className="text-xs font-black uppercase tracking-widest text-zinc-600">
                     {(user as User & { role?: string | null })?.role === 'ADMIN'
                       ? 'Admin'
                       : 'MAM Member'}
@@ -158,8 +158,8 @@ export default function ProfileForm({
           </div>
 
           {/* RIGHT PANEL: The Form Editor */}
-          <div className="flex-1 p-8">
-            <DialogHeader className="mb-8">
+          <div className="flex-1 p-5 md:p-8">
+            <DialogHeader className="mb-6 md:mb-8 pr-8">
               <DialogTitle className="text-2xl font-black tracking-tighter uppercase italic">
                 Editar Perfil
               </DialogTitle>
@@ -193,7 +193,7 @@ export default function ProfileForm({
                   name="name"
                   render={({ field }) => (
                     <FormItem className="space-y-1.5">
-                      <FormLabel className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-zinc-500">
                         Nombre de Usuario
                       </FormLabel>
                       <div className="relative group">
@@ -206,13 +206,13 @@ export default function ProfileForm({
                           />
                         </FormControl>
                       </div>
-                      <FormMessage className="text-[10px]" />
+                      <FormMessage className="text-xs" />
                     </FormItem>
                   )}
                 />
 
                 <div className="space-y-1.5">
-                  <FormLabel className="text-[10px] font-black uppercase tracking-widest text-zinc-500 opacity-50">
+                  <FormLabel className="text-xs font-black uppercase tracking-widest text-zinc-500 opacity-50">
                     Email Personal
                   </FormLabel>
                   <Input
@@ -220,7 +220,7 @@ export default function ProfileForm({
                     disabled
                     className="bg-zinc-950 border-border/60 text-zinc-700 h-11 cursor-not-allowed italic"
                   />
-                  <p className="text-[9px] text-zinc-600">
+                  <p className="text-xs text-zinc-600">
                     El correo electrónico está vinculado a tu cuenta y no puede
                     cambiarse.
                   </p>

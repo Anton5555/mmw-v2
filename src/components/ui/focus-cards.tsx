@@ -38,7 +38,7 @@ export const Card = ({
             'object-cover transition-transform duration-300 ease-out',
             hovered === index && '[@media(hover:hover)_and_(pointer:fine)]:scale-105'
           )}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
           unoptimized
         />
 
@@ -99,7 +99,7 @@ export function FocusCards({
   return (
     <div
       className={cn(
-        'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-auto',
+        'grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mx-auto',
         className
       )}
     >

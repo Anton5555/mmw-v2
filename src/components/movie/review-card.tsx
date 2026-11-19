@@ -45,26 +45,26 @@ export function ReviewCard({
     >
       <div className="p-5">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <Link href={`/mam?participants=${pick.participant.slug}`}>
               <ParticipantAvatar participant={pick.participant} size="md" />
             </Link>
-            <div>
+            <div className="min-w-0">
               <Link
                 href={`/mam?participants=${pick.participant.slug}`}
                 className="hover:underline"
               >
-                <p className="text-sm font-semibold text-foreground">
+                <p className="truncate text-sm font-semibold text-foreground">
                   {getParticipantDisplayName(pick.participant)}
                 </p>
               </Link>
               {isTopChoice && (
-                <span className="text-xs text-primary">
+                <span className="block text-xs text-primary">
                   Favorito de la lista
                 </span>
               )}
               {isSpecialMention && (
-                <span className="text-xs text-muted-foreground">
+                <span className="block text-xs text-muted-foreground">
                   Mención especial
                 </span>
               )}
@@ -100,7 +100,7 @@ export function ReviewCard({
             </p>
             <button
               onClick={toggle}
-              className="text-xs font-semibold text-muted-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+              className="-mx-1 inline-flex min-h-10 items-center px-1 text-sm font-semibold text-muted-foreground underline-offset-4 transition-colors hover:text-primary hover:underline sm:min-h-0 sm:text-xs"
             >
               {isExpanded ? 'Ver menos' : 'Leer reseña completa'}
             </button>

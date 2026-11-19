@@ -686,7 +686,7 @@ export function NominationBuilder({
                     <p className="truncate text-xs font-bold uppercase leading-tight text-zinc-100">
                       {movie.title}
                     </p>
-                    <p className="truncate text-[10px] text-zinc-500">
+                    <p className="truncate text-xs text-zinc-500">
                       {year ?? movie.originalTitle}
                     </p>
                   </div>

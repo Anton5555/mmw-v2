@@ -48,7 +48,7 @@ async function OscarsAdminPageContent() {
     <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <header className="mb-10">
-          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xler">
+          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
             Administrar Ganadores
           </h1>
           <p className="text-zinc-500 mt-2">

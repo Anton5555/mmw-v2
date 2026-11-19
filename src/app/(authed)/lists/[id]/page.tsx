@@ -60,7 +60,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
 
       {/* Hero Section */}
       {/* -mt-11 tucks the hero under the breadcrumb trail */}
-      <section className="relative -mt-11 h-[60svh] w-full overflow-hidden md:h-[70svh]">
+      <section className="relative -mt-11 flex min-h-[60svh] w-full flex-col justify-end overflow-hidden md:min-h-[70svh]">
         <Image
           src={list.imgUrl}
           alt={list.name}
@@ -76,7 +76,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
         <div className="absolute inset-0 bg-linear-to-r from-background via-transparent to-transparent opacity-60" />
 
         {/* Content Overlay */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-12">
+        <div className="relative flex flex-col justify-end pb-8 pt-28 sm:pb-12">
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-3xl space-y-4">
