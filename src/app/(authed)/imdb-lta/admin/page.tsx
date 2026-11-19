@@ -4,6 +4,7 @@ import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   getImdbLtaPhase,
   listAdminLotes,
+  listAdminNominationSnapshot,
   listAdminRatingSnapshot,
   type AdminLote,
 } from '@/lib/api/imdb-lta';
@@ -11,7 +12,9 @@ import { getOpenBatch } from '@/lib/api/imdb-lta-batches';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
+import { ImdbLtaAdminPhaseSwitcher } from '../_components/imdb-lta-admin-phase-switcher';
 import { ImdbLtaAdminBatchPanel } from '../_components/imdb-lta-admin-batch-panel';
+import { ImdbLtaAdminNominationsOverview } from '../_components/imdb-lta-admin-nominations-overview';
 import {
   ImdbLtaAdminRatings,
   type AdminLoteView,
@@ -79,12 +82,14 @@ async function ImdbLtaAdminVotesPageContent() {
     redirect('/imdb-lta');
   }
 
-  const [phase, snapshot, loteSnapshot, openBatch] = await Promise.all([
-    getImdbLtaPhase(),
-    listAdminRatingSnapshot(),
-    listAdminLotes(),
-    getOpenBatch(),
-  ]);
+  const [phase, snapshot, loteSnapshot, adminNominationSnapshot, openBatch] =
+    await Promise.all([
+      getImdbLtaPhase(),
+      listAdminRatingSnapshot(),
+      listAdminLotes(),
+      listAdminNominationSnapshot(),
+      getOpenBatch(),
+    ]);
 
   const view: AdminRatingsView = {
     movieCount: snapshot.movieCount,
@@ -128,6 +133,8 @@ async function ImdbLtaAdminVotesPageContent() {
           isAdmin
         />
 
+        <ImdbLtaAdminPhaseSwitcher currentPhase={phase} />
+
         <ImdbLtaAdminBatchPanel
           ratingOpen={phase === ImdbLtaPhase.RATING_OPEN}
           openBatch={
@@ -140,6 +147,22 @@ async function ImdbLtaAdminVotesPageContent() {
                 }
               : null
           }
+        />
+
+        <ImdbLtaAdminNominationsOverview
+          snapshot={{
+            uniqueMovies: adminNominationSnapshot.uniqueMovies,
+            totalNominations: adminNominationSnapshot.totalNominations,
+            listCount: adminNominationSnapshot.listCount,
+            submittedListCount: adminNominationSnapshot.submittedListCount,
+            participants: adminNominationSnapshot.participants.map((p) => ({
+              userId: p.userId,
+              name: p.name,
+              nominationCount: p.nominationCount,
+              submittedAt: p.submittedAt?.toISOString() ?? null,
+            })),
+            movies: adminNominationSnapshot.movies,
+          }}
         />
 
         <header className="mb-8">

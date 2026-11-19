@@ -13,6 +13,8 @@ import {
 } from '@/lib/validations/imdb-lta';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
 import { RatingPageClient } from './_components/rating-page-client';
+import { RevisarProgressCard } from './_components/revisar-progress-card';
+import { RevisarMyNominations } from './_components/revisar-my-nominations';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
@@ -112,16 +114,31 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
           currentPath="/imdb-lta/rate"
           isAdmin={isAdmin}
         />
-        <RatingPageClient
-          movies={list.movies.map((movie) =>
-            serializeMovie(movie, isRatingOpen)
-          )}
-          pagination={list.pagination}
-          counts={list.counts}
-          isRatingOpen={isRatingOpen}
-          filter={filter}
-          onlyShort={onlyShort}
-        />
+        <div className="space-y-6">
+          <RevisarProgressCard progress={list.progress} />
+          <RatingPageClient
+            movies={list.movies.map((movie) =>
+              serializeMovie(movie, isRatingOpen)
+            )}
+            pagination={list.pagination}
+            counts={list.counts}
+            isRatingOpen={isRatingOpen}
+            filter={filter}
+            onlyShort={onlyShort}
+          />
+          <RevisarMyNominations
+            nominations={list.myNominations.map((movie) => ({
+              id: movie.id,
+              title: movie.title,
+              originalTitle: movie.originalTitle,
+              releaseDate: movie.releaseDate.toISOString(),
+              posterUrl: movie.posterUrl,
+              imdbId: movie.imdbId,
+              batchState: movie.batchState,
+              userScore: movie.userScore,
+            }))}
+          />
+        </div>
       </div>
     </div>
   );
