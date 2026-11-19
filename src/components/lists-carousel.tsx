@@ -64,7 +64,7 @@ export const ListsCarousel = ({
           {lists.map((list, index) => (
             <CarouselItem
               key={list.id}
-              className="relative basis-full pl-0 transition-opacity duration-700"
+              className="relative basis-full pl-0 transition-opacity duration-300"
               style={{ opacity: current === index ? 1 : 0.4 }}
             >
               <div className="relative h-[60svh] min-h-[450px] w-full lg:h-[75svh]">

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { EASE_OUT } from '@/lib/motion';
 import {
   CheckCircle2,
   ExternalLink,
@@ -56,6 +57,15 @@ const EXIT_ANIM: Record<
 
 const IDLE_ANIM = { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 };
 
+// The fly-out is a tween of known length so the deck can advance exactly when
+// it lands, instead of cutting a still-settling spring off with a guess.
+const EXIT_DURATION_S = 0.25;
+const EXIT_TRANSITION = { duration: EXIT_DURATION_S, ease: EASE_OUT };
+const ENTER_SPRING = { type: 'spring' as const, duration: 0.4, bounce: 0.15 };
+// Keyboard ratings are repeated hundreds of times per batch: no movement,
+// just a quick fade so the swap still registers.
+const INSTANT_ENTER = { duration: 0.12, ease: EASE_OUT };
+
 const NOT_SEEN_HREF = '/imdb-lta/rate?filter=not_seen';
 
 /** In-flight save for a card that may already have left the deck. */
@@ -96,6 +106,10 @@ export function BatchDeckClient({
   const savePhase = useRef(new Map<number, SavePhase>());
   const [pendingScore, setPendingScore] = useState<number | null>(null);
   const [exitDir, setExitDir] = useState<ExitDir | null>(null);
+  // 'instant' after a keyboard rating (or with reduced motion): the next card
+  // fades in without the fly-out / slide-up.
+  const [swapMode, setSwapMode] = useState<'fly' | 'instant'>('fly');
+  const keyboardInput = useRef(false);
 
   const current = deck[0] ?? null;
   const nextUp = deck[1] ?? null;
@@ -156,7 +170,9 @@ export function BatchDeckClient({
     work?: () => Promise<void>
   ) => {
     if (exitDir) return;
-    setExitDir(dir);
+    const instant = reduceMotion || keyboardInput.current;
+    keyboardInput.current = false;
+    setSwapMode(instant ? 'instant' : 'fly');
 
     const finish = () => {
       onDone();
@@ -181,13 +197,13 @@ export function BatchDeckClient({
         });
     }
 
-    if (reduceMotion) {
+    if (instant) {
       finish();
       return;
     }
 
-    // Let the fly-out spring play (~320ms), then swap the card.
-    window.setTimeout(finish, 320);
+    setExitDir(dir);
+    window.setTimeout(finish, EXIT_DURATION_S * 1000);
   };
 
   const handleScore = (score: number) => {
@@ -247,6 +263,7 @@ export function BatchDeckClient({
       return;
     }
 
+    keyboardInput.current = true;
     if (event.key >= '0' && event.key <= '9') {
       event.preventDefault();
       handleScore(Number(event.key));
@@ -260,6 +277,7 @@ export function BatchDeckClient({
       event.preventDefault();
       handleSkip();
     }
+    keyboardInput.current = false;
   });
 
   useEffect(() => {
@@ -267,9 +285,6 @@ export function BatchDeckClient({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  const spring = reduceMotion
-    ? { duration: 0.01 }
-    : { type: 'spring' as const, stiffness: 340, damping: 26, mass: 0.8 };
 
   return (
     <div className="space-y-4 overflow-x-clip">
@@ -289,10 +304,11 @@ export function BatchDeckClient({
         </div>
         <div className="h-1.5 w-full overflow-hidden rounded-sm bg-zinc-900">
           <motion.div
-            className="h-full rounded-sm bg-yellow-500"
+            className="h-full w-full rounded-sm bg-yellow-500"
             initial={false}
-            animate={{ width: `${progressPct}%` }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
+            style={{ originX: 0 }}
+            animate={{ scaleX: progressPct / 100 }}
+            transition={{ duration: 0.3, ease: EASE_OUT }}
           />
         </div>
         {current && skippedCount > 0 && <NotSeenRecall count={skippedCount} />}
@@ -306,7 +322,7 @@ export function BatchDeckClient({
               initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96 }}
-              transition={spring}
+              transition={ENTER_SPRING}
               className="rounded-3xl border border-border bg-zinc-950/80 p-8 text-center"
             >
               <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-emerald-400" />
@@ -343,16 +359,18 @@ export function BatchDeckClient({
             <motion.div
               key={current.id}
               initial={
-                reduceMotion
-                  ? false
+                swapMode === 'instant'
+                  ? { opacity: 0 }
                   : { opacity: 0, scale: 0.94, y: 40, rotate: -1.5 }
               }
-              animate={
+              animate={exitDir ? EXIT_ANIM[exitDir] : IDLE_ANIM}
+              transition={
                 exitDir
-                  ? EXIT_ANIM[exitDir]
-                  : IDLE_ANIM
+                  ? EXIT_TRANSITION
+                  : swapMode === 'instant'
+                    ? INSTANT_ENTER
+                    : ENTER_SPRING
               }
-              transition={spring}
               className="relative overflow-hidden rounded-3xl border border-border bg-zinc-950/90 shadow-2xl will-change-transform"
             >
               <DeckCard

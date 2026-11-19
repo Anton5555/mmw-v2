@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { EASE_OUT, staggerDelay } from '@/lib/motion';
 import type {
   CategoryPredictionStats,
   OscarEdition,
@@ -17,9 +18,9 @@ export function OscarPredictionsView({
 }: OscarPredictionsViewProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
       className="space-y-8"
     >
       <div className="space-y-8">
@@ -29,7 +30,7 @@ export function OscarPredictionsView({
               key={category.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.02 }}
+              transition={{ duration: 0.3, ease: EASE_OUT, delay: staggerDelay(i) }}
               className="group relative overflow-hidden rounded-xl border border-border/60 bg-zinc-900/30 p-5 transition-colors hover:border-white/20"
             >
               <div className="relative flex flex-col space-y-4">
@@ -64,12 +65,14 @@ export function OscarPredictionsView({
                         className="h-1.5 overflow-hidden bg-secondary"
                         title={`${pick.count} votos`}
                       >
-                        <div
+                        <motion.div
                           className={cn(
-                            'h-full bg-primary transition-[width] duration-500 ease-out',
+                            'h-full w-full origin-left bg-primary',
                             idx === 0 && 'bg-yellow-500/80',
                           )}
-                          style={{ width: `${pick.percentage}%` }}
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: pick.percentage / 100 }}
+                          transition={{ duration: 0.4, ease: EASE_OUT, delay: staggerDelay(i) + 0.1 }}
                         />
                       </div>
                     </div>

@@ -35,7 +35,7 @@ export const Card = ({
           alt={card.title}
           fill
           className={cn(
-            'object-cover transition-transform duration-500 ease-out',
+            'object-cover transition-transform duration-300 ease-out',
             hovered === index && '[@media(hover:hover)_and_(pointer:fine)]:scale-105'
           )}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

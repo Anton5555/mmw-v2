@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { EASE_OUT, staggerDelay } from '@/lib/motion';
 import { CheckCircle2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type {
@@ -33,9 +34,9 @@ export function OscarResultsView({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
       className="space-y-12"
     >
       {/* Leaderboard Table */}
@@ -68,7 +69,7 @@ export function OscarResultsView({
                     key={entry.userId}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: i * 0.02 }}
+                    transition={{ duration: 0.2, ease: EASE_OUT, delay: staggerDelay(i) }}
                     className={cn(
                       'border-b border-border/60 transition-colors last:border-b-0',
                       entry.isWinner ? 'bg-secondary/60 shadow-[inset_3px_0_0_hsl(var(--primary))]' : 'hover:bg-white/5',
@@ -144,7 +145,7 @@ export function OscarResultsView({
                 key={category.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.02 }}
+                transition={{ duration: 0.3, ease: EASE_OUT, delay: staggerDelay(i) }}
                 className={cn(
                   'relative overflow-hidden rounded-xl border p-5 transition-colors',
                   winner

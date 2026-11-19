@@ -5,6 +5,7 @@ import { YearTopSkeletonGrid } from './year-top-skeleton-grid';
 import { useYearTopParams } from '@/lib/hooks/useYearTopParams';
 import { startTransition } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { EASE_OUT } from '@/lib/motion';
 
 interface YearTopMovieGridWrapperProps {
   initialParams: {
@@ -64,10 +65,10 @@ export function YearTopMovieGridWrapper({
     <AnimatePresence mode="wait">
       <motion.div
         key={renderedParams.year}
-        initial={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
-        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, scale: 0.98, filter: 'blur(4px)' }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2, ease: EASE_OUT }}
       >
         {children}
       </motion.div>

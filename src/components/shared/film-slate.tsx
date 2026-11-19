@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { EASE_OUT } from '@/lib/motion';
 
 interface FilmSlateProps {
   scene: string;
@@ -10,10 +11,11 @@ interface FilmSlateProps {
 
 export function FilmSlate({ scene, take, onAnimationComplete }: FilmSlateProps) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 1.1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15, ease: EASE_OUT }}
       className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-md"
     >
       <div className="relative w-96 max-w-[90vw] h-auto min-h-64 bg-zinc-900 border-4 border-white rounded-lg flex flex-col overflow-hidden shadow-2xl">
@@ -22,11 +24,11 @@ export function FilmSlate({ scene, take, onAnimationComplete }: FilmSlateProps) 
         <motion.div 
           initial={{ rotate: -30, originX: 0, originY: 1 }}
           animate={{ rotate: 0 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 400, 
-            damping: 10,
-            delay: 0.2 
+          transition={{
+            type: 'spring',
+            duration: 0.35,
+            bounce: 0.25,
+            delay: 0.05,
           }}
           onAnimationComplete={onAnimationComplete}
           className="h-16 w-[120%] bg-zinc-800 border-b-4 border-white flex items-center overflow-hidden"

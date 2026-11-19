@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import type { UserBallot } from '@/lib/validations/oscars';
 import Image from 'next/image';
 import { motion } from 'motion/react';
+import { EASE_OUT } from '@/lib/motion';
 import { toast } from 'sonner';
 import { toPng } from 'html-to-image';
 
@@ -74,9 +75,9 @@ export function OscarSummary({ ballot, editionYear }: OscarSummaryProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
       className="space-y-12"
     >
       <div
