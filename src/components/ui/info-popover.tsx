@@ -24,7 +24,7 @@ export function InfoPopover({ children, content, className, side = 'top' }: Info
           <TooltipTrigger asChild>{children}</TooltipTrigger>
           <TooltipContent 
             side={side} 
-            className={cn('z-50 w-64 p-3 bg-zinc-950/95 backdrop-blur-md border-white/10 max-w-xs break-words text-popover-foreground', className)}
+            className={cn('z-50 w-64 p-3 bg-zinc-950/95 backdrop-blur-md border-border max-w-xs break-words text-popover-foreground', className)}
           >
             {content}
           </TooltipContent>
@@ -40,7 +40,7 @@ export function InfoPopover({ children, content, className, side = 'top' }: Info
       </PopoverTrigger>
       <PopoverContent 
         side={side} 
-        className={cn('z-50 w-64 p-3 bg-zinc-950/95 backdrop-blur-md border-white/10', className)}
+        className={cn('z-50 w-64 p-3 bg-zinc-950/95 backdrop-blur-md border-border', className)}
       >
         {content}
       </PopoverContent>

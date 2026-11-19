@@ -27,7 +27,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const rank = movie.mamRank;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
         <Image
           src={movie.posterUrl || '/placeholder-poster.jpg'}
           alt={movie.title}
@@ -74,7 +74,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const { list, curator } = recommendation;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
         <Image
           src={list.imgUrl || '/placeholder-list.jpg'}
           alt={list.name}
@@ -124,7 +124,7 @@ export function DailySpotlight({ recommendation }: DailySpotlightProps) {
     const picksCount = participant._count?.picks;
 
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 group animate-scale-in">
+      <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 group animate-scale-in">
         <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-zinc-900 to-zinc-950" />
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
 

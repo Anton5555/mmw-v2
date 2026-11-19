@@ -73,7 +73,7 @@ async function ImdbLtaRankingPageContent() {
         </header>
 
         {movies.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border px-6 py-16 text-center">
             <Trophy className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
               Todavía no hay películas con 5 o más puntajes.
@@ -86,12 +86,12 @@ async function ImdbLtaRankingPageContent() {
               return (
                 <li
                   key={movie.id}
-                  className="flex items-center gap-4 rounded-2xl border border-white/10 bg-zinc-950/60 p-3"
+                  className="flex items-center gap-4 rounded-2xl border border-border bg-zinc-950/60 p-3"
                 >
                   <span className="w-10 shrink-0 text-center font-black italic text-yellow-500">
                     #{movie.rank}
                   </span>
-                  <div className="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-zinc-900">
+                  <div className="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg border border-border bg-zinc-900">
                     {src ? (
                       <Image
                         src={src}

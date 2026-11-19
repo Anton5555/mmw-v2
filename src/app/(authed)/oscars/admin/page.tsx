@@ -30,9 +30,9 @@ async function OscarsAdminPageContent() {
 
   if (!edition) {
     return (
-      <div className="min-h-svh bg-[#0a0a0a] text-white flex items-center justify-center p-4">
+      <div className="min-h-svh bg-background text-white flex items-center justify-center p-4">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black tracking-tighter">No hay edición activa</h1>
+          <h1 className="text-4xl">No hay edición activa</h1>
           <p className="text-muted-foreground">
             No hay ninguna edición de los Oscars disponible en este momento.
           </p>
@@ -45,10 +45,10 @@ async function OscarsAdminPageContent() {
   const categories = await getOscarCategories(edition.id);
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
-        <header className="mb-12 text-center">
-          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter">
+        <header className="mb-10">
+          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xler">
             Administrar Ganadores
           </h1>
           <p className="text-zinc-500 mt-2">

@@ -62,7 +62,7 @@ export const Card = ({
           </p>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 rounded-xl border border-white/10 transition-colors duration-200 group-hover:border-white/30" />
+        <div className="pointer-events-none absolute inset-0 rounded-xl border border-border transition-colors duration-200 group-hover:border-white/30" />
       </div>
     </div>
   );

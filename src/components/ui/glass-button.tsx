@@ -22,7 +22,7 @@ export function GlassButton({
   ...props
 }: GlassButtonProps) {
   const baseClasses =
-    'group inline-flex items-center gap-2 rounded-lg border border-white/10 bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 hover:border-white/20';
+    'group inline-flex items-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
   const compactClasses = 'px-3 py-1.5 text-xs';
 
   return (

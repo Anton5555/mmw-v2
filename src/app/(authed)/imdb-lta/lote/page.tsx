@@ -47,7 +47,7 @@ async function ImdbLtaLotePageContent() {
         />
 
         {phase === ImdbLtaPhase.RATING_CLOSED ? (
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/60 px-6 py-16 text-center">
+          <div className="rounded-2xl border border-border bg-zinc-950/60 px-6 py-16 text-center">
             <p className="text-sm text-zinc-400">
               Ya cerramos los puntajes. Mirá el{' '}
               <Link
@@ -60,7 +60,7 @@ async function ImdbLtaLotePageContent() {
             </p>
           </div>
         ) : !deck ? (
-          <div className="rounded-2xl border border-dashed border-white/10 px-6 py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border px-6 py-16 text-center">
             <p className="text-sm font-bold uppercase tracking-wide text-zinc-300">
               No hay lote abierto
             </p>

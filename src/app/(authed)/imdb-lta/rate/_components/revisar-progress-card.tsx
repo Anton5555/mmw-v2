@@ -19,11 +19,11 @@ export function RevisarProgressCard({ progress }: RevisarProgressCardProps) {
   return (
     <section
       aria-label="Tu progreso"
-      className="space-y-4 rounded-3xl border border-white/10 bg-zinc-950/60 p-5 sm:p-6"
+      className="space-y-4 rounded-3xl border border-border bg-zinc-950/60 p-5 sm:p-6"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
-          <p className="text-[11px] font-black uppercase tracking-widest text-yellow-400">
+          <p className="text-xs font-bold text-yellow-400">
             Progreso
           </p>
           {percent === null ? (
@@ -51,7 +51,7 @@ export function RevisarProgressCard({ progress }: RevisarProgressCardProps) {
         </div>
         {percent !== null ? (
           <div
-            className="h-2 w-full overflow-hidden rounded-full bg-zinc-800 sm:max-w-xs"
+            className="h-2 w-full overflow-hidden rounded-sm bg-zinc-800 sm:max-w-xs"
             role="progressbar"
             aria-valuenow={percent}
             aria-valuemin={0}
@@ -59,7 +59,7 @@ export function RevisarProgressCard({ progress }: RevisarProgressCardProps) {
             aria-label={`Viste el ${percent} por ciento de las películas publicadas`}
           >
             <div
-              className="h-full rounded-full bg-yellow-500 transition-[width]"
+              className="h-full rounded-sm bg-yellow-500 transition-[width]"
               style={{ width: `${percent}%` }}
             />
           </div>
@@ -81,8 +81,8 @@ export function RevisarProgressCard({ progress }: RevisarProgressCardProps) {
 
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
-    <div className="rounded-2xl border border-white/5 bg-zinc-900/80 px-3 py-2.5">
-      <dt className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+    <div className="rounded-2xl border border-border/60 bg-zinc-900/80 px-3 py-2.5">
+      <dt className="text-xs font-bold text-zinc-500">
         {label}
       </dt>
       <dd className="mt-0.5 font-mono text-lg font-black text-zinc-100">

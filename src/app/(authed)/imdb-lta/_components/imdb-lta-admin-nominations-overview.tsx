@@ -86,7 +86,7 @@ export function ImdbLtaAdminNominationsOverview({
             {snapshot.participants.length === 0 ? (
               <p className="text-xs text-zinc-500">Nadie nominó todavía.</p>
             ) : (
-              <ul className="divide-y divide-white/5 rounded-xl border border-white/10 bg-zinc-950/50">
+              <ul className="divide-y divide-white/5 rounded-xl border border-border bg-zinc-950/50">
                 {snapshot.participants.map((p) => (
                   <li
                     key={p.userId}
@@ -106,7 +106,7 @@ export function ImdbLtaAdminNominationsOverview({
                           'text-[10px]',
                           p.submittedAt
                             ? 'border-emerald-500/40 text-emerald-400'
-                            : 'border-white/10 text-zinc-500'
+                            : 'border-border text-zinc-500'
                         )}
                       >
                         {p.submittedAt ? 'Guardada' : 'Borrador'}
@@ -131,9 +131,9 @@ export function ImdbLtaAdminNominationsOverview({
                   return (
                     <li
                       key={movie.id}
-                      className="flex gap-3 rounded-xl border border-white/10 bg-zinc-950/50 p-2"
+                      className="flex gap-3 rounded-xl border border-border bg-zinc-950/50 p-2"
                     >
-                      <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
+                      <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-md border border-border bg-zinc-900">
                         {src ? (
                           <Image
                             src={src}

@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'motion/react';
 import { Calendar, Film } from 'lucide-react';
 import ReactCountryFlag from 'react-country-flag';
 import { cn } from '@/lib/utils';
@@ -33,8 +32,9 @@ export function MovieHero({
   return (
     <div
       className={cn(
-        'relative w-full overflow-hidden border-b border-white/5',
-        !compact && 'h-[50svh] md:h-[60svh]'
+        'relative w-full overflow-hidden border-b border-border',
+        // Full page: tuck under the breadcrumb trail
+        !compact && '-mt-11 flex min-h-[50svh] items-end md:min-h-[60svh]'
       )}
     >
       <Image
@@ -42,19 +42,22 @@ export function MovieHero({
         alt={displayTitle}
         fill
         priority
-        className="object-cover opacity-30 blur-2xl transition-transform duration-1000 scale-110"
+        className="scale-110 object-cover opacity-20 blur-2xl"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+      {!compact && (
+        <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-background/90 to-transparent" />
+      )}
 
       {/* Content Overlay */}
       <div
         className={cn(
-          compact ? 'relative pb-6 pt-6' : 'absolute inset-0 flex items-end pb-12'
+          compact ? 'relative pb-6 pt-6' : 'relative w-full pb-12 pt-20'
         )}
       >
         <div
           className={cn(
-            compact ? 'px-4' : 'container mx-auto px-4 md:px-8'
+            compact ? 'px-4' : 'container mx-auto px-4'
           )}
         >
           <div
@@ -64,12 +67,10 @@ export function MovieHero({
             )}
           >
             {/* Floating Poster */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className={cn('relative', compact ? 'self-start' : 'hidden md:block')}
             >
-              <div className="aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/50 ring-1 ring-white/10">
+              <div className="aspect-[2/3] overflow-hidden rounded-sm ring-1 ring-border">
                 <Image
                   src={`https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
                   alt={displayTitle}
@@ -81,25 +82,23 @@ export function MovieHero({
               {displayRank && (
                 <div
                   className={cn(
-                    'absolute flex items-center justify-center rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 font-black text-white shadow-xl ring-4 ring-[#0a0a0a]',
-                    compact
-                      ? '-right-3 -top-3 h-10 w-10'
-                      : '-right-4 -top-4 h-16 w-16'
+                    'absolute left-0 top-0 flex items-center justify-center bg-primary px-2 font-display font-bold tabular-nums text-primary-foreground',
+                    compact ? 'h-8 min-w-8' : 'h-12 min-w-12'
                   )}
                 >
-                  <span className={compact ? 'text-sm' : 'text-2xl'}>
+                  <span className={compact ? 'text-base' : 'text-2xl'}>
                     #{displayRank}
                   </span>
                 </div>
               )}
-            </motion.div>
+            </div>
 
             {/* Header Info */}
             <div className={cn('flex flex-col justify-end', compact ? 'space-y-4' : 'space-y-6')}>
               <div className="space-y-2">
                 <h1
                   className={cn(
-                    'text-balance font-black uppercase tracking-tighter',
+                    'text-balance font-bold leading-[0.95]',
                     compact
                       ? 'text-2xl'
                       : 'text-3xl sm:text-4xl md:text-5xl xl:text-6xl'
@@ -107,17 +106,17 @@ export function MovieHero({
                 >
                   {displayTitle}
                 </h1>
-                <div className="flex flex-wrap items-center gap-4 text-sm font-medium tracking-wide text-white/60">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" /> {releaseYear}
                   </span>
-                  <span className="h-1 w-1 rounded-full bg-white/20" />
+                  <span aria-hidden className="h-3 w-px bg-border" />
                   <span className="flex items-center gap-1.5">
                     <Film className="h-4 w-4" /> {genre || 'Cine'}
                   </span>
                   {countryCodes.length > 0 && (
                     <>
-                      <span className="h-1 w-1 rounded-full bg-white/20" />
+                      <span aria-hidden className="h-3 w-px bg-border" />
                       <span className="flex items-center gap-1">
                         {countryCodes.map((code) => (
                           <ReactCountryFlag
@@ -137,8 +136,8 @@ export function MovieHero({
                   )}
                   {director && (
                     <>
-                      <span className="h-1 w-1 rounded-full bg-white/20" />
-                      <span className="text-white">
+                      <span aria-hidden className="h-3 w-px bg-border" />
+                      <span className="text-foreground">
                         Dirigido por {director}
                       </span>
                     </>

@@ -49,7 +49,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
 
   if (events.length === 0) {
     return (
-      <div className="flex h-[160px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 bg-zinc-900/50">
+      <div className="flex h-[160px] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-zinc-900/50">
         <CalendarX2 className="size-5 text-zinc-600" />
         <p className="text-sm text-zinc-500">No hay próximos eventos</p>
       </div>
@@ -106,7 +106,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
             return (
               <li
                 key={event.id}
-                className="group relative flex gap-3 overflow-hidden rounded-xl border border-white/10 bg-zinc-900/60 p-3 transition-colors hover:border-white/20 hover:bg-zinc-900"
+                className="group relative flex gap-3 overflow-hidden rounded-xl border border-border bg-zinc-900/60 p-3 transition-colors hover:border-white/20 hover:bg-zinc-900"
               >
                 <span
                   aria-hidden
@@ -116,7 +116,7 @@ export function NextEvents({ events, showTitle = true }: NextEventsProps) {
                   )}
                 />
 
-                <div className="flex size-12 shrink-0 flex-col items-center justify-center rounded-lg border border-white/10 bg-zinc-950">
+                <div className="flex size-12 shrink-0 flex-col items-center justify-center rounded-lg border border-border bg-zinc-950">
                   <span className="text-[10px] font-medium uppercase leading-none tracking-wider text-zinc-500">
                     {format(eventDate, 'MMM', { locale: es })}
                   </span>

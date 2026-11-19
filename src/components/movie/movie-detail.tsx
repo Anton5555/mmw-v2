@@ -42,7 +42,7 @@ export function MovieDetail({
 
   return (
     <div
-      className={cn('bg-[#0a0a0a] text-white', !compact && 'min-h-svh')}
+      className={cn('bg-background text-white', !compact && 'min-h-svh')}
     >
       <MovieHero
         movie={movie}
@@ -54,7 +54,7 @@ export function MovieDetail({
 
       <section
         className={cn(
-          compact ? 'px-4 py-8' : 'container mx-auto px-4 py-12 md:px-8'
+          compact ? 'px-4 py-8' : 'container mx-auto px-4 py-12'
         )}
       >
         <div

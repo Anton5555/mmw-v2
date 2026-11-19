@@ -37,7 +37,7 @@ export default async function SpecialMentionsPage({
   });
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header */}
         <header className="mb-8 pt-4 md:pt-8">

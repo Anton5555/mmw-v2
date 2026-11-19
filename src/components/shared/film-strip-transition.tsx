@@ -83,7 +83,7 @@ export function FilmStripTransition({
           </motion.div>
 
           {/* Center Focus Brackets (Visual Guide) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[300px] border-x border-white/10 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[300px] border-x border-border pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-red-600/30" />
           </div>
         </motion.div>

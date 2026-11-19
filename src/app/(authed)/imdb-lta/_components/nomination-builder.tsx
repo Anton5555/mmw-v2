@@ -406,7 +406,7 @@ export function NominationBuilder({
       <div
         className={cn(
           'sticky top-14 z-20 space-y-3 rounded-2xl border p-4 shadow-2xl backdrop-blur-xl',
-          state === 'incomplete' && 'border-white/10 bg-zinc-950/80',
+          state === 'incomplete' && 'border-border bg-zinc-950/80',
           state === 'valid' && 'border-emerald-500/30 bg-emerald-950/80',
           state === 'max' && 'border-yellow-500/30 bg-yellow-950/80'
         )}
@@ -495,7 +495,7 @@ export function NominationBuilder({
                       : undefined
                   }
                   role="combobox"
-                  className="bg-zinc-950 border-white/10 pl-10 font-mono text-sm"
+                  className="bg-zinc-950 border-border pl-10 font-mono text-sm"
                 />
 
                 {showSuggestionsPanel && (
@@ -503,7 +503,7 @@ export function NominationBuilder({
                     id={listboxId}
                     role="listbox"
                     aria-label="Sugerencias de películas"
-                    className="absolute left-0 right-0 top-full z-30 mt-2 max-h-80 overflow-y-auto rounded-xl border border-white/10 bg-zinc-950/95 p-1.5 shadow-2xl backdrop-blur-xl"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 max-h-80 overflow-y-auto rounded-xl border border-border bg-zinc-950/95 p-1.5 shadow-2xl backdrop-blur-xl"
                   >
                     {isSearching && suggestions.length === 0 ? (
                       <div className="flex items-center gap-2 px-3 py-3 text-sm text-zinc-400">
@@ -633,7 +633,7 @@ export function NominationBuilder({
         </h2>
 
         {movies.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 bg-zinc-950/40 px-6 py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border bg-zinc-950/40 px-6 py-16 text-center">
             <Film className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
               Todavía no agregaste películas. Buscá por nombre o ID de IMDb para
@@ -649,7 +649,7 @@ export function NominationBuilder({
 
               return (
                 <div key={movie.id} className="group relative space-y-2">
-                  <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-white/10 shadow-lg">
+                  <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-border shadow-lg">
                     {src ? (
                       <Image
                         src={src}
@@ -699,7 +699,7 @@ export function NominationBuilder({
 
       {/* Sticky save footer */}
       {isNominationOpen && (
-        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 rounded-2xl border border-white/10 bg-zinc-950/80 p-4 shadow-2xl backdrop-blur-xl">
+        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 rounded-2xl border border-border bg-zinc-950/80 p-4 shadow-2xl backdrop-blur-xl">
           <div className="hidden flex-1 self-center text-xs text-zinc-500 sm:block">
             {isSaved
               ? 'Podés seguir editando y guardar de nuevo.'
@@ -727,7 +727,7 @@ export function NominationBuilder({
           if (!open) setPickerMovies(null);
         }}
       >
-        <DialogContent className="max-h-[85dvh] overflow-y-auto border-white/10 bg-zinc-950 sm:max-w-lg">
+        <DialogContent className="max-h-[85dvh] overflow-y-auto border-border bg-zinc-950 sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="uppercase italic tracking-tight">
               Varias coincidencias
@@ -750,7 +750,7 @@ export function NominationBuilder({
                   disabled={alreadyAdded || isPending}
                   onClick={() => addMovie(movie)}
                   className={cn(
-                    'flex w-full items-center gap-3 rounded-xl border border-white/10 bg-zinc-900/60 p-3 text-left transition hover:border-yellow-500/40 hover:bg-zinc-900',
+                    'flex w-full items-center gap-3 rounded-xl border border-border bg-zinc-900/60 p-3 text-left transition hover:border-yellow-500/40 hover:bg-zinc-900',
                     alreadyAdded && 'opacity-50'
                   )}
                 >

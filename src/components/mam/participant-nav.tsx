@@ -51,7 +51,7 @@ export function ParticipantNav({ participants, className }: ParticipantNavProps)
       >
         <Users className="text-yellow-500" />
         <span>Participantes</span>
-        <span className="hidden rounded-full bg-white/10 px-1.5 py-px sm:inline text-[10px] font-semibold tabular-nums text-zinc-300">
+        <span className="hidden rounded-sm bg-secondary px-1.5 py-px sm:inline text-xs font-semibold tabular-nums text-muted-foreground">
           {participants.length}
         </span>
       </button>

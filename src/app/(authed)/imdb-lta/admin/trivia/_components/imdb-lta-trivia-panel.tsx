@@ -408,7 +408,7 @@ export function ImdbLtaTriviaPanel({
         )}
       </section>
 
-      <section className="rounded-2xl border border-white/10 bg-zinc-950/40 p-4">
+      <section className="rounded-2xl border border-border bg-zinc-950/40 p-4">
         <p className="mb-3 text-xs font-black uppercase tracking-widest text-zinc-400">
           Marcador
         </p>

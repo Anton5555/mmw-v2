@@ -29,12 +29,12 @@ export default async function CalendarPage({ searchParams }: CalendarPageProps) 
           so a viewport breakpoint like lg leaves the events column too thin) */}
       <div className="grid items-start gap-6 xl:grid-cols-[20rem_minmax(0,1fr)]">
         <aside className="min-w-0">
-          <div className="hidden rounded-xl border border-white/10 bg-zinc-900/40 p-5 xl:sticky xl:top-20 xl:block">
+          <div className="hidden rounded-xl border border-border bg-zinc-900/40 p-5 xl:sticky xl:top-20 xl:block">
             <NextEvents events={nextEvents} />
           </div>
 
           <Collapsible
-            className="rounded-xl border border-white/10 bg-zinc-900/40 xl:hidden"
+            className="rounded-xl border border-border bg-zinc-900/40 xl:hidden"
             defaultOpen
           >
             <div className="flex items-center justify-between gap-3 px-4 py-2">
@@ -47,7 +47,7 @@ export default async function CalendarPage({ searchParams }: CalendarPageProps) 
               </CollapsibleTrigger>
             </div>
             <CollapsibleContent>
-              <div className="border-t border-white/10 p-4">
+              <div className="border-t border-border p-4">
                 <NextEvents events={nextEvents} showTitle={false} />
               </div>
             </CollapsibleContent>
@@ -61,7 +61,7 @@ export default async function CalendarPage({ searchParams }: CalendarPageProps) 
         </div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-xl border border-white/10 bg-zinc-900/40 px-4 py-3">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-xl border border-border bg-zinc-900/40 px-4 py-3">
         {Object.entries(EVENT_COLORS).map(([type, color]) => (
           <div key={type} className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-full', `bg-${color}`)} />

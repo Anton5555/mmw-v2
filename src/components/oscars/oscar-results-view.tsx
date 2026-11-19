@@ -40,24 +40,24 @@ export function OscarResultsView({
     >
       {/* Leaderboard Table */}
       <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+        <h2 className="text-xl font-bold">
           Clasificación
         </h2>
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-zinc-900/50">
+        <div className="overflow-hidden rounded-xl border border-border bg-zinc-900/50">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[400px] text-left">
               <thead>
-                <tr className="border-b border-white/10 bg-zinc-900/80">
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                <tr className="border-b border-border bg-zinc-900/80">
+                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
                     #
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
                     Participante
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
                     Pts
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                  <th className="px-4 py-3 text-xs font-semibold text-muted-foreground">
                     Enviado
                   </th>
                 </tr>
@@ -70,8 +70,8 @@ export function OscarResultsView({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2, delay: i * 0.02 }}
                     className={cn(
-                      'border-b border-white/5 transition-colors last:border-b-0',
-                      entry.isWinner ? 'bg-yellow-500/10' : 'hover:bg-white/5',
+                      'border-b border-border/60 transition-colors last:border-b-0',
+                      entry.isWinner ? 'bg-secondary/60 shadow-[inset_3px_0_0_hsl(var(--primary))]' : 'hover:bg-white/5',
                     )}
                   >
                     <td className="px-4 py-3">
@@ -86,7 +86,7 @@ export function OscarResultsView({
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8 border border-white/10">
+                        <Avatar className="h-8 w-8 border border-border">
                           {entry.userImage && (
                             <AvatarImage
                               src={entry.userImage}
@@ -124,7 +124,7 @@ export function OscarResultsView({
           </div>
         </div>
         {leaderboard.length === 0 && (
-          <p className="rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
+          <p className="rounded-xl border border-border/60 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
             Aún no hay participantes.
           </p>
         )}
@@ -132,7 +132,7 @@ export function OscarResultsView({
 
       {/* Category Winners Grid */}
       <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+        <h2 className="text-xl font-bold">
           Ganadores por categoría
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -148,11 +148,11 @@ export function OscarResultsView({
                 className={cn(
                   'relative overflow-hidden rounded-xl border p-5 transition-colors',
                   winner
-                    ? 'border-yellow-500/30 bg-yellow-500/5'
-                    : 'border-white/5 bg-zinc-900/30',
+                    ? 'border-border bg-card'
+                    : 'border-dashed border-border/60 bg-transparent',
                 )}
               >
-                <span className="text-xs font-medium uppercase tracking-wide text-yellow-500/80">
+                <span className="text-sm font-semibold text-primary">
                   {category.name}
                 </span>
                 {winner ? (
@@ -165,7 +165,7 @@ export function OscarResultsView({
                       {winner.filmTitle &&
                         winner.filmTitle.trim() !==
                           winner.nomineeName.trim() && (
-                          <p className="mt-0.5 text-sm italic text-zinc-500">
+                          <p className="mt-0.5 text-sm text-muted-foreground">
                             {winner.filmTitle}
                           </p>
                         )}
@@ -180,9 +180,6 @@ export function OscarResultsView({
                     Sin ganador asignado
                   </p>
                 )}
-                <div className="absolute -bottom-2 -right-2 pointer-events-none select-none text-[5rem] font-black italic leading-none text-white/5">
-                  {category.order}
-                </div>
               </motion.div>
             );
           })}

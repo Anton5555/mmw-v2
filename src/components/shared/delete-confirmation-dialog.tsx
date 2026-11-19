@@ -53,7 +53,7 @@ export function DeleteConfirmationDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-white/10 bg-zinc-950 sm:max-w-md">
+      <DialogContent className="border-border bg-zinc-950 sm:max-w-md">
         <DialogHeader className="space-y-2">
           <DialogTitle className="text-xl font-semibold tracking-tight text-white">
             ¿Eliminar &ldquo;{title}&rdquo;?

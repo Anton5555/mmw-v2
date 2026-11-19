@@ -38,9 +38,9 @@ async function OscarsPageContent() {
 
   if (!edition) {
     return (
-      <div className="min-h-svh bg-[#0a0a0a] text-white flex items-center justify-center p-4">
+      <div className="min-h-svh bg-background text-white flex items-center justify-center p-4">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black tracking-tighter">
+          <h1 className="text-4xl">
             No hay edición activa
           </h1>
           <p className="text-muted-foreground">
@@ -56,16 +56,16 @@ async function OscarsPageContent() {
 
   if (userBallot) {
     return (
-      <div className="min-h-svh bg-[#0a0a0a] text-white">
+      <div className="min-h-svh bg-background text-white">
         <Suspense fallback={null}>
           <OscarSuccessDialog />
         </Suspense>
         <div className="container mx-auto px-4 py-12 max-w-6xl">
-          <header className="mb-12 text-center">
-            <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+          <header className="mb-10">
+            <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
               Tus apuestas
             </h1>
-            <p className="text-zinc-400 mt-3">
+            <p className="mt-2 text-pretty text-muted-foreground">
               Buena suerte, {session.user.name}.
             </p>
             <SectionNav
@@ -99,13 +99,13 @@ async function OscarsPageContent() {
   const categories = await getOscarCategories(edition.id);
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <header className="mb-12 text-center">
-          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+        <header className="mb-10">
+          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
             Los Oscalos
           </h1>
-          <p className="text-zinc-400 mt-3">
+          <p className="mt-2 text-pretty text-muted-foreground">
             Apostá para la edición {edition.year}.
           </p>
           <SectionNav

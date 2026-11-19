@@ -100,7 +100,7 @@ export function OscarWinnersForm({
         transition={{ duration: 0.5 }}
         className="space-y-4"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+        <h2 className="text-xl font-bold">
           Pendientes ({pending.length})
         </h2>
         <div className="grid grid-cols-1 gap-4">
@@ -117,11 +117,11 @@ export function OscarWinnersForm({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: category.order * 0.02 }}
-                className="rounded-xl border border-white/5 bg-zinc-900/50 p-6 transition-colors"
+                className="rounded-xl border border-border/60 bg-zinc-900/50 p-6 transition-colors"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                   <div className="min-w-0 flex-1">
-                    <div className="mb-2 text-xs font-mono uppercase tracking-widest text-yellow-500/70">
+                    <div className="mb-2 text-sm font-semibold text-primary">
                       Categoría {category.order}
                     </div>
                     <h3 className="mb-4 font-bold text-xl">{category.name}</h3>
@@ -132,10 +132,10 @@ export function OscarWinnersForm({
                       }
                       disabled={isSubmitting}
                     >
-                      <SelectTrigger className="w-full border-white/10 bg-zinc-800/50 text-white hover:border-white/20 hover:bg-zinc-800 sm:max-w-md">
+                      <SelectTrigger className="w-full border-border bg-zinc-800/50 text-white hover:border-white/20 hover:bg-zinc-800 sm:max-w-md">
                         <SelectValue placeholder="Selecciona el ganador..." />
                       </SelectTrigger>
-                      <SelectContent className="border-white/10 bg-zinc-900">
+                      <SelectContent className="border-border bg-zinc-900">
                         {category.nominees.map((nominee) => (
                           <SelectItem
                             key={nominee.id}
@@ -162,7 +162,7 @@ export function OscarWinnersForm({
                   <Button
                     onClick={() => handleSubmit(category)}
                     disabled={!selectedNominee || isSubmitting}
-                    className="shrink-0 rounded-full bg-white px-6 text-black hover:bg-yellow-500 hover:text-black select-none"
+                    className="shrink-0 select-none"
                   >
                     {isSubmitting ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -179,7 +179,7 @@ export function OscarWinnersForm({
           })}
         </div>
         {pending.length === 0 && (
-          <p className="rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
+          <p className="rounded-xl border border-border/60 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
             No hay categorías pendientes. Todas tienen ganador asignado.
           </p>
         )}
@@ -192,7 +192,7 @@ export function OscarWinnersForm({
         transition={{ duration: 0.5, delay: 0.1 }}
         className="space-y-4"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+        <h2 className="text-xl font-bold">
           Anunciados ({announced.length})
         </h2>
         <div className="grid grid-cols-1 gap-4">
@@ -204,12 +204,12 @@ export function OscarWinnersForm({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: category.order * 0.02 }}
-                className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-6 transition-colors"
+                className="rounded-xl border border-primary/70 bg-card p-6 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-yellow-500" />
                   <div className="min-w-0 flex-1">
-                    <div className="mb-1 text-xs font-mono uppercase tracking-widest text-yellow-500/70">
+                    <div className="mb-1 text-sm font-semibold text-primary">
                       Categoría {category.order}
                     </div>
                     <h3 className="font-bold text-xl">{category.name}</h3>
@@ -234,13 +234,13 @@ export function OscarWinnersForm({
           })}
         </div>
         {announced.length === 0 && (
-          <p className="rounded-xl border border-white/5 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
+          <p className="rounded-xl border border-border/60 bg-zinc-900/30 px-4 py-6 text-center text-sm text-zinc-500">
             Aún no se ha anunciado ningún ganador.
           </p>
         )}
       </motion.section>
 
-      <div className="border-t border-white/10 pt-6 text-center text-sm text-zinc-500">
+      <div className="border-t border-border pt-6 text-center text-sm text-zinc-500">
         <p>
           {announced.length} de {categories.length} categorías con ganador
           anunciado

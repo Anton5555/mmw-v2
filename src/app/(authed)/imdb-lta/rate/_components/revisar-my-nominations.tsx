@@ -47,11 +47,11 @@ export function RevisarMyNominations({
   }
 
   return (
-    <details className="group rounded-3xl border border-white/10 bg-zinc-950/60 open:pb-5">
+    <details className="group rounded-3xl border border-border bg-zinc-950/60 open:pb-5">
       <summary className="cursor-pointer list-none px-5 py-4 sm:px-6 [&::-webkit-details-marker]:hidden">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-[11px] font-black uppercase tracking-widest text-yellow-400">
+            <p className="text-xs font-bold text-yellow-400">
               Tus nominaciones
             </p>
             <p className="mt-0.5 text-sm text-zinc-400">
@@ -74,7 +74,7 @@ export function RevisarMyNominations({
           const badge = badgeFor(movie.batchState);
           return (
             <li key={movie.id} className="space-y-1.5">
-              <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
+              <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-border bg-zinc-900">
                 {src ? (
                   <Image
                     src={src}
@@ -100,12 +100,12 @@ export function RevisarMyNominations({
               </p>
               <div className="flex flex-wrap gap-1">
                 <span
-                  className={`rounded-full px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider ${badge.className}`}
+                  className={`rounded-sm px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider ${badge.className}`}
                 >
                   {badge.label}
                 </span>
                 {movie.userScore !== null ? (
-                  <span className="rounded-full bg-white/5 px-1.5 py-0.5 font-mono text-[9px] font-bold text-zinc-300">
+                  <span className="rounded-sm bg-white/5 px-1.5 py-0.5 font-mono text-[9px] font-bold text-zinc-300">
                     {movie.userScore}/10
                   </span>
                 ) : null}

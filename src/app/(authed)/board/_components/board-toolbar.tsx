@@ -9,7 +9,7 @@ interface BoardToolbarProps {
 
 export function BoardToolbar({ onCreateClick }: BoardToolbarProps) {
   return (
-    <div className="p-6 border-b border-white/5">
+    <div className="p-6 border-b border-border/60">
       <Button
         onClick={onCreateClick}
         className="bg-yellow-500 hover:bg-yellow-600 text-black font-black uppercase tracking-[.2em]"

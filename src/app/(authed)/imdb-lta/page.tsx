@@ -72,7 +72,7 @@ async function ImdbLtaPageContent() {
               banner.tone === 'blue' &&
                 'border-blue-500/20 bg-blue-950/40 text-blue-200',
               banner.tone === 'zinc' &&
-                'border-white/10 bg-zinc-950/60 text-zinc-300'
+                'border-border bg-zinc-950/60 text-zinc-300'
             )}
           >
             <p className="text-sm font-bold uppercase tracking-wider opacity-90">

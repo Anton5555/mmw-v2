@@ -71,7 +71,7 @@ export default async function ParticipantPage({
   });
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header */}
         <BreadcrumbLabel label={participant.displayName} />

@@ -54,12 +54,12 @@ export function YearTopParticipantNav({
       <Button
         type="button"
         variant="outline"
-        className="inline-flex items-center gap-2 rounded-full border-white/10 bg-white/5 px-5 h-10 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20"
+        className="inline-flex items-center gap-2 rounded-sm border-border bg-card px-4 h-10 text-sm font-semibold text-foreground hover:bg-secondary"
         onClick={() => setOpen(true)}
       >
         <Users className="h-4 w-4 text-yellow-500" />
         <span>Explorar por participante</span>
-        <span className="ml-2 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-300">
+        <span className="ml-2 rounded-sm bg-secondary px-1.5 py-px text-xs font-semibold tabular-nums text-muted-foreground">
           {participants.length}
         </span>
       </Button>

@@ -2,8 +2,39 @@
 @import 'tw-animate-css';
 
 @theme {
-  /* Border radius - moved to CSS */
-  --radius: 0.5rem;
+  /* Film stock: small, near-square corners everywhere. The large steps are
+     flattened so existing rounded-xl/2xl/3xl classes follow the new shape. */
+  --radius: 0.25rem;
+  --radius-xl: 0.25rem;
+  --radius-2xl: 0.25rem;
+  --radius-3xl: 0.25rem;
+
+  /* Zinc is remapped to teal ink + cream, so every zinc-* class in the app
+     picks up the Film stock surfaces without per-file edits. */
+  --color-zinc-50: #f1e9d8;
+  --color-zinc-100: #e9e1d0;
+  --color-zinc-200: #d6d6ca;
+  --color-zinc-300: #c7d3cf;
+  --color-zinc-400: #b9c9c6;
+  --color-zinc-500: #8ea7a8;
+  --color-zinc-600: #5f7f84;
+  --color-zinc-700: #2f5560;
+  --color-zinc-800: #1f3f48;
+  --color-zinc-900: #17323a;
+  --color-zinc-950: #0f2226;
+  --color-white: #f1e9d8;
+
+  /* Yellow and amber share the film-box yellow. */
+  --color-yellow-300: #f8d27d;
+  --color-yellow-400: #f6c25a;
+  --color-yellow-500: #f2b632;
+  --color-yellow-600: #d79b17;
+  --color-amber-300: #f8d27d;
+  --color-amber-400: #f6c25a;
+  --color-amber-500: #f2b632;
+  --color-amber-600: #d79b17;
+
+  --font-display: var(--font-barlow-condensed), 'Arial Narrow', sans-serif;
 
   /* Motion curves: the built-in CSS easings are too weak to feel intentional */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -58,26 +89,6 @@
   }
 }
 
-@keyframes grain {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-5%, -5%);
-  }
-  30% {
-    transform: translate(3%, -8%);
-  }
-  50% {
-    transform: translate(-8%, 4%);
-  }
-  70% {
-    transform: translate(9%, 9%);
-  }
-  90% {
-    transform: translate(-3%, 7%);
-  }
-}
 
 @keyframes spin {
   from {
@@ -88,16 +99,6 @@
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.4;
-    transform: scale(1.2);
-  }
-}
 
 @keyframes fade-in {
   from {
@@ -147,17 +148,11 @@
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
-.animate-grain {
-  animation: grain 1s steps(6) infinite;
-}
 
 .animate-spin-smooth {
   animation: spin 0.8s linear infinite;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
 
 /* Still need JS config for content paths, darkMode, and nested color structures */
 @config '../../tailwind.config.ts';
@@ -182,9 +177,9 @@
 
 @layer base {
   :root {
-    /* Deep Slate/Zinc theme colors for a cinema feel */
-    --cinema-black: #09090b;
-    --cinema-gold: 234, 179, 8;
+    /* Film stock palette: teal ink, label cream, box red, box yellow */
+    --cinema-black: #0f2226;
+    --cinema-gold: 242, 182, 50;
     
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -221,39 +216,39 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    /* Using Tailwind's zinc palette - modern neutral dark theme */
-    --background: 240 10% 3.9%; /* zinc-950 */
-    --foreground: 0 0% 98%; /* zinc-50 */
-    --card: 240 10% 3.9%; /* zinc-950 */
-    --card-foreground: 0 0% 98%; /* zinc-50 */
-    --popover: 240 10% 3.9%; /* zinc-950 */
-    --popover-foreground: 0 0% 98%; /* zinc-50 */
-    --primary: 0 0% 98%; /* zinc-50 */
-    --primary-foreground: 240 5.9% 10%; /* zinc-900 */
-    --secondary: 240 3.7% 15.9%; /* zinc-800 */
-    --secondary-foreground: 0 0% 98%; /* zinc-50 */
-    --muted: 240 3.7% 15.9%; /* zinc-800 */
-    --muted-foreground: 240 5% 64.9%; /* zinc-400 */
-    --accent: 240 3.7% 15.9%; /* zinc-800 */
-    --accent-foreground: 0 0% 98%; /* zinc-50 */
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%; /* zinc-800 */
-    --input: 240 3.7% 15.9%; /* zinc-800 */
-    --ring: 240 4.9% 83.9%; /* zinc-300 */
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%; /* zinc-900 */
-    --sidebar-foreground: 0 0% 98%; /* zinc-50 */
-    --sidebar-primary: 0 0% 98%; /* zinc-50 */
-    --sidebar-primary-foreground: 240 5.9% 10%; /* zinc-900 */
-    --sidebar-accent: 240 3.7% 15.9%; /* zinc-800 */
-    --sidebar-accent-foreground: 0 0% 98%; /* zinc-50 */
-    --sidebar-border: 240 3.7% 15.9%; /* zinc-800 */
-    --sidebar-ring: 240 4.9% 83.9%; /* zinc-300 */
+    /* Film stock (dark only). HSL triples, same names shadcn expects. */
+    --background: 190 43% 10%; /* #0f2226 teal ink */
+    --foreground: 42 47% 90%; /* #f1e9d8 label cream */
+    --card: 193 43% 16%; /* #17323a */
+    --card-foreground: 42 47% 90%;
+    --popover: 193 43% 14%;
+    --popover-foreground: 42 47% 90%;
+    --primary: 41 88% 57%; /* #f2b632 box yellow */
+    --primary-foreground: 190 43% 10%;
+    --secondary: 193 40% 19%; /* #1d3c45 */
+    --secondary-foreground: 42 47% 90%;
+    --muted: 193 40% 19%;
+    --muted-foreground: 170 13% 76%; /* #b9c9c6 */
+    --accent: 193 40% 21%;
+    --accent-foreground: 42 47% 90%;
+    --destructive: 5 70% 45%; /* box red, darkened for text contrast */
+    --destructive-foreground: 42 47% 94%;
+    --border: 192 34% 25%; /* #2a4c55 */
+    --input: 192 34% 25%;
+    --ring: 41 88% 57%;
+    --chart-1: 41 88% 57%;
+    --chart-2: 5 70% 51%;
+    --chart-3: 186 45% 55%;
+    --chart-4: 42 47% 90%;
+    --chart-5: 160 40% 40%;
+    --sidebar-background: 190 43% 8%;
+    --sidebar-foreground: 42 47% 90%;
+    --sidebar-primary: 41 88% 57%;
+    --sidebar-primary-foreground: 190 43% 10%;
+    --sidebar-accent: 193 40% 19%;
+    --sidebar-accent-foreground: 42 47% 90%;
+    --sidebar-border: 192 34% 25%;
+    --sidebar-ring: 41 88% 57%;
   }
 }
 
@@ -263,6 +258,18 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Titles use the condensed face; h1 is the page title. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+  h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
   /* Controls fire on tap without the double-tap-zoom wait, and a long-press
@@ -356,8 +363,6 @@
     animation-duration: 0.2s;
   }
 
-  .animate-grain,
-  .animate-pulse-glow,
   .skeleton-shimmer::after {
     animation: none;
   }

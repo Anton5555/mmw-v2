@@ -27,38 +27,38 @@ export function MovieSidebar({
     <aside className={compact ? 'space-y-8' : 'space-y-10'}>
       {/* Stats Widget - Bento Grid */}
       {(totalPoints ?? 0) > 0 || (totalPicks ?? 0) > 0 ? (
-        <div className="grid grid-cols-2 gap-px bg-white/10 rounded-xl overflow-hidden border border-white/10">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-border bg-border">
           {(totalPoints ?? 0) > 0 && (
-            <div className={cn('bg-[#0a0a0a]', compact ? 'px-5 py-4' : 'p-6')}>
+            <div className={cn('bg-card', compact ? 'px-5 py-4' : 'p-6')}>
               <span
                 className={cn(
-                  'block font-black text-yellow-500',
-                  compact ? 'text-2xl' : 'text-3xl'
+                  'block font-display font-bold tabular-nums text-primary',
+                  compact ? 'text-3xl' : 'text-4xl'
                 )}
               >
                 {totalPoints}
               </span>
-              <span className="text-[10px] uppercase tracking-tighter text-zinc-500">
+              <span className="text-xs text-muted-foreground">
                 Puntos
               </span>
             </div>
           )}
           <div
             className={cn(
-              'bg-[#0a0a0a]',
+              'bg-card',
               compact ? 'px-5 py-4' : 'p-6',
               (totalPoints ?? 0) <= 0 && 'col-span-2'
             )}
           >
             <span
               className={cn(
-                'block font-black',
-                compact ? 'text-2xl' : 'text-3xl'
+                'block font-display font-bold tabular-nums',
+                compact ? 'text-3xl' : 'text-4xl'
               )}
             >
               {totalPicks ?? 0}
             </span>
-            <span className="text-[10px] uppercase tracking-tighter text-zinc-500">
+            <span className="text-xs text-muted-foreground">
               Votos
             </span>
           </div>
@@ -68,7 +68,7 @@ export function MovieSidebar({
       {/* Year Tops Widget */}
       {yearTopSummary.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+          <h3 className="text-lg font-bold">
             Historial de Tops
           </h3>
           <div className="flex flex-col gap-2">
@@ -84,7 +84,7 @@ export function MovieSidebar({
               .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
               .map(([year, items]) => (
                 <div key={year} className="space-y-2">
-                  <h4 className="text-sm font-bold text-white/60">{year}</h4>
+                  <h4 className="text-sm font-semibold text-muted-foreground tabular-nums">{year}</h4>
                   <div className="space-y-2">
                     {items.map((item) => {
                       const pickTypeLabel =
@@ -105,10 +105,10 @@ export function MovieSidebar({
 
                       const content = (
                         <div className="space-y-1">
-                          <p className="font-bold text-xs text-white">
+                          <p className="font-bold text-xs text-foreground">
                             Participantes ({uniqueParticipants.length})
                           </p>
-                          <p className="text-[11px] leading-snug text-zinc-400">
+                          <p className="text-xs leading-snug text-muted-foreground">
                             {uniqueParticipants.join(' • ')}
                           </p>
                         </div>
@@ -121,17 +121,14 @@ export function MovieSidebar({
                           side="top"
                           className="max-w-[200px]"
                         >
-                          <div className="bg-zinc-900/50 border border-white/5 p-3 rounded-lg flex justify-between items-center group hover:border-white/20 transition-colors cursor-pointer active:scale-[0.98]">
+                          <div className="group flex cursor-pointer items-center justify-between rounded-sm border border-border bg-card p-3 transition-colors hover:border-primary/60">
                             <div>
-                              <div className="text-xs font-bold text-zinc-200 group-hover:text-white">
+                              <div className="text-sm font-semibold text-foreground">
                                 {pickTypeLabel}
                               </div>
-                              <div className="text-[10px] text-zinc-500 uppercase tracking-tight">
-                                {item.pickType.replace('_', ' ')}
-                              </div>
                             </div>
-                            <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                              <Star className="size-3 fill-primary text-primary" />
                               <span className="font-medium">{item.totalPoints} pts</span>
                             </div>
                           </div>
@@ -148,7 +145,7 @@ export function MovieSidebar({
       {/* Other Lists Widget - Pill Style */}
       {otherLists.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+          <h3 className="text-lg font-bold">
             En colecciones
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -156,7 +153,7 @@ export function MovieSidebar({
               <Link
                 key={list.id}
                 href={`/lists/${list.id}`}
-                className="text-[11px] bg-white/5 hover:bg-white/10 border border-white/10 px-3 py-1 rounded-full transition-colors"
+                className="rounded-sm border border-border bg-card px-2.5 py-1 text-xs transition-colors hover:border-primary hover:text-primary"
               >
                 {list.name}
               </Link>

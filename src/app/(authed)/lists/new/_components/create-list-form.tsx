@@ -115,7 +115,7 @@ export function CreateListForm() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-zinc-900">
+            <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-zinc-900">
               <Image
                 src={form.getValues('imgUrl')}
                 alt="List preview"
@@ -130,7 +130,7 @@ export function CreateListForm() {
               </div>
             </div>
 
-            <div className="bg-zinc-900 border border-white/10 rounded-xl p-6 space-y-4">
+            <div className="bg-zinc-900 border border-border rounded-xl p-6 space-y-4">
               <p className="text-zinc-300 leading-relaxed">
                 {form.getValues('description')}
               </p>
@@ -153,7 +153,7 @@ export function CreateListForm() {
 
           {/* Sidebar Info */}
           <div className="space-y-6">
-            <div className="bg-zinc-900 border border-white/10 rounded-xl p-6">
+            <div className="bg-zinc-900 border border-border rounded-xl p-6">
               <h3 className="text-sm font-medium text-zinc-400 mb-4">
                 Créditos
               </h3>
@@ -187,7 +187,7 @@ export function CreateListForm() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
             {moviePreviews.map((movie) => (
               <div key={movie.imdbId} className="group relative space-y-2">
-                <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-white/10">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-border">
                   <Image
                     src={movie.posterUrl}
                     alt={movie.title}
@@ -219,7 +219,7 @@ export function CreateListForm() {
           </div>
         )}
 
-        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 bg-zinc-950 p-4 rounded-xl border border-white/10">
+        <footer className="sticky bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-20 flex gap-4 bg-zinc-950 p-4 rounded-xl border border-border">
           <Button
             variant="ghost"
             onClick={() => {
@@ -281,7 +281,7 @@ export function CreateListForm() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900 p-6 md:p-8 rounded-xl border border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-zinc-900 p-6 md:p-8 rounded-xl border border-border">
           <div className="space-y-6">
             <FormField
               control={form.control}
@@ -294,7 +294,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Input
                       placeholder="Ej: Noir de los 40s"
-                      className="bg-zinc-950 border-white/10 h-12"
+                      className="bg-zinc-950 border-border h-12"
                       {...field}
                     />
                   </FormControl>
@@ -314,7 +314,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Textarea
                       placeholder="Cuéntanos de qué trata esta selección..."
-                      className="bg-zinc-950 border-white/10 min-h-[120px]"
+                      className="bg-zinc-950 border-border min-h-[120px]"
                       {...field}
                     />
                   </FormControl>
@@ -336,7 +336,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Input
                       placeholder="https://..."
-                      className="bg-zinc-950 border-white/10 h-12"
+                      className="bg-zinc-950 border-border h-12"
                       {...field}
                     />
                   </FormControl>
@@ -359,7 +359,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Input
                       placeholder="Nombre del socio"
-                      className="bg-zinc-950 border-white/10 h-12"
+                      className="bg-zinc-950 border-border h-12"
                       {...field}
                     />
                   </FormControl>
@@ -371,7 +371,7 @@ export function CreateListForm() {
         </div>
 
         {/* Section 2: Metadata & Movies */}
-        <div className="space-y-8 p-6 md:p-8 rounded-xl border border-white/10 bg-zinc-900">
+        <div className="space-y-8 p-6 md:p-8 rounded-xl border border-border bg-zinc-900">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FormField
               control={form.control}
@@ -384,7 +384,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Input
                       placeholder="terror, slasher, 80s"
-                      className="bg-zinc-950 border-white/10 h-12"
+                      className="bg-zinc-950 border-border h-12"
                       {...field}
                     />
                   </FormControl>
@@ -404,7 +404,7 @@ export function CreateListForm() {
                   <FormControl>
                     <Input
                       placeholder="https://letterboxd.com/..."
-                      className="bg-zinc-950 border-white/10 h-12"
+                      className="bg-zinc-950 border-border h-12"
                       {...field}
                     />
                   </FormControl>
@@ -426,7 +426,7 @@ export function CreateListForm() {
                   <Textarea
                     {...field}
                     placeholder="tt1234567, tt7654321..."
-                    className="bg-zinc-950 border-white/10 h-40 font-mono text-xs tracking-wider p-4"
+                    className="bg-zinc-950 border-border h-40 font-mono text-xs tracking-wider p-4"
                   />
                 </FormControl>
                 <FormDescription className="text-[10px]">
@@ -438,7 +438,7 @@ export function CreateListForm() {
           />
         </div>
 
-        <div className="flex items-center justify-between pt-6 border-t border-white/5">
+        <div className="flex items-center justify-between pt-6 border-t border-border/60">
           <Button
             type="button"
             variant="ghost"

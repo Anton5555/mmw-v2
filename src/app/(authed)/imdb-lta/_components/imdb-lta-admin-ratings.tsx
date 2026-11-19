@@ -213,7 +213,7 @@ function defaultLoteId(lotes: AdminLoteView[]) {
 function Poster({ posterUrl }: { posterUrl: string }) {
   const src = posterSrc(posterUrl);
   return (
-    <span className="relative block h-14 w-10 shrink-0 overflow-hidden rounded-md border border-white/10 bg-zinc-900">
+    <span className="relative block h-14 w-10 shrink-0 overflow-hidden rounded-md border border-border bg-zinc-900">
       {src ? (
         <Image
           src={src}
@@ -240,7 +240,7 @@ function Stat({
   detail?: string;
 }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-zinc-950/50 px-3 py-2">
+    <div className="rounded-xl border border-border bg-zinc-950/50 px-3 py-2">
       <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
         {label}
       </p>
@@ -281,7 +281,7 @@ function NameList({
 }
 
 function selectClassName() {
-  return 'h-9 w-full rounded-lg border border-white/10 bg-zinc-950 px-2 text-sm font-medium normal-case tracking-normal text-zinc-100';
+  return 'h-9 w-full rounded-lg border border-border bg-zinc-950 px-2 text-sm font-medium normal-case tracking-normal text-zinc-100';
 }
 
 export function ImdbLtaAdminRatings({
@@ -366,7 +366,7 @@ export function ImdbLtaAdminRatings({
         <div
           role="tablist"
           aria-label="Secciones"
-          className="flex rounded-xl border border-white/10 bg-zinc-950/50 p-1 sm:shrink-0"
+          className="flex rounded-xl border border-border bg-zinc-950/50 p-1 sm:shrink-0"
         >
           {TABS.map((item) => {
             const active = tab === item.id;
@@ -512,7 +512,7 @@ function MovieList({
                 key={movie.id}
                 style={{ contentVisibility: 'auto', containIntrinsicSize: '0 88px' }}
               >
-                <details className="group rounded-xl border border-white/10 bg-zinc-950/50">
+                <details className="group rounded-xl border border-border bg-zinc-950/50">
                   <summary className="flex cursor-pointer list-none items-center gap-3 p-2 [&::-webkit-details-marker]:hidden">
                     <Poster posterUrl={movie.posterUrl} />
                     <span className="min-w-0 flex-1">
@@ -540,7 +540,7 @@ function MovieList({
                     </span>
                     <ChevronDown className="h-4 w-4 shrink-0 text-zinc-500 transition-transform group-open:rotate-180" />
                   </summary>
-                  <div className="border-t border-white/10">
+                  <div className="border-t border-border">
                     <p className="px-3 pt-2 text-[11px] text-zinc-500">{meta}</p>
                     {movie.votes.length === 0 ? (
                       <p className="px-3 py-2 text-xs text-zinc-500">Sin puntajes.</p>
@@ -599,7 +599,7 @@ function PeopleList({
             <li key={person.userId}>
               <details
                 open={focused ? true : undefined}
-                className="group rounded-xl border border-white/10 bg-zinc-950/50"
+                className="group rounded-xl border border-border bg-zinc-950/50"
               >
                 <summary className="flex cursor-pointer list-none items-center gap-3 px-3 py-2 [&::-webkit-details-marker]:hidden">
                   <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-100">
@@ -632,7 +632,7 @@ function PersonDetail({
   hasQuery: boolean;
 }) {
   return (
-    <div className="space-y-4 border-t border-white/10 px-3 py-3">
+    <div className="space-y-4 border-t border-border px-3 py-3">
       <div className="space-y-2">
         <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
           Nominaciones
@@ -762,7 +762,7 @@ function LotePanel({
             return (
               <li
                 key={movie.id}
-                className="rounded-xl border border-white/10 bg-zinc-950/50 p-3"
+                className="rounded-xl border border-border bg-zinc-950/50 p-3"
               >
                 <div className="flex items-center gap-3">
                   <Poster posterUrl={movie.posterUrl} />
