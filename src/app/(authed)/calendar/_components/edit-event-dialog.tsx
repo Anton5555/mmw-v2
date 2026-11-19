@@ -162,10 +162,10 @@ export function EditEventSheet({
 
   return (
     <Sheet open={open} onOpenChange={handleSheetClose}>
-      <SheetContent className="sm:max-w-[540px] border-l border-white/10 bg-zinc-950/95 backdrop-blur-2xl p-0">
+      <SheetContent className="sm:max-w-[540px] border-l border-border bg-zinc-950/95 backdrop-blur-2xl p-0">
         <div className="flex h-full flex-col">
           {/* Premium Header */}
-          <SheetHeader className="p-8 border-b border-white/5 space-y-1">
+          <SheetHeader className="p-8 border-b border-border/60 space-y-1">
             <p className="text-sm text-zinc-400">
               Agenda
             </p>
@@ -219,7 +219,7 @@ export function EditEventSheet({
                             <SelectValue placeholder="Selecciona" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="bg-zinc-900 border-white/10 text-white">
+                        <SelectContent className="bg-zinc-900 border-border text-white">
                           {EventTypeSchema.options.map((type) => (
                             <SelectItem
                               key={type}

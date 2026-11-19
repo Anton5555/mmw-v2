@@ -150,7 +150,7 @@ function FiltersContent({
         </label>
         <div className="flex flex-col gap-3">
           {/* Participantes */}
-          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-border/60">
             <FilterCombobox
               options={participants.map((p) => ({
                 value: p.slug,
@@ -169,7 +169,7 @@ function FiltersContent({
           </div>
 
           {/* Géneros */}
-          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-border/60">
             <FilterCombobox
               options={genres.map((g) => ({
                 value: g.name,
@@ -188,7 +188,7 @@ function FiltersContent({
           </div>
 
           {/* Directores */}
-          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-border/60">
             <FilterCombobox
               options={directors.map((d) => ({
                 value: d.name,
@@ -207,7 +207,7 @@ function FiltersContent({
           </div>
 
           {/* Países */}
-          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-white/5">
+          <div className="flex items-center justify-between p-1 bg-zinc-800/30 rounded-2xl border border-border/60">
             <FilterCombobox
               options={countries.map((c) => ({
                 value: c.code,
@@ -229,7 +229,7 @@ function FiltersContent({
 
       {/* Active Badges Summary */}
       {hasAnyFilters && (
-        <div className="pt-4 border-t border-white/5">
+        <div className="pt-4 border-t border-border/60">
           <div className="flex flex-wrap gap-2">
             {selectedParticipants.map((participant) => (
               <Badge
@@ -383,7 +383,7 @@ export function MamMovieFilters({
           <DrawerTrigger asChild>
             <button
               type="button"
-              className="flex h-12 w-full items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm font-medium text-white transition-[background-color,transform] duration-150 ease-out hover:bg-white/[0.06] active:scale-[0.98]"
+              className="flex h-12 w-full items-center gap-3 rounded-sm border border-border bg-card px-4 text-sm font-medium text-white transition-[background-color,transform] duration-150 ease-out hover:bg-white/[0.06] active:scale-[0.98]"
             >
               <SlidersHorizontal className="h-4 w-4 shrink-0" />
               <span className="flex-1 text-left">Filtros</span>
@@ -397,7 +397,7 @@ export function MamMovieFilters({
               )}
             </button>
           </DrawerTrigger>
-          <DrawerContent className="max-h-[85dvh] bg-zinc-900/95 backdrop-blur-xl border-t border-white/10">
+          <DrawerContent className="max-h-[85dvh] bg-card border-t border-border">
             <DrawerHeader className="text-left pb-4">
               <DrawerTitle className="text-white">Filtros</DrawerTitle>
             </DrawerHeader>
@@ -407,9 +407,9 @@ export function MamMovieFilters({
       </div>
 
       {/* Desktop: Multi-Select Command Bar */}
-      <div className="sticky top-[calc(4.5rem+env(safe-area-inset-top,0px))] z-20 mb-8 hidden md:block">
-        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/70 p-2 px-5 shadow-xl shadow-black/40 backdrop-blur-2xl">
-          <Search className="w-5 h-5 text-zinc-500 shrink-0" />
+      <div className="sticky top-[calc(4rem+env(safe-area-inset-top,0px))] z-20 mb-8 hidden md:block">
+        <div className="flex items-center gap-3 rounded-sm border border-border bg-card p-2 px-5">
+          <Search className="w-5 h-5 text-muted-foreground shrink-0" />
           {/* Main Search Input */}
           <Input
             placeholder="Buscar por título o IMDB..."
@@ -417,7 +417,7 @@ export function MamMovieFilters({
             onChange={(e) => {
               setParams({ title: e.target.value, page: 1 });
             }}
-            className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-zinc-600 w-48 text-sm h-8"
+            className="bg-transparent border-0 focus-visible:ring-0 text-white placeholder:text-muted-foreground w-48 text-sm h-8"
           />
 
           <div className="h-6 w-px bg-white/10 mx-2" />
@@ -437,7 +437,7 @@ export function MamMovieFilters({
               emptyMessage="No se encontraron participantes."
               groupLabel="Participantes"
               icon={<Users className="h-3.5 w-3.5" />}
-              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
+              className="border-0 bg-transparent rounded-sm hover:bg-secondary"
             />
 
             <FilterCombobox
@@ -453,7 +453,7 @@ export function MamMovieFilters({
               emptyMessage="No se encontraron géneros."
               groupLabel="Géneros"
               icon={<Film className="h-3.5 w-3.5" />}
-              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
+              className="border-0 bg-transparent rounded-sm hover:bg-secondary"
             />
 
             <FilterCombobox
@@ -469,7 +469,7 @@ export function MamMovieFilters({
               emptyMessage="No se encontraron directores."
               groupLabel="Directores"
               icon={<User className="h-3.5 w-3.5" />}
-              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
+              className="border-0 bg-transparent rounded-sm hover:bg-secondary"
             />
 
             <FilterCombobox
@@ -485,7 +485,7 @@ export function MamMovieFilters({
               emptyMessage="No se encontraron países."
               groupLabel="Países"
               icon={<Globe2 className="h-3.5 w-3.5" />}
-              className="border-0 bg-transparent hover:bg-white/5 rounded-full"
+              className="border-0 bg-transparent rounded-sm hover:bg-secondary"
             />
           </div>
 
@@ -504,7 +504,7 @@ export function MamMovieFilters({
                   page: 1,
                 })
               }
-              className="h-8 w-8 p-0 rounded-full hover:bg-red-500/10 hover:text-red-500 ml-2"
+              className="h-8 w-8 p-0 rounded-sm hover:bg-red-500/10 hover:text-red-500 ml-2"
             >
               <X className="h-4 w-4" />
             </Button>

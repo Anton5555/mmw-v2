@@ -28,9 +28,9 @@ async function OscarsResultsPageContent() {
 
   if (!edition) {
     return (
-      <div className="flex min-h-svh items-center justify-center bg-[#0a0a0a] p-4 text-white">
+      <div className="flex min-h-svh items-center justify-center bg-background p-4 text-white">
         <div className="text-center space-y-4">
-          <h1 className="text-4xl font-black tracking-tighter">
+          <h1 className="text-4xl">
             No hay edición activa
           </h1>
           <p className="text-muted-foreground">
@@ -50,10 +50,10 @@ async function OscarsResultsPageContent() {
     edition.ceremonyDate && new Date(edition.ceremonyDate) <= new Date();
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <div className="container mx-auto max-w-6xl px-4 py-12">
-        <header className="mb-12 text-center">
-          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+        <header className="mb-10">
+          <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
             Resultados {edition.year}
           </h1>
           <p className="mt-3 text-zinc-400">

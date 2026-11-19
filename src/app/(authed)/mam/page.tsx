@@ -69,15 +69,15 @@ async function MamPageContent({ searchParams }: MamPageProps) {
   });
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh">
       <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header: Identity & Navigation */}
         <header className="mb-8 flex flex-col gap-6 pt-4 md:pt-8 xl:flex-row xl:items-end xl:justify-between">
           <div className="space-y-2">
-            <h1 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+            <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
               Míralas Antes de Morir
             </h1>
-            <p className="max-w-xl text-pretty text-zinc-400">
+            <p className="max-w-xl text-pretty text-muted-foreground">
               Las películas que hay que ver antes de morir.
             </p>
           </div>
@@ -89,12 +89,12 @@ async function MamPageContent({ searchParams }: MamPageProps) {
               className={sectionNavItemClassName}
             />
             <SectionNavLink href="/mam/special-mentions">
-              <Award className="text-zinc-400" />
+              <Award className="text-muted-foreground" />
               <span>Menciones</span>
             </SectionNavLink>
             {hasUserPicks && (
               <SectionNavLink href="/mam/my-list">
-                <Film className="text-zinc-400" />
+                <Film className="text-muted-foreground" />
                 <span>Mi lista</span>
               </SectionNavLink>
             )}

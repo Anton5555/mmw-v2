@@ -55,7 +55,7 @@ export function PostItCard({
   const isOwner = currentUserId === createdBy;
 
   return (
-    <div className="group relative h-full flex flex-col bg-zinc-900 border border-white/5 rounded-lg overflow-hidden transition-colors hover:border-yellow-500/50">
+    <div className="group relative h-full flex flex-col bg-zinc-900 border border-border/60 rounded-lg overflow-hidden transition-colors hover:border-yellow-500/50">
       {/* Drag Handle - The "Tape" look */}
       <div
         ref={dragHandleRef}
@@ -82,7 +82,7 @@ export function PostItCard({
       </div>
 
       {/* Metadata Footer */}
-      <div className="flex-shrink-0 p-3 bg-black/20 border-t border-white/5 flex justify-between items-center">
+      <div className="flex-shrink-0 p-3 bg-black/20 border-t border-border/60 flex justify-between items-center">
         <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">
           {createdByUser?.name || 'Anónimo'}
         </span>

@@ -86,7 +86,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="w-full rounded-xl border border-white/10 bg-zinc-900 overflow-hidden">
+    <div className="w-full rounded-xl border border-border bg-zinc-900 overflow-hidden">
       <div className="p-8 pb-2 space-y-1 text-center">
         <h1 className="text-2xl font-semibold tracking-tight text-white">
           Bienvenido
@@ -109,7 +109,7 @@ export default function SignIn() {
                       <FormControl>
                         <Input
                           placeholder="m@example.com"
-                          className="h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
+                          className="h-11 pl-10 bg-zinc-950 border-border rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>
@@ -142,7 +142,7 @@ export default function SignIn() {
                         <Input
                           type="password"
                           placeholder="••••••••"
-                          className="h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
+                          className="h-11 pl-10 bg-zinc-950 border-border rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500"
                           {...field}
                         />
                       </FormControl>

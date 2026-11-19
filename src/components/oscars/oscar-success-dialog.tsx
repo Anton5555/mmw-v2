@@ -68,7 +68,7 @@ export function OscarSuccessDialog() {
         <DialogFooter className="mt-6">
           <Button
             onClick={handleClose}
-            className="w-full bg-yellow-500 text-black hover:bg-yellow-400 rounded-full"
+            className="w-full"
           >
             Entendido
           </Button>

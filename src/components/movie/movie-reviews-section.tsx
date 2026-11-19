@@ -40,11 +40,11 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
   return (
     <div className="space-y-10">
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-6">
+        <h2 className="mb-4 text-xl font-bold">
           Críticas de la comunidad
         </h2>
 
-        <div className="space-y-6">
+        <div className="space-y-3">
           {/* Top Choice Section */}
           {visibleReviews
             .filter((pick) => pick.score === 5)
@@ -76,7 +76,7 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
             <Button
               variant="ghost"
               onClick={() => setIsFullyExpanded(!isFullyExpanded)}
-              className="text-zinc-500 hover:text-white uppercase text-xs font-bold tracking-widest"
+              className="text-sm font-semibold text-muted-foreground hover:text-foreground"
             >
               {isFullyExpanded
                 ? 'Ver menos reseñas'
@@ -93,10 +93,10 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
 
         {/* Quick Votes - Compact footer */}
         {regularPicksWithoutReviews.length > 0 && (
-          <div className="pt-8 border-t border-white/5 mt-8">
-            <p className="text-xs text-zinc-500 italic">
+          <div className="pt-8 border-t border-border/60 mt-8">
+            <p className="text-sm text-muted-foreground">
               Votado también por{' '}
-              <span className="text-white">
+              <span className="text-foreground">
                 {regularPicksWithoutReviews
                   .map((v) => v.participant.displayName)
                   .join(', ')}
@@ -108,11 +108,11 @@ export function MovieReviewsSection({ picks }: MovieReviewsSectionProps) {
 
       {/* Special Mentions Section */}
       {specialMentions.length > 0 && (
-        <div className="pt-8 border-t border-white/10">
-          <h3 className="text-sm font-medium text-zinc-400 mb-6">
+        <div className="pt-8 border-t border-border">
+          <h3 className="mb-4 text-xl font-bold">
             Menciones especiales
           </h3>
-          <div className="space-y-6">
+          <div className="space-y-3">
             {specialMentions.map((pick) => (
               <ReviewCard
                 key={pick.id}

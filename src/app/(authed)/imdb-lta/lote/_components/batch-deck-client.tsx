@@ -276,7 +276,7 @@ export function BatchDeckClient({
       <div className="space-y-2">
         <div className="flex items-baseline justify-between gap-3">
           <div className="flex items-baseline gap-2.5">
-            <span className="rounded-full bg-yellow-500/15 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-widest text-yellow-400">
+            <span className="rounded-sm bg-yellow-500/15 px-2.5 py-0.5 text-xs font-bold text-yellow-400">
               Lote #{batch.number}
             </span>
             <span className="text-xs text-zinc-500">
@@ -287,9 +287,9 @@ export function BatchDeckClient({
             {progressDone} / {progressTotal}
           </span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-900">
+        <div className="h-1.5 w-full overflow-hidden rounded-sm bg-zinc-900">
           <motion.div
-            className="h-full rounded-full bg-yellow-500"
+            className="h-full rounded-sm bg-yellow-500"
             initial={false}
             animate={{ width: `${progressPct}%` }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
@@ -307,10 +307,10 @@ export function BatchDeckClient({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={spring}
-              className="rounded-3xl border border-white/10 bg-zinc-950/80 p-8 text-center"
+              className="rounded-3xl border border-border bg-zinc-950/80 p-8 text-center"
             >
               <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-emerald-400" />
-              <p className="text-[10px] font-black uppercase tracking-widest text-yellow-500">
+              <p className="text-xs font-bold text-yellow-500">
                 Lote #{batch.number}
               </p>
               <h1 className="mt-1 text-2xl font-black uppercase italic tracking-tight">
@@ -353,7 +353,7 @@ export function BatchDeckClient({
                   : IDLE_ANIM
               }
               transition={spring}
-              className="relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/90 shadow-2xl will-change-transform"
+              className="relative overflow-hidden rounded-3xl border border-border bg-zinc-950/90 shadow-2xl will-change-transform"
             >
               <DeckCard
                 movie={current}
@@ -460,7 +460,7 @@ function DeckCard({
 
           <div className="min-w-0 flex-1 space-y-1.5">
             {movie.userNominated && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-300">
+              <span className="inline-flex items-center gap-1 rounded-sm border border-yellow-500/30 bg-yellow-500/10 px-2.5 py-0.5 text-xs font-bold text-yellow-300">
                 <Sparkles className="h-3 w-3" />
                 La nominaste vos
               </span>
@@ -495,7 +495,7 @@ function DeckCard({
         </div>
 
         <div className="space-y-2 pt-1">
-          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+          <div className="flex items-center justify-between text-xs font-bold text-zinc-500">
             <span>0 · malísima</span>
             <span>¿Qué puntaje le ponés?</span>
             <span>10 · obra maestra</span>
@@ -517,7 +517,7 @@ function DeckCard({
                       'border-red-500/25 bg-red-950/20 text-red-200 hover:border-red-400 hover:bg-red-500/25',
                     score >= 4 &&
                       score <= 6 &&
-                      'border-white/10 bg-zinc-900/80 text-zinc-200 hover:border-white/30 hover:bg-zinc-800',
+                      'border-border bg-zinc-900/80 text-zinc-200 hover:border-white/30 hover:bg-zinc-800',
                     score >= 7 &&
                       score <= 8 &&
                       'border-amber-500/30 bg-amber-500/10 text-amber-200 hover:border-amber-400 hover:bg-amber-500/25',

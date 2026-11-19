@@ -8,17 +8,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useBreadcrumb } from '@/lib/contexts/breadcrumb-context';
-import { ChevronRight, Home } from 'lucide-react';
 
 const PATH_TRANSLATIONS: Record<string, string> = {
   lists: 'Listas',
   calendar: 'Calendario',
-  mam: 'Miralas Antes de Morir',
+  mam: 'MAM',
   'imdb-lta': 'IMDB LTA',
   lote: 'Lote actual',
   rate: 'Revisar',
@@ -75,80 +72,79 @@ export function BreadcrumbsNav() {
   // Find where to insert intermediate breadcrumbs (after the last path-based breadcrumb, before the current page)
   const lastPathIndex = breadcrumbItems.length - 1;
 
+  // Top-level pages (/mam, /calendar...) already show their own title
+  if (breadcrumbItems.length <= 1 && !currentPageLabel) return null;
+
+  // Sections with their own tab row already say where you are.
+  const hasOwnTabs =
+    pathname.startsWith('/imdb-lta') || /^\/year-tops\/[^/]+$/.test(pathname);
+  if (hasOwnTabs && !currentPageLabel) return null;
+
+  const linkClass =
+    'text-sm text-muted-foreground transition-colors hover:text-foreground';
+  const separator = (
+    <BreadcrumbSeparator className="text-border">
+      <span aria-hidden>/</span>
+    </BreadcrumbSeparator>
+  );
+
+  // A quiet trail inside the page column, not a second bar under the top nav.
   return (
-    <header className="sticky top-0 z-30 flex shrink-0 items-center gap-2 border-b border-white/5 bg-background/75 pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl">
-      <div className="flex h-14 min-w-0 flex-1 items-center gap-2 px-4">
-        <div className="flex shrink-0 items-center gap-1">
-          <SidebarTrigger className="size-9 -ml-1.5 hover:bg-white/10 transition-colors" />
-          <Separator orientation="vertical" className="mx-2 h-4 bg-white/10" />
-        </div>
+    <div className="container relative z-10 mx-auto flex h-11 items-end px-4">
+      <Breadcrumb>
+        <BreadcrumbList className="no-scrollbar flex-nowrap gap-2 overflow-x-auto whitespace-nowrap sm:gap-2">
+          {breadcrumbItems.map(({ path, originalIndex }, index) => {
+            const href = `/${paths.slice(0, originalIndex + 1).join('/')}`;
+            const isLastPathItem = index === lastPathIndex;
+            const displayText =
+              PATH_TRANSLATIONS[path] || path.replace(/-/g, ' ');
+            const isCurrent = isLastPathItem && !currentPageLabel &&
+              intermediateBreadcrumbs.length === 0;
 
-        <Breadcrumb className="min-w-0">
-          <BreadcrumbList className="no-scrollbar flex-nowrap gap-1 overflow-x-auto whitespace-nowrap sm:gap-1 animate-breadcrumb-fade">
-            {/* Optional: Home Icon for better orientation */}
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink
-                href="/"
-                className="hover:text-primary transition-colors"
-              >
-                <Home className="h-3.5 w-3.5" />
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block">
-              <ChevronRight className="h-3 w-3 opacity-40" />
-            </BreadcrumbSeparator>
-
-            {breadcrumbItems.map(({ path, originalIndex }, index) => {
-              const href = `/${paths.slice(0, originalIndex + 1).join('/')}`;
-              const isLastPathItem = index === lastPathIndex;
-              const displayText =
-                PATH_TRANSLATIONS[path] || path.replace(/-/g, ' ');
-
-              return (
-                <React.Fragment key={`${path}-${originalIndex}`}>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink
-                      href={href}
-                      className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80 hover:text-primary transition-colors"
-                    >
+            return (
+              <React.Fragment key={`${path}-${originalIndex}`}>
+                {index > 0 && separator}
+                <BreadcrumbItem>
+                  {isCurrent ? (
+                    <BreadcrumbPage className="text-sm font-medium text-foreground">
+                      {displayText}
+                    </BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={href} className={linkClass}>
                       {displayText}
                     </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <ChevronRight className="h-3 w-3 opacity-40" />
-                  </BreadcrumbSeparator>
-                  {/* Insert intermediate breadcrumbs after this path item if it's the last one */}
-                  {isLastPathItem &&
-                    intermediateBreadcrumbs.map((intermediate, idx) => (
-                      <React.Fragment key={`intermediate-${idx}`}>
-                        <BreadcrumbItem>
-                          <BreadcrumbLink
-                            href={intermediate.href}
-                            className="text-xs font-medium uppercase tracking-wider text-muted-foreground/80 hover:text-primary transition-colors"
-                          >
-                            {intermediate.label}
-                          </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator>
-                          <ChevronRight className="h-3 w-3 opacity-40" />
-                        </BreadcrumbSeparator>
-                      </React.Fragment>
-                    ))}
-                </React.Fragment>
-              );
-            })}
+                  )}
+                </BreadcrumbItem>
+                {isLastPathItem &&
+                  intermediateBreadcrumbs.map((intermediate, idx) => (
+                    <React.Fragment key={`intermediate-${idx}`}>
+                      {separator}
+                      <BreadcrumbItem>
+                        <BreadcrumbLink
+                          href={intermediate.href}
+                          className={linkClass}
+                        >
+                          {intermediate.label}
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                    </React.Fragment>
+                  ))}
+              </React.Fragment>
+            );
+          })}
 
-            {/* Current page label */}
-            {currentPageLabel && (
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-xs font-black uppercase tracking-widest text-foreground bg-white/5 px-2 py-1 rounded-md border border-white/10">
+          {currentPageLabel && (
+            <>
+              {separator}
+              <BreadcrumbItem className="min-w-0">
+                <BreadcrumbPage className="truncate text-sm font-medium text-foreground">
                   {currentPageLabel}
                 </BreadcrumbPage>
               </BreadcrumbItem>
-            )}
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-    </header>
+            </>
+          )}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
   );
 }

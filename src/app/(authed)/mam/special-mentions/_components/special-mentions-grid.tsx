@@ -2,7 +2,6 @@ import { getSpecialMentions } from '@/lib/api/mam';
 import { MamMovieCard } from '@/components/mam-movie-card';
 import { MamPagination } from '@/components/mam-pagination';
 import { Film } from 'lucide-react';
-import { staggerDelay } from '@/lib/utils';
 
 interface SpecialMentionsGridProps {
   searchParams: {
@@ -68,15 +67,9 @@ export async function SpecialMentionsGrid({
       </div>
 
       {/* Movie Grid */}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-8">
-        {movies.map((movie, index) => (
-          <div
-            key={movie.id}
-            className="animate-fade-in-up"
-            style={staggerDelay(index)}
-          >
-            <MamMovieCard movie={movie} rank={movie.rank} />
-          </div>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,9.5rem),1fr))] gap-x-4 gap-y-5">
+        {movies.map((movie) => (
+          <MamMovieCard key={movie.id} movie={movie} rank={movie.rank} />
         ))}
       </div>
 

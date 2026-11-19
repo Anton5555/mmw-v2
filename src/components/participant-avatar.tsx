@@ -58,15 +58,16 @@ export function ParticipantAvatar({
   };
 
   const getColorFromName = (name: string) => {
+    // Muted print inks so a row of initials doesn't read as confetti.
     const colors = [
-      'bg-red-500',
-      'bg-blue-500',
-      'bg-green-500',
-      'bg-yellow-500',
-      'bg-purple-500',
-      'bg-pink-500',
-      'bg-indigo-500',
-      'bg-orange-500',
+      'bg-[#a8483a] text-[#f1e9d8]',
+      'bg-[#2f6f78] text-[#f1e9d8]',
+      'bg-[#5d7a45] text-[#f1e9d8]',
+      'bg-[#c99a3a] text-[#0f2226]',
+      'bg-[#6e5880] text-[#f1e9d8]',
+      'bg-[#9a5a6a] text-[#f1e9d8]',
+      'bg-[#46628e] text-[#f1e9d8]',
+      'bg-[#8a6a44] text-[#f1e9d8]',
     ];
 
     let hash = 0;
@@ -86,8 +87,8 @@ export function ParticipantAvatar({
       <AvatarImage src={avatarUrl} alt={displayName} />
       <AvatarFallback
         className={cn(
-          getColorFromName(displayName),
-          'text-white font-bold select-none'
+          'font-bold select-none',
+          getColorFromName(displayName)
         )}
       >
         {getInitials(displayName)}

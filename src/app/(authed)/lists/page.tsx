@@ -52,7 +52,7 @@ async function ListsPageContent() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,14rem),1fr))] gap-6">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,21rem),1fr))] gap-6">
             {lists.map((list) => (
               <ListCard key={list.id} list={list} />
             ))}

@@ -102,12 +102,12 @@ export default function ProfileForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl p-0 overflow-hidden bg-zinc-950 border-white/10 shadow-2xl">
+      <DialogContent className="max-w-3xl p-0 overflow-hidden bg-zinc-950 border-border shadow-2xl">
         <div className="flex flex-col md:flex-row min-h-[450px]">
           {/* LEFT PANEL: The "Studio Pass" Preview */}
-          <div className="w-full md:w-5/12 bg-zinc-900/50 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-white/5">
+          <div className="w-full md:w-5/12 bg-zinc-900/50 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-border/60">
             <div className="relative group">
-              <Avatar className="h-32 w-32 rounded-2xl border-2 border-white/10 shadow-2xl ring-offset-4 ring-offset-zinc-950 ring-2 ring-yellow-500/20">
+              <Avatar className="h-32 w-32 rounded-2xl border-2 border-border shadow-2xl ring-offset-4 ring-offset-zinc-950 ring-2 ring-yellow-500/20">
                 <AvatarImage
                   src={imagePreview ?? undefined}
                   className="object-cover"
@@ -136,7 +136,7 @@ export default function ProfileForm({
             </div>
 
             <div className="mt-8 w-full">
-              <div className="rounded-xl border border-white/5 bg-black/20 p-4">
+              <div className="rounded-xl border border-border/60 bg-black/20 p-4">
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] font-black uppercase tracking-widest text-zinc-600">
                     {(user as User & { role?: string | null })?.role === 'ADMIN'
@@ -201,7 +201,7 @@ export default function ProfileForm({
                         <FormControl>
                           <Input
                             placeholder="Tu nombre"
-                            className="pl-10 bg-zinc-900/50 border-white/10 h-11 focus:border-yellow-500 transition-colors"
+                            className="pl-10 bg-zinc-900/50 border-border h-11 focus:border-yellow-500 transition-colors"
                             {...field}
                           />
                         </FormControl>
@@ -218,7 +218,7 @@ export default function ProfileForm({
                   <Input
                     value={user.email}
                     disabled
-                    className="bg-zinc-950 border-white/5 text-zinc-700 h-11 cursor-not-allowed italic"
+                    className="bg-zinc-950 border-border/60 text-zinc-700 h-11 cursor-not-allowed italic"
                   />
                   <p className="text-[9px] text-zinc-600">
                     El correo electrónico está vinculado a tu cuenta y no puede

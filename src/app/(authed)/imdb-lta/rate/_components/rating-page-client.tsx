@@ -118,7 +118,7 @@ function scoreButtonClass(score: number, currentScore: number | null) {
     return 'border-red-500/25 bg-red-950/20 text-red-200 hover:border-red-400 hover:bg-red-500/25';
   }
   if (score <= 6) {
-    return 'border-white/10 bg-zinc-900/80 text-zinc-200 hover:border-white/30 hover:bg-zinc-800';
+    return 'border-border bg-zinc-900/80 text-zinc-200 hover:border-white/30 hover:bg-zinc-800';
   }
   if (score <= 8) {
     return 'border-amber-500/30 bg-amber-500/10 text-amber-200 hover:border-amber-400 hover:bg-amber-500/25';
@@ -164,7 +164,7 @@ function ScorePicker({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+      <div className="flex items-center justify-between gap-2 text-xs font-bold text-zinc-500">
         <span>
           {currentScore === null
             ? '¿Qué puntaje le ponés?'
@@ -239,7 +239,7 @@ function WantToWatchButton({
       disabled={isPending}
       onClick={toggle}
       className={cn(
-        'inline-flex cursor-pointer items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider transition disabled:cursor-wait',
+        'inline-flex cursor-pointer items-center gap-1 rounded-sm border px-2.5 py-0.5 text-xs font-bold transition disabled:cursor-wait',
         shownPinned
           ? 'border-yellow-400/70 bg-yellow-500/25 text-yellow-100'
           : 'border-white/15 bg-white/5 text-zinc-300 hover:border-yellow-400/50 hover:text-yellow-100'
@@ -326,7 +326,7 @@ function MovieRateCard({
       movie.title.trim().toLowerCase();
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-zinc-950/90 shadow-lg">
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-zinc-950/90 shadow-lg">
       {src && (
         <div
           aria-hidden
@@ -360,7 +360,7 @@ function MovieRateCard({
 
           <div className="min-w-0 flex-1 space-y-2">
             {movie.userNominated && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-300">
+              <span className="inline-flex items-center gap-1 rounded-sm border border-yellow-500/30 bg-yellow-500/10 px-2 py-0.5 text-xs font-bold text-yellow-300">
                 <Sparkles className="h-3 w-3" />
                 La nominaste vos
               </span>
@@ -397,35 +397,35 @@ function MovieRateCard({
 
             <div className="flex flex-wrap gap-1.5">
               {!isRatingOpen && avg !== null && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-yellow-500/35 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold text-yellow-300">
+                <span className="inline-flex items-center gap-1 rounded-sm border border-yellow-500/35 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold text-yellow-300">
                   <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                   {avg} / 10
                 </span>
               )}
               {!isRatingOpen && (
-                <span className="rounded-full border border-white/10 bg-zinc-900/80 px-2.5 py-0.5 text-[10px] font-bold text-zinc-400">
+                <span className="rounded-sm border border-border bg-zinc-900/80 px-2.5 py-0.5 text-[10px] font-bold text-zinc-400">
                   {movie.ratingCount}{' '}
                   {movie.ratingCount === 1 ? 'puntaje' : 'puntajes'}
                 </span>
               )}
               {!isRatingOpen &&
                 movie.ratingCount >= IMDB_LTA_MIN_RATINGS_TO_QUALIFY && (
-                  <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
+                  <span className="rounded-sm border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
                     Entra al ranking
                   </span>
                 )}
               {movie.userScore !== null && (
-                <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-200">
+                <span className="rounded-sm border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-200">
                   Vos: {movie.userScore}/10
                 </span>
               )}
               {movie.batchState === 'open' && (
-                <span className="rounded-full border border-yellow-500/35 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold text-yellow-300">
+                <span className="rounded-sm border border-yellow-500/35 bg-yellow-500/10 px-2.5 py-0.5 text-[10px] font-bold text-yellow-300">
                   Lote actual
                 </span>
               )}
               {movie.userSkipped && movie.userScore === null && (
-                <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-300">
+                <span className="rounded-sm border border-white/15 bg-white/5 px-2.5 py-0.5 text-[10px] font-bold text-zinc-300">
                   No vista
                 </span>
               )}
@@ -439,7 +439,7 @@ function MovieRateCard({
                   />
                 ) : (
                   movie.userWantToWatch && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-yellow-400/70 bg-yellow-500/25 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-yellow-100">
+                    <span className="inline-flex items-center gap-1 rounded-sm border border-yellow-400/70 bg-yellow-500/25 px-2.5 py-0.5 text-xs font-bold text-yellow-100">
                       <Eye className="h-3 w-3 fill-current" />
                       Quiero ver
                     </span>
@@ -492,7 +492,7 @@ export function RatingPageClient({
     <div className="space-y-6">
       <header className="space-y-2">
         <div className="flex items-baseline gap-2.5">
-          <span className="rounded-full bg-yellow-500/15 px-2.5 py-0.5 text-[11px] font-black uppercase tracking-widest text-yellow-400">
+          <span className="rounded-sm bg-yellow-500/15 px-2.5 py-0.5 text-xs font-bold text-yellow-400">
             Revisar
           </span>
           <span className="text-xs text-zinc-500">
@@ -546,10 +546,10 @@ export function RatingPageClient({
                 })
               }
               className={cn(
-                'cursor-pointer rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition',
+                'cursor-pointer rounded-sm px-3 py-1.5 text-xs font-bold transition',
                 selected
                   ? 'bg-yellow-500 text-black'
-                  : 'border border-white/10 bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
+                  : 'border border-border bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
               )}
             >
               {f.label}{' '}
@@ -585,10 +585,10 @@ export function RatingPageClient({
                   })
                 }
                 className={cn(
-                  'cursor-pointer rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition',
+                  'cursor-pointer rounded-sm px-3 py-1 text-xs font-bold transition',
                   onlyShort
                     ? 'border border-yellow-400/60 bg-yellow-500/20 text-yellow-100'
-                    : 'border border-white/10 bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
+                    : 'border border-border bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200'
                 )}
               >
                 Solo las que no llegan al ranking
@@ -624,7 +624,7 @@ export function RatingPageClient({
         </div>
 
         {movies.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-white/10 px-6 py-16 text-center">
+          <div className="rounded-3xl border border-dashed border-border px-6 py-16 text-center">
             <Film className="mx-auto mb-4 h-10 w-10 text-zinc-600" />
             <p className="text-sm text-zinc-400">
               {emptyMessage(filter, onlyShort)}
@@ -651,7 +651,7 @@ export function RatingPageClient({
               variant="outline"
               disabled={pagination.page <= 1}
               onClick={() => setParams({ page: pagination.page - 1 })}
-              className="border-white/10 bg-zinc-900"
+              className="border-border bg-zinc-900"
             >
               Anterior
             </Button>
@@ -662,7 +662,7 @@ export function RatingPageClient({
               variant="outline"
               disabled={pagination.page >= pagination.totalPages}
               onClick={() => setParams({ page: pagination.page + 1 })}
-              className="border-white/10 bg-zinc-900"
+              className="border-border bg-zinc-900"
             >
               Siguiente
             </Button>

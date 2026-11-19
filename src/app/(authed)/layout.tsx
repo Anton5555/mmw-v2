@@ -1,12 +1,11 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
-import { AppSidebar } from '@/components/shared/app-sidebar';
+import { TopNav } from '@/components/shared/top-nav';
 import { BreadcrumbsNav } from '@/components/shared/breadcrumbs-nav';
 import { BreadcrumbProvider } from '@/lib/contexts/breadcrumb-context';
 import { FilmSlateProvider } from '@/lib/contexts/film-slate-context';
 import { FilmStripProvider } from '@/lib/contexts/film-strip-context';
 import { FilmStripWrapper } from '@/components/shared/film-strip-wrapper';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { getCurrentSession } from '@/lib/get-session';
 import { FilmSlateWrapper } from '@/components/shared/film-slate-wrapper';
 import { MovieSheetHost } from '@/components/movie/movie-sheet-host';
@@ -28,15 +27,15 @@ async function AuthenticatedLayoutContent({
   const user = session.user;
 
   return (
-    <SidebarProvider>
-      <AppSidebar
+    <div className="flex min-h-svh min-w-0 flex-col">
+      <TopNav
         user={{
           ...user,
           image: user.image ?? null,
         }}
       />
 
-      <SidebarInset className="mb-8 min-w-0">
+      <div className="mb-8 min-w-0 flex-1">
         <BreadcrumbProvider>
           <FilmSlateProvider>
             <FilmStripProvider>
@@ -48,8 +47,8 @@ async function AuthenticatedLayoutContent({
             </FilmStripProvider>
           </FilmSlateProvider>
         </BreadcrumbProvider>
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    </div>
   );
 }
 

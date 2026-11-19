@@ -37,7 +37,7 @@ export default async function Home({
             {dailyRecommendation ? (
               <DailySpotlight recommendation={dailyRecommendation} />
             ) : (
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 flex items-center justify-center">
+              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-zinc-900 flex items-center justify-center">
                 <div className="text-center space-y-2">
                   <p className="text-lg font-medium text-zinc-400">
                     No hay recomendación disponible hoy
@@ -52,7 +52,7 @@ export default async function Home({
 
           <div className="lg:col-span-4 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <div className="flex items-end justify-between border-b border-white/10 pb-4">
+              <div className="flex items-end justify-between border-b border-border pb-4">
                 <div className="space-y-1">
                   <h2 className="text-sm font-medium text-zinc-400">
                     Próximos eventos
@@ -70,7 +70,7 @@ export default async function Home({
                 </Link>
               </div>
 
-              <div className="rounded-xl border border-white/10 bg-zinc-900 p-6 animate-fade-in-up" style={staggerDelay(4, 60)}>
+              <div className="rounded-xl border border-border bg-zinc-900 p-6 animate-fade-in-up" style={staggerDelay(4, 60)}>
                 {nextEvents.length > 0 ? (
                   <NextEvents events={nextEvents} showTitle={false} />
                 ) : (

@@ -39,8 +39,8 @@ export function ReviewCard({
     <GlassCard
       variant="review"
       className={cn(
-        isTopChoice && 'border-yellow-500/30',
-        isSpecialMention && 'border-yellow-500/20'
+        // A yellow rule on the left marks the participant's #1 pick.
+        isTopChoice && 'shadow-[inset_3px_0_0_hsl(var(--primary))]'
       )}
     >
       <div className="p-5">
@@ -54,17 +54,17 @@ export function ReviewCard({
                 href={`/mam?participants=${pick.participant.slug}`}
                 className="hover:underline"
               >
-                <p className="font-medium text-sm text-white">
+                <p className="text-sm font-semibold text-foreground">
                   {getParticipantDisplayName(pick.participant)}
                 </p>
               </Link>
               {isTopChoice && (
-                <span className="text-xs text-yellow-500">
+                <span className="text-xs text-primary">
                   Favorito de la lista
                 </span>
               )}
               {isSpecialMention && (
-                <span className="text-xs text-zinc-400">
+                <span className="text-xs text-muted-foreground">
                   Mención especial
                 </span>
               )}
@@ -72,12 +72,10 @@ export function ReviewCard({
           </div>
           <div
             className={cn(
-              'rounded-md px-2.5 py-1 text-sm font-medium',
+              'shrink-0 px-2 py-1 font-display text-base font-bold tabular-nums leading-none',
               isTopChoice
-                ? 'bg-yellow-500 text-black'
-                : isSpecialMention
-                  ? 'bg-zinc-800 text-zinc-300 border border-white/10'
-                  : 'bg-zinc-800 text-white'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary text-foreground'
             )}
           >
             {isSpecialMention ? (
@@ -91,10 +89,10 @@ export function ReviewCard({
         </div>
 
         {pick.review && (
-          <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
+          <div className="mt-4 space-y-2">
             <p
               className={cn(
-                'text-zinc-300 leading-relaxed text-sm',
+                'max-w-prose text-sm leading-relaxed text-foreground/85',
                 !isExpanded && 'line-clamp-2'
               )}
             >
@@ -102,7 +100,7 @@ export function ReviewCard({
             </p>
             <button
               onClick={toggle}
-              className="text-xs text-zinc-500 hover:text-white transition-colors"
+              className="text-xs font-semibold text-muted-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
             >
               {isExpanded ? 'Ver menos' : 'Leer reseña completa'}
             </button>

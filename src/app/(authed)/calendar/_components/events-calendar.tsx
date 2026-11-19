@@ -153,7 +153,7 @@ const EventPopoverContent = ({
     <>
       <div className="flex flex-col overflow-hidden rounded-xl shadow-2xl">
         {/* Premium Header */}
-        <div className="bg-zinc-900 p-4 border-b border-white/10">
+        <div className="bg-zinc-900 p-4 border-b border-border">
           <h3 className="text-sm font-medium text-zinc-400">
             Agenda del día
           </h3>
@@ -168,7 +168,7 @@ const EventPopoverContent = ({
               return (
                 <div
                   key={event.id}
-                  className="group relative rounded-lg bg-zinc-900/50 p-3 border border-white/5 hover:border-white/20 transition-colors"
+                  className="group relative rounded-lg bg-zinc-900/50 p-3 border border-border/60 hover:border-white/20 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -196,7 +196,7 @@ const EventPopoverContent = ({
                     </p>
                   )}
                   {isOwner && (
-                    <div className="flex gap-2 mt-3 pt-3 border-t border-white/5">
+                    <div className="flex gap-2 mt-3 pt-3 border-t border-border/60">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -325,7 +325,7 @@ export function EventsCalendar({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-zinc-900/40 p-3 sm:p-4 lg:p-6">
+    <div className="relative overflow-hidden rounded-xl border border-border bg-zinc-900/40 p-3 sm:p-4 lg:p-6">
       {/* Header Section */}
       <div className="mb-4 flex items-center justify-between gap-2 sm:mb-6">
         <div className="min-w-0">
@@ -338,7 +338,7 @@ export function EventsCalendar({
           />
         </div>
 
-        <div className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.03] p-0.5">
+        <div className="flex shrink-0 items-center rounded-full border border-border bg-white/[0.03] p-0.5">
           <Button
             variant="ghost"
             size="icon"
@@ -421,7 +421,7 @@ export function EventsCalendar({
                     </div>
                   </PopoverTrigger>
 
-                  <PopoverContent className="w-80 border-white/10 bg-zinc-950/95 p-0 backdrop-blur-xl">
+                  <PopoverContent className="w-80 border-border bg-zinc-950/95 p-0 backdrop-blur-xl">
                     <EventPopoverContent
                       events={dayEvents}
                       onCreateEvent={() => {
@@ -444,7 +444,7 @@ export function EventsCalendar({
           button_previous: 'hidden',
           button_next: 'hidden',
           month_grid: 'w-full border-collapse',
-          weekdays: 'flex justify-between gap-1 sm:gap-2 mb-2 border-b border-white/5 pb-2',
+          weekdays: 'flex justify-between gap-1 sm:gap-2 mb-2 border-b border-border/60 pb-2',
           weekday:
             'text-xs font-medium uppercase tracking-wide text-zinc-500 w-full text-center',
           week: 'flex w-full justify-between gap-1 mt-1 sm:gap-2 sm:mt-2',

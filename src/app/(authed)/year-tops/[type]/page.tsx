@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import Link from 'next/link';
+import { TabNav } from '@/components/shared/tab-nav';
 import { notFound } from 'next/navigation';
 import { getYearTopParticipants } from '@/lib/api/year-top';
 import { loadYearTopSearchParams } from '@/lib/searchParams';
@@ -11,7 +11,6 @@ import { YearTopParticipantNav } from '@/components/year-tops/participant-nav';
 import { YearTopParticipantHeader } from '@/components/year-tops/participant-header';
 import { prisma } from '@/lib/db';
 import { YearTopPickType } from '@generated/prisma/client';
-import { cn } from '@/lib/utils';
 
 interface YearTopTypePageProps {
   params: Promise<{ type: string }>;
@@ -98,16 +97,16 @@ export default async function YearTopTypePage({
   });
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
-      <div className="container mx-auto px-4 pb-8 pt-8">
+    <div className="min-h-svh">
+      <div className="container mx-auto px-4 pb-8 pt-6">
         {/* Header */}
-        <div className="relative mb-12 pt-8 text-center md:text-left">
+        <div className="mb-8 pt-4 md:pt-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+              <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl">
                 {typeConfig.title}
               </h1>
-              <p className="mt-2 text-zinc-400 max-w-2xl">
+              <p className="mt-2 max-w-2xl text-pretty text-muted-foreground">
                 {typeConfig.description.replace('{year}', validatedParams.year.toString())}
               </p>
             </div>
@@ -119,58 +118,19 @@ export default async function YearTopTypePage({
               />
             </div>
           </div>
-          {/* Year navigation */}
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            <span>Ver otras listas de {validatedParams.year}:</span>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/year-tops/top-10?year=${validatedParams.year}`}
-                className={cn(
-                  'rounded-full border px-3 py-1 text-xs font-medium transition',
-                  type === 'top-10'
-                    ? 'border-white/15 bg-white/10 text-white'
-                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                )}
-              >
-                Top del Año
-              </Link>
-              {validatedParams.year === 2025 && (
-                <Link
-                  href={`/year-tops/best-seen?year=${validatedParams.year}`}
-                  className={cn(
-                    'rounded-full border px-3 py-1 text-xs font-medium transition',
-                    type === 'best-seen'
-                      ? 'border-white/15 bg-white/10 text-white'
-                      : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                  )}
-                >
-                  Mejor vista
-                </Link>
-              )}
-              <Link
-                href={`/year-tops/worst-3?year=${validatedParams.year}`}
-                className={cn(
-                  'rounded-full border px-3 py-1 text-xs font-medium transition',
-                  type === 'worst-3'
-                    ? 'border-white/15 bg-white/10 text-white'
-                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                )}
-              >
-                Porongas del Año
-              </Link>
-              <Link
-                href={`/year-tops/best-and-worst?year=${validatedParams.year}`}
-                className={cn(
-                  'rounded-full border px-3 py-1 text-xs font-medium transition',
-                  type === 'best-and-worst'
-                    ? 'border-white/15 bg-white/10 text-white'
-                    : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                )}
-              >
-                Duales
-              </Link>
-            </div>
-          </div>
+          {/* Other lists of the same year */}
+          <TabNav
+            className="mt-8"
+            label={`Listas de ${validatedParams.year}`}
+            items={[
+              { href: `/year-tops/top-10?year=${validatedParams.year}`, label: 'Top del Año', active: type === 'top-10' },
+              ...(validatedParams.year === 2025
+                ? [{ href: `/year-tops/best-seen?year=${validatedParams.year}`, label: 'Mejor vista', active: type === 'best-seen' }]
+                : []),
+              { href: `/year-tops/worst-3?year=${validatedParams.year}`, label: 'Porongas del Año', active: type === 'worst-3' },
+              { href: `/year-tops/best-and-worst?year=${validatedParams.year}`, label: 'Duales', active: type === 'best-and-worst' },
+            ]}
+          />
         </div>
 
         {/* Participant Header (shown when viewing single participant) */}

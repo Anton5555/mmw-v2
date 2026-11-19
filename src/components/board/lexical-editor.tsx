@@ -89,7 +89,7 @@ function LinkDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] border-white/10 bg-zinc-950/95 backdrop-blur-2xl">
+      <DialogContent className="sm:max-w-[425px] border-border bg-zinc-950/95 backdrop-blur-2xl">
         <DialogHeader>
           <DialogTitle className="text-white">Insert Link</DialogTitle>
           <DialogDescription className="text-zinc-400">
@@ -105,7 +105,7 @@ function LinkDialog({
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="bg-white/5 border-white/10 text-white"
+                className="bg-white/5 border-border text-white"
                 autoFocus
               />
             </div>
@@ -254,8 +254,8 @@ function ToolbarPlugin({ readOnly }: { readOnly?: boolean }) {
 
   return (
     <>
-      <div className="flex items-center gap-1 p-2 border-b border-white/10 bg-white/5 flex-wrap">
-        <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
+      <div className="flex items-center gap-1 p-2 border-b border-border bg-white/5 flex-wrap">
+        <div className="flex items-center gap-1 border-r border-border pr-2 mr-1">
           <Button
             type="button"
             variant={isBold ? 'default' : 'ghost'}
@@ -287,7 +287,7 @@ function ToolbarPlugin({ readOnly }: { readOnly?: boolean }) {
             <Underline className="h-4 w-4" />
           </Button>
         </div>
-        <div className="flex items-center gap-1 border-r border-white/10 pr-2 mr-1">
+        <div className="flex items-center gap-1 border-r border-border pr-2 mr-1">
           <Button
             type="button"
             variant="ghost"

@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { User } from 'lucide-react';
 import { useFilmSlate } from '@/lib/contexts/film-slate-context';
@@ -23,53 +22,47 @@ export function ListCard({ list }: ListCardProps) {
     <Link
       href={`/lists/${list.id}`}
       onClick={handleClick}
-      className="group relative @container"
+      className="group relative block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
     >
-      <Card className="relative aspect-video w-full overflow-hidden border-none bg-muted shadow-lg transition-[transform,box-shadow] duration-300 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:-translate-y-1 group-hover:shadow-2xl group-hover:shadow-primary/20">
-        {/* Background Image */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm bg-card ring-1 ring-border transition-[transform,box-shadow] duration-300 ease-out group-hover:ring-primary/70 [@media(hover:hover)_and_(pointer:fine)]:group-hover:-translate-y-1">
         {list.imgUrl ? (
           <Image
             src={list.imgUrl}
-            alt={list.name}
+            alt=""
             fill
             className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
           />
-        ) : (
-          <div className="h-full w-full bg-gradient-to-br from-neutral-800 to-neutral-950" />
-        )}
+        ) : null}
 
-        {/* Gradient Overlay - Darker at bottom for text, lighter at top */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
+        {/* Ink scrim: solid at the bottom so text reads over any still */}
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-transparent to-75%" />
 
         {/* Title sits on the requester; hover opens room for the description */}
-        <div className="absolute inset-0 flex flex-col justify-end p-4 @xs:p-5">
-          <h3 className="text-balance text-base font-black leading-tight text-white line-clamp-2 uppercase tracking-normal @xs:text-lg @sm:text-xl">
+        <div className="absolute inset-x-0 bottom-0 flex flex-col p-5">
+          <h3 className="text-balance font-display text-2xl font-bold uppercase leading-[1.05] text-foreground">
             {list.name}
           </h3>
 
           {list.description ? (
-            <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] motion-reduce:transition-none">
+            <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grid-rows-[1fr] group-focus-visible:grid-rows-[1fr] motion-reduce:transition-none [@media(hover:none)]:grid-rows-[1fr]">
               <div className="min-h-0 overflow-hidden">
-                <p className="mt-2 line-clamp-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+                <p className="mt-2 line-clamp-4 text-sm leading-snug text-foreground/85 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none [@media(hover:none)]:opacity-100">
                   {list.description}
                 </p>
               </div>
             </div>
           ) : null}
 
-          <div className="mt-2 flex items-center gap-2 border-t border-white/10 pt-2 @xs:mt-3 @xs:pt-3">
-            <div className="flex items-center min-w-0 text-[10px] font-bold uppercase tracking-wider text-white/60">
-              <User className="mr-1 h-3 w-3" />
-              Pedido por:{' '}
-              <span className="ml-1 truncate text-white">{list.createdBy}</span>
-            </div>
-          </div>
+          <p className="mt-3 flex min-w-0 items-center gap-1 border-t border-foreground/15 pt-3 text-xs text-muted-foreground">
+            <User className="size-3 shrink-0" aria-hidden />
+            Pedido por{' '}
+            <span className="truncate font-semibold text-foreground">
+              {list.createdBy}
+            </span>
+          </p>
         </div>
-
-        {/* Subtle Border Glow on Hover */}
-        <div className="absolute inset-0 rounded-xl border border-white/0 transition-colors duration-300 group-hover:border-white/20" />
-      </Card>
+      </div>
     </Link>
   );
 }

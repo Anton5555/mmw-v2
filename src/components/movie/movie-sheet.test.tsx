@@ -34,6 +34,16 @@ describe('MovieSheet', () => {
     ).toBe('/mam/movie/7');
   });
 
+  it('marks the full-page link so the sheet host does not reopen the sheet', () => {
+    renderSheet();
+
+    expect(
+      screen
+        .getByRole('link', { name: /Abrir página completa/ })
+        .hasAttribute('data-no-sheet')
+    ).toBe(true);
+  });
+
   it('calls onClose when dismissed', async () => {
     const onClose = renderSheet();
 

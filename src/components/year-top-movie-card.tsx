@@ -2,8 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import { InfoPopover } from '@/components/ui/info-popover';
 import { ParticipantAvatar, getParticipantDisplayName } from './participant-avatar';
 import { Film, Star } from 'lucide-react';
@@ -30,19 +28,14 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
     : [];
 
   return (
-    <div className="relative group">
-      <div
-        className={cn(
-          'relative overflow-hidden border-0 bg-transparent',
-          'group-hover:z-10'
-        )}
-      >
+    <div className="group relative flex h-full flex-col">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-sm bg-card ring-1 ring-border transition-shadow duration-200 group-hover:z-10 group-hover:ring-primary/70">
         {/* The Poster Layer */}
         <Link
           href={`/year-tops/movie/${movie.id}`}
           className="block"
         >
-          <div className="aspect-[2/3] relative rounded-lg overflow-hidden shadow-lg">
+          <div className="aspect-[2/3] relative overflow-hidden bg-background">
             {movie.posterUrl ? (
               <Image
                 src={movie.posterUrl.startsWith('http') ? movie.posterUrl : `https://image.tmdb.org/t/p/w500${movie.posterUrl}`}
@@ -59,16 +52,13 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
 
             {/* Hover overlay: scrim keeps text readable over busy posters */}
             <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="bg-gradient-to-t from-black via-black/80 to-transparent px-4 pb-4 pt-16">
+              <div className="bg-gradient-to-t from-background via-background/85 to-transparent px-4 pb-4 pt-16">
                 {(totalPoints ?? 0) > 0 && (
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="bg-black/40 border-white/20 text-white"
-                    >
-                      <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+                    <span className="inline-flex items-center gap-1 bg-primary px-1.5 py-0.5 text-xs font-bold text-primary-foreground">
+                      <Star className="size-3 fill-current" />
                       {totalPoints} pts
-                    </Badge>
+                    </span>
                   </div>
                 )}
               </div>
@@ -76,17 +66,17 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
           </div>
         </Link>
 
-        {/* Title Layer - Outside the poster for readability */}
-        <div className="mt-3 px-1">
+        {/* Caption: year and voters sit on top (visually), title under them; any spare height falls below */}
+        <div className="flex flex-1 flex-col-reverse justify-end gap-1.5 border-t border-border px-3 pb-3 pt-2.5">
           <Link
             href={`/year-tops/movie/${movie.id}`}
             >
-            <h3 className="font-bold text-sm leading-snug tracking-tight line-clamp-2 text-balance group-hover:text-primary transition-colors">
+            <h3 className="line-clamp-2 text-balance text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
               {displayTitle}
             </h3>
           </Link>
-          <div className="flex justify-between items-center mt-1">
-            <span className="text-[11px] font-medium text-muted-foreground">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs tabular-nums text-muted-foreground">
               {new Date(movie.releaseDate).getFullYear()}
             </span>
             {movie.picks.length > 0 && (
@@ -143,7 +133,7 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
                   {movie.picks.slice(0, 3).map((pick) => (
                     <div
                       key={pick.id}
-                      className="w-6 h-6 rounded-full border-2 border-background overflow-hidden shrink-0 group-hover/avatars:border-primary/50 transition-colors"
+                      className="w-6 h-6 rounded-full border-2 border-card overflow-hidden shrink-0 group-hover/avatars:border-primary/50 transition-colors"
                     >
                       <ParticipantAvatar
                         participant={{
@@ -159,7 +149,7 @@ export function YearTopMovieCard({ movie, totalPoints, pickType }: YearTopMovieC
                     </div>
                   ))}
                   {movie.picks.length > 3 && (
-                    <div className="w-6 h-6 rounded-full border-2 border-background bg-zinc-800 flex items-center justify-center text-[8px] font-bold text-white shrink-0">
+                    <div className="w-6 h-6 rounded-full border-2 border-card bg-secondary flex items-center justify-center text-[9px] font-bold text-foreground shrink-0">
                       +{movie.picks.length - 3}
                     </div>
                   )}

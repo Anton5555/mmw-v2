@@ -92,7 +92,7 @@ export function EditPostDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[540px] border-white/10 bg-zinc-950">
+      <DialogContent className="sm:max-w-[540px] border-border bg-zinc-950">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold tracking-tight text-white">
             Editar post-it
@@ -113,7 +113,7 @@ export function EditPostDialog({
                   <FormControl>
                     <Input
                       placeholder="Título del post-it..."
-                      className="h-11 border-white/10 bg-zinc-900 focus-visible:ring-1 focus-visible:ring-yellow-500"
+                      className="h-11 border-border bg-zinc-900 focus-visible:ring-1 focus-visible:ring-yellow-500"
                       {...field}
                     />
                   </FormControl>
@@ -135,7 +135,7 @@ export function EditPostDialog({
                       value={field.value}
                       onChange={field.onChange}
                       placeholder="Ingresá la descripción..."
-                      className="min-h-[120px] bg-zinc-900 border-white/10 focus-visible:ring-1 focus-visible:ring-yellow-500"
+                      className="min-h-[120px] bg-zinc-900 border-border focus-visible:ring-1 focus-visible:ring-yellow-500"
                     />
                   </FormControl>
                   <FormMessage className="text-xs text-red-500" />

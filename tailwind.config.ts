@@ -22,10 +22,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-barlow)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--font-barlow-condensed)', 'Arial Narrow', 'sans-serif'],
       },
       animation: {
-        grain: 'grain 1s steps(6) infinite',
         collapse: 'collapse 0.2s ease-out',
         expand: 'expand 0.2s ease-out',
         shimmer: 'shimmer 2s infinite',

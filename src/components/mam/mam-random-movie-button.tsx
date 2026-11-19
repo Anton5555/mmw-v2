@@ -27,7 +27,7 @@ export function MamRandomMovieButton({ movies }: MamRandomMovieButtonProps) {
     <Button
       type="button"
       onClick={handleClick}
-      className="h-9 shrink-0 rounded-full bg-yellow-400 px-4 font-semibold tracking-tight text-black hover:bg-yellow-300 [&_svg]:size-4"
+      className="h-9 shrink-0 px-4 font-semibold [&_svg]:size-4"
     >
       <Dices aria-hidden />
       Probá tu suerte

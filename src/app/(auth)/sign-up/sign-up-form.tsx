@@ -117,12 +117,12 @@ export default function SignUpForm({ verifyVipCode }: SignUpFormProps) {
   };
 
   const fieldClass =
-    'h-11 pl-10 bg-zinc-950 border-white/10 rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500';
+    'h-11 pl-10 bg-zinc-950 border-border rounded-lg focus-visible:ring-1 focus-visible:ring-yellow-500';
   const labelClass = 'text-sm text-zinc-400';
   const messageClass = 'text-xs text-red-500';
 
   return (
-    <div className="w-full rounded-xl border border-white/10 bg-zinc-900 overflow-hidden">
+    <div className="w-full rounded-xl border border-border bg-zinc-900 overflow-hidden">
       <div className="p-8 pb-2 space-y-1 text-center">
         <h1 className="text-2xl font-semibold tracking-tight text-white">
           Crear cuenta

@@ -55,11 +55,12 @@ export default async function ListPage({ params, searchParams }: PageProps) {
   });
 
   return (
-    <div className="min-h-svh bg-[#0a0a0a] text-white">
+    <div className="min-h-svh bg-background text-white">
       <ListBreadcrumbUpdater listName={list.name} />
 
       {/* Hero Section */}
-      <section className="relative h-[60svh] w-full overflow-hidden md:h-[70svh]">
+      {/* -mt-11 tucks the hero under the breadcrumb trail */}
+      <section className="relative -mt-11 h-[60svh] w-full overflow-hidden md:h-[70svh]">
         <Image
           src={list.imgUrl}
           alt={list.name}
@@ -68,13 +69,15 @@ export default async function ListPage({ params, searchParams }: PageProps) {
           className="object-cover object-top transition-transform duration-1000 group-hover:scale-105"
         />
 
+        {/* Top fade so the breadcrumb trail reads over the image */}
+        <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-background/90 to-transparent" />
         {/* Cinematic Gradient Overlays */}
-        <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-r from-[#0a0a0a] via-transparent to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-background via-transparent to-transparent opacity-60" />
 
         {/* Content Overlay */}
         <div className="absolute inset-0 flex flex-col justify-end pb-12">
-          <div className="container mx-auto px-4 md:px-8">
+          <div className="container mx-auto px-4">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div className="max-w-3xl space-y-4">
                 <div className="space-y-1">
@@ -112,7 +115,7 @@ export default async function ListPage({ params, searchParams }: PageProps) {
       </section>
 
       {/* Movie Grid Section */}
-      <section className="container relative z-10 mx-auto -mt-8 px-4 pb-20 md:px-8">
+      <section className="container relative z-10 mx-auto -mt-8 px-4 pb-20">
         {/* Filters */}
         <ListMovieFilters
           genres={genresList}

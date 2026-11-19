@@ -46,7 +46,7 @@ export function GoogleButton({
       variant="outline"
       disabled={disabled || isPending}
       onClick={() => startTransition(onClick)}
-      className="w-full h-11 bg-transparent border-white/10 text-white hover:bg-white/5 hover:text-white rounded-lg"
+      className="w-full h-11 bg-transparent border-border text-white hover:bg-white/5 hover:text-white rounded-lg"
     >
       {isPending ? (
         <Loader2 className="animate-spin h-5 w-5" />

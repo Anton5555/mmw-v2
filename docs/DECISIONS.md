@@ -60,11 +60,21 @@ Sources: [Telegram movie trivia bot](8f695428-bcb6-4536-9802-d6a03a42f5d5), [IMD
 
 **Verified.** `BOARD_ENABLED = false` rather than deleting the feature. Sidebar, proxy, actions, and `/api/board` all honor the flag.
 
-### UI polish stays surgical
+### Film stock look (Nov 2026)
 
-**Historical decision, partial code.** A 2026 pass stripped gradient eyebrows, heavy glass, and similar treatment on hub pages while keeping the film-club palette. A full type system and shared header redesign was offered and declined. `lamp-background.tsx` has no imports in `src` (dead). Film-slate and spotlight cursor pieces are still mounted.
+**Verified in code on `feat/film-stock-redesign`.** The earlier "UI polish stays surgical" decision (keep the zinc and yellow film-club palette, decline a type system and header redesign) was reversed on 19 Nov 2026 because the stock shadcn zinc theme read as generic.
 
-Source: [Frontend design improvements](829bb6d7-93f8-4140-826a-389da2c0a273).
+- Palette: teal ink `#0f2226`, surface `#17323a`, border `#2a4c55`, label cream `#f1e9d8`, box yellow `#f2b632` (primary), box red `#d8392b` (logo block, destructive). Dark only.
+- Type: Barlow body, Barlow Condensed for `h1`–`h3` (`h1` uppercase).
+- Shape: `--radius` is 0.25rem and `rounded-xl/2xl/3xl` are flattened to it.
+- The hard-coded `zinc-*`, `yellow-*` and `amber-*` Tailwind classes are not rewritten per file. `globals.css` `@theme` remaps those palettes to the Film stock colours. Prefer the semantic tokens (`bg-card`, `text-muted-foreground`, `text-primary`) in new code.
+- Navigation is the Tinta top bar (`top-nav.tsx`: dark bar, red MMW block, yellow underline on the active link, sheet menu below `lg`). The sidebar, `nav-main`, `spotlight-cursor`, `lamp-background`, film grain and the per-card fade-up stagger on poster grids were removed.
+- Breadcrumbs are a quiet trail inside the page column, not a second bar under the top nav. Sections with their own tab row (IMDB LTA, a year-top list) skip the trail.
+- Section views switch with `TabNav` (underlined, like the top bar), not pills. In IMDB LTA the member tabs come first and the admin tools sit apart on the right behind a shield icon.
+- List cards put title, description and requester under the image, so no text depends on hover.
+- `white` is remapped to the label cream. Participant initials use muted ink colours.
+- Rejected on the way: a cream header bar, bright cobalt blue, light/paper themes, and a neutral graphite or midnight refinement of the old look.
+- Not done: renaming the `glass-*` components (they are flat zinc cards now), and the gradient and `backdrop-blur` sweep outside the nav. Poster scrims are intentional.
 
 ## Engineering
 
@@ -120,5 +130,4 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 | Prisma → Drizzle | **Unverified** as an explicit rejection in transcripts. The app is Prisma-only. Do not start a port without a new decision. |
 | Supabase Auth | Login, sessions, and roles are Better Auth rows in `public`. |
 | GitHub Action as the only production migrator | It can run beside a deploy and fight it. |
-| Full visual-system rewrite | Surgical cleanup only. |
 | Database reset as a data-repair tool | It destroyed MAM reviews once. Re-import instead. |
