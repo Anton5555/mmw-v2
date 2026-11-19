@@ -3,22 +3,14 @@ import { redirect } from 'next/navigation';
 import {
   getImdbLtaPhase,
   getMyNominationList,
-  listAdminNominationSnapshot,
 } from '@/lib/api/imdb-lta';
-import { getOpenBatch } from '@/lib/api/imdb-lta-batches';
 import { NominationBuilder } from './_components/nomination-builder';
 import { ImdbLtaPhase } from '@generated/prisma/client';
 import {
   ImdbLtaPhaseNav,
   phaseBannerCopy,
 } from './_components/imdb-lta-phase-nav';
-import { ImdbLtaAdminPhaseSwitcher } from './_components/imdb-lta-admin-phase-switcher';
-import { ImdbLtaAdminBatchPanel } from './_components/imdb-lta-admin-batch-panel';
-import {
-  ImdbLtaAdminNominationsOverview,
-} from './_components/imdb-lta-admin-nominations-overview';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { isImdbLtaNominationDeadlinePassed } from '@/lib/validations/imdb-lta';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
@@ -43,17 +35,17 @@ async function ImdbLtaPageContent() {
   const isAdmin = session.user.role === 'admin';
   const phase = await getImdbLtaPhase();
 
-  // Nominations stay reachable during scoring so people can open their own list
-  // from the lote page. The lote itself lives at /imdb-lta/lote.
-  if (phase === ImdbLtaPhase.RATING_CLOSED && !isAdmin) {
+  // During scoring, send everyone to the rating surfaces. Personal lists live on
+  // Revisar; admin controls live on /imdb-lta/admin.
+  if (phase === ImdbLtaPhase.RATING_OPEN) {
+    redirect('/imdb-lta/lote');
+  }
+
+  if (phase === ImdbLtaPhase.RATING_CLOSED) {
     redirect('/imdb-lta/ranking');
   }
 
-  const [nominationList, adminSnapshot, openBatch] = await Promise.all([
-    getMyNominationList(session.user.id),
-    isAdmin ? listAdminNominationSnapshot() : Promise.resolve(null),
-    isAdmin ? getOpenBatch() : Promise.resolve(null),
-  ]);
+  const nominationList = await getMyNominationList(session.user.id);
 
   const isNominationOpen =
     phase === ImdbLtaPhase.NOMINATION_OPEN &&
@@ -68,42 +60,6 @@ async function ImdbLtaPageContent() {
           currentPath="/imdb-lta"
           isAdmin={isAdmin}
         />
-
-        {isAdmin && <ImdbLtaAdminPhaseSwitcher currentPhase={phase} />}
-
-        {isAdmin && (
-          <ImdbLtaAdminBatchPanel
-            ratingOpen={phase === ImdbLtaPhase.RATING_OPEN}
-            openBatch={
-              openBatch
-                ? {
-                    number: openBatch.batch.number,
-                    openedAt: openBatch.batch.openedAt.toISOString(),
-                    movieCount: openBatch.movies.length,
-                    announced: openBatch.batch.announcedAt !== null,
-                  }
-                : null
-            }
-          />
-        )}
-
-        {isAdmin && adminSnapshot && (
-          <ImdbLtaAdminNominationsOverview
-            snapshot={{
-              uniqueMovies: adminSnapshot.uniqueMovies,
-              totalNominations: adminSnapshot.totalNominations,
-              listCount: adminSnapshot.listCount,
-              submittedListCount: adminSnapshot.submittedListCount,
-              participants: adminSnapshot.participants.map((p) => ({
-                userId: p.userId,
-                name: p.name,
-                nominationCount: p.nominationCount,
-                submittedAt: p.submittedAt?.toISOString() ?? null,
-              })),
-              movies: adminSnapshot.movies,
-            }}
-          />
-        )}
 
         {banner && (
           <div
@@ -123,22 +79,6 @@ async function ImdbLtaPageContent() {
               {banner.title}
             </p>
             <p className="mt-1 text-sm opacity-80">{banner.body}</p>
-            {phase === ImdbLtaPhase.RATING_OPEN && (
-              <Link
-                href="/imdb-lta/lote"
-                className="mt-3 inline-block text-xs font-black uppercase tracking-widest text-yellow-400 underline underline-offset-4"
-              >
-                Ir al lote actual →
-              </Link>
-            )}
-            {phase === ImdbLtaPhase.RATING_CLOSED && (
-              <Link
-                href="/imdb-lta/ranking"
-                className="mt-3 inline-block text-xs font-black uppercase tracking-widest text-yellow-400 underline underline-offset-4"
-              >
-                Ver el ranking →
-              </Link>
-            )}
           </div>
         )}
 

@@ -660,6 +660,107 @@ describe('listRateableCandidates', () => {
     expect(result.movies.map((m) => m.title)).toEqual(['Newer pin', 'Older pin']);
     expect(result.movies.every((m) => m.userWantToWatch)).toBe(true);
   });
+
+  it('progress counts only released scored movies as watched', async () => {
+    stub(
+      [
+        { id: 1, title: 'Scored released', noms: 2, ratings: 1 },
+        { id: 2, title: 'Skipped released', noms: 2, ratings: 0 },
+        { id: 3, title: 'Pending released', noms: 2, ratings: 0 },
+        { id: 4, title: 'Want to watch released', noms: 2, ratings: 0 },
+        { id: 5, title: 'Scored open', noms: 2, ratings: 1 },
+        { id: 6, title: 'Locked nom', noms: 1, ratings: 0 },
+        { id: 7, title: 'My released nom scored', noms: 1, ratings: 1 },
+        { id: 8, title: 'My locked nom', noms: 1, ratings: 0 },
+      ],
+      {
+        nominated: [6, 7, 8],
+        rated: [
+          { movieId: 1, score: 8 },
+          { movieId: 5, score: 9 },
+          { movieId: 7, score: 7 },
+        ],
+        skipped: [
+          2,
+          { movieId: 4, pinnedAt: new Date('2026-11-10T12:00:00Z') },
+        ],
+      }
+    );
+    db.imdbLtaBatchMovie.findMany.mockResolvedValue([
+      { movieId: 1, batch: { status: 'CLOSED' } },
+      { movieId: 2, batch: { status: 'CLOSED' } },
+      { movieId: 3, batch: { status: 'CLOSED' } },
+      { movieId: 4, batch: { status: 'CLOSED' } },
+      { movieId: 5, batch: { status: 'OPEN' } },
+      { movieId: 7, batch: { status: 'CLOSED' } },
+    ]);
+
+    const result = await listRateableCandidates('u1', { filter: 'pending' });
+
+    // Released: 1,2,3,4,7 → 5. Watched (scored): 1,7 → 2. Open score ignored.
+    expect(result.progress).toEqual({
+      releasedCount: 5,
+      watchedCount: 2,
+      percent: 40,
+      pendingCount: 1,
+      notSeenCount: 1,
+      wantToWatchCount: 1,
+      myNominationsReleasedCount: 1,
+      myNominationsTotal: 3,
+    });
+    expect(result.myNominations.map((m) => m.id)).toEqual([6, 7, 8]);
+    expect(result.myNominations.find((m) => m.id === 7)).toMatchObject({
+      title: 'My released nom scored',
+      batchState: 'released',
+      userScore: 7,
+    });
+    expect(result.myNominations.find((m) => m.id === 6)).toMatchObject({
+      batchState: 'locked',
+      userScore: null,
+    });
+  });
+
+  it('progress percent is null when nothing has been released yet', async () => {
+    stub(
+      [
+        { id: 1, title: 'Open only', noms: 2, ratings: 0 },
+        { id: 2, title: 'Locked', noms: 2, ratings: 0 },
+      ],
+      { rated: [{ movieId: 1, score: 8 }] }
+    );
+    openBatchMovies(1);
+
+    const result = await listRateableCandidates('u1');
+    expect(result.progress).toEqual({
+      releasedCount: 0,
+      watchedCount: 0,
+      percent: null,
+      pendingCount: 0,
+      notSeenCount: 0,
+      wantToWatchCount: 0,
+      myNominationsReleasedCount: 0,
+      myNominationsTotal: 0,
+    });
+    expect(result.myNominations).toEqual([]);
+  });
+
+  it('progress percent rounds to the nearest integer', async () => {
+    stub(
+      [
+        { id: 1, title: 'A', noms: 2, ratings: 1 },
+        { id: 2, title: 'B', noms: 2, ratings: 0 },
+        { id: 3, title: 'C', noms: 2, ratings: 0 },
+      ],
+      { rated: [{ movieId: 1, score: 8 }] }
+    );
+    releaseMovies(1, 2, 3);
+
+    const result = await listRateableCandidates('u1');
+    // 1/3 → 33.333… → 33
+    expect(result.progress.percent).toBe(33);
+    expect(result.progress.watchedCount).toBe(1);
+    expect(result.progress.releasedCount).toBe(3);
+  });
 });
 
 describe('setWantToWatch', () => {

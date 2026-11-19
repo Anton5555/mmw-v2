@@ -76,9 +76,9 @@ All **phase** transitions are **manual admin actions**. Nothing auto-closes beca
 | `RATING_OPEN` | Frozen. Mutations rejected server-side. | Score eligible films 0–10 | Live/provisional for qualified movies |
 | `RATING_CLOSED` | Frozen | No new ratings. Personal scores view-only. | **Official / final** IMDB LTA ranking |
 
-Admin phase UI: switcher on `/imdb-lta` (visible only when `session.user.role === 'admin'`). Calls `updateImdbLtaPhaseAction` (server re-checks admin). Prisma Studio remains a fallback.
+Admin phase UI: switcher, batch rotation, and the collapsible **Nominaciones del grupo** panel live on `/imdb-lta/admin` (visible only when `session.user.role === 'admin'`). Calls `updateImdbLtaPhaseAction` (server re-checks admin). Prisma Studio remains a fallback.
 
-Admins also get a collapsible **Nominaciones del grupo** panel on the same page: all nomination rows (including drafts without Guardar), per-user counts/submitted status, and movies sorted by nomination count with nominator names.
+**Nominaciones del grupo** shows all nomination rows (including drafts without Guardar), per-user counts/submitted status, and movies sorted by nomination count with nominator names.
 
 ### Nomination closure (manual)
 
@@ -171,12 +171,12 @@ Already-rated is allowed (edit). Phase ≠ `RATING_OPEN` rejects writes.
 | Route | Role |
 | --- | --- |
 | `/imdb-lta/lote` | One-at-a-time deck for the open batch: 0–10, Saltar, No la vi |
-| `/imdb-lta/rate` | **Revisar** — change scores, and **No vistas** for movies marked “No la vi” (including the open batch) |
+| `/imdb-lta/rate` | **Revisar** — personal dashboard (watched % of released movies + your nominations) plus change scores and **No vistas** (including the open batch) |
 | `/imdb-lta/ranking` | Qualified (≥5) released movies; live while `RATING_OPEN` |
 
 ### 2.5 Telegram + admin rotate
 
-- `rotateBatch()` closes the open batch (if any) and opens the next. Called only from the admin action on `/imdb-lta`.
+- `rotateBatch()` closes the open batch (if any) and opens the next. Called only from the admin action on `/imdb-lta/admin`.
 - `announcePendingBatches` posts results for closed unannounced batches, then the new batch album + “Votar el lote” URL button (`TELEGRAM_LTA_CHAT_ID` or fallback `TELEGRAM_CHAT_ID`). HTTPS required for the inline button; local `http://localhost` falls back to a plain-text link.
 - If Telegram fails after a rotate, the open batch keeps `announcedAt = null`. Clicking the admin button again **retries the announce only** (does not open another batch).
 - Social notifications (same LTA chat), fire-and-forget via `after()` so Telegram never blocks a vote:
@@ -282,7 +282,7 @@ Example shape:
 - Rating deletion
 - Emails
 - TMDB name search
-- Full admin console beyond the hub phase switcher + batch rotate
+- Full admin console beyond the `/imdb-lta/admin` phase switcher + batch rotate + votes panel
 - Statistical ranking formulas beyond simple average + tie-breakers
 - Linking Telegram user IDs to site accounts (not needed: one shared batch URL; social pings use the site display name)
 

@@ -485,6 +485,30 @@ export type CandidateMovieStats = MovieCardData & {
 
 export type RateableFilterCounts = Record<ImdbLtaRatingFilter, number>;
 
+/** Personal watch progress over movies that already left a closed batch. */
+export type RateProgressSummary = {
+  releasedCount: number;
+  watchedCount: number;
+  /** null when nothing has been released yet. */
+  percent: number | null;
+  pendingCount: number;
+  notSeenCount: number;
+  wantToWatchCount: number;
+  myNominationsReleasedCount: number;
+  myNominationsTotal: number;
+};
+
+export type MyNominationSummary = {
+  id: number;
+  title: string;
+  originalTitle: string;
+  releaseDate: Date;
+  posterUrl: string;
+  imdbId: string;
+  batchState: MovieBatchState;
+  userScore: number | null;
+};
+
 export type RateableListResult = {
   movies: CandidateMovieStats[];
   pagination: {
@@ -494,6 +518,8 @@ export type RateableListResult = {
     totalPages: number;
   };
   counts: RateableFilterCounts;
+  progress: RateProgressSummary;
+  myNominations: MyNominationSummary[];
 };
 
 const movieCardSelect = {
@@ -692,6 +718,83 @@ function countByFilter(all: CandidateMovieStats[]): RateableFilterCounts {
   return counts;
 }
 
+/**
+ * Watched = scored among released movies. Skips stay in the total.
+ * Open-batch scores are excluded (they have their own progress on Lote).
+ */
+export function summarizeRateProgress(
+  all: CandidateMovieStats[]
+): { progress: RateProgressSummary; myNominations: MyNominationSummary[] } {
+  let releasedCount = 0;
+  let watchedCount = 0;
+  let pendingCount = 0;
+  let notSeenCount = 0;
+  let wantToWatchCount = 0;
+  let myNominationsReleasedCount = 0;
+  let myNominationsTotal = 0;
+  const myNominations: MyNominationSummary[] = [];
+
+  for (const movie of all) {
+    if (movie.userNominated) {
+      myNominationsTotal += 1;
+      myNominations.push({
+        id: movie.id,
+        title: movie.title,
+        originalTitle: movie.originalTitle,
+        releaseDate: movie.releaseDate,
+        posterUrl: movie.posterUrl,
+        imdbId: movie.imdbId,
+        batchState: movie.batchState,
+        userScore: movie.userScore,
+      });
+      if (isReleased(movie)) {
+        myNominationsReleasedCount += 1;
+      }
+    }
+
+    if (!isReleased(movie)) continue;
+
+    releasedCount += 1;
+    if (movie.userScore !== null) {
+      watchedCount += 1;
+    }
+    if (matchesRatingFilter(movie, 'pending')) {
+      pendingCount += 1;
+    }
+    if (
+      movie.userSkipped &&
+      !movie.userWantToWatch &&
+      movie.userScore === null
+    ) {
+      notSeenCount += 1;
+    }
+    if (
+      movie.userSkipped &&
+      movie.userWantToWatch &&
+      movie.userScore === null
+    ) {
+      wantToWatchCount += 1;
+    }
+  }
+
+  return {
+    progress: {
+      releasedCount,
+      watchedCount,
+      percent:
+        releasedCount === 0
+          ? null
+          : Math.round((watchedCount / releasedCount) * 100),
+      pendingCount,
+      notSeenCount,
+      wantToWatchCount,
+      myNominationsReleasedCount,
+      myNominationsTotal,
+    },
+    myNominations,
+  };
+}
+
 function sortForCoverage(a: CandidateMovieStats, b: CandidateMovieStats) {
   if (a.ratingCount !== b.ratingCount) {
     return a.ratingCount - b.ratingCount;
@@ -735,6 +838,7 @@ export async function listRateableCandidates(
 
   const all = await loadCandidateStats(userId);
   const counts = countByFilter(all);
+  const { progress, myNominations } = summarizeRateProgress(all);
   const filtered = all
     .filter((m) => matchesRatingFilter(m, filter))
     .filter(
@@ -762,6 +866,8 @@ export async function listRateableCandidates(
     movies,
     pagination: { page, limit, total, totalPages },
     counts,
+    progress,
+    myNominations,
   };
 }
 
