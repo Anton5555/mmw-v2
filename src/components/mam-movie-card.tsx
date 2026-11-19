@@ -49,7 +49,7 @@ export function MamMovieCard({
                 alt={displayTitle}
                 fill
                 className="object-cover transition-transform duration-500 ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
               />
             ) : (
               <div className="w-full h-full bg-muted flex items-center justify-center">
@@ -72,7 +72,7 @@ export function MamMovieCard({
             )}
 
             {/* Hover overlay: scrim keeps review readable over busy posters */}
-            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out pointer-events-none">
+            <div className="absolute inset-0 flex flex-col justify-end opacity-0 group-hover:opacity-100 [@media(hover:none)]:hidden transition-opacity duration-200 ease-out pointer-events-none">
               <div className="bg-gradient-to-t from-background via-background/85 to-transparent px-4 pb-4 pt-16">
                 <div className="space-y-2 translate-y-2 transition-transform duration-200 ease-out group-hover:translate-y-0">
                   {(movie.totalPoints ?? 0) > 0 && (
@@ -100,9 +100,17 @@ export function MamMovieCard({
             </h3>
           </Link>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs tabular-nums text-muted-foreground">
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="text-xs tabular-nums text-muted-foreground">
               {new Date(movie.releaseDate).getFullYear()}
             </span>
+              {(movie.totalPoints ?? 0) > 0 && (
+                <span className="hidden items-center gap-0.5 bg-primary px-1 text-[11px] font-bold tabular-nums text-primary-foreground [@media(hover:none)]:inline-flex">
+                  <Star className="size-2.5 fill-current" aria-hidden />
+                  {movie.totalPoints} pts
+                </span>
+              )}
+            </div>
             {movie.picks.length > 0 && (
               <InfoPopover
                 content={
@@ -118,7 +126,11 @@ export function MamMovieCard({
                   </>
                 }
               >
-                <button className="flex -space-x-2 cursor-pointer outline-none group/avatars">
+                <button
+                  type="button"
+                  aria-label={`Ver participantes (${movie.picks.length})`}
+                  className="-my-2 -mr-1 flex -space-x-2 cursor-pointer py-2 pr-1 outline-none group/avatars"
+                >
                   {movie.picks.slice(0, 3).map((pick) => (
                     <div
                       key={pick.id}
@@ -132,7 +144,7 @@ export function MamMovieCard({
                     </div>
                   ))}
                   {movie.picks.length > 3 && (
-                    <div className="w-6 h-6 rounded-full border-2 border-card bg-secondary flex items-center justify-center text-[9px] font-bold text-foreground shrink-0">
+                    <div className="w-6 h-6 rounded-full border-2 border-card bg-secondary flex items-center justify-center text-[10px] font-bold text-foreground shrink-0">
                       +{movie.picks.length - 3}
                     </div>
                   )}

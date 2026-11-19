@@ -22,20 +22,20 @@ function Calendar({
       classNames={{
         months: 'relative flex flex-col gap-4 sm:flex-row',
         month: 'space-y-4',
-        month_caption: 'flex h-7 items-center justify-center',
+        month_caption: 'flex h-7 pointer-coarse:h-9 items-center justify-center',
         caption_label: 'text-sm font-medium',
         nav: 'absolute inset-x-0 top-0 flex items-center justify-between',
         button_previous: cn(
           buttonVariants({ variant: 'outline' }),
-          'z-10 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
+          'z-10 size-7 bg-transparent p-0 opacity-50 hover:opacity-100 pointer-coarse:size-9 pointer-coarse:opacity-80'
         ),
         button_next: cn(
           buttonVariants({ variant: 'outline' }),
-          'z-10 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
+          'z-10 size-7 bg-transparent p-0 opacity-50 hover:opacity-100 pointer-coarse:size-9 pointer-coarse:opacity-80'
         ),
         month_grid: 'w-full border-collapse',
         weekdays: 'flex',
-        weekday: 'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
+        weekday: 'text-muted-foreground rounded-md w-8 pointer-coarse:w-10 font-normal text-[0.8rem]',
         week: 'flex w-full mt-2',
         day: cn(
           'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].outside)]:bg-accent/50',
@@ -45,7 +45,7 @@ function Calendar({
         ),
         day_button: cn(
           buttonVariants({ variant: 'ghost' }),
-          'h-8 w-8 p-0 font-normal aria-selected:opacity-100'
+          'size-8 p-0 font-normal aria-selected:opacity-100 pointer-coarse:size-10'
         ),
         range_start: 'rounded-l-md',
         range_end: 'rounded-r-md',

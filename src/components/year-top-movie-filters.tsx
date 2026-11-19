@@ -61,7 +61,7 @@ function FiltersContent({
                 key={y}
                 onClick={() => setParams({ year: y, page: 1 })}
                 className={cn(
-                  'min-w-16 rounded-sm border px-3 py-1 text-sm font-semibold tabular-nums transition-colors duration-150',
+                  'min-w-16 rounded-sm border px-3 py-1 pointer-coarse:min-h-10 text-sm font-semibold tabular-nums transition-colors duration-150',
                   params.year === y
                     ? 'bg-yellow-500 border-yellow-500 text-black font-bold'
                     : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600'
@@ -162,7 +162,7 @@ export function YearTopMovieFilters({
                   key={y}
                   onClick={() => setParams({ year: y, page: 1 })}
                   className={cn(
-                    'min-w-16 rounded-sm border px-3 py-1 text-sm font-semibold tabular-nums transition-colors duration-150',
+                    'min-w-16 rounded-sm border px-3 py-1 pointer-coarse:min-h-10 text-sm font-semibold tabular-nums transition-colors duration-150',
                     params.year === y
                       ? 'border-primary bg-primary text-primary-foreground'
                       : 'border-border bg-card text-muted-foreground hover:border-primary hover:text-foreground'

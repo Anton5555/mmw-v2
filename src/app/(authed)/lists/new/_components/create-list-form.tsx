@@ -200,7 +200,7 @@ export function CreateListForm() {
                   <p className="text-xs font-medium text-zinc-100 truncate leading-tight">
                     {movie.title}
                   </p>
-                  <p className="text-[10px] text-zinc-500 truncate">
+                  <p className="text-xs text-zinc-500 truncate">
                     {movie.originalTitle}
                   </p>
                 </div>
@@ -340,7 +340,7 @@ export function CreateListForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription className="text-[10px]">
+                  <FormDescription className="text-xs">
                     Imagen de cabecera para la lista.
                   </FormDescription>
                   <FormMessage />
@@ -429,7 +429,7 @@ export function CreateListForm() {
                     className="bg-zinc-950 border-border h-40 font-mono text-xs tracking-wider p-4"
                   />
                 </FormControl>
-                <FormDescription className="text-[10px]">
+                <FormDescription className="text-xs">
                   Separa los IDs por comas.
                 </FormDescription>
                 <FormMessage />

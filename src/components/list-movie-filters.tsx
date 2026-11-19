@@ -176,14 +176,15 @@ function FiltersContent({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-auto p-0 ml-1"
+                  aria-label="Quitar filtro"
+                  className="-my-1 -mr-1.5 ml-0.5 size-7 rounded-sm p-0 pointer-coarse:size-8"
                   onClick={() => {
                     setParams({
                       genre: params.genre.filter((g) => g !== genre.name),
                     });
                   }}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="size-3.5" />
                 </Button>
               </Badge>
             ))}
@@ -198,7 +199,8 @@ function FiltersContent({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-auto p-0 ml-1"
+                  aria-label="Quitar filtro"
+                  className="-my-1 -mr-1.5 ml-0.5 size-7 rounded-sm p-0 pointer-coarse:size-8"
                   onClick={() => {
                     setParams({
                       director: params.director.filter(
@@ -207,7 +209,7 @@ function FiltersContent({
                     });
                   }}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="size-3.5" />
                 </Button>
               </Badge>
             ))}
@@ -232,14 +234,15 @@ function FiltersContent({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-auto p-0 ml-1"
+                  aria-label="Quitar filtro"
+                  className="-my-1 -mr-1.5 ml-0.5 size-7 rounded-sm p-0 pointer-coarse:size-8"
                   onClick={() => {
                     setParams({
                       country: params.country.filter((c) => c !== country.code),
                     });
                   }}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="size-3.5" />
                 </Button>
               </Badge>
             ))}

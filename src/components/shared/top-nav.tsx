@@ -56,7 +56,7 @@ export function TopNav({ user }: { user: User }) {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-[#0a181b] pt-[env(safe-area-inset-top,0px)]">
+    <header className="sticky top-0 z-40 border-b border-border bg-[#0a181b] pt-[env(safe-area-inset-top,0px)] pr-[env(safe-area-inset-right,0px)] pl-[env(safe-area-inset-left,0px)]">
       <nav aria-label="Principal" className="flex h-14 items-stretch">
         <Link
           href="/home"
@@ -80,7 +80,7 @@ export function TopNav({ user }: { user: User }) {
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
               aria-label="Abrir menú"
-              className="flex size-11 items-center justify-center text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
+              className="flex size-11 items-center justify-center text-foreground hover:bg-accent active:bg-accent focus-visible:outline-2 focus-visible:outline-primary lg:hidden"
             >
               <Menu className="size-6" />
             </SheetTrigger>

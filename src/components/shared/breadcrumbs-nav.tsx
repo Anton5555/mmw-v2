@@ -81,7 +81,7 @@ export function BreadcrumbsNav() {
   if (hasOwnTabs && !currentPageLabel) return null;
 
   const linkClass =
-    'text-sm text-muted-foreground transition-colors hover:text-foreground';
+    'inline-flex min-h-10 items-center text-sm text-muted-foreground transition-colors hover:text-foreground active:text-foreground';
   const separator = (
     <BreadcrumbSeparator className="text-border">
       <span aria-hidden>/</span>
@@ -90,9 +90,9 @@ export function BreadcrumbsNav() {
 
   // A quiet trail inside the page column, not a second bar under the top nav.
   return (
-    <div className="container relative z-10 mx-auto flex h-11 items-end px-4">
-      <Breadcrumb>
-        <BreadcrumbList className="no-scrollbar flex-nowrap gap-2 overflow-x-auto whitespace-nowrap sm:gap-2">
+    <div className="container relative z-10 mx-auto flex h-11 min-w-0 items-end px-4">
+      <Breadcrumb className="min-w-0">
+        <BreadcrumbList className="min-w-0 flex-nowrap gap-2 overflow-hidden whitespace-nowrap">
           {breadcrumbItems.map(({ path, originalIndex }, index) => {
             const href = `/${paths.slice(0, originalIndex + 1).join('/')}`;
             const isLastPathItem = index === lastPathIndex;
@@ -104,9 +104,9 @@ export function BreadcrumbsNav() {
             return (
               <React.Fragment key={`${path}-${originalIndex}`}>
                 {index > 0 && separator}
-                <BreadcrumbItem>
+                <BreadcrumbItem className="shrink-0">
                   {isCurrent ? (
-                    <BreadcrumbPage className="text-sm font-medium text-foreground">
+                    <BreadcrumbPage className="inline-flex min-h-10 items-center text-sm font-medium text-foreground">
                       {displayText}
                     </BreadcrumbPage>
                   ) : (
@@ -119,7 +119,7 @@ export function BreadcrumbsNav() {
                   intermediateBreadcrumbs.map((intermediate, idx) => (
                     <React.Fragment key={`intermediate-${idx}`}>
                       {separator}
-                      <BreadcrumbItem>
+                      <BreadcrumbItem className="shrink-0">
                         <BreadcrumbLink
                           href={intermediate.href}
                           className={linkClass}
@@ -137,7 +137,7 @@ export function BreadcrumbsNav() {
             <>
               {separator}
               <BreadcrumbItem className="min-w-0">
-                <BreadcrumbPage className="truncate text-sm font-medium text-foreground">
+                <BreadcrumbPage className="block truncate py-2.5 text-sm font-medium text-foreground">
                   {currentPageLabel}
                 </BreadcrumbPage>
               </BreadcrumbItem>

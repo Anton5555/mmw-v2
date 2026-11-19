@@ -182,7 +182,7 @@ function ScorePicker({
               disabled={disabled || isPending}
               onClick={() => handleScore(score)}
               className={cn(
-                'flex h-9 cursor-pointer items-center justify-center rounded-xl border font-mono text-xs font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 sm:text-sm xl:h-11',
+                'flex h-11 cursor-pointer items-center justify-center rounded-xl border font-mono text-sm font-bold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 sm:h-10 xl:h-11',
                 score === 10 && 'col-span-2 sm:col-span-1',
                 scoreButtonClass(score, currentScore)
               )}
@@ -239,7 +239,7 @@ function WantToWatchButton({
       disabled={isPending}
       onClick={toggle}
       className={cn(
-        'inline-flex cursor-pointer items-center gap-1 rounded-sm border px-2.5 py-0.5 text-xs font-bold transition disabled:cursor-wait',
+        'inline-flex cursor-pointer items-center gap-1 rounded-sm border px-2.5 py-0.5 text-xs font-bold transition disabled:cursor-wait pointer-coarse:min-h-9 pointer-coarse:px-3',
         shownPinned
           ? 'border-yellow-400/70 bg-yellow-500/25 text-yellow-100'
           : 'border-white/15 bg-white/5 text-zinc-300 hover:border-yellow-400/50 hover:text-yellow-100'

@@ -273,7 +273,7 @@ export function OscarBallotForm({
               </p>
             </div>
 
-            <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+            <div className="space-y-3 md:max-h-[500px] md:overflow-y-auto md:pr-2">
               {categories.map((category, index) => {
                 const selectedNominee = getSelectedNominee(category.id);
                 return (
@@ -412,7 +412,7 @@ export function OscarBallotForm({
         ) : null}
       </AnimatePresence>
 
-      <div className="flex justify-between pt-8 border-t border-border">
+      <div className="flex justify-between gap-3 pt-8 border-t border-border">
         <Button
           variant="ghost"
           disabled={currentStep === 0 && !isPreviewStep}
@@ -425,7 +425,7 @@ export function OscarBallotForm({
 
         {isPreviewStep ? (
           <Button
-            className="px-8 select-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 sm:px-8 select-none disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting || !isFormAvailable}
             onClick={handleSubmit}
           >
@@ -443,7 +443,7 @@ export function OscarBallotForm({
         ) : allCategoriesSelected && hasReachedReview ? (
           <Button
             onClick={handleBackToReview}
-            className="border border-primary bg-transparent px-8 text-primary hover:bg-primary/10 select-none"
+            className="border border-primary bg-transparent px-4 text-primary hover:bg-primary/10 select-none sm:px-8"
           >
             Volver al Resumen
             <ChevronRight className="w-4 h-4 ml-2" />
@@ -452,7 +452,7 @@ export function OscarBallotForm({
           <Button
             onClick={handleNext}
             disabled={!selectedNomineeId}
-            className="bg-secondary px-8 text-foreground hover:bg-secondary/80 select-none"
+            className="bg-secondary px-4 text-foreground hover:bg-secondary/80 select-none sm:px-8"
           >
             Ver Resumen
             <ChevronRight className="w-4 h-4 ml-2" />
@@ -462,7 +462,7 @@ export function OscarBallotForm({
             <Button
               onClick={handleNext}
               disabled={!selectedNomineeId}
-              className="bg-secondary px-8 text-foreground hover:bg-secondary/80 select-none"
+              className="bg-secondary px-4 text-foreground hover:bg-secondary/80 select-none sm:px-8"
             >
               Siguiente Categoría
               <ChevronRight className="w-4 h-4 ml-2" />

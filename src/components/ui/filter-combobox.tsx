@@ -81,7 +81,7 @@ export function FilterCombobox({
           aria-expanded={open}
           disabled={disabled}
           className={cn(
-            'relative inline-flex h-9 items-center gap-2 rounded-md border bg-transparent px-3 py-2 text-sm text-muted-foreground transition-colors cursor-pointer hover:bg-accent hover:text-accent-foreground',
+            'relative inline-flex h-9 pointer-coarse:h-11 items-center gap-2 rounded-md border bg-transparent px-3 py-2 text-sm text-muted-foreground transition-colors cursor-pointer hover:bg-accent hover:text-accent-foreground',
             {
               'border-primary bg-primary/10 text-primary hover:bg-primary/20':
                 selectedCount > 0,
@@ -120,12 +120,12 @@ export function FilterCombobox({
             placeholder={placeholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-10 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           {selectedCount > 0 && (
             <button
               onClick={handleClear}
-              className="text-xs text-muted-foreground hover:text-foreground whitespace-nowrap"
+              className="-mr-2 inline-flex min-h-9 items-center whitespace-nowrap px-2 text-sm text-muted-foreground hover:text-foreground active:text-foreground"
             >
               Limpiar
             </button>
@@ -149,7 +149,7 @@ export function FilterCombobox({
                   aria-selected={isSelected}
                   onClick={() => handleSelect(option.value)}
                   className={cn(
-                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground',
+                    'relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 pointer-coarse:py-3 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground',
                     { 'bg-accent/50': isSelected }
                   )}
                 >

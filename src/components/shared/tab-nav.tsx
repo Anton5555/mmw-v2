@@ -10,7 +10,7 @@ export type TabNavItem = {
 
 /**
  * Underlined tab row for switching views inside one section. Same marker as
- * the top bar (yellow rule under the active item), scrolls sideways on phones.
+ * the top bar (yellow rule under the active item), scrolls sideways on phones, with a fade on the right edge so hidden tabs read as scrollable.
  */
 export function TabNav({
   items,
@@ -28,7 +28,7 @@ export function TabNav({
     <nav
       aria-label={label}
       className={cn(
-        'no-scrollbar flex items-stretch gap-1 overflow-x-auto border-b border-border',
+        'no-scrollbar flex items-stretch gap-1 overflow-x-auto border-b border-border max-sm:pr-6 max-sm:[mask-image:linear-gradient(to_right,black_calc(100%-1.5rem),transparent)]',
         className
       )}
     >

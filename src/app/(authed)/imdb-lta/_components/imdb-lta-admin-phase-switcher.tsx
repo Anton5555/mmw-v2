@@ -90,7 +90,7 @@ export function ImdbLtaAdminPhaseSwitcher({
               disabled={isPending || active}
               onClick={() => handleChange(phase.value)}
               className={cn(
-                'h-auto flex-col items-start gap-0.5 px-3 py-2.5 text-left whitespace-normal',
+                'h-auto pointer-coarse:h-auto flex-col items-start gap-0.5 px-3 py-2.5 text-left whitespace-normal',
                 active
                   ? 'border-yellow-500 bg-yellow-500/15 text-yellow-100'
                   : 'border-border bg-zinc-950/40 text-zinc-300 hover:border-yellow-500/40 hover:bg-yellow-500/5'

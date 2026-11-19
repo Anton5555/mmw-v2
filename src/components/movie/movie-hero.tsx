@@ -63,7 +63,7 @@ export function MovieHero({
           <div
             className={cn(
               'grid gap-8',
-              compact ? 'grid-cols-[110px_1fr] gap-4' : 'md:grid-cols-[300px_1fr]'
+              compact ? 'grid-cols-[88px_1fr] gap-4 sm:grid-cols-[110px_1fr]' : 'md:grid-cols-[300px_1fr]'
             )}
           >
             {/* Floating Poster */}
@@ -76,7 +76,7 @@ export function MovieHero({
                   alt={displayTitle}
                   fill
                   className="object-cover"
-                  sizes={compact ? '110px' : '300px'}
+                  sizes={compact ? '(max-width: 640px) 88px, 110px' : '300px'}
                 />
               </div>
               {displayRank && (
@@ -106,17 +106,17 @@ export function MovieHero({
                 >
                   {displayTitle}
                 </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground sm:gap-x-4">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="h-4 w-4" /> {releaseYear}
                   </span>
-                  <span aria-hidden className="h-3 w-px bg-border" />
+                  <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
                   <span className="flex items-center gap-1.5">
                     <Film className="h-4 w-4" /> {genre || 'Cine'}
                   </span>
                   {countryCodes.length > 0 && (
                     <>
-                      <span aria-hidden className="h-3 w-px bg-border" />
+                      <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
                       <span className="flex items-center gap-1">
                         {countryCodes.map((code) => (
                           <ReactCountryFlag
@@ -136,7 +136,7 @@ export function MovieHero({
                   )}
                   {director && (
                     <>
-                      <span aria-hidden className="h-3 w-px bg-border" />
+                      <span aria-hidden className="hidden h-3 w-px bg-border sm:block" />
                       <span className="text-foreground">
                         Dirigido por {director}
                       </span>

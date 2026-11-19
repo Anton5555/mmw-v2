@@ -57,7 +57,7 @@ export function FilmStripTransition({
                 </div>
 
                 {/* The Frame */}
-                <div className="w-[500px] aspect-video border-y-4 border-zinc-800 bg-zinc-900 flex items-center justify-center relative overflow-hidden">
+                <div className="w-[min(500px,85vw)] aspect-video border-y-4 border-zinc-800 bg-zinc-900 flex items-center justify-center relative overflow-hidden">
                    {/* If it's the middle frame, show the title */}
                    {i === 3 ? (
                      <div className="text-center px-6 py-4 w-full">
@@ -83,7 +83,7 @@ export function FilmStripTransition({
           </motion.div>
 
           {/* Center Focus Brackets (Visual Guide) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[300px] border-x border-border pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(520px,90vw)] aspect-[520/300] border-x border-border pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-red-600/30" />
           </div>
         </motion.div>
