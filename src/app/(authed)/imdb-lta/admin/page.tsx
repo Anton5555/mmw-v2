@@ -18,6 +18,11 @@ import {
   type AdminRatingsView,
 } from '../_components/imdb-lta-admin-ratings';
 
+// The lote button on this page posts the rotate action here. Hobby's default
+// is 10s, and Telegram sendMediaGroup of 10 posters exceeds that — the group
+// still gets the album, but the function dies before announcedAt is saved.
+export const maxDuration = 60;
+
 const votedAtFormatter = new Intl.DateTimeFormat('es-AR', {
   dateStyle: 'medium',
   timeStyle: 'short',
