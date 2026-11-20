@@ -21,6 +21,11 @@ import {
   loadMovieBatchStates,
   type MovieBatchState,
 } from '@/lib/api/imdb-lta-batches';
+import {
+  loadDashboardMeta,
+  summarizeDashboard,
+  type DashboardStats,
+} from '@/lib/api/imdb-lta-dashboard';
 
 const CONFIG_ID = 1;
 
@@ -869,6 +874,21 @@ export async function listRateableCandidates(
     progress,
     myNominations,
   };
+}
+
+/**
+ * Personal stats for the Estadísticas tab. Only the viewer's own data plus
+ * which movies have been released; never group scores (see DECISIONS.md).
+ */
+export async function loadImdbLtaDashboard(
+  userId: string
+): Promise<DashboardStats> {
+  const all = await loadCandidateStats(userId);
+  const meta = await loadDashboardMeta(
+    userId,
+    all.filter((m) => m.batchState !== 'locked').map((m) => m.id)
+  );
+  return summarizeDashboard(all, meta);
 }
 
 export async function submitRating(

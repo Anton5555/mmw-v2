@@ -19,6 +19,7 @@ const PATH_TRANSLATIONS: Record<string, string> = {
   'imdb-lta': 'IMDB LTA',
   lote: 'Lote actual',
   rate: 'Revisar',
+  stats: 'Estadísticas',
   ranking: 'Ranking',
   padlet: 'Padlet',
   about: 'Sobre la app',

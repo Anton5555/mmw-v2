@@ -21,4 +21,4 @@ Read [docs/INDEX.md](docs/INDEX.md) before changing a feature. Product rules liv
 - Sign-up is VIP-gated on the server (`src/lib/vip.ts`), not only in the form. Google cannot create a user on sign-in (`disableImplicitSignUp`).
 - IMDB LTA scores are hidden from members until `RATING_CLOSED`. Admins can see them on `/imdb-lta/admin` during the season.
 - `docs/IMDB_LTA.md` is the original phase plan. Several of its rules were later reversed. Current behavior is in [docs/BUSINESS_LOGIC.md](docs/BUSINESS_LOGIC.md).
-- This tree does not contain the Revisar dashboard discussed on 19 Nov 2026 (progress card, nominations folded into Revisar, admin controls moved off `/imdb-lta`). Do not describe that as shipped here.
+- Revisar (`/imdb-lta/rate`) has the progress card and your own nominations. Personal stats live on the Estadísticas tab (`/imdb-lta/stats`, `src/lib/api/imdb-lta-dashboard.ts`). It must never show group scores, rating counts or rankings, not even anonymous club totals. See DECISIONS "Estadísticas shows only personal stats".

@@ -31,6 +31,13 @@ const TABS: Array<{
       phase === ImdbLtaPhase.RATING_CLOSED,
   },
   {
+    href: '/imdb-lta/stats',
+    label: 'Estadísticas',
+    visible: (phase) =>
+      phase === ImdbLtaPhase.RATING_OPEN ||
+      phase === ImdbLtaPhase.RATING_CLOSED,
+  },
+  {
     href: '/imdb-lta/ranking',
     label: 'Ranking',
     // Only when everything is done — no peeking mid-season.

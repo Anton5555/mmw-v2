@@ -10,7 +10,7 @@
 >
 > Still accurate: manual phases on `ImdbLtaConfig`, 0–10 scores, qualification at 5 ratings, average then rating-count then title, nominations do not score, batches of 10, Telegram as a nudge rather than a ballot.
 >
-> A later chat (19 Nov 2026) designed a Revisar dashboard and moving admin controls off `/imdb-lta`. That work is not in this checkout. See [HISTORY.md](HISTORY.md).
+> A later chat (19 Nov 2026) designed a Revisar dashboard and moving admin controls off `/imdb-lta`. It shipped. Personal stats live on the Estadísticas tab. See [HISTORY.md](HISTORY.md).
 
 Community ranking of the best movies of all time, next to MAM. Conceptual flow:
 
