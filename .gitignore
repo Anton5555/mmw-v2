@@ -46,3 +46,12 @@ next-env.d.ts
 # prisma generate output (created by postinstall)
 /generated/prisma
 /src/lib/validations/generated
+
+# android (Bubblewrap TWA): never commit the signing key or build output
+/android/*
+!/android/README.md
+!/android/twa-manifest.json
+*.keystore
+*.jks
+*.apk
+*.aab

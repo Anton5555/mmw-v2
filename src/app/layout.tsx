@@ -5,6 +5,7 @@ import { Toaster } from 'sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import NextTopLoader from 'nextjs-toploader';
 import { MotionProvider } from '@/components/shared/motion-provider';
+import { ServiceWorkerRegister } from '@/components/shared/sw-register';
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -23,6 +24,13 @@ const barlowCondensed = Barlow_Condensed({
 export const metadata: Metadata = {
   title: 'El VIP de MM',
   description: 'El VIP de MM',
+  // iOS "Add to Home Screen": open full screen, paint under the status bar
+  // (the top nav and auth layout pad back out with safe-area insets).
+  appleWebApp: {
+    capable: true,
+    title: 'VIP MM',
+    statusBarStyle: 'black-translucent',
+  },
 };
 
 // The app is always dark: match the browser chrome/status bar to the header,
@@ -55,6 +63,7 @@ export default async function RootLayout({
         </main>
 
         <Toaster theme="dark" />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

@@ -29,7 +29,8 @@
     "mam:import-reviews-sql": "tsx scripts/import-mam-reviews-sql.ts",
     "mam:import-special-mentions-sql": "tsx scripts/import-mam-special-mentions-sql.ts",
     "mam:check-special-mentions": "tsx scripts/check-special-mentions-import.ts",
-    "mam:refresh-scores": "tsx scripts/refresh-mam-scores.ts"
+    "mam:refresh-scores": "tsx scripts/refresh-mam-scores.ts",
+    "icons:generate": "tsx scripts/generate-app-icons.ts"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^4.0.0",

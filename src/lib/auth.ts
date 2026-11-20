@@ -26,6 +26,10 @@ export const auth = betterAuth({
     },
   },
   session: {
+    // Long sliding sessions so the installed app (PWA / TWA) feels like an
+    // app: 90 days, pushed forward at most once a day while it is used.
+    expiresIn: 60 * 60 * 24 * 90,
+    updateAge: 60 * 60 * 24,
     // Serve session reads from a signed cookie for 5 minutes instead of the DB
     cookieCache: { enabled: true, maxAge: 5 * 60 },
   },
