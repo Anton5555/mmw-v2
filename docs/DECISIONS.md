@@ -38,6 +38,18 @@ Quiero ver is a pin on a skip (`pinnedAt`), not a second wishlist table. Scoring
 
 Sources: [IMDB revisar page navigation](22b92e35-ae8d-45d4-891b-95137a479e45), [No vista item visibility](db2c48cb-9e8d-47ad-aa8d-f0bf351da7a1), [Favourite mark for movies](32e56825-4fb6-4ccb-9d6a-6f68f7b76052).
 
+### Inicio shows only personal stats
+
+**Verified (20 Nov 2026).** Revisar was renamed Inicio and gained a personal dashboard. Its scope is movies from open and closed lotes. It shows your own scores in aggregate and released-movie counts by década, género and país.
+
+Rejected, because they bias voting during the season:
+- Club participation figures, even anonymous ones.
+- Per-member progress tables.
+- "You vs the club" comparisons.
+- Your own top-scored movies list.
+
+`/imdb-lta` still lands on Lote during `RATING_OPEN`.
+
 ### Nomination writes die on a fixed date; the phase does not
 
 **Verified.** 6 Nov 2026, end of that calendar day in Argentina. Label: Para los rezagados. An admin still has to move `NOMINATION_OPEN` → `NOMINATION_CLOSED` before rating, so the candidate set freezes as a deliberate step.

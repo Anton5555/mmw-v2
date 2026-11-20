@@ -13,7 +13,7 @@ const TABS: Array<{
   {
     href: '/imdb-lta',
     label: 'Nominaciones',
-    // Builder stays during nomination phases; during rating personal lists live on Revisar.
+    // Builder stays during nomination phases; during rating personal lists live on Inicio.
     visible: (phase) =>
       phase === ImdbLtaPhase.NOMINATION_OPEN ||
       phase === ImdbLtaPhase.NOMINATION_CLOSED,
@@ -25,7 +25,7 @@ const TABS: Array<{
   },
   {
     href: '/imdb-lta/rate',
-    label: 'Revisar',
+    label: 'Inicio',
     visible: (phase) =>
       phase === ImdbLtaPhase.RATING_OPEN ||
       phase === ImdbLtaPhase.RATING_CLOSED,

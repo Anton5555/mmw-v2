@@ -36,7 +36,7 @@ async function ImdbLtaPageContent() {
   const phase = await getImdbLtaPhase();
 
   // During scoring, send everyone to the rating surfaces. Personal lists live on
-  // Revisar; admin controls live on /imdb-lta/admin.
+  // Inicio; admin controls live on /imdb-lta/admin.
   if (phase === ImdbLtaPhase.RATING_OPEN) {
     redirect('/imdb-lta/lote');
   }
