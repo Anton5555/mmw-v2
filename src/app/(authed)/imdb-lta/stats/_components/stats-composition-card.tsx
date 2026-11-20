@@ -1,9 +1,9 @@
 import type { DashboardBucket } from '@/lib/api/imdb-lta-dashboard';
-import { InicioCard } from './inicio-card';
+import { StatsCard } from './stats-card';
 
 const numberFormat = new Intl.NumberFormat('es', { maximumFractionDigits: 1 });
 
-export function InicioCompositionCard({
+export function StatsCompositionCard({
   title,
   buckets,
   missingCount = 0,
@@ -16,7 +16,7 @@ export function InicioCompositionCard({
   const max = Math.max(1, ...buckets.map((b) => b.releasedCount));
 
   return (
-    <InicioCard eyebrow="Lo que salió" title={title}>
+    <StatsCard eyebrow="Lo que salió" title={title}>
       <div className="flex items-center gap-4 text-xs text-zinc-500" aria-hidden>
         <span className="flex items-center gap-1.5">
           <span className="size-2 rounded-sm bg-zinc-700" /> Salieron
@@ -66,6 +66,6 @@ export function InicioCompositionCard({
             : `${missingCount} películas sin datos.`}
         </p>
       ) : null}
-    </InicioCard>
+    </StatsCard>
   );
 }

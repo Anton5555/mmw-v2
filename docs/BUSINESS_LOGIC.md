@@ -88,18 +88,18 @@ An October 31 deadline was an earlier cutoff. It is **historical**.
 While `RATING_OPEN`:
 
 - The Ranking tab is hidden. `/imdb-lta/ranking` redirects to `/imdb-lta/lote`.
-- Inicio (`/imdb-lta/rate`, formerly Revisar) nulls `averageScore` and shows rating count as 0 (`hideAggregates` on `rate/page.tsx`). Members should not see a group promedio mid-season.
+- Revisar nulls `averageScore` and shows rating count as 0 (`hideAggregates` on `rate/page.tsx`). Members should not see a group promedio mid-season.
 - Admins still see averages and individual scores on `/imdb-lta/admin` (Películas, Personas, Lotes). That page is not phase-gated.
 
 The original plan's "live/provisional ranking during `RATING_OPEN`" is **historical**.
 
 `/imdb-lta` still shows the nomination builder and, for admins, the phase switcher, batch panel, and group nomination overview. The Nominaciones tab stays visible in every phase (`visible: () => true`).
 
-### Inicio stats
+### Estadísticas
 
-The Inicio tab (`/imdb-lta/rate`, tab label renamed from Revisar) shows personal stats above the score piles. They are built by `summarizeDashboard` in `src/lib/api/imdb-lta-dashboard.ts`.
+The Estadísticas tab (`/imdb-lta/stats`) is visible in `RATING_OPEN` and `RATING_CLOSED`. It shows personal stats built by `loadImdbLtaDashboard` → `summarizeDashboard` (`src/lib/api/imdb-lta-dashboard.ts`). Revisar stays focused on reviewing and changing scores.
 
-- **Scope:** movies that appeared in a lote, open or closed (`batchState !== 'locked'`). Locked candidates never count. The Progreso headline keeps its older definition, closed lotes only.
+- **Scope:** movies that appeared in a lote, open or closed (`batchState !== 'locked'`). Locked candidates never count. The Progreso card on Revisar keeps its older definition, closed lotes only.
 - **Sections:**
   - **Tus lotes:** your scored/total per lote. A re-queued movie counts in each lote it appeared in.
   - **Tu forma de puntuar:** a histogram of your own scores, your average, your most-used score.

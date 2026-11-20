@@ -1,5 +1,5 @@
 import type { DashboardWeek } from '@/lib/api/imdb-lta-dashboard';
-import { InicioCard } from './inicio-card';
+import { StatsCard } from './stats-card';
 
 const dayFormat = new Intl.DateTimeFormat('es', {
   day: 'numeric',
@@ -7,7 +7,7 @@ const dayFormat = new Intl.DateTimeFormat('es', {
   timeZone: 'UTC',
 });
 
-export function InicioWeeklyActivity({
+export function StatsWeeklyActivity({
   weekly,
   thisWeekCount,
 }: {
@@ -19,7 +19,7 @@ export function InicioWeeklyActivity({
   const total = weekly.reduce((sum, w) => sum + w.count, 0);
 
   return (
-    <InicioCard
+    <StatsCard
       eyebrow="Tu ritmo"
       title={
         thisWeekCount === 1
@@ -60,6 +60,6 @@ export function InicioWeeklyActivity({
           ? 'No puntuaste nada en las últimas 12 semanas.'
           : `${total} puntajes en las últimas 12 semanas.`}
       </p>
-    </InicioCard>
+    </StatsCard>
   );
 }

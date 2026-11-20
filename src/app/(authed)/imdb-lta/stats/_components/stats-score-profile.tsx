@@ -1,27 +1,27 @@
 import type { DashboardStats } from '@/lib/api/imdb-lta-dashboard';
-import { InicioCard } from './inicio-card';
-import { InicioStat } from './inicio-stat';
+import { StatsCard } from './stats-card';
+import { StatsTile } from './stats-tile';
 
 const numberFormat = new Intl.NumberFormat('es', { maximumFractionDigits: 1 });
 
-export function InicioScoreProfile({ stats }: { stats: DashboardStats }) {
+export function StatsScoreProfile({ stats }: { stats: DashboardStats }) {
   const { scoreHistogram, myAverage, mostUsedScore, scoredCount, notSeenCount } =
     stats;
   const max = Math.max(1, ...scoreHistogram);
 
   return (
-    <InicioCard eyebrow="Solo tus puntajes" title="Tu forma de puntuar">
+    <StatsCard eyebrow="Solo tus puntajes" title="Tu forma de puntuar">
       <dl className="grid grid-cols-2 gap-3">
-        <InicioStat
+        <StatsTile
           label="Tu promedio"
           value={myAverage === null ? '—' : numberFormat.format(myAverage)}
         />
-        <InicioStat
+        <StatsTile
           label="Puntaje más usado"
           value={mostUsedScore === null ? '—' : mostUsedScore}
         />
-        <InicioStat label="Puntuadas" value={scoredCount} />
-        <InicioStat label="No vistas" value={notSeenCount} />
+        <StatsTile label="Puntuadas" value={scoredCount} />
+        <StatsTile label="No vistas" value={notSeenCount} />
       </dl>
 
       {scoredCount > 0 ? (
@@ -67,6 +67,6 @@ export function InicioScoreProfile({ stats }: { stats: DashboardStats }) {
           Cuando puntúes películas, acá vas a ver cómo repartís tus notas.
         </p>
       )}
-    </InicioCard>
+    </StatsCard>
   );
 }

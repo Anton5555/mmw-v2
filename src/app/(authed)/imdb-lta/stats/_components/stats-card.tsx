@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export function InicioCard({
+export function StatsCard({
   eyebrow,
   title,
   children,

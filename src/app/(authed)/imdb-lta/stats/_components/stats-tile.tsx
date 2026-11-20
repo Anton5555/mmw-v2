@@ -1,4 +1,4 @@
-export function InicioStat({
+export function StatsTile({
   label,
   value,
 }: {

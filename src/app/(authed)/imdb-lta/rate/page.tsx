@@ -15,7 +15,6 @@ import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
 import { RatingPageClient } from './_components/rating-page-client';
 import { RevisarProgressCard } from './_components/revisar-progress-card';
 import { RevisarMyNominations } from './_components/revisar-my-nominations';
-import { InicioStats } from './_components/inicio-stats';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
@@ -102,7 +101,6 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
     onlyShort,
     page: raw.page,
     limit: raw.limit,
-    includeDashboard: true,
   });
 
   const isRatingOpen = phase === ImdbLtaPhase.RATING_OPEN;
@@ -118,7 +116,6 @@ async function ImdbLtaRatePageContent({ searchParams }: RatePageProps) {
         />
         <div className="space-y-6">
           <RevisarProgressCard progress={list.progress} />
-          <InicioStats stats={list.dashboard} />
           <RatingPageClient
             movies={list.movies.map((movie) =>
               serializeMovie(movie, isRatingOpen)

@@ -1,8 +1,8 @@
 import { Check } from 'lucide-react';
 import type { DashboardLote } from '@/lib/api/imdb-lta-dashboard';
-import { InicioCard } from './inicio-card';
+import { StatsCard } from './stats-card';
 
-export function InicioLotesStrip({
+export function StatsLotesStrip({
   lotes,
   completedLotes,
 }: {
@@ -12,7 +12,7 @@ export function InicioLotesStrip({
   if (lotes.length === 0) return null;
 
   return (
-    <InicioCard
+    <StatsCard
       eyebrow="Tus lotes"
       title={`Completaste ${completedLotes} de ${lotes.length}`}
       className="sm:col-span-2"
@@ -47,6 +47,6 @@ export function InicioLotesStrip({
           </li>
         ))}
       </ol>
-    </InicioCard>
+    </StatsCard>
   );
 }

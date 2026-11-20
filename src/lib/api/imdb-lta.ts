@@ -525,8 +525,6 @@ export type RateableListResult = {
   counts: RateableFilterCounts;
   progress: RateProgressSummary;
   myNominations: MyNominationSummary[];
-  /** Personal Inicio stats. Only present when requested with includeDashboard. */
-  dashboard: DashboardStats | null;
 };
 
 const movieCardSelect = {
@@ -836,7 +834,6 @@ export async function listRateableCandidates(
     onlyShort?: boolean;
     page?: number;
     limit?: number;
-    includeDashboard?: boolean;
   } = {}
 ): Promise<RateableListResult> {
   const filter = options.filter ?? 'pending';
@@ -845,12 +842,6 @@ export async function listRateableCandidates(
   const limit = options.limit ?? 30;
 
   const all = await loadCandidateStats(userId);
-  const dashboardPromise = options.includeDashboard
-    ? loadDashboardMeta(
-        userId,
-        all.filter((m) => m.batchState !== 'locked').map((m) => m.id)
-      ).then((meta) => summarizeDashboard(all, meta))
-    : Promise.resolve(null);
   const counts = countByFilter(all);
   const { progress, myNominations } = summarizeRateProgress(all);
   const filtered = all
@@ -882,8 +873,22 @@ export async function listRateableCandidates(
     counts,
     progress,
     myNominations,
-    dashboard: await dashboardPromise,
   };
+}
+
+/**
+ * Personal stats for the Estadísticas tab. Only the viewer's own data plus
+ * which movies have been released; never group scores (see DECISIONS.md).
+ */
+export async function loadImdbLtaDashboard(
+  userId: string
+): Promise<DashboardStats> {
+  const all = await loadCandidateStats(userId);
+  const meta = await loadDashboardMeta(
+    userId,
+    all.filter((m) => m.batchState !== 'locked').map((m) => m.id)
+  );
+  return summarizeDashboard(all, meta);
 }
 
 export async function submitRating(

@@ -38,9 +38,9 @@ Quiero ver is a pin on a skip (`pinnedAt`), not a second wishlist table. Scoring
 
 Sources: [IMDB revisar page navigation](22b92e35-ae8d-45d4-891b-95137a479e45), [No vista item visibility](db2c48cb-9e8d-47ad-aa8d-f0bf351da7a1), [Favourite mark for movies](32e56825-4fb6-4ccb-9d6a-6f68f7b76052).
 
-### Inicio shows only personal stats
+### Estadísticas shows only personal stats
 
-**Verified (20 Nov 2026).** Revisar was renamed Inicio and gained a personal dashboard. Its scope is movies from open and closed lotes. It shows your own scores in aggregate and released-movie counts by década, género and país.
+**Verified (20 Nov 2026).** Personal stats live on their own tab, Estadísticas (`/imdb-lta/stats`). They were first placed on top of Revisar, renamed Inicio, but that pushed the score lists down. Revisar keeps its name and its job (reviewing scores), and "Inicio" is already the site home in breadcrumbs. Scope is movies from open and closed lotes. It shows your own scores in aggregate and released-movie counts by década, género and país.
 
 Rejected, because they bias voting during the season:
 - Club participation figures, even anonymous ones.
