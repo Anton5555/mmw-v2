@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "app.elvipdemm.twa",
-      "sha256_cert_fingerprints": ["REPLACE_WITH_OUTPUT_OF_bubblewrap_fingerprint"]
+      "sha256_cert_fingerprints": ["06:7C:0B:73:6E:CF:8A:9D:62:42:1F:85:4B:6F:E7:29:AB:15:E9:3A:BE:99:34:0E:E1:D9:9E:4C:B7:1C:95:B2"]
     }
   }
 ]
