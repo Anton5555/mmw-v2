@@ -15,8 +15,18 @@ const publicRoutes = [
 // Public for everyone (including signed-in users); needed for Google OAuth brand URLs
 const alwaysPublicRoutes = ['/privacy', '/terms'];
 
-// Add routes that are always public (like images, etc)
-const staticRoutes = ['/logo.png'];
+// Add routes that are always public (like images, etc).
+// The installed app (PWA / Android TWA) needs the manifest, icons, service
+// worker, offline page and Digital Asset Links without a session cookie.
+const staticRoutes = [
+  '/logo.png',
+  '/manifest.webmanifest',
+  '/icons/',
+  '/apple-icon',
+  '/sw.js',
+  '/offline.html',
+  '/.well-known/',
+];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

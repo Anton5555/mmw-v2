@@ -70,6 +70,17 @@ The board subscription is unused while the feature flag is off. The Oscar result
 
 `/imdb-lta` and `/lists/new` set `maxDuration = 60` because nomination overview / TMDB lookups can exceed the default serverless limit. The IMDB LTA admin page in this tree does not set `maxDuration`. A Nov 2026 chat described timeouts on batch rotate; whether production raised the limit on the admin route is **unverified** here.
 
+## Mobile app (PWA and Android TWA)
+
+**Verified** for the repo side. The APK build itself happens on a developer machine (see [android/README.md](../android/README.md)).
+
+- `src/app/manifest.ts` serves `/manifest.webmanifest` (name "El VIP de MM", `start_url` `/home`, standalone, teal `#0a181b`). Icons are a generated "MM" monogram: `pnpm icons:generate` (`scripts/generate-app-icons.ts`) writes `public/icons/*` and `src/app/apple-icon.png`.
+- iOS: `appleWebApp` in `src/app/layout.tsx`. Members use Share → Add to Home Screen. The installed app keeps its own cookies, separate from Safari, so they sign in once inside it.
+- `public/sw.js` is registered in production by `src/components/shared/sw-register.tsx`. It only serves `public/offline.html` when a navigation fails. It caches no pages, RSC payloads or API responses.
+- Android APK: a Trusted Web Activity built with Bubblewrap from the live manifest. `public/.well-known/assetlinks.json` ties the APK's signing key to the domain; until its fingerprint is filled in, the app shows a URL bar.
+- `src/proxy.ts` lets the manifest, icons, `sw.js`, `offline.html` and `/.well-known/` through without a session cookie (`src/proxy.test.ts`).
+- Sessions last 90 days and slide forward once a day while used (`session.expiresIn` / `updateAge` in `src/lib/auth.ts`).
+
 ## What this app does not use
 
 - Supabase Auth and Supabase Storage policies for login. Storage uploads go through the AWS SDK.

@@ -118,6 +118,14 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 
 **Verified.** nuqs parsers in `src/lib/searchParams.ts`. Page changes are transitions so the grid does not freeze on every click.
 
+### Phone app is the website (PWA + Android TWA), not a native app
+
+**Verified.** Pages are server components and mutations are server actions, so a native app would need a new API and a second UI. The installed app loads the live site instead: a PWA on iOS and Android, plus an APK built as a Trusted Web Activity for members who want one. A Capacitor/WebView wrapper was skipped because Google blocks OAuth sign-in inside WebViews, and Google login is in use. Apple has no TWA and no free sideloading, so iPhone users get the PWA only.
+
+### 90-day sliding sessions
+
+**Verified.** Better Auth's default (7 days) signed out anyone who didn't open the app for a week, which feels wrong in an installed app. Sessions now last 90 days and are extended at most once a day. Trade-off: a stolen cookie lives longer. Revoking sessions (admin plugin) or changing the password still signs a device out.
+
 ## Rejected
 
 | Idea | Why it lost |
@@ -130,4 +138,5 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 | Prisma → Drizzle | **Unverified** as an explicit rejection in transcripts. The app is Prisma-only. Do not start a port without a new decision. |
 | Supabase Auth | Login, sessions, and roles are Better Auth rows in `public`. |
 | GitHub Action as the only production migrator | It can run beside a deploy and fight it. |
+| Native app or Capacitor WebView wrapper | Needs a new API and second UI; WebViews break Google sign-in. The TWA/PWA load the real site. |
 | Database reset as a data-repair tool | It destroyed MAM reviews once. Re-import instead. |
