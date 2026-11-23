@@ -1309,6 +1309,7 @@ export type AdminLoteMovie = {
   originalTitle: string;
   posterUrl: string;
   imdbId: string;
+  year: number;
   position: number;
   nominators: AdminLotePerson[];
   skips: AdminLotePerson[];
@@ -1353,7 +1354,7 @@ export async function listAdminLotes(): Promise<AdminLoteSnapshot> {
           orderBy: { position: 'asc' },
           select: {
             position: true,
-            movie: { select: adminMovieSelect },
+            movie: { select: { ...adminMovieSelect, releaseDate: true } },
           },
         },
       },
@@ -1427,6 +1428,7 @@ export async function listAdminLotes(): Promise<AdminLoteSnapshot> {
         originalTitle: row.movie.originalTitle,
         posterUrl: row.movie.posterUrl,
         imdbId: row.movie.imdbId,
+        year: row.movie.releaseDate.getUTCFullYear(),
         position: row.position,
         nominators: nominatorsByMovie.get(row.movie.id) ?? [],
         skips: skipsByMovie.get(row.movie.id) ?? [],

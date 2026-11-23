@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { ChevronDown, Film } from 'lucide-react';
+import { Check, ChevronDown, Copy, Film } from 'lucide-react';
 import { IMDB_LTA_MIN_RATINGS_TO_QUALIFY } from '@/lib/validations/imdb-lta';
 import { cn } from '@/lib/utils';
 
@@ -51,6 +51,7 @@ export type AdminLoteView = {
     originalTitle: string;
     posterUrl: string;
     imdbId: string;
+    year: number;
     position: number;
     ratingCount: number;
     averageScore: number | null;
@@ -106,6 +107,58 @@ function scoreCountLabel(count: number) {
 
 function nominationCountLabel(count: number) {
   return count === 1 ? '1 nominación' : `${count} nominaciones`;
+}
+
+/** Club nickname for how many people nominated a movie. */
+function nominationNickname(count: number) {
+  if (count === 0) return 'sin nominación';
+  if (count === 1) return 'única';
+  if (count === 2) return 'docking';
+  if (count === 3) return 'trieja';
+  return 'orgía';
+}
+
+/** One line per movie, ready to paste into Telegram and edit. */
+export function loteNominationsText(movies: AdminLoteView['movies']) {
+  return movies
+    .map(
+      (movie) =>
+        `${movie.title} (${movie.year}) - ${nominationNickname(movie.nominators.length)}`
+    )
+    .join('\n');
+}
+
+function CopyLoteButton({ movies }: { movies: AdminLoteView['movies'] }) {
+  const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(loteNominationsText(movies));
+      setStatus('copied');
+    } catch {
+      setStatus('failed');
+    }
+    setTimeout(() => setStatus('idle'), 2000);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-zinc-900 px-2.5 py-1.5 text-xs font-bold text-zinc-200 transition-colors hover:border-yellow-500/50 hover:text-yellow-300"
+    >
+      {status === 'copied' ? (
+        <Check className="size-3.5 text-emerald-400" aria-hidden />
+      ) : (
+        <Copy className="size-3.5" aria-hidden />
+      )}
+      {status === 'copied'
+        ? 'Copiado'
+        : status === 'failed'
+          ? 'No se pudo copiar'
+          : 'Copiar nominaciones'}
+    </button>
+  );
 }
 
 function compareName(a: string, b: string) {
@@ -734,10 +787,13 @@ function LotePanel({
               : `Cerrado ${lote.closedAt ?? lote.openedAt}`}
           </p>
         </div>
-        <p className="text-xs text-zinc-400">
-          {lote.movies.length} películas · {ratingCount} puntajes · {voterIds.size}{' '}
-          personas · {qualified} calificadas
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xs text-zinc-400">
+            {lote.movies.length} películas · {ratingCount} puntajes · {voterIds.size}{' '}
+            personas · {qualified} calificadas
+          </p>
+          {lote.movies.length > 0 ? <CopyLoteButton movies={lote.movies} /> : null}
+        </div>
       </div>
 
       {highlightId ? (
