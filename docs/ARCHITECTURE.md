@@ -66,7 +66,7 @@ The board subscription is unused while the feature flag is off. The Oscar result
 
 ## Jobs and long requests
 
-`vercel.json` only declares a cron: `GET /api/cron/daily-events` at `50 2 * * *`. Auth for that route is `CRON_SECRET` (`src/lib/utils/cron-auth.ts`).
+`vercel.json` sets the build command (production builds run `pnpm db:migrate:deploy` before `pnpm build`) and one Vercel cron: `GET /api/cron/daily-events` at `50 2 * * *`. Auth for that route is `CRON_SECRET` (`src/lib/utils/cron-auth.ts`).
 
 `GET /api/cron/watch-providers` is called by cron-job.org, not Vercel, with the same `Authorization: Bearer <CRON_SECRET>` header. Each call syncs one batch (`?limit=`, default 150, max 500) into `MovieWatchProviders` and stamps `Movie.watchProvidersSyncedAt`. A batch of 150 took about 10 s locally, under cron-job.org's 30 s timeout. Code: `src/lib/api/watch-providers.ts`.
 
