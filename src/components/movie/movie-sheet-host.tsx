@@ -11,7 +11,7 @@ import {
 import { MovieDetail } from './movie-detail';
 import { MovieSheet } from './movie-sheet';
 
-const MOVIE_HREF = /^\/(?:lists|mam|year-tops)\/movie\/(\d+)\/?$/;
+const MOVIE_HREF = /^\/(?:lists|mam|year-tops|imdb-lta)\/movie\/(\d+)\/?$/;
 
 /** True when the current `?movie=` entry was pushed by us (so close = back). */
 let openedInApp = false;
@@ -33,6 +33,7 @@ function getContext(pathname: string): {
   const list = pathname.match(/^\/lists\/(\d+)/);
   if (list) return { kind: 'list', listId: list[1] };
   if (pathname.startsWith('/year-tops')) return { kind: 'year-top' };
+  if (pathname.startsWith('/imdb-lta')) return { kind: 'imdb-lta' };
   return { kind: 'mam' };
 }
 
@@ -40,7 +41,9 @@ function fullPageHref(id: number, kind: MovieSheetKind, listId?: string) {
   if (kind === 'list') {
     return `/lists/movie/${id}${listId ? `?listId=${listId}` : ''}`;
   }
-  return `${kind === 'year-top' ? '/year-tops' : '/mam'}/movie/${id}`;
+  const base =
+    kind === 'year-top' ? '/year-tops' : kind === 'imdb-lta' ? '/imdb-lta' : '/mam';
+  return `${base}/movie/${id}`;
 }
 
 function SheetSkeleton() {
@@ -180,6 +183,7 @@ export function MovieSheetHost() {
           genre={shown.data.genre}
           otherLists={shown.data.otherLists}
           yearTopSummary={shown.data.yearTopSummary}
+          watchProviders={shown.data.watchProviders}
         />
       ) : (
         <p className="px-4 py-12 text-center text-sm text-zinc-400">

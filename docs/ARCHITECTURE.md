@@ -41,7 +41,7 @@ Server actions still call `auth.api.getSession` (or an equivalent) themselves. L
 | MAM | `/mam`, `/mam/my-list`, `/mam/participant/[slug]`, `/mam/movie/[movieId]`, `/mam/special-mentions` | `src/lib/api/mam.ts` | Cached league columns on `Movie`. |
 | Lists | `/lists`, `/lists/new`, `/lists/[id]`, `/lists/movie/[movieId]` | `src/lib/api/lists.ts` | Creating a list is admin-only. |
 | Year tops | `/year-tops`, `/year-tops/[type]`, `/year-tops/movie/[movieId]` | `src/lib/api/year-top.ts` | Stats cached on `YearTopMovieStats`. |
-| IMDB LTA | `/imdb-lta`, `/lote`, `/rate`, `/ranking`, `/admin`, `/admin/trivia` | `src/lib/api/imdb-lta.ts`, `imdb-lta-batches.ts`, `imdb-lta-trivia.ts`, `imdb-lta-notifications.ts` | Phase is a singleton row, not an env flag. |
+| IMDB LTA | `/imdb-lta`, `/lote`, `/rate`, `/ranking`, `/movie/[movieId]`, `/admin`, `/admin/trivia` | `src/lib/api/imdb-lta.ts`, `imdb-lta-batches.ts`, `imdb-lta-trivia.ts`, `imdb-lta-notifications.ts` | Phase is a singleton row, not an env flag. |
 | Oscalos | `/oscars`, `/oscars/predictions`, `/oscars/results`, `/oscars/admin` | `src/lib/api/oscars.ts`, `src/lib/actions/oscars/` | Results can stream after the ceremony starts. |
 | Calendar | `/calendar` | `src/lib/api/events.ts`, `src/lib/api/telegram-events.ts` | Cron: `/api/cron/daily-events`. |
 | Board | `/board` | `src/lib/actions/board/`, `src/lib/hooks/useBoardStream.ts` | **Off.** `BOARD_ENABLED` in `src/lib/config/features.ts` is `false`. Routes, actions, and the API return early. |
@@ -67,6 +67,8 @@ The board subscription is unused while the feature flag is off. The Oscar result
 ## Jobs and long requests
 
 `vercel.json` only declares a cron: `GET /api/cron/daily-events` at `50 2 * * *`. Auth for that route is `CRON_SECRET` (`src/lib/utils/cron-auth.ts`).
+
+`GET /api/cron/watch-providers` is called by cron-job.org, not Vercel, with the same `Authorization: Bearer <CRON_SECRET>` header. Each call syncs one batch (`?limit=`, default 150, max 500) into `MovieWatchProviders` and stamps `Movie.watchProvidersSyncedAt`. A batch of 150 took about 10 s locally, under cron-job.org's 30 s timeout. Code: `src/lib/api/watch-providers.ts`.
 
 `/imdb-lta` and `/lists/new` set `maxDuration = 60` because nomination overview / TMDB lookups can exceed the default serverless limit. The IMDB LTA admin page in this tree does not set `maxDuration`. A Nov 2026 chat described timeouts on batch rotate; whether production raised the limit on the admin route is **unverified** here.
 

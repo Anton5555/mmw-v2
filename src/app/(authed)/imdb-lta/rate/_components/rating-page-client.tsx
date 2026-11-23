@@ -341,7 +341,11 @@ function MovieRateCard({
 
       <div className="relative space-y-4 p-4 sm:p-5 xl:p-6">
         <div className="flex gap-4 xl:gap-5">
-          <div className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md sm:w-24 lg:w-32 xl:w-40 2xl:w-48">
+          <Link
+            href={`/imdb-lta/movie/${movie.id}`}
+            aria-label={`Ver ficha de ${movie.title}`}
+            className="relative aspect-2/3 w-20 shrink-0 overflow-hidden rounded-xl border border-white/15 bg-zinc-900 shadow-md transition-colors hover:border-yellow-400/60 sm:w-24 lg:w-32 xl:w-40 2xl:w-48"
+          >
             {src ? (
               <Image
                 src={src}
@@ -356,7 +360,7 @@ function MovieRateCard({
                 <Film className="h-7 w-7 text-zinc-700" />
               </div>
             )}
-          </div>
+          </Link>
 
           <div className="min-w-0 flex-1 space-y-2">
             {movie.userNominated && (
@@ -368,7 +372,12 @@ function MovieRateCard({
 
             <div>
               <h3 className="text-base font-black uppercase italic leading-tight tracking-tight sm:text-lg xl:text-xl">
-                {movie.title}
+                <Link
+                  href={`/imdb-lta/movie/${movie.id}`}
+                  className="hover:text-yellow-400"
+                >
+                  {movie.title}
+                </Link>
               </h3>
               <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-400">
                 {showOriginalTitle && (

@@ -17,7 +17,12 @@ vi.mock('uuid', () => ({ v4: () => 'fixed-uuid' }));
 import { updateUser } from './users';
 
 const PUBLIC_URL = 'http://localhost:9000/public';
-const profile = (image: File | string | null) => ({ name: 'Ana', email: 'ana@example.com', image });
+const profile = (image: File | string | null) => ({
+  name: 'Ana',
+  email: 'ana@example.com',
+  image,
+  watchCountry: 'ES' as const,
+});
 
 beforeEach(() => {
   mocks.getSession.mockResolvedValue({ user: { id: 'u1' } });
@@ -46,8 +51,15 @@ describe('updateUser', () => {
     expect(mocks.deleteFile).not.toHaveBeenCalled();
     expect(mocks.user.update).toHaveBeenCalledWith({
       where: { id: 'u1' },
-      data: { name: 'Ana', image: 'https://cdn/old.png' },
+      data: { name: 'Ana', image: 'https://cdn/old.png', watchCountry: 'ES' },
     });
+  });
+
+  it('rejects a country outside the picker list', async () => {
+    await expect(
+      updateUser({ ...profile(null), watchCountry: 'XX' as never })
+    ).rejects.toThrow();
+    expect(mocks.user.update).not.toHaveBeenCalled();
   });
 
   it('uploads a new file under a uuid key keeping its extension', async () => {

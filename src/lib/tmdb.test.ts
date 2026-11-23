@@ -266,3 +266,24 @@ describe('getMovieTriviaDetails', () => {
     expect(requestedUrl().searchParams.get('language')).toBe('es-ES');
   });
 });
+
+describe('getMovieWatchProviders', () => {
+  it('returns the per-country results', async () => {
+    const { getMovieWatchProviders } = await import('./tmdb');
+    fetchMock.mockResolvedValue(
+      jsonResponse({ id: 949, results: { AR: { link: 'L', flatrate: [] } } })
+    );
+    expect(await getMovieWatchProviders(949)).toEqual({ AR: { link: 'L', flatrate: [] } });
+    expect(requestedUrl().pathname).toBe('/3/movie/949/watch/providers');
+  });
+
+  it('treats a 404 as "no providers" and other errors as a failure', async () => {
+    const { getMovieWatchProviders } = await import('./tmdb');
+    fetchMock.mockResolvedValueOnce(jsonResponse({}, { ok: false, status: 404 }));
+    expect(await getMovieWatchProviders(1)).toEqual({});
+    fetchMock.mockResolvedValueOnce(jsonResponse({}, { ok: false, status: 503 }));
+    expect(await getMovieWatchProviders(1)).toBeNull();
+    fetchMock.mockRejectedValueOnce(new Error('offline'));
+    expect(await getMovieWatchProviders(1)).toBeNull();
+  });
+});

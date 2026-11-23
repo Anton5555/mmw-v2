@@ -8,7 +8,7 @@ import {
   getYearTopMovieDetailData,
 } from '@/lib/api/movie-detail';
 
-export type MovieSheetKind = 'list' | 'mam' | 'year-top';
+export type MovieSheetKind = 'list' | 'mam' | 'year-top' | 'imdb-lta';
 
 export async function getMovieSheetDataAction(
   movieId: number,
@@ -24,14 +24,23 @@ export async function getMovieSheetDataAction(
   const data =
     kind === 'list'
       ? await getListMovieDetailData(movieId, listId)
-      : kind === 'year-top'
+      : kind === 'year-top' || kind === 'imdb-lta'
         ? await getYearTopMovieDetailData(movieId)
         : await getMamMovieDetailData(movieId);
 
   if (!data) return null;
 
-  const { movie, otherLists, yearTopSummary, director, genre } = data;
-  return { movie, rank: movie.rank, otherLists, yearTopSummary, director, genre };
+  const { movie, otherLists, yearTopSummary, director, genre, watchProviders } =
+    data;
+  return {
+    movie,
+    rank: movie.rank,
+    otherLists,
+    yearTopSummary,
+    director,
+    genre,
+    watchProviders,
+  };
 }
 
 export type MovieSheetData = NonNullable<

@@ -6,12 +6,15 @@ import type { List as ListType } from '@/lib/validations/generated';
 import type { YearTopSummaryItem } from '@/lib/validations/year-top';
 import { InfoPopover } from '@/components/ui/info-popover';
 import { cn } from '@/lib/utils';
+import type { MovieWatchProvidersView } from '@/lib/api/watch-providers';
+import { WatchProvidersSection } from './watch-providers-section';
 
 interface MovieSidebarProps {
   totalPoints?: number | null;
   totalPicks?: number | null;
   yearTopSummary?: YearTopSummaryItem[];
   otherLists?: ListType[];
+  watchProviders?: MovieWatchProvidersView | null;
   /** Tighter stats for the details sheet. */
   compact?: boolean;
 }
@@ -21,10 +24,15 @@ export function MovieSidebar({
   totalPicks,
   yearTopSummary = [],
   otherLists = [],
+  watchProviders = null,
   compact = false,
 }: MovieSidebarProps) {
   return (
     <aside className={compact ? 'space-y-8' : 'space-y-10'}>
+      {watchProviders && (
+        <WatchProvidersSection watchProviders={watchProviders} />
+      )}
+
       {/* Stats Widget - Bento Grid */}
       {(totalPoints ?? 0) > 0 || (totalPicks ?? 0) > 0 ? (
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-border bg-border">

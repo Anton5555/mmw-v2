@@ -25,7 +25,7 @@ export default async function ListMoviePage({
     notFound();
   }
 
-  const { movie, selectedList, otherLists, yearTopSummary, director, genre } =
+  const { movie, selectedList, otherLists, yearTopSummary, director, genre, watchProviders } =
     data;
 
   return (
@@ -44,6 +44,7 @@ export default async function ListMoviePage({
         genre={genre}
         otherLists={otherLists}
         yearTopSummary={yearTopSummary}
+        watchProviders={watchProviders}
       />
     </>
   );

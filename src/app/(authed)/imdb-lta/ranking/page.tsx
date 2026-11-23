@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Film, Star, Trophy } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { ImdbLtaPhase } from '@generated/prisma/client';
@@ -91,7 +92,11 @@ async function ImdbLtaRankingPageContent() {
                   <span className="w-10 shrink-0 text-center font-black italic text-yellow-500">
                     #{movie.rank}
                   </span>
-                  <div className="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg border border-border bg-zinc-900">
+                  <Link
+                    href={`/imdb-lta/movie/${movie.id}`}
+                    aria-label={`Ver ficha de ${movie.title}`}
+                    className="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg border border-border bg-zinc-900 transition-colors hover:border-yellow-400/60"
+                  >
                     {src ? (
                       <Image
                         src={src}
@@ -104,10 +109,15 @@ async function ImdbLtaRankingPageContent() {
                     ) : (
                       <Film className="m-auto mt-6 h-5 w-5 text-zinc-600" />
                     )}
-                  </div>
+                  </Link>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-black uppercase italic">
-                      {movie.title}
+                      <Link
+                        href={`/imdb-lta/movie/${movie.id}`}
+                        className="hover:text-yellow-400"
+                      >
+                        {movie.title}
+                      </Link>
                     </p>
                     <p className="truncate text-xs text-zinc-500">
                       {movie.originalTitle}

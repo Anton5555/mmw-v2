@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { MamMovieWithPicks } from '@/lib/validations/mam';
 import type { List as ListType } from '@/lib/validations/generated';
 import type { YearTopSummaryItem } from '@/lib/validations/year-top';
+import type { MovieWatchProvidersView } from '@/lib/api/watch-providers';
 import { MovieHero } from './movie-hero';
 import { MovieReviewsSection } from './movie-reviews-section';
 import { MovieSidebar } from './movie-sidebar';
@@ -15,6 +16,7 @@ interface MovieDetailProps {
   genre?: string;
   otherLists?: ListType[];
   yearTopSummary?: YearTopSummaryItem[];
+  watchProviders?: MovieWatchProvidersView | null;
   /** Compact layout for the details sheet. */
   compact?: boolean;
 }
@@ -26,6 +28,7 @@ export function MovieDetail({
   genre,
   otherLists = [],
   yearTopSummary = [],
+  watchProviders = null,
   compact = false,
 }: MovieDetailProps) {
   const hasPicks = movie.picks && movie.picks.length > 0;
@@ -36,6 +39,7 @@ export function MovieDetail({
       totalPicks={movie.totalPicks}
       yearTopSummary={yearTopSummary}
       otherLists={otherLists}
+      watchProviders={watchProviders}
       compact={compact}
     />
   );

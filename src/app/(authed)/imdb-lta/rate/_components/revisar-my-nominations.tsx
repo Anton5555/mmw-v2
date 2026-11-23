@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { MyNominationSummary } from '@/lib/api/imdb-lta';
 
 type RevisarMyNominationsProps = {
@@ -74,7 +75,11 @@ export function RevisarMyNominations({
           const badge = badgeFor(movie.batchState);
           return (
             <li key={movie.id} className="space-y-1.5">
-              <div className="relative aspect-[2/3] overflow-hidden rounded-xl border border-border bg-zinc-900">
+              <Link
+                href={`/imdb-lta/movie/${movie.id}`}
+                aria-label={`Ver ficha de ${movie.title}`}
+                className="relative block aspect-[2/3] overflow-hidden rounded-xl border border-border bg-zinc-900 transition-colors hover:border-yellow-400/60"
+              >
                 {src ? (
                   <Image
                     src={src}
@@ -88,7 +93,7 @@ export function RevisarMyNominations({
                     Sin póster
                   </div>
                 )}
-              </div>
+              </Link>
               <p className="line-clamp-2 text-xs font-bold leading-snug text-zinc-200">
                 {movie.title}
                 {year ? (

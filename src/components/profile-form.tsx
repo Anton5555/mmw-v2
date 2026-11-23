@@ -10,7 +10,21 @@ import {
   Save,
   Mail,
   ShieldCheck,
+  Tv,
 } from 'lucide-react';
+import ReactCountryFlag from 'react-country-flag';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  DEFAULT_WATCH_COUNTRY,
+  isWatchCountry,
+  watchCountryOptions,
+} from '@/lib/watch-countries';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -51,12 +65,18 @@ export default function ProfileForm({
     user?.image || null
   );
 
+  const savedCountry = (user as User & { watchCountry?: string | null })
+    ?.watchCountry;
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       name: user?.name ?? '',
       email: user?.email ?? '',
       image: user?.image ?? null,
+      watchCountry: isWatchCountry(savedCountry)
+        ? savedCountry
+        : DEFAULT_WATCH_COUNTRY,
     },
   });
 
@@ -206,6 +226,48 @@ export default function ProfileForm({
                           />
                         </FormControl>
                       </div>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="watchCountry"
+                  render={({ field }) => (
+                    <FormItem className="space-y-1.5">
+                      <FormLabel className="text-xs font-black uppercase tracking-widest text-zinc-500">
+                        País para "Dónde verla"
+                      </FormLabel>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger className="h-11 bg-zinc-900/50 border-border focus:border-yellow-500">
+                            <SelectValue placeholder="Elegí un país" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="max-h-72">
+                          {watchCountryOptions().map((country) => (
+                            <SelectItem key={country.code} value={country.code}>
+                              <span className="flex items-center gap-2">
+                                <ReactCountryFlag
+                                  countryCode={country.code}
+                                  svg
+                                  aria-hidden
+                                  className="rounded-[2px] shadow-sm"
+                                  style={{ width: '1.1rem', height: '0.8rem' }}
+                                />
+                                {country.name}
+                              </span>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="flex items-start gap-1.5 text-xs text-zinc-600">
+                        <Tv className="mt-0.5 size-3 shrink-0" />
+                        Las plataformas de cada película se muestran para este
+                        país. Si cambiás a un país nuevo, puede tardar un día en
+                        completarse.
+                      </p>
                       <FormMessage className="text-xs" />
                     </FormItem>
                   )}
