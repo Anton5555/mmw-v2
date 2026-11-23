@@ -2,6 +2,7 @@ import { getListMovieById, getListsContainingMovie } from '@/lib/api/lists';
 import { getMamMovieById } from '@/lib/api/mam';
 import { getYearTopStatsForMovie } from '@/lib/api/year-top';
 import { getMovieById, getMovieDetails } from '@/lib/tmdb';
+import { getWatchProvidersForCurrentUser } from '@/lib/api/watch-providers';
 
 async function getDirectorAndGenre(imdbId: string | null | undefined) {
   if (!imdbId) return { director: undefined, genre: undefined };
@@ -17,13 +18,14 @@ async function withExtras<T extends { imdbId?: string | null }>(
   movie: T,
   movieId: number
 ) {
-  const [yearTopSummary, lists, tmdb] = await Promise.all([
+  const [yearTopSummary, lists, tmdb, watchProviders] = await Promise.all([
     getYearTopStatsForMovie(movieId),
     getListsContainingMovie(movieId),
     getDirectorAndGenre(movie.imdbId),
+    getWatchProvidersForCurrentUser(movieId),
   ]);
 
-  return { movie, yearTopSummary, lists, ...tmdb };
+  return { movie, yearTopSummary, lists, watchProviders, ...tmdb };
 }
 
 /** Movie detail data for `/lists/movie/[movieId]?listId=`. */
@@ -63,7 +65,7 @@ export async function getMamMovieDetailData(movieId: number) {
   return { ...data, otherLists: data.lists };
 }
 
-/** Movie detail data for `/year-tops/movie/[movieId]`. */
+/** Movie detail data for `/year-tops/movie/[movieId]` and `/imdb-lta/movie/[movieId]` (any movie). */
 export async function getYearTopMovieDetailData(movieId: number) {
   const movie = await getMamMovieById(movieId);
   if (!movie) return null;

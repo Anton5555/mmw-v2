@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { ProfileFormValues } from '../validations/users';
+import { ProfileFormValues, profileFormSchema } from '../validations/users';
 import { prisma } from '@/lib/db';
 import { auth } from '../auth';
 import { deleteFile, uploadFile } from '../utils/s3';
@@ -12,6 +12,11 @@ export const updateUser = async (data: ProfileFormValues) => {
   });
 
   if (!session) throw new Error('No session found');
+
+  // Validate before any upload so a bad country never leaves an orphan image.
+  const watchCountry = profileFormSchema.shape.watchCountry.parse(
+    data.watchCountry
+  );
 
   const userId = session.user.id;
 
@@ -54,6 +59,7 @@ export const updateUser = async (data: ProfileFormValues) => {
     data: {
       name: data.name,
       image: imageUrl,
+      watchCountry,
     },
   });
 

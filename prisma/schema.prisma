@@ -55,6 +55,9 @@ model Movie {
   imdbLtaBatchMovies   ImdbLtaBatchMovie[]
   imdbLtaSkips         ImdbLtaSkip[]
   imdbLtaTriviaGames   ImdbLtaTriviaGame[]
+  watchProviders       MovieWatchProviders[]
+  /// Last time the watch-providers cron refreshed this movie (null = never).
+  watchProvidersSyncedAt DateTime?
 
   // MAM cached metrics (updated when picks change)
   mamTotalPicks   Int   @default(0)
@@ -65,6 +68,23 @@ model Movie {
   @@index([mamTotalPoints(sort: Desc), mamTotalPicks(sort: Desc)])
   @@index([mamRank])
   @@index([tmdbId])
+  @@index([watchProvidersSyncedAt])
+}
+
+/// Where a movie can be watched in one country (TMDB watch providers, data by JustWatch).
+model MovieWatchProviders {
+  id        Int      @id @default(autoincrement())
+  movieId   Int
+  /// ISO 3166-1 alpha-2, e.g. "AR".
+  country   String
+  /// TMDB "where to watch" page for this movie and country.
+  link      String?
+  /// JSON text { flatrate, free, ads, rent }: arrays of { id, name, logoPath }. Text, not Json: zod-prisma-types breaks on Json with Prisma 7.
+  providers String
+  updatedAt DateTime @updatedAt
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([movieId, country])
 }
 
 model MovieList {
@@ -108,6 +128,8 @@ model User {
   imdbLtaSkips            ImdbLtaSkip[]
   imdbLtaTriviaCreated    ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaCreatedBy")
   imdbLtaTriviaWins       ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaWinner")
+  /// ISO 3166-1 alpha-2 for "Dónde verla". Set by an admin; null falls back to AR.
+  watchCountry            String?
 
   @@map("user")
 }

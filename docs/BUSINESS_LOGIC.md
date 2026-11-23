@@ -38,6 +38,12 @@ If a `MamParticipant` slug matches, year-top import reuses that `userId`. **Unve
 
 A `List` is a named set of movies (`MovieList`), with optional Letterboxd URL, image, and tags. Creation (`create-list.ts`, `/lists/new`) is limited to `session.user.role === 'admin'`. The flow pastes IMDb ids and resolves them (TMDB), which is separate from IMDB LTA nominations.
 
+## Dónde verla
+
+The movie detail (page and sheet) shows where the movie can be watched in the viewer's country: subscription, free, free with ads, rent. Buying is not shown or stored. Data is TMDB watch providers (by JustWatch) and the section credits JustWatch. The country is `User.watchCountry` (ISO 3166-1 alpha-2), which each member picks in the profile dialog from `WATCH_COUNTRY_CODES` (`src/lib/watch-countries.ts`). Null means `AR`. The country shows with its flag. The section is hidden when the movie has no stored options for that country.
+
+Only tracked countries are stored: every distinct `watchCountry` plus `AR`. `/api/cron/watch-providers` refreshes a batch (default 150) of the movies synced longest ago, never-synced first. A new member country appears on a movie the next time the cron reaches it.
+
 ## Home spotlight
 
 `getDailyContentType` rotates by `seed % 3` of the UTC date: movie, list, participant. Movie days pick among `mamRank <= 100`. The curator line prefers a non-special-mention MAM pick that has a review. The row is stored so the same date does not reshuffle.

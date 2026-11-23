@@ -20,7 +20,7 @@ export default async function MamMoviePage({ params }: MamMoviePageProps) {
     notFound();
   }
 
-  const { movie, otherLists, yearTopSummary, director, genre } = data;
+  const { movie, otherLists, yearTopSummary, director, genre, watchProviders } = data;
 
   return (
     <>
@@ -36,6 +36,7 @@ export default async function MamMoviePage({ params }: MamMoviePageProps) {
         genre={genre}
         otherLists={otherLists}
         yearTopSummary={yearTopSummary}
+        watchProviders={watchProviders}
       />
     </>
   );

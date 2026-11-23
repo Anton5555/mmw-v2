@@ -21,7 +21,7 @@ export default async function YearTopMoviePage({
     notFound();
   }
 
-  const { movie, otherLists, yearTopSummary, director, genre } = data;
+  const { movie, otherLists, yearTopSummary, director, genre, watchProviders } = data;
 
   return (
     <MovieDetail
@@ -31,6 +31,7 @@ export default async function YearTopMoviePage({
       genre={genre}
       otherLists={otherLists}
       yearTopSummary={yearTopSummary}
+      watchProviders={watchProviders}
     />
   );
 }

@@ -124,7 +124,7 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 
 ### One movie detail component
 
-**Verified.** MAM, lists, and year tops each have a route, and each route loads context into `MovieDetail`. A second detail component per feature was the thing that got consolidated.
+**Verified.** MAM, lists, year tops and IMDB LTA each have a route, and each route loads context into `MovieDetail`. The IMDB LTA route and sheet show the same club data as year tops (MAM picks, tops, lists, Dónde verla), never IMDB LTA scores. A second detail component per feature was the thing that got consolidated.
 
 ### Filter state lives in the URL
 
@@ -137,6 +137,10 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 ### 90-day sliding sessions
 
 **Verified.** Better Auth's default (7 days) signed out anyone who didn't open the app for a week, which feels wrong in an installed app. Sessions now last 90 days and are extended at most once a day. Trade-off: a stolen cookie lives longer. Revoking sessions (admin plugin) or changing the password still signs a device out.
+
+### Dónde verla is stored, refreshed in batches by an external cron
+
+**Verified.** Providers are read from the database, not from TMDB on each page view. cron-job.org calls the sync because Vercel cron frequency is limited on this plan, and each call only refreshes the stalest batch so it fits cron-job.org's 30 s timeout. A failed TMDB call leaves the movie's sync date alone, so the next run retries it. `MovieWatchProviders.providers` is JSON in a `TEXT` column because `zod-prisma-types` generates broken code for Prisma `Json` fields with Prisma 7.
 
 ## Rejected
 
@@ -151,4 +155,5 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 | Supabase Auth | Login, sessions, and roles are Better Auth rows in `public`. |
 | GitHub Action as the only production migrator | It can run beside a deploy and fight it. |
 | Native app or Capacitor WebView wrapper | Needs a new API and second UI; WebViews break Google sign-in. The TWA/PWA load the real site. |
+| Links to torrent sites (YTS) or Stremio piracy add-ons | Linking knowingly to infringing copies is a legal risk, and Google Play can pull the TWA for it. "Dónde verla" uses legal providers instead. |
 | Database reset as a data-repair tool | It destroyed MAM reviews once. Re-import instead. |

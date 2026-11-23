@@ -342,3 +342,53 @@ export async function getMovieDetailsFull(tmdbId: number): Promise<MovieDetailsF
     return null;
   }
 }
+
+type TMDBWatchProvider = {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string | null;
+  display_priority?: number;
+};
+
+export type TMDBWatchProviderCountry = {
+  link?: string;
+  flatrate?: TMDBWatchProvider[];
+  free?: TMDBWatchProvider[];
+  ads?: TMDBWatchProvider[];
+  rent?: TMDBWatchProvider[];
+  buy?: TMDBWatchProvider[];
+};
+
+/**
+ * Watch providers for every country (data by JustWatch).
+ * Returns `{}` when TMDB has no such movie (404), `null` on any other failure.
+ */
+export async function getMovieWatchProviders(
+  tmdbId: number
+): Promise<Record<string, TMDBWatchProviderCountry> | null> {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${tmdbId}/watch/providers?api_key=${env.TMDB_API_KEY}`,
+      { cache: 'no-store' }
+    );
+
+    if (response.status === 404) return {};
+    if (!response.ok) {
+      console.error(
+        `TMDB watch providers error for movie ${tmdbId}: ${response.status}`
+      );
+      return null;
+    }
+
+    const data = (await response.json()) as {
+      results?: Record<string, TMDBWatchProviderCountry>;
+    };
+    return data.results ?? {};
+  } catch (error) {
+    console.error(
+      `Error fetching watch providers for TMDB ID ${tmdbId}:`,
+      error
+    );
+    return null;
+  }
+}

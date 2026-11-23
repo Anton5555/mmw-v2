@@ -458,7 +458,11 @@ function DeckCard({
 
       <div className="relative space-y-5 p-5 sm:p-6 xl:p-8">
         <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-end sm:gap-5 sm:text-left xl:gap-8">
-          <div className="relative aspect-2/3 w-36 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900 shadow-lg sm:w-40 lg:w-52 xl:w-64 2xl:w-72">
+          <Link
+            href={`/imdb-lta/movie/${movie.id}`}
+            aria-label={`Ver ficha de ${movie.title}`}
+            className="relative aspect-2/3 w-36 shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900 shadow-lg transition-colors hover:border-yellow-400/60 sm:w-40 lg:w-52 xl:w-64 2xl:w-72"
+          >
             {src ? (
               <Image
                 src={src}
@@ -474,7 +478,7 @@ function DeckCard({
                 <Film className="h-10 w-10 text-zinc-700" />
               </div>
             )}
-          </div>
+          </Link>
 
           <div className="min-w-0 flex-1 space-y-1.5">
             {movie.userNominated && (
@@ -484,7 +488,12 @@ function DeckCard({
               </span>
             )}
             <h1 className="text-2xl font-black uppercase italic leading-tight tracking-tight sm:text-3xl xl:text-4xl">
-              {movie.title}
+              <Link
+                href={`/imdb-lta/movie/${movie.id}`}
+                className="hover:text-yellow-400"
+              >
+                {movie.title}
+              </Link>
             </h1>
             <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-zinc-400 sm:justify-start">
               {showOriginalTitle && (

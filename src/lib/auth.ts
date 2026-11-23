@@ -42,6 +42,13 @@ export const auth = betterAuth({
       prompt: 'select_account',
     },
   },
+  user: {
+    additionalFields: {
+      // "Dónde verla" country. Read into the session; written only by the
+      // profile server action (input: false keeps it out of /update-user).
+      watchCountry: { type: 'string', required: false, input: false },
+    },
+  },
   account: {
     accountLinking: { enabled: true, trustedProviders: ['google'] },
   },
