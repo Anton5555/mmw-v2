@@ -7,7 +7,7 @@ vi.mock('next/image', () => ({
   default: () => null,
 }));
 
-import { ImdbLtaAdminRatings } from './imdb-lta-admin-ratings';
+import { ImdbLtaAdminRatings, loteNominationsText } from './imdb-lta-admin-ratings';
 
 const snapshot: AdminRatingsView = {
   movieCount: 2,
@@ -73,6 +73,7 @@ const lote: AdminLoteView = {
       originalTitle: 'Best',
       posterUrl: '/p.jpg',
       imdbId: 'tt0000001',
+      year: 1926,
       position: 1,
       ratingCount: 1,
       averageScore: 9,
@@ -170,6 +171,59 @@ describe('ImdbLtaAdminRatings', () => {
     expect(screen.getByText('Bea')).toBeTruthy();
     expect(screen.getByText('No la vi')).toBeTruthy();
     expect(screen.getByText('Ciro')).toBeTruthy();
+  });
+
+  it('copies every lote movie with year and nomination count, one per line', () => {
+    const text = loteNominationsText([
+      lote.movies[0]!,
+      {
+        ...lote.movies[0]!,
+        id: 2,
+        title: 'Blazing Saddles',
+        year: 1974,
+        position: 2,
+        nominators: [{ userId: 'ana', name: 'Ana' }],
+      },
+      {
+        ...lote.movies[0]!,
+        id: 3,
+        title: 'Trio',
+        year: 1990,
+        nominators: ['a', 'b', 'c'].map((id) => ({ userId: id, name: id })),
+      },
+      {
+        ...lote.movies[0]!,
+        id: 4,
+        title: 'Many',
+        year: 2010,
+        nominators: ['a', 'b', 'c', 'd', 'e'].map((id) => ({ userId: id, name: id })),
+      },
+      { ...lote.movies[0]!, id: 5, title: 'Nadie', year: 2001, nominators: [] },
+    ]);
+
+    expect(text).toBe(
+      [
+        'Best (1926) - docking',
+        'Blazing Saddles (1974) - única',
+        'Trio (1990) - trieja',
+        'Many (2010) - orgía',
+        'Nadie (2001) - sin nominación',
+      ].join('\n')
+    );
+  });
+
+  it('writes the lote text to the clipboard', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    });
+    renderAdmin({ lotes: [lote] });
+    fireEvent.click(screen.getByRole('tab', { name: 'Lotes' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Copiar nominaciones' }));
+
+    expect(writeText).toHaveBeenCalledWith('Best (1926) - docking');
+    expect(await screen.findByText('Copiado')).toBeTruthy();
   });
 
   it('shows nominators on the collapsed película card and the imdb id inside', () => {

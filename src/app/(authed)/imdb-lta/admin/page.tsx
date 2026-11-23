@@ -52,6 +52,7 @@ function lotesFrom(
         originalTitle: movie.originalTitle,
         posterUrl: movie.posterUrl,
         imdbId: movie.imdbId,
+        year: movie.year,
         position: movie.position,
         ratingCount: rated?.ratingCount ?? 0,
         averageScore: rated?.averageScore ?? null,

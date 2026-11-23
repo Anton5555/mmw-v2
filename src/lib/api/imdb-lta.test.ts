@@ -968,6 +968,7 @@ describe('listAdminLotes', () => {
     originalTitle: title,
     posterUrl: `/p/${id}.jpg`,
     imdbId: `tt${String(id).padStart(7, '0')}`,
+    releaseDate: new Date('1926-12-31T00:00:00Z'),
   });
 
   it('puts the open lote first and attaches nominators, skips, and picks', async () => {
@@ -1021,6 +1022,7 @@ describe('listAdminLotes', () => {
     ]);
 
     const snapshot = await listAdminLotes();
+    expect(snapshot.lotes[0]?.movies[0]?.year).toBe(1926);
 
     expect(snapshot.lotes.map((lote) => [lote.number, lote.status])).toEqual([
       [2, 'OPEN'],
