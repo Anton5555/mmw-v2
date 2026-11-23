@@ -119,21 +119,25 @@ function nominationNickname(count: number) {
 }
 
 /** One line per movie, ready to paste into Telegram and edit. */
-export function loteNominationsText(movies: AdminLoteView['movies']) {
+export function loteNominationsText(
+  movies: AdminLoteView['movies'],
+  { withNames = false }: { withNames?: boolean } = {}
+) {
   return movies
-    .map(
-      (movie) =>
-        `${movie.title} (${movie.year}) - ${nominationNickname(movie.nominators.length)}`
-    )
+    .map((movie) => {
+      const line = `${movie.title} (${movie.year}) - ${nominationNickname(movie.nominators.length)}`;
+      if (!withNames || movie.nominators.length === 0) return line;
+      return `${line}: ${movie.nominators.map((person) => person.name).join(', ')}`;
+    })
     .join('\n');
 }
 
-function CopyLoteButton({ movies }: { movies: AdminLoteView['movies'] }) {
+function CopyLoteButton({ label, text }: { label: string; text: string }) {
   const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(loteNominationsText(movies));
+      await navigator.clipboard.writeText(text);
       setStatus('copied');
     } catch {
       setStatus('failed');
@@ -156,7 +160,7 @@ function CopyLoteButton({ movies }: { movies: AdminLoteView['movies'] }) {
         ? 'Copiado'
         : status === 'failed'
           ? 'No se pudo copiar'
-          : 'Copiar nominaciones'}
+          : label}
     </button>
   );
 }
@@ -792,7 +796,18 @@ function LotePanel({
             {lote.movies.length} películas · {ratingCount} puntajes · {voterIds.size}{' '}
             personas · {qualified} calificadas
           </p>
-          {lote.movies.length > 0 ? <CopyLoteButton movies={lote.movies} /> : null}
+          {lote.movies.length > 0 ? (
+            <>
+              <CopyLoteButton
+                label="Copiar nominaciones"
+                text={loteNominationsText(lote.movies)}
+              />
+              <CopyLoteButton
+                label="Copiar con usuarios"
+                text={loteNominationsText(lote.movies, { withNames: true })}
+              />
+            </>
+          ) : null}
         </div>
       </div>
 
