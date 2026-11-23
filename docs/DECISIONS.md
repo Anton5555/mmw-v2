@@ -108,7 +108,7 @@ Source: [Google sign-in VIP gate](8e6d3daf-c333-41ba-8706-ca9f20567ae4).
 
 ### Production migrations belong on the Vercel production build
 
-**Decision recorded, not encoded in this tree.** GitHub Actions was rejected because it races the deploy. Previews must not migrate. The intended build prefix was: if `VERCEL_ENV` is `production`, `pnpm db:migrate:deploy`, then `pnpm build`. Current `vercel.json` only has the events cron. History was squashed, so the commit that added the build command is gone. Check the Vercel project settings.
+**Verified.** `vercel.json` `buildCommand`: if `VERCEL_ENV` is `production`, `pnpm db:migrate:deploy`, then `pnpm build` (added in #89, 14 Nov 2026). The `&&` makes a failed migration fail the deploy. Previews do not migrate. GitHub Actions was rejected because it races the deploy. Merging a PR with a migration is enough; do not also run it by hand.
 
 Source: [Database migration CI](ab68d902-3926-4c77-8e9d-ddabbd00b5c8).
 
