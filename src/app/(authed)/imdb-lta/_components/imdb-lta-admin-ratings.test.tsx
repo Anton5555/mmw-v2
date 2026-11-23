@@ -212,6 +212,15 @@ describe('ImdbLtaAdminRatings', () => {
     );
   });
 
+  it('adds nominator names when asked, and leaves unnominated movies bare', () => {
+    const text = loteNominationsText(
+      [lote.movies[0]!, { ...lote.movies[0]!, id: 2, title: 'Nadie', nominators: [] }],
+      { withNames: true }
+    );
+
+    expect(text).toBe('Best (1926) - docking: Ana, Bea\nNadie (1926) - sin nominación');
+  });
+
   it('writes the lote text to the clipboard', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.defineProperty(navigator, 'clipboard', {
@@ -224,6 +233,9 @@ describe('ImdbLtaAdminRatings', () => {
 
     expect(writeText).toHaveBeenCalledWith('Best (1926) - docking');
     expect(await screen.findByText('Copiado')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Copiar con usuarios' }));
+    expect(writeText).toHaveBeenLastCalledWith('Best (1926) - docking: Ana, Bea');
   });
 
   it('shows nominators on the collapsed película card and the imdb id inside', () => {
