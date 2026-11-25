@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { submitRatingAction } from '@/lib/actions/imdb-lta/submit-rating';
 import { markNotSeenAction } from '@/lib/actions/imdb-lta/mark-not-seen';
+import type { BatchParticipant, BatchParticipation } from '@/lib/api/imdb-lta';
 
 export type BatchDeckMovie = {
   id: number;
@@ -40,6 +41,8 @@ type BatchDeckClientProps = {
   doneCount: number;
   skippedCount: number;
   totalInBatch: number;
+  participation: BatchParticipation;
+  currentUserId: string;
   isRatingOpen: boolean;
 };
 
@@ -75,11 +78,115 @@ function NotSeenRecall({ count }: { count: number }) {
   const label = count === 1 ? '1 no vista' : `${count} no vistas`;
   return (
     <p className="text-xs text-zinc-400">
-      <Link href={NOT_SEEN_HREF} className="font-bold text-yellow-400 underline">
+      <Link
+        href={NOT_SEEN_HREF}
+        className="font-bold text-yellow-400 underline"
+      >
         {label}
       </Link>
       {count === 1 ? ' · puntuála si la ves' : ' · puntuálas si las ves'}
     </p>
+  );
+}
+
+/**
+ * The server list was built at page load. Once the deck is empty here, move
+ * the viewer to the finished side without a refetch.
+ */
+export function withViewerFinished(
+  participation: BatchParticipation,
+  viewerId: string,
+  totalInBatch: number
+): BatchParticipation {
+  const viewer = participation.pending.find((p) => p.userId === viewerId);
+  if (!viewer) return participation;
+  return {
+    done: [...participation.done, { ...viewer, doneCount: totalInBatch }].sort(
+      (a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    ),
+    pending: participation.pending.filter((p) => p.userId !== viewerId),
+  };
+}
+
+function ParticipantChips({
+  people,
+  currentUserId,
+  totalInBatch,
+  showProgress,
+}: {
+  people: BatchParticipant[];
+  currentUserId: string;
+  totalInBatch: number;
+  showProgress: boolean;
+}) {
+  return (
+    <ul className="flex flex-wrap justify-center gap-1.5">
+      {people.map((person) => (
+        <li
+          key={person.userId}
+          className={cn(
+            'rounded-sm border px-2 py-0.5 text-xs',
+            person.userId === currentUserId
+              ? 'border-yellow-500/40 text-yellow-300'
+              : 'border-border text-zinc-300'
+          )}
+        >
+          {person.name}
+          {showProgress && (
+            <span className="ml-1.5 font-mono text-[11px] text-zinc-500">
+              {person.doneCount}/{totalInBatch}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function BatchParticipationList({
+  participation,
+  currentUserId,
+  totalInBatch,
+}: {
+  participation: BatchParticipation;
+  currentUserId: string;
+  totalInBatch: number;
+}) {
+  const { done, pending } = participation;
+  if (done.length === 0 && pending.length === 0) return null;
+  return (
+    <div className="mx-auto mt-6 max-w-md space-y-4 border-t border-border pt-5 text-left">
+      <section aria-label="Ya votaron" className="space-y-2">
+        <h2 className="text-center text-xs font-bold uppercase tracking-wide text-emerald-400">
+          Ya votaron · {done.length}
+        </h2>
+        {done.length > 0 ? (
+          <ParticipantChips
+            people={done}
+            currentUserId={currentUserId}
+            totalInBatch={totalInBatch}
+            showProgress={false}
+          />
+        ) : (
+          <p className="text-center text-xs text-zinc-500">Nadie todavía.</p>
+        )}
+      </section>
+      <section aria-label="Faltan votar" className="space-y-2">
+        <h2 className="text-center text-xs font-bold uppercase tracking-wide text-zinc-400">
+          Faltan · {pending.length}
+        </h2>
+        {pending.length > 0 ? (
+          <ParticipantChips
+            people={pending}
+            currentUserId={currentUserId}
+            totalInBatch={totalInBatch}
+            showProgress
+          />
+        ) : (
+          <p className="text-center text-xs text-zinc-500">Votaron todos.</p>
+        )}
+      </section>
+    </div>
   );
 }
 
@@ -96,6 +203,8 @@ export function BatchDeckClient({
   doneCount: initialDoneCount,
   skippedCount: initialSkippedCount,
   totalInBatch,
+  participation,
+  currentUserId,
   isRatingOpen,
 }: BatchDeckClientProps) {
   const reduceMotion = useReducedMotion();
@@ -285,7 +394,6 @@ export function BatchDeckClient({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-
   return (
     <div className="space-y-4 overflow-x-clip">
       <div className="space-y-2">
@@ -319,7 +427,9 @@ export function BatchDeckClient({
           {!current ? (
             <motion.div
               key="done"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }}
+              initial={
+                reduceMotion ? false : { opacity: 0, scale: 0.96, y: 16 }
+              }
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96 }}
               transition={ENTER_SPRING}
@@ -348,12 +458,24 @@ export function BatchDeckClient({
                   {skippedCount === 1
                     ? 'Marcaste 1 como no vista. Si la ves, '
                     : `Marcaste ${skippedCount} como no vistas. Si las ves, `}
-                  <Link href={NOT_SEEN_HREF} className="text-yellow-400 underline">
+                  <Link
+                    href={NOT_SEEN_HREF}
+                    className="text-yellow-400 underline"
+                  >
                     {skippedCount === 1 ? 'puntuála acá' : 'puntuálas acá'}
                   </Link>
                   .
                 </p>
               )}
+              <BatchParticipationList
+                participation={withViewerFinished(
+                  participation,
+                  currentUserId,
+                  totalInBatch
+                )}
+                currentUserId={currentUserId}
+                totalInBatch={totalInBatch}
+              />
             </motion.div>
           ) : (
             <motion.div
@@ -398,8 +520,7 @@ export function BatchDeckClient({
             <span>Última del lote</span>
           )}
           <span className="hidden sm:inline">
-            Teclado:{' '}
-            <kbd className="font-mono text-zinc-400">0–9</kbd> ·{' '}
+            Teclado: <kbd className="font-mono text-zinc-400">0–9</kbd> ·{' '}
             <kbd className="font-mono text-zinc-400">=</kbd> es 10 ·{' '}
             <kbd className="font-mono text-zinc-400">N</kbd> no la vi ·{' '}
             <kbd className="font-mono text-zinc-400">→</kbd> pasar

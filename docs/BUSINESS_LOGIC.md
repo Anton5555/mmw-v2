@@ -132,6 +132,7 @@ Implemented in `matchesRatingFilter`:
 - Size 10. One `OPEN` batch. An admin rotates it from the UI. There is no batch cron.
 - Re-queue into a new batch: still under 5 ratings, at most 3 such movies per batch, at most 3 appearances of the same movie (`IMDB_LTA_BATCH_REQUEUE_CAP`, `IMDB_LTA_BATCH_MAX_APPEARANCES`).
 - Do not re-queue when at least 70% of active raters skipped it (`IMDB_LTA_SKIP_REQUEUE_THRESHOLD`). Active raters are users with at least one IMDB LTA rating.
+- Once you finish the open lote, its "Ya votaste este lote" card lists **Ya votaron** and **Faltan** (`listBatchParticipation`). A person is done once they have rated or marked "no vista" every movie in the lote. The list covers anyone with an IMDB LTA nomination, rating or skip. Pending people show their own count (e.g. 4/10). Scores are never shown.
 
 ### Telegram
 

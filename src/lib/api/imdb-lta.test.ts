@@ -82,6 +82,7 @@ import {
   submitNominations,
   setWantToWatch,
   submitRating,
+  summarizeBatchParticipation,
 } from './imdb-lta';
 
 const setPhase = (phase: string) =>
@@ -847,6 +848,34 @@ describe('listOpenBatchDeck', () => {
     expect(deck?.deck.map((m) => m.title)).toEqual(['Pending']);
     expect(deck?.doneCount).toBe(2);
     expect(deck?.skippedCount).toBe(1);
+  });
+});
+
+describe('summarizeBatchParticipation', () => {
+  it('counts ratings and skips in the batch and ignores other movies', () => {
+    const result = summarizeBatchParticipation(
+      [
+        { id: 'u1', name: 'Zoe' },
+        { id: 'u2', name: 'Ana' },
+        { id: 'u3', name: 'Beto' },
+        { id: 'u4', name: 'Carla' },
+      ],
+      [1, 2],
+      [
+        { userId: 'u1', movieId: 1 },
+        { userId: 'u1', movieId: 2 },
+        { userId: 'u2', movieId: 1 },
+        { userId: 'u2', movieId: 2 },
+        { userId: 'u3', movieId: 1 },
+        { userId: 'u3', movieId: 99 },
+      ],
+    );
+
+    expect(result.done.map((p) => p.name)).toEqual(['Ana', 'Zoe']);
+    expect(result.pending).toEqual([
+      { userId: 'u3', name: 'Beto', doneCount: 1 },
+      { userId: 'u4', name: 'Carla', doneCount: 0 },
+    ]);
   });
 });
 
