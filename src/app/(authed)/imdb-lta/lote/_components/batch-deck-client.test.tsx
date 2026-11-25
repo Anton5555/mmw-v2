@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { BatchDeckMovie } from './batch-deck-client';
@@ -26,7 +26,8 @@ vi.mock('sonner', () => ({
   },
 }));
 vi.mock('motion/react', async () => {
-  const actual = await vi.importActual<typeof import('motion/react')>('motion/react');
+  const actual =
+    await vi.importActual<typeof import('motion/react')>('motion/react');
   return { ...actual, useReducedMotion: () => true };
 });
 
@@ -44,14 +45,22 @@ function movie(id: number, title: string): BatchDeckMovie {
   };
 }
 
-function renderDeck() {
+function renderDeck(deck = [movie(1, 'First'), movie(2, 'Second')]) {
   return render(
     <BatchDeckClient
       batch={{ id: 1, number: 1, openedAt: '2026-01-01' }}
-      deck={[movie(1, 'First'), movie(2, 'Second')]}
-      doneCount={8}
+      deck={deck}
+      doneCount={10 - deck.length}
       skippedCount={0}
       totalInBatch={10}
+      participation={{
+        done: [{ userId: 'u2', name: 'Bea', doneCount: 10 }],
+        pending: [
+          { userId: 'me', name: 'Ana', doneCount: 9 },
+          { userId: 'u3', name: 'Carlos', doneCount: 4 },
+        ],
+      }}
+      currentUserId="me"
       isRatingOpen
     />
   );
@@ -101,7 +110,29 @@ describe('BatchDeckClient', () => {
       expect(mocks.toastError).toHaveBeenCalledWith('No se pudo guardar');
     });
     expect(screen.getByRole('heading', { name: 'First' })).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: '1 no vista' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: '1 no vista' })
+    ).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'No la vi' })).toBeEnabled();
+  });
+
+  it('lists who finished the lote once the viewer finishes it', async () => {
+    const user = userEvent.setup();
+    mocks.submitRatingAction.mockResolvedValue({ id: 1, movieId: 1, score: 8 });
+
+    renderDeck([movie(1, 'Last')]);
+    expect(
+      screen.queryByRole('region', { name: 'Ya votaron' })
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: '8' }));
+
+    const done = screen.getByRole('region', { name: 'Ya votaron' });
+    expect(within(done).getByText('Ana')).toBeInTheDocument();
+    expect(within(done).getByText('Bea')).toBeInTheDocument();
+    const pending = screen.getByRole('region', { name: 'Faltan votar' });
+    expect(within(pending).getByText('Carlos')).toBeInTheDocument();
+    expect(within(pending).getByText('4/10')).toBeInTheDocument();
+    expect(within(pending).queryByText('Ana')).not.toBeInTheDocument();
   });
 });

@@ -2,7 +2,11 @@ import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ImdbLtaPhase } from '@generated/prisma/client';
-import { getImdbLtaPhase, listOpenBatchDeck } from '@/lib/api/imdb-lta';
+import {
+  getImdbLtaPhase,
+  listBatchParticipation,
+  listOpenBatchDeck,
+} from '@/lib/api/imdb-lta';
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import { ImdbLtaPhaseNav } from '../_components/imdb-lta-phase-nav';
@@ -36,6 +40,9 @@ async function ImdbLtaLotePageContent() {
     phase === ImdbLtaPhase.RATING_OPEN
       ? await listOpenBatchDeck(session.user.id)
       : null;
+  const participation = deck
+    ? await listBatchParticipation(deck.movieIds)
+    : null;
 
   return (
     <div className="mx-auto w-full px-4 py-8 sm:max-w-screen-sm md:max-w-screen-md lg:max-w-5xl xl:max-w-[1600px] xl:px-8 2xl:max-w-[1800px]">
@@ -93,6 +100,8 @@ async function ImdbLtaLotePageContent() {
             doneCount={deck.doneCount}
             skippedCount={deck.skippedCount}
             totalInBatch={deck.totalInBatch}
+            participation={participation ?? { done: [], pending: [] }}
+            currentUserId={session.user.id}
             isRatingOpen
           />
         )}

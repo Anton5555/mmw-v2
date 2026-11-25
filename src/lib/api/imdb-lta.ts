@@ -977,6 +977,8 @@ export type OpenBatchDeck = {
   /** Open-batch movies marked "no vista" and not yet scored. */
   skippedCount: number;
   totalInBatch: number;
+  /** Every movie in the batch, done or not. */
+  movieIds: number[];
 };
 
 /**
@@ -1017,7 +1019,85 @@ export async function listOpenBatchDeck(
     doneCount,
     skippedCount,
     totalInBatch: batchMovies.length,
+    movieIds: batchMovies.map((m) => m.id),
   };
+}
+
+export type BatchParticipant = {
+  userId: string;
+  name: string;
+  /** Batch movies this person rated or marked "no vista". */
+  doneCount: number;
+};
+
+export type BatchParticipation = {
+  done: BatchParticipant[];
+  pending: BatchParticipant[];
+};
+
+/**
+ * Split people into finished / not finished for a batch. A movie counts as
+ * done with a rating or a "no vista". No scores are involved.
+ */
+export function summarizeBatchParticipation(
+  people: { id: string; name: string }[],
+  movieIds: number[],
+  actions: { userId: string; movieId: number }[]
+): BatchParticipation {
+  const inBatch = new Set(movieIds);
+  const doneByUser = new Map<string, Set<number>>();
+  for (const { userId, movieId } of actions) {
+    if (!inBatch.has(movieId)) continue;
+    const movies = doneByUser.get(userId) ?? new Set<number>();
+    movies.add(movieId);
+    doneByUser.set(userId, movies);
+  }
+
+  const done: BatchParticipant[] = [];
+  const pending: BatchParticipant[] = [];
+  for (const person of people) {
+    const doneCount = doneByUser.get(person.id)?.size ?? 0;
+    const row = { userId: person.id, name: person.name, doneCount };
+    if (inBatch.size > 0 && doneCount >= inBatch.size) done.push(row);
+    else pending.push(row);
+  }
+
+  done.sort((a, b) => compareEs(a.name, b.name));
+  pending.sort(
+    (a, b) => b.doneCount - a.doneCount || compareEs(a.name, b.name)
+  );
+  return { done, pending };
+}
+
+/**
+ * Who finished the batch and who did not. Participants are people who
+ * nominated, rated or skipped anything in IMDB LTA.
+ */
+export async function listBatchParticipation(
+  movieIds: number[]
+): Promise<BatchParticipation> {
+  const [people, ratings, skips] = await Promise.all([
+    prisma.user.findMany({
+      where: {
+        OR: [
+          { imdbLtaNominations: { some: {} } },
+          { imdbLtaRatings: { some: {} } },
+          { imdbLtaSkips: { some: {} } },
+        ],
+      },
+      select: { id: true, name: true },
+    }),
+    prisma.imdbLtaRating.findMany({
+      where: { movieId: { in: movieIds } },
+      select: { userId: true, movieId: true },
+    }),
+    prisma.imdbLtaSkip.findMany({
+      where: { movieId: { in: movieIds } },
+      select: { userId: true, movieId: true },
+    }),
+  ]);
+
+  return summarizeBatchParticipation(people, movieIds, [...ratings, ...skips]);
 }
 
 // ---------------------------------------------------------------------------
