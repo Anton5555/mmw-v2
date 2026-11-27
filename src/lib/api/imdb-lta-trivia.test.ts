@@ -63,7 +63,9 @@ import {
   revealNextImage,
   sendNextClue,
   solveTriviaGame,
+  startTriviaGame,
 } from './imdb-lta-trivia';
+import { renderTriviaStep } from '@/lib/utils/trivia-image';
 
 const activeGame = {
   id: 1,
@@ -185,6 +187,69 @@ describe('format helpers', () => {
 
   it('formats an empty scoreboard as nothing', () => {
     expect(formatTriviaScoreboard([])).toBe('');
+  });
+});
+
+describe('startTriviaGame preview guard', () => {
+  const draftGame = {
+    ...activeGame,
+    status: 'DRAFT',
+    imageStep: 0,
+    rootMessageId: null,
+    startedAt: null,
+    focusX: 0.42,
+    focusY: 0.61,
+  };
+  const previewed = {
+    gameId: 1,
+    backdropPath: '/frame.jpg',
+    focusX: 0.42,
+    focusY: 0.61,
+  };
+
+  beforeEach(() => {
+    prisma.imdbLtaTriviaGame.findFirst.mockResolvedValue(draftGame);
+  });
+
+  it('claims with the previewed crop and renders that crop', async () => {
+    await startTriviaGame(previewed);
+    expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: 1,
+          status: 'DRAFT',
+          imageStep: 0,
+          backdropPath: '/frame.jpg',
+          focusX: 0.42,
+          focusY: 0.61,
+        },
+      })
+    );
+    expect(renderTriviaStep).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      { focusX: 0.42, focusY: 0.61 },
+      1
+    );
+  });
+
+  it.each([
+    ['focus moved', { focusX: 0.5 }],
+    ['other still', { backdropPath: '/other.jpg' }],
+    ['other draft', { gameId: 2 }],
+  ])('refuses to send when the %s', async (_label, change) => {
+    await expect(
+      startTriviaGame({ ...previewed, ...change })
+    ).rejects.toThrow('El borrador cambió');
+    expect(prisma.imdbLtaTriviaGame.updateMany).not.toHaveBeenCalled();
+    expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
+  });
+
+  it('refuses when a reroll lands between the read and the claim', async () => {
+    prisma.imdbLtaTriviaGame.updateMany.mockResolvedValueOnce({ count: 0 });
+    await expect(startTriviaGame(previewed)).rejects.toThrow(
+      'El borrador cambió'
+    );
+    expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
   });
 });
 

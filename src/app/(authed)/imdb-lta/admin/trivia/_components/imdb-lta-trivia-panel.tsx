@@ -41,6 +41,8 @@ export type TriviaPanelGame = {
   imageStep: number;
   clueStep: number;
   backdropPath: string;
+  focusX: number;
+  focusY: number;
   movie: {
     id: number;
     title: string;
@@ -105,8 +107,10 @@ export function ImdbLtaTriviaPanel({
       ? game.clues[game.clueStep]
       : null;
   const sentClues = game ? game.clues.slice(0, game.clueStep) : [];
+  // Every input of the crop goes in the URL. "Otra imagen" can keep the same
+  // still and only move the focus; without it the browser shows the old crop.
   const cacheKey = game
-    ? `${game.backdropPath}:${game.id}:${game.imageStep}`
+    ? `${game.id}:${game.backdropPath}:${game.focusX}:${game.focusY}:${game.imageStep}`
     : '';
 
   return (
@@ -209,7 +213,12 @@ export function ImdbLtaTriviaPanel({
                 disabled={isPending}
                 onClick={() =>
                   run('Trivia iniciada en Telegram', () =>
-                    startTriviaGameAction()
+                    startTriviaGameAction({
+                      gameId: game.id,
+                      backdropPath: game.backdropPath,
+                      focusX: game.focusX,
+                      focusY: game.focusY,
+                    })
                   )
                 }
                 className="bg-yellow-500 text-black hover:bg-yellow-400"
