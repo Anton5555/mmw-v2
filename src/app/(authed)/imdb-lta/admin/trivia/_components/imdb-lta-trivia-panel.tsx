@@ -7,7 +7,6 @@ import {
   Dices,
   ImageIcon,
   Loader2,
-  MessageSquare,
   Shield,
   SkipForward,
   Trophy,
@@ -28,7 +27,6 @@ import {
   rerollTriviaImageAction,
   rerollTriviaMovieAction,
   revealNextImageAction,
-  sendNextClueAction,
   solveTriviaGameAction,
   startTriviaGameAction,
 } from '@/lib/actions/imdb-lta/trivia';
@@ -39,7 +37,6 @@ export type TriviaPanelGame = {
   number: number;
   status: 'DRAFT' | 'ACTIVE' | 'SOLVED' | 'ABANDONED';
   imageStep: number;
-  clueStep: number;
   backdropPath: string;
   focusX: number;
   focusY: number;
@@ -51,7 +48,7 @@ export type TriviaPanelGame = {
     posterUrl: string;
     imdbId: string;
   };
-  clues: Array<{ key: string; label: string; text: string }>;
+  host: { id: string; name: string } | null;
 };
 
 export type TriviaPanelScore = {
@@ -69,7 +66,12 @@ type ImdbLtaTriviaPanelProps = {
   game: TriviaPanelGame | null;
   scoreboard: TriviaPanelScore[];
   winners: TriviaPanelWinner[];
+  /** `host` is a member running the ACTIVE game they were given. */
+  mode?: 'admin' | 'host';
 };
+
+// Radix Select can't use an empty string as an item value.
+const NO_HOST = '__admins__';
 
 function frameUrl(gameId: number, step: number, cacheKey: string) {
   return `/api/admin/trivia/frame?gameId=${gameId}&step=${step}&v=${encodeURIComponent(cacheKey)}`;
@@ -79,9 +81,16 @@ export function ImdbLtaTriviaPanel({
   game,
   scoreboard,
   winners,
+  mode = 'admin',
 }: ImdbLtaTriviaPanelProps) {
   const [isPending, startTransition] = useTransition();
   const [winnerUserId, setWinnerUserId] = useState<string>('');
+  const [hostUserId, setHostUserId] = useState<string>(NO_HOST);
+  const isHost = mode === 'host';
+  // The host knows the answer, so they can't be the one who guessed it.
+  const winnerOptions = winners.filter(
+    (person) => person.userId !== game?.host?.id
+  );
   const router = useRouter();
 
   const run = (label: string, action: () => Promise<unknown>) => {
@@ -102,11 +111,6 @@ export function ImdbLtaTriviaPanel({
   const nextImageStep = game
     ? Math.min(game.imageStep + 1, TRIVIA_IMAGE_STEP_COUNT)
     : 1;
-  const nextClue =
-    game && game.clueStep < game.clues.length
-      ? game.clues[game.clueStep]
-      : null;
-  const sentClues = game ? game.clues.slice(0, game.clueStep) : [];
   // Every input of the crop goes in the URL. "Otra imagen" can keep the same
   // still and only move the focus; without it the browser shows the old crop.
   const cacheKey = game
@@ -119,14 +123,20 @@ export function ImdbLtaTriviaPanel({
         <div className="mb-3 flex items-center gap-2">
           <Shield className="h-4 w-4 text-yellow-400" />
           <p className="text-xs font-black uppercase tracking-widest text-yellow-400">
-            Admin · Trivia
+            {isHost ? 'Conducís · Trivia' : 'Admin · Trivia'}
           </p>
           {isPending && (
             <Loader2 className="h-3.5 w-3.5 animate-spin text-yellow-400" />
           )}
         </div>
 
-        {!game && (
+        {!game && isHost && (
+          <p className="text-sm text-yellow-100/80">
+            No estás conduciendo ninguna trivia ahora.
+          </p>
+        )}
+
+        {!game && !isHost && (
           <div className="space-y-3">
             <p className="text-sm text-yellow-100/80">
               Elegí una película al azar de las que todavía no salieron en un
@@ -176,8 +186,7 @@ export function ImdbLtaTriviaPanel({
                   </p>
                 )}
                 <p className="text-xs text-yellow-200/50">
-                  {game.clues.length} pistas armadas · crop 1/
-                  {TRIVIA_IMAGE_STEP_COUNT}
+                  Crop 1/{TRIVIA_IMAGE_STEP_COUNT}
                 </p>
               </div>
             </div>
@@ -207,6 +216,39 @@ export function ImdbLtaTriviaPanel({
               </div>
             </div>
 
+            <div className="max-w-sm space-y-1">
+              <label
+                htmlFor="trivia-host"
+                className="text-xs font-bold uppercase tracking-widest text-yellow-400/80"
+              >
+                Quién conduce
+              </label>
+              <Select
+                value={hostUserId}
+                onValueChange={setHostUserId}
+                disabled={isPending}
+              >
+                <SelectTrigger
+                  id="trivia-host"
+                  className="border-yellow-500/30 bg-black/30 text-yellow-50"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={NO_HOST}>Solo admins</SelectItem>
+                  {winners.map((person) => (
+                    <SelectItem key={person.userId} value={person.userId}>
+                      {person.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-yellow-200/50">
+                Ve la película en la web, manda las revelaciones, escribe las
+                pistas en Telegram y elige al ganador. Pierde el acceso cuando la trivia termina.
+              </p>
+            </div>
+
             <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
@@ -218,6 +260,7 @@ export function ImdbLtaTriviaPanel({
                       backdropPath: game.backdropPath,
                       focusX: game.focusX,
                       focusY: game.focusY,
+                      hostUserId: hostUserId === NO_HOST ? null : hostUserId,
                     })
                   )
                 }
@@ -276,11 +319,15 @@ export function ImdbLtaTriviaPanel({
                 <span className="text-yellow-200/70">({game.movie.year})</span>
               </h2>
               <p className="mt-1 text-xs text-yellow-200/50">
-                Solo vos ves el título acá. En Telegram siguen las pistas.
+                {isHost
+                  ? 'Solo vos y los admins ven el título acá. Las pistas las escribís vos en Telegram.'
+                  : game.host
+                    ? `Conduce ${game.host.name}. Las pistas van a mano en Telegram.`
+                    : 'Solo vos ves el título acá. Las pistas van a mano en Telegram.'}
               </p>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className="max-w-xl">
               <div className="space-y-3 rounded-xl border border-yellow-500/20 bg-black/20 p-3">
                 <p className="text-xs font-black uppercase tracking-widest text-yellow-400">
                   Imagen · paso {game.imageStep}/{TRIVIA_IMAGE_STEP_COUNT}
@@ -317,48 +364,6 @@ export function ImdbLtaTriviaPanel({
                   </p>
                 )}
               </div>
-
-              <div className="space-y-3 rounded-xl border border-yellow-500/20 bg-black/20 p-3">
-                <p className="text-xs font-black uppercase tracking-widest text-yellow-400">
-                  Pistas · {game.clueStep}/{game.clues.length}
-                </p>
-                {sentClues.length > 0 && (
-                  <ul className="space-y-2 text-sm text-yellow-100/80">
-                    {sentClues.map((clue, index) => (
-                      <li key={clue.key}>
-                        <span className="font-bold text-yellow-300">
-                          {index + 1}. {clue.label}:
-                        </span>{' '}
-                        {clue.text}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {nextClue ? (
-                  <>
-                    <p className="text-xs text-yellow-200/60">
-                      Siguiente: <span className="font-bold">{nextClue.label}</span>{' '}
-                      — {nextClue.text}
-                    </p>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      disabled={isPending}
-                      onClick={() =>
-                        run('Pista enviada', () => sendNextClueAction())
-                      }
-                      className="border-yellow-500/40 text-yellow-100"
-                    >
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Siguiente pista
-                    </Button>
-                  </>
-                ) : (
-                  <p className="text-sm text-yellow-200/70">
-                    No quedan más pistas.
-                  </p>
-                )}
-              </div>
             </div>
 
             <div className="space-y-3 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3">
@@ -376,7 +381,7 @@ export function ImdbLtaTriviaPanel({
                       <SelectValue placeholder="Quién la adivinó" />
                     </SelectTrigger>
                     <SelectContent>
-                      {winners.map((person) => (
+                      {winnerOptions.map((person) => (
                         <SelectItem key={person.userId} value={person.userId}>
                           {person.name}
                         </SelectItem>

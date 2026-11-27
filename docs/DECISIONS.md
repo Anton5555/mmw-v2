@@ -64,6 +64,14 @@ Sources: [IMDB LTA phase 1 enable](533e33d5-f8b8-476e-a3a4-74ae300ec5f6), [IMDB 
 
 Sources: [Telegram movie trivia bot](8f695428-bcb6-4536-9802-d6a03a42f5d5), [IMDB LTA search improvement](2f017c71-650e-43c8-8727-48cad305c186).
 
+### Trivia clues are written by hand
+
+**Verified.** The app used to build a TMDB clue ladder (keywords, year, country, music, cinematography, editing, director) and send it step by step. The user found the clues too obvious: keywords often describe the plot and the director nearly gives the film away. The ladder, the "Siguiente pista" button and the `clues` / `clueStep` columns were removed. Whoever runs the game writes clues in the group.
+
+### Trivia hosts are per game, not a role
+
+**Verified.** A member can run one trivia without becoming admin. The right is a column on the game (`ImdbLtaTriviaGame.hostUserId`) and only counts while that game is `ACTIVE`, so it ends with the game. A role or permission flag on `User` was rejected because someone would have to remember to remove it.
+
 ### Oscar ballots are one-shot
 
 **Verified.** Unique `(user, edition)` and no update path. Closing 3 hours before the ceremony (Los Angeles clock in the message) is so late votes cannot trail public information.
@@ -151,6 +159,7 @@ Source: [Next.js prerendering error](e0ec2f02-930f-4faf-b57d-efdb2a6e3a84).
 | Solo-nominator lock | Members rate the whole released set, including their own nominations. |
 | Live public ranking during the season | Promedios were confusing and spoiler-y. Wait for `RATING_CLOSED`. |
 | Cron trivia, or trivia copy generated from stats | A person writes the game. Stats stay on the admin page. |
+| Auto-generated trivia clues from TMDB | Too obvious. Clues are written by hand. |
 | Prisma → Drizzle | **Unverified** as an explicit rejection in transcripts. The app is Prisma-only. Do not start a port without a new decision. |
 | Supabase Auth | Login, sessions, and roles are Better Auth rows in `public`. |
 | GitHub Action as the only production migrator | It can run beside a deploy and fight it. |

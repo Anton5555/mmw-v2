@@ -128,6 +128,7 @@ model User {
   imdbLtaSkips            ImdbLtaSkip[]
   imdbLtaTriviaCreated    ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaCreatedBy")
   imdbLtaTriviaWins       ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaWinner")
+  imdbLtaTriviaHosted     ImdbLtaTriviaGame[] @relation("ImdbLtaTriviaHost")
   /// ISO 3166-1 alpha-2 for "Dónde verla". Set by an admin; null falls back to AR.
   watchCountry            String?
 
@@ -578,11 +579,10 @@ model ImdbLtaTriviaGame {
   focusX         Float
   focusY         Float
   imageStep      Int                 @default(0)
-  clueStep       Int                 @default(0)
-  /// JSON snapshot of the clue ladder (stringified TriviaCluesSnapshot).
-  clues          String
   rootMessageId  Int?
   winnerUserId   String?
+  /// Member who runs this game while it is ACTIVE. Grants no rights once it ends.
+  hostUserId     String?
   createdById    String
   createdAt      DateTime            @default(now())
   startedAt      DateTime?
@@ -590,9 +590,11 @@ model ImdbLtaTriviaGame {
   movie          Movie               @relation(fields: [movieId], references: [id], onDelete: Cascade)
   createdBy      User                @relation("ImdbLtaTriviaCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
   winner         User?               @relation("ImdbLtaTriviaWinner", fields: [winnerUserId], references: [id], onDelete: SetNull)
+  host           User?               @relation("ImdbLtaTriviaHost", fields: [hostUserId], references: [id], onDelete: SetNull)
 
   @@index([status])
   @@index([movieId])
   @@index([winnerUserId])
+  @@index([hostUserId])
   @@index([createdById])
 }

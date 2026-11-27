@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
-import { getTriviaGameById } from '@/lib/api/imdb-lta-trivia';
+import {
+  canRunTriviaGame,
+  getTriviaGameById,
+} from '@/lib/api/imdb-lta-trivia';
 import { TRIVIA_IMAGE_STEP_COUNT } from '@/lib/utils/trivia-image-constants';
 import {
   fetchTriviaBackdropBuffer,
@@ -13,7 +16,7 @@ export async function GET(request: NextRequest) {
     headers: await headers(),
   });
 
-  if (!session?.user || session.user.role !== 'admin') {
+  if (!session?.user) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }
 
@@ -32,7 +35,14 @@ export async function GET(request: NextRequest) {
   }
 
   const game = await getTriviaGameById(gameId);
-  if (!game) {
+  // Same answer for "no such game" and "not yours", so a member can't probe ids.
+  if (
+    !game ||
+    !canRunTriviaGame(game, {
+      userId: session.user.id,
+      isAdmin: session.user.role === 'admin',
+    })
+  ) {
     return NextResponse.json({ error: 'Trivia no encontrada' }, { status: 404 });
   }
 

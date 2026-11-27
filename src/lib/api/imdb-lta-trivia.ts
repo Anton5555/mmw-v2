@@ -8,8 +8,6 @@ import { prisma } from '@/lib/db';
 import {
   getMovieBackdrops,
   getMovieById,
-  getMovieTriviaDetails,
-  type MovieTriviaDetails,
   type TMDBBackdrop,
 } from '@/lib/tmdb';
 import {
@@ -24,16 +22,6 @@ async function loadTriviaImage() {
   return import('@/lib/utils/trivia-image');
 }
 
-export type TriviaClue = {
-  key: string;
-  label: string;
-  text: string;
-};
-
-export type TriviaCluesSnapshot = {
-  clues: TriviaClue[];
-};
-
 export type TriviaGameView = ImdbLtaTriviaGame & {
   movie: Pick<
     Movie,
@@ -44,16 +32,22 @@ export type TriviaGameView = ImdbLtaTriviaGame & {
     | 'posterUrl'
     | 'imdbId'
     | 'tmdbId'
-  >;
+  > & { directors: Array<{ director: { name: string } }> };
   winner: Pick<User, 'id' | 'name'> | null;
+  host: Pick<User, 'id' | 'name'> | null;
   createdBy: Pick<User, 'id' | 'name'>;
-  cluesSnapshot: TriviaCluesSnapshot;
 };
 
 export type TriviaScoreboardRow = {
   userId: string;
   name: string;
   wins: number;
+};
+
+/** Who is pressing the button. Admins can run any game; a host only the ACTIVE game they host. */
+export type TriviaActor = {
+  userId: string;
+  isAdmin: boolean;
 };
 
 export type TriviaWinnerOption = {
@@ -67,7 +61,6 @@ const OPEN_STATUSES = [
 ] as const;
 
 const BACKDROP_CANDIDATE_CAP = 5;
-const KEYWORD_CAP = 5;
 
 const gameInclude = {
   movie: {
@@ -79,48 +72,13 @@ const gameInclude = {
       posterUrl: true,
       imdbId: true,
       tmdbId: true,
+      directors: { select: { director: { select: { name: true } } } },
     },
   },
   winner: { select: { id: true, name: true } },
+  host: { select: { id: true, name: true } },
   createdBy: { select: { id: true, name: true } },
 } as const;
-
-function parseClues(raw: unknown): TriviaCluesSnapshot {
-  let value = raw;
-  if (typeof raw === 'string') {
-    try {
-      value = JSON.parse(raw) as unknown;
-    } catch {
-      return { clues: [] };
-    }
-  }
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    'clues' in value &&
-    Array.isArray((value as TriviaCluesSnapshot).clues)
-  ) {
-    return value as TriviaCluesSnapshot;
-  }
-  return { clues: [] };
-}
-
-function serializeClues(snapshot: TriviaCluesSnapshot): string {
-  return JSON.stringify(snapshot);
-}
-
-function toView(
-  game: ImdbLtaTriviaGame & {
-    movie: TriviaGameView['movie'];
-    winner: TriviaGameView['winner'];
-    createdBy: TriviaGameView['createdBy'];
-  }
-): TriviaGameView {
-  return {
-    ...game,
-    cluesSnapshot: parseClues(game.clues),
-  };
-}
 
 function isUniqueViolation(error: unknown): boolean {
   return (
@@ -129,72 +87,6 @@ function isUniqueViolation(error: unknown): boolean {
     'code' in error &&
     (error as { code: unknown }).code === 'P2002'
   );
-}
-
-export function buildTriviaClues(
-  details: MovieTriviaDetails
-): TriviaClue[] {
-  const clues: TriviaClue[] = [];
-
-  const keywords = details.keywords.slice(0, KEYWORD_CAP);
-  if (keywords.length > 0) {
-    clues.push({
-      key: 'keywords',
-      label: 'Palabras clave',
-      text: keywords.join(' · '),
-    });
-  }
-  if (details.year != null) {
-    clues.push({
-      key: 'year',
-      label: 'Año',
-      text: String(details.year),
-    });
-  }
-  if (details.countries.length > 0) {
-    clues.push({
-      key: 'country',
-      label: 'País',
-      text: details.countries.join(', '),
-    });
-  }
-  if (details.music.length > 0) {
-    clues.push({
-      key: 'music',
-      label: 'Música',
-      text: details.music.join(', '),
-    });
-  }
-  if (details.cinematography.length > 0) {
-    clues.push({
-      key: 'cinematography',
-      label: 'Fotografía',
-      text: details.cinematography.join(', '),
-    });
-  }
-  if (details.editing.length > 0) {
-    clues.push({
-      key: 'editing',
-      label: 'Montaje',
-      text: details.editing.join(', '),
-    });
-  }
-  if (details.directors.length > 0) {
-    clues.push({
-      key: 'director',
-      label: 'Dirección',
-      text: details.directors.join(', '),
-    });
-  }
-
-  return clues;
-}
-
-export function formatTriviaClueMessage(
-  clueIndex: number,
-  clue: TriviaClue
-): string {
-  return `Pista ${clueIndex}: <b>${escapeHtml(clue.label)}</b>\n${escapeHtml(clue.text)}`;
 }
 
 export function formatTriviaStartCaption(number: number): string {
@@ -300,24 +192,13 @@ async function buildDraftPayload(movie: {
   imdbId: string;
 }) {
   const tmdbId = await resolveTmdbId(movie);
-  const [backdrops, details] = await Promise.all([
-    getMovieBackdrops(tmdbId),
-    getMovieTriviaDetails(tmdbId),
-  ]);
-  if (!details) {
-    throw new Error('No se pudieron cargar los datos de TMDB');
-  }
-  const backdrop = pickBackdrop(backdrops);
+  const backdrop = pickBackdrop(await getMovieBackdrops(tmdbId));
   const focus = randomFocus();
-  const clues: TriviaCluesSnapshot = {
-    clues: buildTriviaClues(details),
-  };
   return {
     movieId: movie.id,
     backdropPath: backdrop.file_path,
     focusX: focus.focusX,
     focusY: focus.focusY,
-    clues,
   };
 }
 
@@ -328,9 +209,41 @@ async function getOpenGame() {
   });
 }
 
+export function canRunTriviaGame(
+  game: Pick<ImdbLtaTriviaGame, 'status' | 'hostUserId'>,
+  actor: TriviaActor
+): boolean {
+  if (actor.isAdmin) return true;
+  return (
+    game.status === ImdbLtaTriviaStatus.ACTIVE &&
+    game.hostUserId != null &&
+    game.hostUserId === actor.userId
+  );
+}
+
+function assertCanRun(
+  game: Pick<ImdbLtaTriviaGame, 'status' | 'hostUserId'>,
+  actor: TriviaActor
+) {
+  if (!canRunTriviaGame(game, actor)) {
+    throw new Error('No estás conduciendo esta trivia');
+  }
+}
+
+/** The ACTIVE game this user hosts, if any. Ended games grant nothing. */
+export async function getHostedTriviaGame(
+  userId: string
+): Promise<TriviaGameView | null> {
+  const game = await prisma.imdbLtaTriviaGame.findFirst({
+    where: { status: ImdbLtaTriviaStatus.ACTIVE, hostUserId: userId },
+    include: gameInclude,
+  });
+  return game;
+}
+
 export async function getCurrentTriviaGame(): Promise<TriviaGameView | null> {
   const game = await getOpenGame();
-  return game ? toView(game) : null;
+  return game;
 }
 
 export async function createTriviaDraft(
@@ -362,12 +275,11 @@ export async function createTriviaDraft(
           backdropPath: payload.backdropPath,
           focusX: payload.focusX,
           focusY: payload.focusY,
-          clues: serializeClues(payload.clues),
           createdById,
         },
         include: gameInclude,
       });
-      return toView(created);
+      return created;
     } catch (error) {
       lastError =
         error instanceof Error ? error : new Error('Error al armar el borrador');
@@ -423,7 +335,7 @@ export async function rerollTriviaImage(): Promise<TriviaGameView> {
     },
     include: gameInclude,
   });
-  return toView(updated);
+  return updated;
 }
 
 const STALE_DRAFT_MESSAGE =
@@ -467,8 +379,19 @@ export type TriviaStartExpectation = {
 };
 
 export async function startTriviaGame(
-  expected: TriviaStartExpectation
+  expected: TriviaStartExpectation,
+  hostUserId: string | null = null
 ): Promise<TriviaGameView> {
+  if (hostUserId) {
+    const host = await prisma.user.findUnique({
+      where: { id: hostUserId },
+      select: { id: true },
+    });
+    if (!host) {
+      throw new Error('No se encontró a quien va a conducir');
+    }
+  }
+
   const game = await getOpenGame();
   if (!game || game.status !== ImdbLtaTriviaStatus.DRAFT) {
     throw new Error('No hay un borrador para empezar');
@@ -492,6 +415,7 @@ export async function startTriviaGame(
       status: ImdbLtaTriviaStatus.ACTIVE,
       imageStep: 1,
       startedAt: new Date(),
+      hostUserId,
     },
   });
   if (claimed.count !== 1) {
@@ -521,7 +445,7 @@ export async function startTriviaGame(
       data: { rootMessageId: messageId },
       include: gameInclude,
     });
-    return toView(updated);
+    return updated;
   } catch (error) {
     await prisma.imdbLtaTriviaGame.update({
       where: { id: game.id },
@@ -530,17 +454,21 @@ export async function startTriviaGame(
         imageStep: 0,
         startedAt: null,
         rootMessageId: null,
+        hostUserId: null,
       },
     });
     throw error;
   }
 }
 
-export async function revealNextImage(): Promise<TriviaGameView> {
+export async function revealNextImage(
+  actor: TriviaActor
+): Promise<TriviaGameView> {
   const game = await getOpenGame();
   if (!game || game.status !== ImdbLtaTriviaStatus.ACTIVE) {
     throw new Error('No hay una trivia activa');
   }
+  assertCanRun(game, actor);
   if (game.rootMessageId == null) {
     throw new Error('Falta el mensaje raíz de Telegram');
   }
@@ -558,7 +486,7 @@ export async function revealNextImage(): Promise<TriviaGameView> {
     data: { imageStep: nextStep },
   });
   if (claimed.count !== 1) {
-    throw new Error('Otro admin ya reveló este paso');
+    throw new Error('Alguien ya reveló este paso');
   }
 
   try {
@@ -580,55 +508,7 @@ export async function revealNextImage(): Promise<TriviaGameView> {
     where: { id: game.id },
     include: gameInclude,
   });
-  return toView(updated);
-}
-
-export async function sendNextClue(): Promise<TriviaGameView> {
-  const game = await getOpenGame();
-  if (!game || game.status !== ImdbLtaTriviaStatus.ACTIVE) {
-    throw new Error('No hay una trivia activa');
-  }
-  if (game.rootMessageId == null) {
-    throw new Error('Falta el mensaje raíz de Telegram');
-  }
-
-  const snapshot = parseClues(game.clues);
-  if (game.clueStep >= snapshot.clues.length) {
-    throw new Error('No quedan más pistas');
-  }
-
-  const nextStep = game.clueStep + 1;
-  const clue = snapshot.clues[nextStep - 1]!;
-  const claimed = await prisma.imdbLtaTriviaGame.updateMany({
-    where: {
-      id: game.id,
-      status: ImdbLtaTriviaStatus.ACTIVE,
-      clueStep: game.clueStep,
-    },
-    data: { clueStep: nextStep },
-  });
-  if (claimed.count !== 1) {
-    throw new Error('Otro admin ya envió esta pista');
-  }
-
-  try {
-    await sendTelegramMessage(formatTriviaClueMessage(nextStep, clue), {
-      chatId: getLtaTelegramChatId(),
-      replyToMessageId: game.rootMessageId,
-    });
-  } catch (error) {
-    await prisma.imdbLtaTriviaGame.update({
-      where: { id: game.id },
-      data: { clueStep: game.clueStep },
-    });
-    throw error;
-  }
-
-  const updated = await prisma.imdbLtaTriviaGame.findUniqueOrThrow({
-    where: { id: game.id },
-    include: gameInclude,
-  });
-  return toView(updated);
+  return updated;
 }
 
 async function finishGame(input: {
@@ -672,15 +552,8 @@ async function finishGame(input: {
       });
     }
 
-    const snapshot = parseClues(game.clues);
-    const directors =
-      snapshot.clues.find((c) => c.key === 'director')?.text.split(', ') ??
-      [];
-    const year =
-      Number(
-        snapshot.clues.find((c) => c.key === 'year')?.text ??
-          game.movie.releaseDate.getUTCFullYear()
-      ) || null;
+    const directors = game.movie.directors.map((d) => d.director.name);
+    const year = game.movie.releaseDate.getUTCFullYear() || null;
 
     let winnerName: string | null = null;
     let winnerWins: number | null = null;
@@ -732,11 +605,12 @@ async function finishGame(input: {
     where: { id: game.id },
     include: gameInclude,
   });
-  return toView(updated);
+  return updated;
 }
 
 export async function solveTriviaGame(
-  winnerUserId: string
+  winnerUserId: string,
+  actor: TriviaActor
 ): Promise<TriviaGameView> {
   const winner = await prisma.user.findUnique({
     where: { id: winnerUserId },
@@ -750,6 +624,10 @@ export async function solveTriviaGame(
   if (!game || game.status !== ImdbLtaTriviaStatus.ACTIVE) {
     throw new Error('No hay una trivia activa');
   }
+  assertCanRun(game, actor);
+  if (game.hostUserId === winnerUserId) {
+    throw new Error('Quien conduce la trivia no puede ganarla');
+  }
 
   return finishGame({
     gameId: game.id,
@@ -758,11 +636,14 @@ export async function solveTriviaGame(
   });
 }
 
-export async function abandonTriviaGame(): Promise<TriviaGameView> {
+export async function abandonTriviaGame(
+  actor: TriviaActor
+): Promise<TriviaGameView> {
   const game = await getOpenGame();
   if (!game || game.status !== ImdbLtaTriviaStatus.ACTIVE) {
     throw new Error('No hay una trivia activa');
   }
+  assertCanRun(game, actor);
 
   return finishGame({
     gameId: game.id,
@@ -823,5 +704,5 @@ export async function getTriviaGameById(
     where: { id: gameId },
     include: gameInclude,
   });
-  return game ? toView(game) : null;
+  return game;
 }

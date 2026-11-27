@@ -11,12 +11,12 @@ import {
   rerollTriviaImage,
   rerollTriviaMovie,
   revealNextImage,
-  sendNextClue,
   solveTriviaGame,
   startTriviaGame,
+  type TriviaActor,
 } from '@/lib/api/imdb-lta-trivia';
 
-async function requireAdmin() {
+async function requireUser() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -25,6 +25,12 @@ async function requireAdmin() {
     throw new Error('No autorizado');
   }
 
+  return session;
+}
+
+async function requireAdmin() {
+  const session = await requireUser();
+
   if (session.user.role !== 'admin') {
     throw new Error('Solo admins pueden manejar la trivia');
   }
@@ -32,9 +38,22 @@ async function requireAdmin() {
   return session;
 }
 
+/**
+ * Admins, or the member hosting the ACTIVE game. The API checks the host
+ * against the game row, so the right ends when the game does.
+ */
+async function requireTriviaActor(): Promise<TriviaActor> {
+  const session = await requireUser();
+  return {
+    userId: session.user.id,
+    isAdmin: session.user.role === 'admin',
+  };
+}
+
 function revalidateTrivia() {
   revalidatePath('/imdb-lta/admin/trivia');
   revalidatePath('/imdb-lta/admin');
+  revalidatePath('/imdb-lta/trivia');
 }
 
 const startSchema = z.object({
@@ -42,6 +61,7 @@ const startSchema = z.object({
   backdropPath: z.string().min(1),
   focusX: z.number().finite(),
   focusY: z.number().finite(),
+  hostUserId: z.string().min(1).nullable().default(null),
 });
 
 const winnerSchema = z.object({
@@ -78,37 +98,30 @@ export async function rerollTriviaImageAction() {
 
 export async function startTriviaGameAction(input: unknown) {
   await requireAdmin();
-  const expected = startSchema.parse(input);
-  const game = await startTriviaGame(expected);
+  const { hostUserId, ...expected } = startSchema.parse(input);
+  const game = await startTriviaGame(expected, hostUserId);
   revalidateTrivia();
   return { gameId: game.id, rootMessageId: game.rootMessageId };
 }
 
 export async function revealNextImageAction() {
-  await requireAdmin();
-  const game = await revealNextImage();
+  const actor = await requireTriviaActor();
+  const game = await revealNextImage(actor);
   revalidateTrivia();
   return { imageStep: game.imageStep };
 }
 
-export async function sendNextClueAction() {
-  await requireAdmin();
-  const game = await sendNextClue();
-  revalidateTrivia();
-  return { clueStep: game.clueStep };
-}
-
 export async function solveTriviaGameAction(input: unknown) {
-  await requireAdmin();
+  const actor = await requireTriviaActor();
   const { winnerUserId } = winnerSchema.parse(input);
-  const game = await solveTriviaGame(winnerUserId);
+  const game = await solveTriviaGame(winnerUserId, actor);
   revalidateTrivia();
   return { gameId: game.id, status: game.status };
 }
 
 export async function abandonTriviaGameAction() {
-  await requireAdmin();
-  const game = await abandonTriviaGame();
+  const actor = await requireTriviaActor();
+  const game = await abandonTriviaGame(actor);
   revalidateTrivia();
   return { gameId: game.id, status: game.status };
 }
