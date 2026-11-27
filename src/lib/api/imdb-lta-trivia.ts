@@ -426,6 +426,24 @@ export async function rerollTriviaImage(): Promise<TriviaGameView> {
   return toView(updated);
 }
 
+const STALE_DRAFT_MESSAGE =
+  'El borrador cambió desde que lo viste. Recargá y revisá el crop antes de empezar.';
+
+function matchesExpectation(
+  game: Pick<
+    ImdbLtaTriviaGame,
+    'id' | 'backdropPath' | 'focusX' | 'focusY'
+  >,
+  expected: TriviaStartExpectation
+): boolean {
+  return (
+    game.id === expected.gameId &&
+    game.backdropPath === expected.backdropPath &&
+    game.focusX === expected.focusX &&
+    game.focusY === expected.focusY
+  );
+}
+
 async function renderStepBuffer(
   game: Pick<ImdbLtaTriviaGame, 'backdropPath' | 'focusX' | 'focusY'>,
   step: number
@@ -440,17 +458,35 @@ async function renderStepBuffer(
   );
 }
 
-export async function startTriviaGame(): Promise<TriviaGameView> {
+/** The draft crop the admin saw in the preview when they pressed Empezar. */
+export type TriviaStartExpectation = {
+  gameId: number;
+  backdropPath: string;
+  focusX: number;
+  focusY: number;
+};
+
+export async function startTriviaGame(
+  expected: TriviaStartExpectation
+): Promise<TriviaGameView> {
   const game = await getOpenGame();
   if (!game || game.status !== ImdbLtaTriviaStatus.DRAFT) {
     throw new Error('No hay un borrador para empezar');
   }
+  if (!matchesExpectation(game, expected)) {
+    throw new Error(STALE_DRAFT_MESSAGE);
+  }
 
+  // The crop fields are part of the claim so a reroll that lands between the
+  // read above and this write can't send a crop the admin never saw.
   const claimed = await prisma.imdbLtaTriviaGame.updateMany({
     where: {
       id: game.id,
       status: ImdbLtaTriviaStatus.DRAFT,
       imageStep: 0,
+      backdropPath: expected.backdropPath,
+      focusX: expected.focusX,
+      focusY: expected.focusY,
     },
     data: {
       status: ImdbLtaTriviaStatus.ACTIVE,
@@ -459,6 +495,13 @@ export async function startTriviaGame(): Promise<TriviaGameView> {
     },
   });
   if (claimed.count !== 1) {
+    const current = await getOpenGame();
+    if (
+      current?.status === ImdbLtaTriviaStatus.DRAFT &&
+      current.id === expected.gameId
+    ) {
+      throw new Error(STALE_DRAFT_MESSAGE);
+    }
     throw new Error('La trivia ya fue iniciada');
   }
 

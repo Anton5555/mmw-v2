@@ -37,6 +37,13 @@ function revalidateTrivia() {
   revalidatePath('/imdb-lta/admin');
 }
 
+const startSchema = z.object({
+  gameId: z.number().int().positive(),
+  backdropPath: z.string().min(1),
+  focusX: z.number().finite(),
+  focusY: z.number().finite(),
+});
+
 const winnerSchema = z.object({
   winnerUserId: z.string().min(1),
 });
@@ -69,9 +76,10 @@ export async function rerollTriviaImageAction() {
   return { gameId: game.id };
 }
 
-export async function startTriviaGameAction() {
+export async function startTriviaGameAction(input: unknown) {
   await requireAdmin();
-  const game = await startTriviaGame();
+  const expected = startSchema.parse(input);
+  const game = await startTriviaGame(expected);
   revalidateTrivia();
   return { gameId: game.id, rootMessageId: game.rootMessageId };
 }

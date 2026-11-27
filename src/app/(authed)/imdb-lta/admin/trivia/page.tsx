@@ -48,6 +48,8 @@ async function ImdbLtaTriviaPageContent() {
         imageStep: game.imageStep,
         clueStep: game.clueStep,
         backdropPath: game.backdropPath,
+        focusX: game.focusX,
+        focusY: game.focusY,
         movie: {
           id: game.movie.id,
           title: game.movie.title,

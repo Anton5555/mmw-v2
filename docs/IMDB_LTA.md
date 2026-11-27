@@ -207,7 +207,7 @@ Route: `/imdb-lta/admin/trivia` (admin-only). Manual — no cron.
 | Step | What happens |
 | --- | --- |
 | Draft | Admin rolls a random **never-batched** nominated movie (excludes movies already used in trivia). Preview poster, full frame, and crop 1. Can reroll movie/image or discard. |
-| Start | Bot posts crop 1 to the LTA chat (`Trivia #N · ¿Qué película es?`) and stores `rootMessageId`. |
+| Start | Bot posts crop 1 to the LTA chat (`Trivia #N · ¿Qué película es?`) and stores `rootMessageId`. Start sends the previewed still and focus; if the draft changed since the preview, it refuses and asks the admin to reload. |
 | Image track | Admin “Revelar más” posts the next crop as a **reply** to the root (5 steps: 20% → 35% → 55% → 80% → full). |
 | Clue track | Parallel ladder from a TMDB snapshot taken at draft time: keywords → year → country → music → cinematography → editing → director. Empty steps are skipped. Each clue is a reply: `Pista N`. |
 | Solve | Admin picks the site user who guessed it. Bot posts the full frame (if needed) and announces the winner + running score. “Revelar sin ganador” closes without a scoreboard point. |

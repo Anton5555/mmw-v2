@@ -57,7 +57,16 @@ beforeEach(() => {
 describe('trivia actions admin guard', () => {
   it.each([
     ['createTriviaDraftAction', () => createTriviaDraftAction()],
-    ['startTriviaGameAction', () => startTriviaGameAction()],
+    [
+      'startTriviaGameAction',
+      () =>
+        startTriviaGameAction({
+          gameId: 1,
+          backdropPath: '/frame.jpg',
+          focusX: 0.4,
+          focusY: 0.6,
+        }),
+    ],
     [
       'solveTriviaGameAction',
       () => solveTriviaGameAction({ winnerUserId: 'u2' }),
