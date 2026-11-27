@@ -181,8 +181,8 @@ describe('startTriviaGame preview guard', () => {
           status: 'DRAFT',
           imageStep: 0,
           backdropPath: '/frame.jpg',
-          focusX: 0.42,
-          focusY: 0.61,
+          focusX: { gte: 0.42 - 1e-9, lte: 0.42 + 1e-9 },
+          focusY: { gte: 0.61 - 1e-9, lte: 0.61 + 1e-9 },
         },
         data: expect.objectContaining({ hostUserId: null }),
       })
@@ -204,6 +204,17 @@ describe('startTriviaGame preview guard', () => {
     ).rejects.toThrow('El borrador cambió');
     expect(prisma.imdbLtaTriviaGame.updateMany).not.toHaveBeenCalled();
     expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
+  });
+
+  it('accepts a focus Postgres rounded to 15 digits', async () => {
+    // Production returns float8 with extra_float_digits = 0.
+    prisma.imdbLtaTriviaGame.findFirst.mockResolvedValue({
+      ...draftGame,
+      focusX: 0.48372615234567812,
+    });
+    await startTriviaGame({ ...previewed, focusX: 0.483726152345678 });
+    expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalled();
+    expect(telegram.sendTelegramPhotoUpload).toHaveBeenCalled();
   });
 
   it('saves the host picked at start', async () => {
