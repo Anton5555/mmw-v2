@@ -9,10 +9,8 @@ import {
 import { getCurrentSession } from '@/lib/get-session';
 import { LoadingSpinner } from '@/components/shared/loading-spinner';
 import { ImdbLtaPhaseNav } from '../../_components/imdb-lta-phase-nav';
-import {
-  ImdbLtaTriviaPanel,
-  type TriviaPanelGame,
-} from './_components/imdb-lta-trivia-panel';
+import { ImdbLtaTriviaPanel } from './_components/imdb-lta-trivia-panel';
+import { toTriviaPanelGame } from './_components/to-trivia-panel-game';
 
 export default function ImdbLtaTriviaPage() {
   return (
@@ -40,27 +38,7 @@ async function ImdbLtaTriviaPageContent() {
     listTriviaWinnerOptions(),
   ]);
 
-  const panelGame: TriviaPanelGame | null = game
-    ? {
-        id: game.id,
-        number: game.number,
-        status: game.status,
-        imageStep: game.imageStep,
-        clueStep: game.clueStep,
-        backdropPath: game.backdropPath,
-        focusX: game.focusX,
-        focusY: game.focusY,
-        movie: {
-          id: game.movie.id,
-          title: game.movie.title,
-          originalTitle: game.movie.originalTitle,
-          year: game.movie.releaseDate.getUTCFullYear(),
-          posterUrl: game.movie.posterUrl,
-          imdbId: game.movie.imdbId,
-        },
-        clues: game.cluesSnapshot.clues,
-      }
-    : null;
+  const panelGame = game ? toTriviaPanelGame(game) : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -79,8 +57,8 @@ async function ImdbLtaTriviaPageContent() {
             Trivia
           </h1>
           <p className="mt-2 text-sm text-zinc-400">
-            Fotograma con revelación gradual y pistas de TMDB al grupo de
-            Telegram. Una trivia a la vez.
+            Fotograma con revelación gradual al grupo de Telegram. Las pistas
+            se escriben a mano. Una trivia a la vez.
           </p>
         </header>
 

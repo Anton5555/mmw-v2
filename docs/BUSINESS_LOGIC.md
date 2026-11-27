@@ -149,7 +149,9 @@ Copy builders: `src/lib/api/imdb-lta-notifications.ts`.
 
 ### Trivia
 
-Admin builds a game in `/imdb-lta/admin/trivia`: still frames cropped with `sharp`, clues from TMDB, then a reveal. It is not generated from admin stats and it is not scheduled. The user rejected both of those.
+Admin builds a game in `/imdb-lta/admin/trivia`: still frames cropped with `sharp`, revealed step by step. Clues are written by hand in the Telegram group; the app does not build or send them. The closing message reads the year and director from the movie row. It is not generated from admin stats and it is not scheduled. The user rejected both of those.
+
+When starting a draft, the admin can pick a member to host it (**Quién conduce**, default "Solo admins"). The host is stored on the game (`hostUserId`) and is not a role. While that game is `ACTIVE`, the host sees it at `/imdb-lta/trivia` (a Trivia tab appears in their IMDB LTA nav): title, next-crop preview, and the reveal / resolve / no-winner buttons. The host cannot create, reroll, discard or start games, and cannot be picked as the winner. Once the game is `SOLVED` or `ABANDONED` the host loses all of it; nothing has to be revoked by hand. Admins keep full control of a hosted game. The check lives in `canRunTriviaGame` (`src/lib/api/imdb-lta-trivia.ts`) and is applied by the API functions and the frame route.
 
 ## Board
 

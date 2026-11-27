@@ -9,7 +9,6 @@ const mocks = vi.hoisted(() => ({
   rerollTriviaImage: vi.fn(),
   startTriviaGame: vi.fn(),
   revealNextImage: vi.fn(),
-  sendNextClue: vi.fn(),
   solveTriviaGame: vi.fn(),
   abandonTriviaGame: vi.fn(),
 }));
@@ -30,7 +29,6 @@ vi.mock('@/lib/api/imdb-lta-trivia', () => ({
   rerollTriviaImage: mocks.rerollTriviaImage,
   startTriviaGame: mocks.startTriviaGame,
   revealNextImage: mocks.revealNextImage,
-  sendNextClue: mocks.sendNextClue,
   solveTriviaGame: mocks.solveTriviaGame,
   abandonTriviaGame: mocks.abandonTriviaGame,
 }));
@@ -38,6 +36,7 @@ vi.mock('@/lib/api/imdb-lta-trivia', () => ({
 import {
   abandonTriviaGameAction,
   createTriviaDraftAction,
+  revealNextImageAction,
   solveTriviaGameAction,
   startTriviaGameAction,
 } from './trivia';
@@ -67,11 +66,6 @@ describe('trivia actions admin guard', () => {
           focusY: 0.6,
         }),
     ],
-    [
-      'solveTriviaGameAction',
-      () => solveTriviaGameAction({ winnerUserId: 'u2' }),
-    ],
-    ['abandonTriviaGameAction', () => abandonTriviaGameAction()],
   ] as const)('%s rejects non-admins', async (_name, run) => {
     mocks.getSession.mockResolvedValue(USER);
     await expect(run()).rejects.toThrow('Solo admins');
@@ -79,6 +73,39 @@ describe('trivia actions admin guard', () => {
     expect(mocks.startTriviaGame).not.toHaveBeenCalled();
     expect(mocks.solveTriviaGame).not.toHaveBeenCalled();
     expect(mocks.abandonTriviaGame).not.toHaveBeenCalled();
+  });
+
+  it('passes members through to the host check in the API', async () => {
+    mocks.getSession.mockResolvedValue(USER);
+    mocks.revealNextImage.mockResolvedValue({ imageStep: 2 });
+    const member = { userId: 'u1', isAdmin: false };
+    await revealNextImageAction();
+    await solveTriviaGameAction({ winnerUserId: 'u2' });
+    await abandonTriviaGameAction();
+    expect(mocks.revealNextImage).toHaveBeenCalledWith(member);
+    expect(mocks.solveTriviaGame).toHaveBeenCalledWith('u2', member);
+    expect(mocks.abandonTriviaGame).toHaveBeenCalledWith(member);
+    expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/trivia');
+  });
+
+  it('starts with the picked host', async () => {
+    await startTriviaGameAction({
+      gameId: 1,
+      backdropPath: '/frame.jpg',
+      focusX: 0.4,
+      focusY: 0.6,
+      hostUserId: 'u2',
+    });
+    expect(mocks.startTriviaGame).toHaveBeenCalledWith(
+      { gameId: 1, backdropPath: '/frame.jpg', focusX: 0.4, focusY: 0.6 },
+      'u2'
+    );
+  });
+
+  it('rejects unauthenticated host actions', async () => {
+    mocks.getSession.mockResolvedValue(null);
+    await expect(revealNextImageAction()).rejects.toThrow('No autorizado');
+    expect(mocks.revealNextImage).not.toHaveBeenCalled();
   });
 
   it('rejects unauthenticated callers', async () => {

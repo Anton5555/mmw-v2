@@ -4,7 +4,6 @@ import {
   getMovieById,
   getMovieDetails,
   getMovieDetailsFull,
-  getMovieTriviaDetails,
   searchMovieByName,
 } from './tmdb';
 
@@ -230,40 +229,6 @@ describe('getMovieBackdrops', () => {
     await expect(getMovieBackdrops(1)).resolves.toEqual([]);
     fetchMock.mockRejectedValueOnce(new Error('network'));
     await expect(getMovieBackdrops(1)).resolves.toEqual([]);
-  });
-});
-
-describe('getMovieTriviaDetails', () => {
-  it('maps keywords, year, countries and selected crew jobs', async () => {
-    fetchMock.mockResolvedValue(
-      jsonResponse({
-        release_date: '1962-04-11',
-        production_countries: [{ iso_3166_1: 'FR', name: 'France' }],
-        keywords: { keywords: [{ id: 1, name: 'paris' }] },
-        credits: {
-          crew: [
-            { job: 'Director', name: 'Agnès Varda' },
-            { job: 'Director of Photography', name: 'Jean Rabier' },
-            { job: 'Original Music Composer', name: 'Michel Legrand' },
-            { job: 'Editor', name: 'Janine Verneau' },
-            { job: 'Producer', name: 'Someone' },
-          ],
-        },
-      })
-    );
-    await expect(getMovieTriviaDetails(499)).resolves.toEqual({
-      keywords: ['paris'],
-      year: 1962,
-      countries: ['France'],
-      music: ['Michel Legrand'],
-      cinematography: ['Jean Rabier'],
-      editing: ['Janine Verneau'],
-      directors: ['Agnès Varda'],
-    });
-    expect(requestedUrl().searchParams.get('append_to_response')).toBe(
-      'credits,keywords'
-    );
-    expect(requestedUrl().searchParams.get('language')).toBe('es-ES');
   });
 });
 

@@ -3,12 +3,18 @@ import Link from 'next/link';
 import { ShieldCheck } from 'lucide-react';
 import { TabNav } from '@/components/shared/tab-nav';
 import { cn } from '@/lib/utils';
+import { getCurrentSession } from '@/lib/get-session';
+import { getHostedTriviaGame } from '@/lib/api/imdb-lta-trivia';
 
 const TABS: Array<{
   href: string;
   label: string;
   admin?: boolean;
-  visible: (phase: ImdbLtaPhase, isAdmin: boolean) => boolean;
+  visible: (
+    phase: ImdbLtaPhase,
+    isAdmin: boolean,
+    isTriviaHost: boolean
+  ) => boolean;
 }> = [
   {
     href: '/imdb-lta',
@@ -44,6 +50,12 @@ const TABS: Array<{
     visible: (phase) => phase === ImdbLtaPhase.RATING_CLOSED,
   },
   {
+    href: '/imdb-lta/trivia',
+    label: 'Trivia',
+    // Only while this member hosts the ACTIVE game. Admins use the admin tab.
+    visible: (_phase, isAdmin, isTriviaHost) => !isAdmin && isTriviaHost,
+  },
+  {
     href: '/imdb-lta/admin',
     label: 'Admin',
     admin: true,
@@ -74,12 +86,22 @@ function isActiveTab(href: string, currentPath: string, hrefs: string[]) {
   );
 }
 
-export function ImdbLtaPhaseNav({
+async function isHostingTrivia(isAdmin: boolean): Promise<boolean> {
+  if (isAdmin) return false;
+  const session = await getCurrentSession();
+  if (!session?.user) return false;
+  return (await getHostedTriviaGame(session.user.id)) != null;
+}
+
+export async function ImdbLtaPhaseNav({
   phase,
   currentPath,
   isAdmin = false,
 }: ImdbLtaPhaseNavProps) {
-  const visibleTabs = TABS.filter((tab) => tab.visible(phase, isAdmin));
+  const isTriviaHost = await isHostingTrivia(isAdmin);
+  const visibleTabs = TABS.filter((tab) =>
+    tab.visible(phase, isAdmin, isTriviaHost)
+  );
   const hrefs = visibleTabs.map((tab) => tab.href);
   const memberTabs = visibleTabs.filter((tab) => !tab.admin);
   const adminTabs = visibleTabs.filter((tab) => tab.admin);

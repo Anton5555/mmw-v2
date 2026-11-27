@@ -41,7 +41,7 @@ Server actions still call `auth.api.getSession` (or an equivalent) themselves. L
 | MAM | `/mam`, `/mam/my-list`, `/mam/participant/[slug]`, `/mam/movie/[movieId]`, `/mam/special-mentions` | `src/lib/api/mam.ts` | Cached league columns on `Movie`. |
 | Lists | `/lists`, `/lists/new`, `/lists/[id]`, `/lists/movie/[movieId]` | `src/lib/api/lists.ts` | Creating a list is admin-only. |
 | Year tops | `/year-tops`, `/year-tops/[type]`, `/year-tops/movie/[movieId]` | `src/lib/api/year-top.ts` | Stats cached on `YearTopMovieStats`. |
-| IMDB LTA | `/imdb-lta`, `/lote`, `/rate`, `/ranking`, `/movie/[movieId]`, `/admin`, `/admin/trivia` | `src/lib/api/imdb-lta.ts`, `imdb-lta-batches.ts`, `imdb-lta-trivia.ts`, `imdb-lta-notifications.ts` | Phase is a singleton row, not an env flag. |
+| IMDB LTA | `/imdb-lta`, `/lote`, `/rate`, `/ranking`, `/movie/[movieId]`, `/trivia` (host), `/admin`, `/admin/trivia` | `src/lib/api/imdb-lta.ts`, `imdb-lta-batches.ts`, `imdb-lta-trivia.ts`, `imdb-lta-notifications.ts` | Phase is a singleton row, not an env flag. |
 | Oscalos | `/oscars`, `/oscars/predictions`, `/oscars/results`, `/oscars/admin` | `src/lib/api/oscars.ts`, `src/lib/actions/oscars/` | Results can stream after the ceremony starts. |
 | Calendar | `/calendar` | `src/lib/api/events.ts`, `src/lib/api/telegram-events.ts` | Cron: `/api/cron/daily-events`. |
 | Board | `/board` | `src/lib/actions/board/`, `src/lib/hooks/useBoardStream.ts` | **Off.** `BOARD_ENABLED` in `src/lib/config/features.ts` is `false`. Routes, actions, and the API return early. |
@@ -56,7 +56,7 @@ During rating, movies move through batches of 10 (`ImdbLtaBatch` / `ImdbLtaBatch
 
 Skips are `ImdbLtaSkip`. `pinnedAt` means "Quiero ver". A score deletes the skip, so the pin goes with it.
 
-Trivia is an admin-operated game (`ImdbLtaTriviaGame`), not a cron. One active game is enforced in the trivia API.
+Trivia is an admin-operated game (`ImdbLtaTriviaGame`), not a cron. One active game is enforced in the trivia API. An admin can hand the running of one game to a member (`hostUserId`); see BUSINESS_LOGIC "Trivia".
 
 ## Realtime
 

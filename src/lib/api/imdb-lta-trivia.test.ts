@@ -51,17 +51,15 @@ vi.mock('@/lib/utils/trivia-image', () => ({
 vi.mock('@/lib/tmdb', () => ({
   getMovieBackdrops: vi.fn(),
   getMovieById: vi.fn(),
-  getMovieTriviaDetails: vi.fn(),
 }));
 
 import {
-  buildTriviaClues,
-  formatTriviaClueMessage,
+  abandonTriviaGame,
+  canRunTriviaGame,
   formatTriviaScoreboard,
   formatTriviaSolvedMessage,
   formatTriviaStartCaption,
   revealNextImage,
-  sendNextClue,
   solveTriviaGame,
   startTriviaGame,
 } from './imdb-lta-trivia';
@@ -76,15 +74,9 @@ const activeGame = {
   focusX: 0.5,
   focusY: 0.5,
   imageStep: 1,
-  clueStep: 0,
-  clues: {
-    clues: [
-      { key: 'year', label: 'Año', text: '1986' },
-      { key: 'director', label: 'Dirección', text: 'John Hughes' },
-    ],
-  },
   rootMessageId: 99,
   winnerUserId: null,
+  hostUserId: null as string | null,
   createdById: 'admin1',
   createdAt: new Date(),
   startedAt: new Date(),
@@ -97,10 +89,13 @@ const activeGame = {
     posterUrl: '/p.jpg',
     imdbId: 'tt0091042',
     tmdbId: 9377,
+    directors: [{ director: { name: 'John Hughes' } }],
   },
   winner: null,
   createdBy: { id: 'admin1', name: 'Admin' },
 };
+
+const ADMIN_ACTOR = { userId: 'admin1', isAdmin: true };
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -110,7 +105,6 @@ beforeEach(() => {
   prisma.imdbLtaTriviaGame.findUniqueOrThrow.mockResolvedValue({
     ...activeGame,
     imageStep: 2,
-    clueStep: 1,
   });
   telegram.sendTelegramPhotoUpload.mockResolvedValue({
     ok: true,
@@ -122,42 +116,9 @@ beforeEach(() => {
   });
 });
 
-describe('buildTriviaClues', () => {
-  it('builds the ladder and skips empty fields', () => {
-    expect(
-      buildTriviaClues({
-        keywords: ['paris', 'cancer', 'waiting', 'singer', 'real time', 'extra'],
-        year: 1962,
-        countries: ['France'],
-        music: [],
-        cinematography: ['Jean Rabier'],
-        editing: [],
-        directors: ['Agnès Varda'],
-      })
-    ).toEqual([
-      {
-        key: 'keywords',
-        label: 'Palabras clave',
-        text: 'paris · cancer · waiting · singer · real time',
-      },
-      { key: 'year', label: 'Año', text: '1962' },
-      { key: 'country', label: 'País', text: 'France' },
-      {
-        key: 'cinematography',
-        label: 'Fotografía',
-        text: 'Jean Rabier',
-      },
-      { key: 'director', label: 'Dirección', text: 'Agnès Varda' },
-    ]);
-  });
-});
-
 describe('format helpers', () => {
-  it('formats start caption, clue and solved messages', () => {
+  it('formats start caption, and solved messages', () => {
     expect(formatTriviaStartCaption(4)).toContain('Trivia #4');
-    expect(
-      formatTriviaClueMessage(2, { key: 'year', label: 'Año', text: '1986' })
-    ).toBe('Pista 2: <b>Año</b>\n1986');
     const solved = formatTriviaSolvedMessage({
       title: 'Heat',
       year: 1995,
@@ -223,6 +184,7 @@ describe('startTriviaGame preview guard', () => {
           focusX: 0.42,
           focusY: 0.61,
         },
+        data: expect.objectContaining({ hostUserId: null }),
       })
     );
     expect(renderTriviaStep).toHaveBeenCalledWith(
@@ -244,6 +206,34 @@ describe('startTriviaGame preview guard', () => {
     expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
   });
 
+  it('saves the host picked at start', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({ id: 'host1' });
+    await startTriviaGame(previewed, 'host1');
+    expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ hostUserId: 'host1' }),
+      })
+    );
+  });
+
+  it('refuses an unknown host before claiming', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce(null);
+    await expect(startTriviaGame(previewed, 'ghost')).rejects.toThrow(
+      'conducir'
+    );
+    expect(prisma.imdbLtaTriviaGame.updateMany).not.toHaveBeenCalled();
+  });
+
+  it('clears the host when Telegram fails on start', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({ id: 'host1' });
+    telegram.sendTelegramPhotoUpload.mockRejectedValueOnce(new Error('tg down'));
+    await expect(startTriviaGame(previewed, 'host1')).rejects.toThrow('tg down');
+    expect(prisma.imdbLtaTriviaGame.update).toHaveBeenCalledWith({
+      where: { id: 1 },
+      data: expect.objectContaining({ status: 'DRAFT', hostUserId: null }),
+    });
+  });
+
   it('refuses when a reroll lands between the read and the claim', async () => {
     prisma.imdbLtaTriviaGame.updateMany.mockResolvedValueOnce({ count: 0 });
     await expect(startTriviaGame(previewed)).rejects.toThrow(
@@ -255,7 +245,7 @@ describe('startTriviaGame preview guard', () => {
 
 describe('revealNextImage step claim', () => {
   it('claims the next step then posts a reply photo', async () => {
-    await revealNextImage();
+    await revealNextImage(ADMIN_ACTOR);
     expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalledWith({
       where: { id: 1, status: 'ACTIVE', imageStep: 1 },
       data: { imageStep: 2 },
@@ -271,40 +261,17 @@ describe('revealNextImage step claim', () => {
 
   it('rolls back the step when Telegram fails', async () => {
     telegram.sendTelegramPhotoUpload.mockRejectedValueOnce(new Error('tg down'));
-    await expect(revealNextImage()).rejects.toThrow('tg down');
+    await expect(revealNextImage(ADMIN_ACTOR)).rejects.toThrow('tg down');
     expect(prisma.imdbLtaTriviaGame.update).toHaveBeenCalledWith({
       where: { id: 1 },
       data: { imageStep: 1 },
     });
   });
 
-  it('rejects when another admin already claimed the step', async () => {
+  it('rejects when someone already claimed the step', async () => {
     prisma.imdbLtaTriviaGame.updateMany.mockResolvedValueOnce({ count: 0 });
-    await expect(revealNextImage()).rejects.toThrow('Otro admin');
+    await expect(revealNextImage(ADMIN_ACTOR)).rejects.toThrow('Alguien ya');
     expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
-  });
-});
-
-describe('sendNextClue step claim', () => {
-  it('claims the next clue then posts a reply text', async () => {
-    await sendNextClue();
-    expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalledWith({
-      where: { id: 1, status: 'ACTIVE', clueStep: 0 },
-      data: { clueStep: 1 },
-    });
-    expect(telegram.sendTelegramMessage).toHaveBeenCalledWith(
-      'Pista 1: <b>Año</b>\n1986',
-      expect.objectContaining({ replyToMessageId: 99 })
-    );
-  });
-
-  it('rolls back the clue step when Telegram fails', async () => {
-    telegram.sendTelegramMessage.mockRejectedValueOnce(new Error('tg down'));
-    await expect(sendNextClue()).rejects.toThrow('tg down');
-    expect(prisma.imdbLtaTriviaGame.update).toHaveBeenCalledWith({
-      where: { id: 1 },
-      data: { clueStep: 0 },
-    });
   });
 });
 
@@ -327,11 +294,59 @@ describe('solveTriviaGame', () => {
       { id: 'u2', name: 'Ana' },
     ]);
 
-    await solveTriviaGame('u1');
+    await solveTriviaGame('u1', ADMIN_ACTOR);
 
     const message = telegram.sendTelegramMessage.mock.calls.at(-1)?.[0] as string;
     expect(message).toContain('Lo adivinó <b>Juan</b>');
+    // Year and director come from the movie row, not from a clue list.
+    expect(message).toContain('Era <b>Ferris</b> (1986), de John Hughes');
     expect(message).toContain('1. Juan — 2 aciertos');
     expect(message).toContain('2. Ana — 1 acierto');
+  });
+});
+
+describe('trivia host permission', () => {
+  const HOST = { userId: 'host1', isAdmin: false };
+  const OTHER = { userId: 'u9', isAdmin: false };
+  const hostedGame = { ...activeGame, hostUserId: 'host1' };
+
+  it('lets the host run only their ACTIVE game', () => {
+    expect(canRunTriviaGame(hostedGame as never, HOST)).toBe(true);
+    expect(canRunTriviaGame(hostedGame as never, OTHER)).toBe(false);
+    expect(
+      canRunTriviaGame({ status: 'SOLVED', hostUserId: 'host1' } as never, HOST)
+    ).toBe(false);
+    expect(
+      canRunTriviaGame({ status: 'DRAFT', hostUserId: 'host1' } as never, HOST)
+    ).toBe(false);
+    expect(canRunTriviaGame(activeGame as never, HOST)).toBe(false);
+  });
+
+  it('lets the host reveal the next image', async () => {
+    prisma.imdbLtaTriviaGame.findFirst.mockResolvedValue(hostedGame);
+    await revealNextImage(HOST);
+    expect(prisma.imdbLtaTriviaGame.updateMany).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    ['revealNextImage', () => revealNextImage(OTHER)],
+    ['solveTriviaGame', () => solveTriviaGame('u2', OTHER)],
+    ['abandonTriviaGame', () => abandonTriviaGame(OTHER)],
+  ] as const)('%s refuses a member who is not the host', async (_n, run) => {
+    prisma.imdbLtaTriviaGame.findFirst.mockResolvedValue(hostedGame);
+    prisma.user.findUnique.mockResolvedValue({ id: 'u2' });
+    await expect(run()).rejects.toThrow('No estás conduciendo');
+    expect(prisma.imdbLtaTriviaGame.updateMany).not.toHaveBeenCalled();
+    expect(telegram.sendTelegramMessage).not.toHaveBeenCalled();
+    expect(telegram.sendTelegramPhotoUpload).not.toHaveBeenCalled();
+  });
+
+  it('refuses the host as winner', async () => {
+    prisma.imdbLtaTriviaGame.findFirst.mockResolvedValue(hostedGame);
+    prisma.user.findUnique.mockResolvedValue({ id: 'host1' });
+    await expect(solveTriviaGame('host1', HOST)).rejects.toThrow(
+      'no puede ganarla'
+    );
+    expect(prisma.imdbLtaTriviaGame.updateMany).not.toHaveBeenCalled();
   });
 });
