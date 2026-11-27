@@ -341,6 +341,22 @@ export async function rerollTriviaImage(): Promise<TriviaGameView> {
 const STALE_DRAFT_MESSAGE =
   'El borrador cambió desde que lo viste. Recargá y revisá el crop antes de empezar.';
 
+/**
+ * Postgres can return float8 rounded to 15 digits (extra_float_digits = 0,
+ * which the production pooler uses), so the focus the admin sends back may
+ * differ from the stored value in the last digits. A reroll draws a new random
+ * focus, so anything closer than this is the same crop.
+ */
+const FOCUS_EPSILON = 1e-9;
+
+function sameFocus(a: number, b: number): boolean {
+  return Math.abs(a - b) <= FOCUS_EPSILON;
+}
+
+function focusRange(value: number) {
+  return { gte: value - FOCUS_EPSILON, lte: value + FOCUS_EPSILON };
+}
+
 function matchesExpectation(
   game: Pick<
     ImdbLtaTriviaGame,
@@ -351,8 +367,8 @@ function matchesExpectation(
   return (
     game.id === expected.gameId &&
     game.backdropPath === expected.backdropPath &&
-    game.focusX === expected.focusX &&
-    game.focusY === expected.focusY
+    sameFocus(game.focusX, expected.focusX) &&
+    sameFocus(game.focusY, expected.focusY)
   );
 }
 
@@ -408,8 +424,8 @@ export async function startTriviaGame(
       status: ImdbLtaTriviaStatus.DRAFT,
       imageStep: 0,
       backdropPath: expected.backdropPath,
-      focusX: expected.focusX,
-      focusY: expected.focusY,
+      focusX: focusRange(expected.focusX),
+      focusY: focusRange(expected.focusY),
     },
     data: {
       status: ImdbLtaTriviaStatus.ACTIVE,
