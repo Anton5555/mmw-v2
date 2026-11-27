@@ -68,60 +68,106 @@ const winnerSchema = z.object({
   winnerUserId: z.string().min(1),
 });
 
+export type TriviaActionResult<T> =
+  | ({ ok: true } & T)
+  | { ok: false; error: string };
+
+/**
+ * Next.js replaces the message of an error thrown from a server action with a
+ * generic one in production (React #441), so the admin never saw why a button
+ * failed. Return the message instead, and keep the full error in the logs.
+ */
+async function runTriviaAction<T extends object>(
+  name: string,
+  action: () => Promise<T>
+): Promise<TriviaActionResult<T>> {
+  try {
+    return { ok: true, ...(await action()) };
+  } catch (error) {
+    console.error(`[trivia] ${name} failed:`, error);
+    if (error instanceof z.ZodError) {
+      return { ok: false, error: 'Datos inválidos' };
+    }
+    return {
+      ok: false,
+      error:
+        error instanceof Error && error.message
+          ? error.message
+          : 'No se pudo completar la acción',
+    };
+  }
+}
+
 export async function createTriviaDraftAction() {
-  const session = await requireAdmin();
-  const game = await createTriviaDraft(session.user.id);
-  revalidateTrivia();
-  return { gameId: game.id, number: game.number };
+  return runTriviaAction('createDraft', async () => {
+    const session = await requireAdmin();
+    const game = await createTriviaDraft(session.user.id);
+    revalidateTrivia();
+    return { gameId: game.id, number: game.number };
+  });
 }
 
 export async function discardTriviaDraftAction() {
-  await requireAdmin();
-  await discardTriviaDraft();
-  revalidateTrivia();
-  return { ok: true as const };
+  return runTriviaAction('discardDraft', async () => {
+    await requireAdmin();
+    await discardTriviaDraft();
+    revalidateTrivia();
+    return {};
+  });
 }
 
 export async function rerollTriviaMovieAction() {
-  const session = await requireAdmin();
-  const game = await rerollTriviaMovie(session.user.id);
-  revalidateTrivia();
-  return { gameId: game.id, number: game.number };
+  return runTriviaAction('rerollMovie', async () => {
+    const session = await requireAdmin();
+    const game = await rerollTriviaMovie(session.user.id);
+    revalidateTrivia();
+    return { gameId: game.id, number: game.number };
+  });
 }
 
 export async function rerollTriviaImageAction() {
-  await requireAdmin();
-  const game = await rerollTriviaImage();
-  revalidateTrivia();
-  return { gameId: game.id };
+  return runTriviaAction('rerollImage', async () => {
+    await requireAdmin();
+    const game = await rerollTriviaImage();
+    revalidateTrivia();
+    return { gameId: game.id };
+  });
 }
 
 export async function startTriviaGameAction(input: unknown) {
-  await requireAdmin();
-  const { hostUserId, ...expected } = startSchema.parse(input);
-  const game = await startTriviaGame(expected, hostUserId);
-  revalidateTrivia();
-  return { gameId: game.id, rootMessageId: game.rootMessageId };
+  return runTriviaAction('start', async () => {
+    await requireAdmin();
+    const { hostUserId, ...expected } = startSchema.parse(input);
+    const game = await startTriviaGame(expected, hostUserId);
+    revalidateTrivia();
+    return { gameId: game.id, rootMessageId: game.rootMessageId };
+  });
 }
 
 export async function revealNextImageAction() {
-  const actor = await requireTriviaActor();
-  const game = await revealNextImage(actor);
-  revalidateTrivia();
-  return { imageStep: game.imageStep };
+  return runTriviaAction('revealNextImage', async () => {
+    const actor = await requireTriviaActor();
+    const game = await revealNextImage(actor);
+    revalidateTrivia();
+    return { imageStep: game.imageStep };
+  });
 }
 
 export async function solveTriviaGameAction(input: unknown) {
-  const actor = await requireTriviaActor();
-  const { winnerUserId } = winnerSchema.parse(input);
-  const game = await solveTriviaGame(winnerUserId, actor);
-  revalidateTrivia();
-  return { gameId: game.id, status: game.status };
+  return runTriviaAction('solve', async () => {
+    const actor = await requireTriviaActor();
+    const { winnerUserId } = winnerSchema.parse(input);
+    const game = await solveTriviaGame(winnerUserId, actor);
+    revalidateTrivia();
+    return { gameId: game.id, status: game.status };
+  });
 }
 
 export async function abandonTriviaGameAction() {
-  const actor = await requireTriviaActor();
-  const game = await abandonTriviaGame(actor);
-  revalidateTrivia();
-  return { gameId: game.id, status: game.status };
+  return runTriviaAction('abandon', async () => {
+    const actor = await requireTriviaActor();
+    const game = await abandonTriviaGame(actor);
+    revalidateTrivia();
+    return { gameId: game.id, status: game.status };
+  });
 }
