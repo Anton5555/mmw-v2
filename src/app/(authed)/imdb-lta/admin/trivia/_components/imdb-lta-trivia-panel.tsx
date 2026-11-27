@@ -93,17 +93,24 @@ export function ImdbLtaTriviaPanel({
   );
   const router = useRouter();
 
-  const run = (label: string, action: () => Promise<unknown>) => {
+  const run = (
+    label: string,
+    action: () => Promise<{ ok: true } | { ok: false; error: string }>
+  ) => {
     if (isPending) return;
     startTransition(async () => {
       try {
-        await action();
+        const result = await action();
+        if (!result.ok) {
+          toast.error(result.error);
+          // The server may have changed state (a rollback, a stale draft).
+          router.refresh();
+          return;
+        }
         toast.success(label);
         router.refresh();
-      } catch (error) {
-        toast.error(
-          error instanceof Error ? error.message : 'No se pudo completar la acción'
-        );
+      } catch {
+        toast.error('No se pudo completar la acción');
       }
     });
   };

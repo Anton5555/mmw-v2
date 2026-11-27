@@ -46,6 +46,7 @@ const ADMIN = { user: { id: 'admin1', role: 'admin' } };
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.spyOn(console, 'error').mockImplementation(() => {});
   mocks.getSession.mockResolvedValue(ADMIN);
   mocks.createTriviaDraft.mockResolvedValue({ id: 1, number: 1 });
   mocks.startTriviaGame.mockResolvedValue({ id: 1, rootMessageId: 9 });
@@ -68,7 +69,10 @@ describe('trivia actions admin guard', () => {
     ],
   ] as const)('%s rejects non-admins', async (_name, run) => {
     mocks.getSession.mockResolvedValue(USER);
-    await expect(run()).rejects.toThrow('Solo admins');
+    await expect(run()).resolves.toEqual({
+      ok: false,
+      error: 'Solo admins pueden manejar la trivia',
+    });
     expect(mocks.createTriviaDraft).not.toHaveBeenCalled();
     expect(mocks.startTriviaGame).not.toHaveBeenCalled();
     expect(mocks.solveTriviaGame).not.toHaveBeenCalled();
@@ -104,17 +108,24 @@ describe('trivia actions admin guard', () => {
 
   it('rejects unauthenticated host actions', async () => {
     mocks.getSession.mockResolvedValue(null);
-    await expect(revealNextImageAction()).rejects.toThrow('No autorizado');
+    await expect(revealNextImageAction()).resolves.toEqual({
+      ok: false,
+      error: 'No autorizado',
+    });
     expect(mocks.revealNextImage).not.toHaveBeenCalled();
   });
 
   it('rejects unauthenticated callers', async () => {
     mocks.getSession.mockResolvedValue(null);
-    await expect(createTriviaDraftAction()).rejects.toThrow('No autorizado');
+    await expect(createTriviaDraftAction()).resolves.toEqual({
+      ok: false,
+      error: 'No autorizado',
+    });
   });
 
   it('creates a draft for admins and revalidates', async () => {
     await expect(createTriviaDraftAction()).resolves.toEqual({
+      ok: true,
       gameId: 1,
       number: 1,
     });
@@ -122,8 +133,27 @@ describe('trivia actions admin guard', () => {
     expect(revalidatePath).toHaveBeenCalledWith('/imdb-lta/admin/trivia');
   });
 
+  it('returns the API error message instead of throwing', async () => {
+    // Production hides thrown server action errors behind React #441.
+    mocks.startTriviaGame.mockRejectedValueOnce(
+      new Error('Telegram no devolvió message_id')
+    );
+    await expect(
+      startTriviaGameAction({
+        gameId: 1,
+        backdropPath: '/frame.jpg',
+        focusX: 0.4,
+        focusY: 0.6,
+        hostUserId: 'u2',
+      })
+    ).resolves.toEqual({ ok: false, error: 'Telegram no devolvió message_id' });
+  });
+
   it('validates the winner id', async () => {
-    await expect(solveTriviaGameAction({})).rejects.toThrow();
+    await expect(solveTriviaGameAction({})).resolves.toEqual({
+      ok: false,
+      error: 'Datos inválidos',
+    });
     expect(mocks.solveTriviaGame).not.toHaveBeenCalled();
   });
 });
